@@ -12,6 +12,19 @@ from sklearn.preprocessing import (
     LabelEncoder
 )
 
+import torch
+import numpy as np
+from models import DecoderModel
+import pickle
+
+def read_json_config(json_config_path):
+    try:
+        with open(json_config_path, 'r') as f:
+            config = json.load(f)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Archivo de configuración no encontrado: {json_config_path}")
+    return config
+
 def preprocessing(json_config_path, encoding='ordinal', random_state=0): # Se utiliza la misma semilla que 
     """
     Función para preprocesar un dataset tabular según configuración JSON.
@@ -38,11 +51,7 @@ def preprocessing(json_config_path, encoding='ordinal', random_state=0): # Se ut
     - Para y: y_orig = label_encoder.inverse_transform(y_enc)
     """
     # 1. Cargar configuración JSON
-    try:
-        with open(json_config_path, 'r') as f:
-            config = json.load(f)
-    except FileNotFoundError:
-        raise FileNotFoundError(f"Archivo de configuración no encontrado: {json_config_path}")
+    config = read_json_config(json_config_path)
 
     # 2. Validar llaves necesarias
     required_keys = [
@@ -144,3 +153,209 @@ def preprocessing(json_config_path, encoding='ordinal', random_state=0): # Se ut
         y_train_enc, y_test_enc,
         num_scaler, cat_encoder, label_encoder
     )
+
+MAX_BETA = 1e-2
+MIN_BETA = 1e-5
+LAMBDA = 0.7
+
+LR = 1e-3
+WD = 0
+D_TOKEN = 4
+TOKEN_BIAS = True
+
+N_HEAD = 1
+FACTOR = 32
+NUM_LAYERS = 2
+
+def reconstruct_data(
+    z: str,
+    y: str,
+    models_paths: str,
+    device: torch.device,
+    json_config_path: str,
+) -> tuple[np.ndarray, np.ndarray] | pd.DataFrame:
+    """
+    Reconstruye los datos originales a partir del espacio latente guardado utilizando
+    el decoder entrenado y los objetos de preprocesamiento.
+
+    Args:
+        latent_data_path (str): Ruta al archivo .npy que contiene el espacio latente (train_z.npy).
+        decoder_weights_path (str): Ruta al archivo .pt con los pesos del DecoderModel guardado.
+        num_scaler: Objeto scaler (ej. StandardScaler) fitteado en los datos numéricos originales.
+                    Puede ser None si no se usó normalización.
+        cat_encoder: Objeto encoder (ej. OrdinalEncoder) fitteado en los datos categóricos originales.
+        d_numerical (int): Número de características numéricas originales.
+        categories (list): Lista de cardinalidades de las características categóricas.
+        num_layers (int): Número de capas del Transformer en el decoder.
+        d_token (int): Dimensión del token/embedding.
+        n_head (int): Número de cabezas de atención.
+        factor (int): Factor de expansión en las capas FFN del Transformer.
+        device (torch.device): Dispositivo ('cuda' o 'cpu') donde ejecutar el modelo.
+        original_num_columns (list, optional): Nombres de las columnas numéricas originales.
+                                                Si se provee junto con original_cat_columns,
+                                                se retorna un DataFrame. Defaults to None.
+        original_cat_columns (list, optional): Nombres de las columnas categóricas originales.
+                                                 Si se provee junto con original_num_columns,
+                                                 se retorna un DataFrame. Defaults to None.
+
+
+    Returns:
+        tuple[np.ndarray, np.ndarray] | pd.DataFrame:
+            Si no se proporcionan nombres de columnas:
+                Una tupla conteniendo (datos_numéricos_reconstruidos, datos_categóricos_reconstruidos)
+                como arrays NumPy.
+            Si se proporcionan nombres de columnas:
+                Un DataFrame de Pandas con los datos reconstruidos y los nombres de columna originales.
+    """
+    print("--- Iniciando reconstrucción de datos ---")
+    
+    config = read_json_config(json_config_path)
+    original_num_columns = config.get('num_col_names')
+    original_cat_columns = config.get('cat_col_names')
+    original_target_column = config.get('target_col_name')
+    original_target_column = original_target_column if type(original_target_column) == list else [original_target_column]
+
+    num_cols_idx = config['num_col_idx']
+    cat_cols_idx = config['cat_col_idx']
+    target_cols_idx = config['target_col_idx']
+
+
+    with open(os.path.join(models_paths, 'pre_encoders.pkl'), 'rb') as f:
+        encoders = pickle.load(f)
+        num_cols = encoders['num_cols']
+        categories = encoders['categories']
+
+        num_scaler = encoders['num_scaler']
+        cat_encoder = encoders['cat_encoder']
+        label_encoder = encoders['label_encoder']
+        print("Objetos de preprocesamiento cargados.")
+
+    decoder_weights_path = os.path.join(models_paths, 'decoder.pt')
+
+    # Convertir a tensor y mover al dispositivo
+    latent_z_tensor = torch.tensor(z, dtype=torch.float32).to(device)
+
+    # 2. Instanciar el modelo Decoder
+    # Asegúrate de usar los mismos hiperparámetros que durante el entrenamiento
+    decoder_model = DecoderModel(NUM_LAYERS, num_cols, categories, D_TOKEN, n_head = N_HEAD, factor = FACTOR).to(device)
+
+    # 3. Cargar los pesos del decoder entrenado
+    try:
+        decoder_model.load_state_dict(torch.load(decoder_weights_path, map_location=device))
+        print(f"Pesos del decoder cargados desde: {decoder_weights_path}")
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Archivo de pesos del decoder no encontrado: {decoder_weights_path}")
+    except Exception as e:
+        # Podría haber un error si la arquitectura no coincide exactamente
+        raise RuntimeError(f"Error cargando los pesos del decoder: {e}. Asegúrate de que los hiperparámetros coinciden.")
+
+    # Poner el modelo en modo evaluación (importante para desactivar dropout, etc.)
+    decoder_model.eval()
+
+    # 4. Pasar el espacio latente a través del decoder
+    print("Pasando datos latentes a través del decoder...")
+    with torch.no_grad(): # No necesitamos calcular gradientes
+        if latent_z_tensor.shape[1] == num_cols + len(categories) + 1: # Verifica si CLS está presente
+             print("Detectado token CLS en el espacio latente, eliminándolo para el decoder.")
+             latent_z_tensor_for_decoder = latent_z_tensor[:, 1:, :]
+        else:
+             # Si ya no tiene el CLS (por ejemplo, si guardaste z[:,1:]), úsalo directamente
+             print("Asumiendo que el espacio latente no contiene el token CLS.")
+             latent_z_tensor_for_decoder = latent_z_tensor
+
+        # Obtener reconstrucciones (aún escaladas/codificadas)
+        recon_num_processed, recon_cat_processed_list = decoder_model(latent_z_tensor_for_decoder)
+
+    print("Reconstrucción completada. Invirtiendo transformaciones...")
+
+    # 5. Invertir transformaciones
+    # Mover resultados a CPU y convertir a NumPy
+    recon_num_processed_np = recon_num_processed.detach().cpu().numpy()
+
+    # a) Invertir normalización numérica
+    if num_scaler is not None:
+        try:
+            recon_num_original = num_scaler.inverse_transform(recon_num_processed_np)
+            print("Normalización numérica invertida.")
+        except Exception as e:
+            raise ValueError("Error al invertir la normalización numérica: {e}")
+
+    else:
+        # Si no hubo scaler, los datos ya están en su 'escala original' (post-imputación)
+        recon_num_original = recon_num_processed_np
+        print("No se aplicó normalización numérica, usando datos reconstruidos directamente.")
+
+    if label_encoder is not None:
+        # Invertir la codificación de la variable objetivo
+        try:
+            y_reconstructed = label_encoder.inverse_transform(y)
+            print("Codificación de la variable objetivo invertida.")
+        except Exception as e:
+            raise ValueError("Error al invertir la codificación de la variable objetivo: {e}")
+
+
+    # b) Invertir codificación categórica
+    recon_cat_encoded_list = []
+    for recon_cat_logits in recon_cat_processed_list:
+        # Obtener el índice de la categoría predicha (la de mayor logit)
+        predicted_indices = torch.argmax(recon_cat_logits, dim=1)
+        recon_cat_encoded_list.append(predicted_indices.detach().cpu().numpy())
+
+    # Combinar las columnas categóricas predichas (aún codificadas)
+    recon_cat_encoded_np = np.column_stack(recon_cat_encoded_list)
+
+    if cat_encoder is not None:
+        try:
+            # Usar el cat_encoder fitteado para invertir la transformación
+            recon_cat_original = cat_encoder.inverse_transform(recon_cat_encoded_np)
+            print("Codificación categórica invertida.")
+        except Exception as e:
+            print(f"Error al invertir la codificación categórica: {e}")
+            print("Devolviendo datos categóricos codificados.")
+            recon_cat_original = recon_cat_encoded_np # Devolver codificado si falla la inversa
+    else:
+        # Si no hubo encoder (improbable para categóricos), devolver como está
+        recon_cat_original = recon_cat_encoded_np
+        print("No se aplicó codificación categórica (¿inesperado?), usando datos reconstruidos directamente.")
+
+    print("--- Reconstrucción finalizada ---")
+
+    print(original_num_columns, original_cat_columns)
+    # 6. Devolver resultados
+    if original_num_columns is not None and original_cat_columns is not None:
+        print("Combinando en un DataFrame de Pandas.")
+        # Crear DataFrames separados y concatenar
+        df_num = pd.DataFrame(recon_num_original, columns=original_num_columns)
+        df_cat = pd.DataFrame(recon_cat_original, columns=original_cat_columns)
+        df_target = pd.DataFrame(y_reconstructed, columns=original_target_column)
+        # Asegurarse de que los índices coincidan si se concatenan
+        df_num.index = df_cat.index
+        df_reconstructed = pd.concat([df_num, df_cat, df_target], axis=1)
+
+        # Combinar los nombres en orden original usando los índices
+        all_columns = dict(zip(num_cols_idx, original_num_columns)) | \
+                    dict(zip(cat_cols_idx, original_cat_columns)) | \
+                    dict(zip(target_cols_idx, original_target_column))
+
+        # Ordenar los nombres por el índice original
+        ordered_columns = [all_columns[i] for i in sorted(all_columns)]
+
+        # Reordenar las columnas del DataFrame
+        df_reconstructed = df_reconstructed[ordered_columns]
+
+        return df_reconstructed
+    else:
+        print("Here")
+        # Devolver como arrays NumPy separados
+        return recon_num_original, recon_cat_original
+    
+if __name__ == '__main__':
+    # Ejemplo de uso
+    json_config_path = '/mnt/d/home-2/Documentos/master/practica-deusto-tech/TFM/MyTabsyn/CorVAE/data/shoppers/metadata.json'
+    z = np.load('ckpt_custom_model/train_z.npy')
+    y = np.load('ckpt_custom_model/train_y.npy')
+    models_paths = 'ckpt_custom_model'
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    reconstructed_data = reconstruct_data(z, y, models_paths, device, json_config_path)
+    reconstructed_data.to_csv('reconstructed_data.csv', index=False)

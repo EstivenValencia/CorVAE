@@ -7,5 +7,10 @@
     "type": "classification",
     "num_imputation": "mean",
     "cat_imputation": null,
-    "file": "dataset.csv"
+    "file": "dataset.csv",
+    "num_col_names": ["Administrative","Administrative_Duration","Informational",
+                        "Informational_Duration","ProductRelated","ProductRelated_Duration",
+                        "BounceRates","ExitRates","PageValues","SpecialDay"],
+    "cat_col_names": ["Month","OperatingSystems","Browser","Region","TrafficType","VisitorType","Weekend"],
+    "target_col_name": "Revenue"
 }
