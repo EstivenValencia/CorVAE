@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
-from utils import preprocessing # Asegúrate que esto exista y funcione
+from utils import preprocessing, read_json_config
 # Asume que tus modelos están definidos como en la respuesta anterior
 # from models import ModelVAE, compute_loss, EncoderModel, DecoderModel, ClassifierHead
 from torch.optim.lr_scheduler import ReduceLROnPlateau
@@ -34,7 +34,7 @@ import os
 from tqdm import tqdm
 import json
 import time
-
+import pickle
 
 warnings.filterwarnings('ignore')
 
@@ -251,7 +251,53 @@ def load_pretrained_weights(model_to_load, pretrained_path, device):
         print(f"Error loading pretrained weights: {e}. Skipping weight loading.")
 
 
-def main(dataset_path, encoding='ordinal', random_state=0, batch_size=64,
+def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_encoder, pre_decoder, num_scaler, cat_encoder, label_encoder,
+                               X_train_num, X_train_cat, y_train_enc, ckpt_dir, device):
+    """
+    Recarga el mejor modelo guardado, extrae pesos para pre_encoder y pre_decoder,
+    guarda sus pesos, y guarda las embeddings latentes (train_z.npy).
+    
+    Guarda encoder.pt y decoder.pt dentro de ckpt_dir.
+    """
+
+    # Definir paths de guardado
+    encoder_save_path = os.path.join(ckpt_dir, 'encoder.pt')
+    decoder_save_path = os.path.join(ckpt_dir, 'decoder.pt')
+
+    # 1. Recargar el mejor modelo
+    model.load_state_dict(torch.load(model_save_path, map_location=device))
+    model.eval()
+
+    with open(os.path.join(ckpt_dir, 'pre_encoders.pkl'), 'wb') as f:
+        pickle.dump({
+            "num_cols": num_cols,
+            "categories": categories,
+            'num_scaler': num_scaler,
+            'cat_ordinal_encoder': cat_encoder,
+            'label_encoder': label_encoder
+        }, f)
+
+    with torch.no_grad():
+        # 2. Cargar pesos del modelo al pre_encoder y pre_decoder
+        pre_encoder.load_weights(model)
+        pre_decoder.load_weights(model)
+
+        # 3. Guardar los pesos del pre_encoder y pre_decoder
+        torch.save(pre_encoder.state_dict(), encoder_save_path)
+        torch.save(pre_decoder.state_dict(), decoder_save_path)
+
+        # 5. Obtener representaciones latentes
+        train_z = pre_encoder(X_train_num, X_train_cat).detach().cpu().numpy()
+
+        # 6. Guardar las representaciones latentes
+        np.save(os.path.join(ckpt_dir, 'train_z.npy'), train_z)
+        np.save(os.path.join(ckpt_dir, 'train_y.npy'), y_train_enc)
+
+        print('Successfully saved best encoder, decoder, and latent embeddings!')
+
+        return train_z
+
+def main(json_config_path, encoding='ordinal', random_state=0, batch_size=64,
          pretrain_epochs=50, finetune_epochs=30, # Épocas separadas
          ckpt_dir='ckpt', perform_fine_tune=False):
 
@@ -265,33 +311,41 @@ def main(dataset_path, encoding='ordinal', random_state=0, batch_size=64,
     final_model_path = finetuned_model_path if perform_fine_tune else pretrained_vae_path
 
     # --- Carga y Preprocesamiento de Datos ---
+    config = read_json_config(json_config_path)
+    base_dir = os.path.dirname(json_config_path)
+
+    X_train = np.load(os.path.join(base_dir, 'X_train.npy'), allow_pickle=True)
+    X_test = np.load(os.path.join(base_dir, 'X_test.npy'), allow_pickle=True)
+    y_train = np.load(os.path.join(base_dir, 'y_train.npy'), allow_pickle=True)
+    y_test = np.load(os.path.join(base_dir, 'y_test.npy'), allow_pickle=True)
+
+    num_classes = len(set(y_train)) # Número de clases
+
     (
         X_num_train, X_cat_train,
         X_num_test,  X_cat_test,
         y_train_enc, y_test_enc,
         num_scaler,  cat_encoder,
         label_encoder
-    ) = preprocessing(dataset_path, encoding=encoding, random_state=random_state)
+                        ) = preprocessing(config, X_train, y_train, X_test, y_test, encoding=encoding, random_state=random_state)
 
-    y_train_tensor = torch.tensor(y_train_enc, dtype=torch.long)
-    y_test_tensor = torch.tensor(y_test_enc, dtype=torch.long)
-    num_classes = len(label_encoder.classes_)
-    print(f"Number of classes: {num_classes}")
-
-    X_num_train_t = torch.tensor(X_num_train, dtype=torch.float32)
-    X_cat_train_t = torch.tensor(X_cat_train, dtype=torch.long)
-    X_num_test_t = torch.tensor(X_num_test, dtype=torch.float32)
-    X_cat_test_t = torch.tensor(X_cat_test, dtype=torch.long)
-
-    num_cols, cat_cols = X_num_train_t.shape[1], X_cat_train_t.shape[1]
     categories = [len(set(X_cat_train[:, i])) for i in range(X_cat_train.shape[1])]
-    print(f"Num features: {num_cols}, Cat features: {cat_cols}, Categories: {categories}")
 
-    # Crear DataLoaders (incluir etiquetas siempre si se va a hacer fine-tuning)
-    train_ds = TensorDataset(X_num_train_t, X_cat_train_t, y_train_tensor)
-    test_ds = TensorDataset(X_num_test_t, X_cat_test_t, y_test_tensor)
-    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=4, pin_memory=True)
-    test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False, num_workers=4, pin_memory=True)
+    # Tensores de entrenamiento
+    X_num_train = torch.tensor(X_num_train, dtype=torch.float32)
+    X_cat_train = torch.tensor(X_cat_train, dtype=torch.long)
+    y_train_enc_t = torch.tensor(y_train_enc, dtype=torch.long)
+    train_ds = TensorDataset(X_num_train, X_cat_train, y_train_enc_t)
+    train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=4)
+
+    # Tensores de validación/test
+    X_num_test = torch.tensor(X_num_test, dtype=torch.float32)
+    X_cat_test = torch.tensor(X_cat_test, dtype=torch.long)
+    y_test_enc_t = torch.tensor(y_test_enc, dtype=torch.long)
+    test_ds = TensorDataset(X_num_test, X_cat_test, y_test_enc_t)
+    test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False, num_workers=4)
+
+    num_cols, cat_cols = X_num_train.shape[1], X_cat_train.shape[1]  
 
     # =====================================
     # --- STAGE 1: VAE Pre-training ---
@@ -335,7 +389,6 @@ def main(dataset_path, encoding='ordinal', random_state=0, batch_size=64,
                  if beta > MIN_BETA:
                      beta = max(beta * LAMBDA_BETA, MIN_BETA)
                      print(f"Applied beta annealing. New beta: {beta:.6f}")
-                     patience_counter = 0 # Resetear paciencia al cambiar beta
                  else:
                      print("Early stopping pre-training.")
                      break # Salir del bucle de pre-entrenamiento
@@ -423,27 +476,48 @@ def main(dataset_path, encoding='ordinal', random_state=0, batch_size=64,
     pre_encoder = EncoderModel(NUM_LAYERS, num_cols, categories, D_TOKEN, n_head=N_HEAD, factor=FACTOR).to(device)
     pre_decoder = DecoderModel(NUM_LAYERS, num_cols, categories, D_TOKEN, n_head=N_HEAD, factor=FACTOR).to(device)
 
-    try:
-        # Cargar pesos desde el *modelo final* (instancia ya cargada)
-        pre_encoder.load_weights(final_model_instance)
-        pre_decoder.load_weights(final_model_instance)
-        print("Weights loaded into final pre_encoder and pre_decoder.")
+    # Guardando información de encoder decoder
+    train_z = save_best_encoder_decoder(
+        model=final_model_instance,
+        model_save_path=finetuned_model_path,
+        num_cols=num_cols, 
+        categories=categories,
+        pre_encoder=pre_encoder,
+        pre_decoder=pre_decoder,
+        num_scaler=num_scaler, 
+        cat_encoder=cat_encoder, 
+        label_encoder=label_encoder,
+        X_train_num=X_num_train.to(device),
+        X_train_cat=X_cat_train.to(device),
+        y_train_enc=y_train_enc,
+        ckpt_dir=ckpt_dir,
+        device=device
+    )
 
-        encoder_save_path = os.path.join(ckpt_dir, 'encoder_final.pt')
-        decoder_save_path = os.path.join(ckpt_dir, 'decoder_final.pt')
-        torch.save(pre_encoder.state_dict(), encoder_save_path)
-        torch.save(pre_decoder.state_dict(), decoder_save_path)
-        print(f"Saved final encoder to {encoder_save_path} and decoder to {decoder_save_path}")
+    return train_z, y_train_enc
+    # Guardando X_test y y_test
 
-        # Guardar embeddings latentes de entrenamiento del *modelo final*
-        with torch.no_grad():
-             train_z_mu = final_model_instance.get_embedding(X_num_train_t.to(device), X_cat_train_t.to(device))
-             train_z_cls = train_z_mu[:, 0, :].detach().cpu().numpy() # Usar CLS token
-             np.save(os.path.join(ckpt_dir, 'train_z_final.npy'), train_z_cls)
-             print(f"Saved final latent embeddings (CLS token) to {os.path.join(ckpt_dir, 'train_z_final.npy')}")
+    # try:
+    #     # Cargar pesos desde el *modelo final* (instancia ya cargada)
+    #     pre_encoder.load_weights(final_model_instance)
+    #     pre_decoder.load_weights(final_model_instance)
+    #     print("Weights loaded into final pre_encoder and pre_decoder.")
 
-    except Exception as e:
-        print(f"Warning: Could not save separate encoder/decoder weights or embeddings from final model due to error: {e}")
+    #     encoder_save_path = os.path.join(ckpt_dir, 'encoder_final.pt')
+    #     decoder_save_path = os.path.join(ckpt_dir, 'decoder_final.pt')
+    #     torch.save(pre_encoder.state_dict(), encoder_save_path)
+    #     torch.save(pre_decoder.state_dict(), decoder_save_path)
+    #     print(f"Saved final encoder to {encoder_save_path} and decoder to {decoder_save_path}")
+
+    #     # Guardar embeddings latentes de entrenamiento del *modelo final*
+    #     with torch.no_grad():
+    #          train_z_mu = final_model_instance.get_embedding(X_num_train.to(device), X_cat_train.to(device))
+    #          train_z_cls = train_z_mu[:, 0, :].detach().cpu().numpy() # Usar CLS token
+    #          np.save(os.path.join(ckpt_dir, 'train_z_final.npy'), train_z_cls)
+    #          print(f"Saved final latent embeddings (CLS token) to {os.path.join(ckpt_dir, 'train_z_final.npy')}")
+
+    # except Exception as e:
+    #     print(f"Warning: Could not save separate encoder/decoder weights or embeddings from final model due to error: {e}")
 
 
 if __name__ == "__main__":

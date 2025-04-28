@@ -23,6 +23,83 @@ from torch import Tensor
 
 import typing as ty
 import math
+from matplotlib import pyplot as plt
+
+
+import os
+from torch.utils.tensorboard import SummaryWriter
+
+
+class LossTracker:
+    """Registra pérdidas de reconstrucción, KL, clasificación y la pérdida total
+    tanto en entrenamiento como en validación.
+    
+    Los nombres de los grupos quedan así:
+        • **Pretrain/** Recon | KL | Total
+        • **Finetune/** Recon | KL | Class | Total
+    """
+
+    def __init__(self, log_dir: str):
+        os.makedirs(log_dir, exist_ok=True)
+        self.writer: SummaryWriter = SummaryWriter(log_dir)
+        self.epoch: int = 0
+
+    # ---------------------------------------------------------------------
+    # Pre‑training (sin cabeza) -------------------------------------------
+    # ---------------------------------------------------------------------
+    def log_pretrain(
+        self,
+        train_mse: float,
+        train_ce: float,
+        train_kld: float,
+        train_total: float,
+        val_mse: float,
+        val_ce: float,
+        val_kld: float,
+        val_total: float,
+    ) -> None:
+        recon_train = train_mse + train_ce
+        recon_val   = val_mse   + val_ce
+
+        self.writer.add_scalars("Pretrain/Recon", {"Train": recon_train, "Val": recon_val}, self.epoch)
+        self.writer.add_scalars("Pretrain/KL",    {"Train": train_kld,     "Val": val_kld},    self.epoch)
+        self.writer.add_scalars("Pretrain/Total", {"Train": train_total,   "Val": val_total},  self.epoch)
+
+        self.epoch += 1
+
+    # ---------------------------------------------------------------------
+    # Fine‑tuning (con cabeza) --------------------------------------------
+    # ---------------------------------------------------------------------
+    def log_finetune(
+        self,
+        train_mse: float,
+        train_ce: float,
+        train_kld: float,
+        train_class: float,
+        train_total: float,
+        val_mse: float,
+        val_ce: float,
+        val_kld: float,
+        val_class: float,
+        val_total: float,
+    ) -> None:
+        recon_train = train_mse + train_ce
+        recon_val   = val_mse   + val_ce
+
+        self.writer.add_scalars("Finetune/Recon", {"Train": recon_train, "Val": recon_val}, self.epoch)
+        self.writer.add_scalars("Finetune/KL",    {"Train": train_kld,   "Val": val_kld},  self.epoch)
+        self.writer.add_scalars("Finetune/Class", {"Train": train_class, "Val": val_class}, self.epoch)
+        self.writer.add_scalars("Finetune/Total", {"Train": train_total, "Val": val_total}, self.epoch)
+
+        self.epoch += 1
+
+    # ---------------------------------------------------------------------
+    # Limpieza -------------------------------------------------------------
+    # ---------------------------------------------------------------------
+    def close(self) -> None:
+        self.writer.flush()
+        self.writer.close()
+
 
 def compute_loss(
     X_num: torch.Tensor,
@@ -440,12 +517,48 @@ class Reconstructor(nn.Module):
         return recon_x_num, recon_x_cat
 
 
+class ClassifierHead(nn.Module):
+    """Classifier head with Batch Normalization and Dropout.
+
+    Args:
+        input_dim (int): Dimensionality of the latent feature vector.
+        num_classes (int): Number of target classes.
+        dropout (float, optional): Dropout probability applied after BatchNorm. Defaults to 0.3.
+    """
+
+    def __init__(self, input_dim: int, num_classes: int, dropout: float = 0.3):
+        super().__init__()
+        self.bn = nn.BatchNorm1d(input_dim)
+        self.dropout = nn.Dropout(dropout)
+        self.fc = nn.Linear(input_dim, num_classes)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        # x is the latent representation (e.g., CLS token or mu_z)
+        x = self.bn(x)
+        x = self.dropout(x)
+        logits = self.fc(x)
+        return logits
+
+
+
 class ModelVAE(nn.Module):
-    def __init__(self, num_layers, d_numerical, categories, d_token, n_head = 1, factor = 4,  bias = True):
+    def __init__(self, num_layers, d_numerical, categories, d_token, n_head = 1, factor = 4,  bias = True, num_classes = None):
         super(ModelVAE, self).__init__()
 
         self.VAE = VAE(d_numerical, categories, num_layers, d_token, n_head = n_head, factor = factor, bias = bias)
         self.Reconstructor = Reconstructor(d_numerical, categories, d_token)
+
+        self.classifier = None
+        if num_classes is not None and num_classes > 0:
+            # calcula cuántos tokens genera la VAE (1 CLS + num_cols + cat_cols)
+            #seq_len = 1 + d_numerical + len(categories)
+            # dimensión total al aplanar todos los tokens
+            #latent_dim_total = seq_len * d_token
+            print(f"Creando ClassifierHead con input_dim={d_token} y num_classes={num_classes}")
+            self.classifier = ClassifierHead(input_dim=d_token,
+                                            num_classes=num_classes)
+        else:
+            print("No se creó ClassifierHead (num_classes no proporcionado o <= 0).")
 
     def get_embedding(self, x_num, x_cat):
         x = self.Tokenizer(x_num, x_cat)
@@ -458,7 +571,14 @@ class ModelVAE(nn.Module):
         # recon_x_num, recon_x_cat = self.Reconstructor(h[:, 1:])
         recon_x_num, recon_x_cat = self.Reconstructor(h)
 
-        return recon_x_num, recon_x_cat, mu_z, std_z
+        class_logits = None
+        if self.classifier is not None:
+            # aplanamos todo el espacio latente: [B, seq_len * d_token]
+            flat_mu = flat_mu = mu_z[:, 0, :]
+            # ahora class_logits: [B, num_classes]
+            class_logits = self.classifier(flat_mu)
+
+        return recon_x_num, recon_x_cat, mu_z, std_z, class_logits # Devuelve 5 valores
 
 class EncoderModel(nn.Module):
     def __init__(self, num_layers, d_numerical, categories, d_token, n_head, factor, bias = True):

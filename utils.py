@@ -17,7 +17,92 @@ import numpy as np
 from models import DecoderModel
 import pickle
 
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import StratifiedKFold, cross_validate
+from sklearn.metrics import (
+    f1_score, make_scorer,
+    classification_report, roc_auc_score, accuracy_score
+)
+
+from sklearn.ensemble import RandomForestClassifier
+from xgboost import XGBClassifier
+from pathlib import Path
+from typing import Callable, Dict, List, Tuple
+
+import numpy as np
+from sklearn.metrics import balanced_accuracy_score, make_scorer
+from sklearn.model_selection import StratifiedKFold
+from sklearn.utils.class_weight import compute_sample_weight
+from sklearn.base import BaseEstimator
+from tensorboardX import SummaryWriter
+import time
+
+# -----------------------------------------------------------------------------
+# Registry of models and their hyper‑parameter spaces (lists) ------------------
+# -----------------------------------------------------------------------------
+
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from xgboost import XGBClassifier
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import SVC
+import optuna
+
+def _weighted_f1(y_true, y_pred):
+    return f1_score(y_true, y_pred, average="weighted")
+
+_METRIC_SCORERS = {
+    "balanced": make_scorer(balanced_accuracy_score),
+    "macro_f1": make_scorer(f1_score, average="macro"),
+    "weighted_f1": make_scorer(_weighted_f1),
+    "accuracy": make_scorer(accuracy_score),
+}
+
+MODELS = {
+    "xgb": {
+        "constructor": XGBClassifier,
+        "static_args": {"objective": "binary:logistic", "tree_method": "hist"},
+        "search_space": {
+            "n_estimators": lambda t: t.suggest_int("n_estimators", 50, 300),
+            "max_depth": lambda t: t.suggest_int("max_depth", 3, 10),
+            "learning_rate": lambda t: t.suggest_float("learning_rate", 1e-3, 1e-1, log=True),
+            "subsample": lambda t: t.suggest_float("subsample", 0.5, 1.0),
+            "colsample_bytree": lambda t: t.suggest_float("colsample_bytree", 0.5, 1.0),
+        },
+    },
+    "rf": {
+        "constructor": RandomForestClassifier,
+        "static_args": {"class_weight": "balanced"},
+        "search_space": {
+            "n_estimators": lambda t: t.suggest_int("n_estimators", 100, 500),
+            "max_depth": lambda t: t.suggest_int("max_depth", 3, 20),
+            "min_samples_split": lambda t: t.suggest_int("min_samples_split", 2, 10),
+            "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
+        },
+    },
+    "svc": {
+        "constructor": SVC,
+        "static_args": {"probability": True},
+        "search_space": {
+            "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
+            "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
+        },
+    },
+    "logreg": {
+        "constructor": LogisticRegression,
+        "static_args": {"max_iter": 200, "solver": "lbfgs"},
+        "search_space": {
+            "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
+            "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
+        },
+    },
+}
+
 def read_json_config(json_config_path):
+    
     try:
         with open(json_config_path, 'r') as f:
             config = json.load(f)
@@ -25,7 +110,38 @@ def read_json_config(json_config_path):
         raise FileNotFoundError(f"Archivo de configuración no encontrado: {json_config_path}")
     return config
 
-def preprocessing(json_config_path, encoding='ordinal', random_state=0): # Se utiliza la misma semilla que 
+def split_train_test_custom(json_config_path, test_size=0.1, random_state=0):
+    # 1. Cargar configuración JSON
+    config = read_json_config(json_config_path)
+    target_col = config['target_col_name']
+
+    base_dir = os.path.dirname(json_config_path)
+    data_file = os.path.join(base_dir, config['file'])
+    
+    try:
+        df = pd.read_csv(data_file)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Archivo de datos no encontrado: {data_file}")
+    
+    y = df[target_col].to_numpy()  
+    X = df.drop(columns=[target_col]).to_numpy()
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y,
+        test_size=test_size,
+        random_state=random_state,
+        stratify=y
+    )
+
+    np.save(f'{base_dir}/X_train.npy', X_train)
+    np.save(f'{base_dir}/X_test.npy', X_test)
+    np.save(f'{base_dir}/y_train.npy', y_train)
+    np.save(f'{base_dir}/y_test.npy', y_test)
+    print(f"Datos de train y test guardados en {base_dir}")
+
+    return X_train, y_train, X_test, y_test
+
+def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', concat=False, random_state=0): # Se utiliza la misma semilla que 
     """
     Función para preprocesar un dataset tabular según configuración JSON.
     Lee rutas, separa columnas, divide en train/test, imputa, normaliza y codifica.
@@ -50,55 +166,18 @@ def preprocessing(json_config_path, encoding='ordinal', random_state=0): # Se ut
     - Para datos numéricos: X_orig = num_scaler.inverse_transform(X_scaled)
     - Para y: y_orig = label_encoder.inverse_transform(y_enc)
     """
-    # 1. Cargar configuración JSON
-    config = read_json_config(json_config_path)
 
-    # 2. Validar llaves necesarias
-    required_keys = [
-        'normalization', 'num_col_idx', 'cat_col_idx',
-        'target_col_idx', 'file', 'num_imputation', 'cat_imputation'
-    ]
-    for key in required_keys:
-        if key not in config:
-            raise KeyError(f"Falta la clave en config: {key}")
 
-    # 3. Construir ruta al CSV y cargar datos
-    base_dir = os.path.dirname(json_config_path)
-    data_file = os.path.join(base_dir, config['file'])
-    try:
-        df = pd.read_csv(data_file)
-    except FileNotFoundError:
-        raise FileNotFoundError(f"Archivo de datos no encontrado: {data_file}")
 
     # 4. Extraer índices y validar
     num_idx = config['num_col_idx']
     cat_idx = config['cat_col_idx']
-    target_idx = config['target_col_idx']
-    n_cols = df.shape[1]
-    for idx_list, name in [(num_idx, 'num_col_idx'), (cat_idx, 'cat_col_idx'), (target_idx, 'target_col_idx')]:
-        if not isinstance(idx_list, list):
-            raise TypeError(f"{name} debe ser una lista de índices")
-        for idx in idx_list:
-            if not (0 <= idx < n_cols):
-                raise IndexError(f"Índice {idx} en {name} fuera de rango")
-
-    # 5. Separar características y objetivo
-    target_col = df.columns[target_idx[0]]
-    y = df[target_col].values
-    X = df.drop(columns=[target_col])
 
     # 6. Dividir columnas numéricas y categóricas
-    X_num = X.iloc[:, num_idx].values
-    X_cat = X.iloc[:, cat_idx].values
-
-    # 7. Dividir en train/test
-    X_num_train, X_num_test, X_cat_train, X_cat_test, y_train, y_test = \
-        train_test_split(
-            X_num, X_cat, y,
-            test_size=0.1,
-            random_state=random_state,
-            stratify=y
-        )
+    X_num_train = X_train[:, num_idx]
+    X_cat_train = X_train[:, cat_idx]
+    X_num_test = X_test[:, num_idx]
+    X_cat_test = X_test[:, cat_idx]
 
     # 8. Imputación de datos
     # Numéricos
@@ -135,9 +214,10 @@ def preprocessing(json_config_path, encoding='ordinal', random_state=0): # Se ut
 
     # 10. Codificación de datos categóricos
     if encoding == 'one-hot':
-        cat_encoder = OneHotEncoder(sparse=False, handle_unknown='ignore')
+        cat_encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
     else:
         cat_encoder = OrdinalEncoder()
+    #print("Categoricas entrenamiento: ", X_cat_train)
     X_cat_train = cat_encoder.fit_transform(X_cat_train)
     X_cat_test = cat_encoder.transform(X_cat_test)
 
@@ -147,12 +227,48 @@ def preprocessing(json_config_path, encoding='ordinal', random_state=0): # Se ut
     y_test_enc = label_encoder.transform(y_test)
 
     # 12. Retornar datos preprocesados y encoders
+    if concat:
+        # Concatenar numéricas y categóricas
+        X_train = np.concatenate((X_num_train, X_cat_train), axis=1)
+        X_test = np.concatenate((X_num_test, X_cat_test), axis=1)
+        return X_train,X_test, y_train_enc, y_test_enc, num_scaler, cat_encoder, label_encoder
     return (
         X_num_train, X_cat_train,
         X_num_test, X_cat_test,
         y_train_enc, y_test_enc,
         num_scaler, cat_encoder, label_encoder
     )
+
+def load_reconstructed_data(json_config_path, checkpoint_path):
+    config = read_json_config(json_config_path)
+    base_dir = os.path.dirname(json_config_path)
+    target_col = config['target_col_name']
+
+    df_path = os.path.join(checkpoint_path, 'reconstructed_data.csv')
+    df = pd.read_csv(df_path)
+    y_train = df[target_col].to_numpy()
+    X_train = df.drop(columns=[target_col]).to_numpy()    
+
+    X_test = np.load(os.path.join(base_dir, 'X_test.npy'), allow_pickle=True)
+    y_test = np.load(os.path.join(base_dir, 'y_test.npy'), allow_pickle=True)
+
+    (
+        X_num_train, X_cat_train,
+        X_num_test,  X_cat_test,
+        y_train_enc, y_test_enc,
+        num_scaler,  cat_encoder,
+        label_encoder
+        )  = preprocessing(config, X_train, y_train, X_test, y_test, encoding='one-hot')
+
+    x_train = np.concatenate((X_num_train, X_cat_train), axis=1)
+    x_test = np.concatenate((X_num_test, X_cat_test), axis=1)
+
+    #print("Train",X_train)
+    #print("Test",X_test)
+    #print(y_train, y_test)
+
+    return x_train, y_train, x_test, y_test_enc
+
 
 MAX_BETA = 1e-2
 MIN_BETA = 1e-5
@@ -168,11 +284,12 @@ FACTOR = 32
 NUM_LAYERS = 2
 
 def reconstruct_data(
-    z: str,
+    x: str,
     y: str,
     models_paths: str,
     device: torch.device,
     json_config_path: str,
+    latent_space = False, # Si es True, se asume que z es un espacio latente, de lo contrario es una destilación del espacio original
 ) -> tuple[np.ndarray, np.ndarray] | pd.DataFrame:
     """
     Reconstruye los datos originales a partir del espacio latente guardado utilizando
@@ -226,52 +343,80 @@ def reconstruct_data(
         categories = encoders['categories']
 
         num_scaler = encoders['num_scaler']
-        cat_encoder = encoders['cat_encoder']
+        if latent_space:
+            cat_encoder = encoders['cat_ordinal_encoder']
+        else:
+            cat_encoder = encoders['cat_onehot_encoder']
         label_encoder = encoders['label_encoder']
         print("Objetos de preprocesamiento cargados.")
 
-    decoder_weights_path = os.path.join(models_paths, 'decoder.pt')
+    if latent_space:
+        decoder_weights_path = os.path.join(models_paths, 'decoder.pt')
 
-    # Convertir a tensor y mover al dispositivo
-    latent_z_tensor = torch.tensor(z, dtype=torch.float32).to(device)
+        # Convertir a tensor y mover al dispositivo
+        latent_z_tensor = torch.tensor(x, dtype=torch.float32).to(device)
+        #print("Categorias en la recons:", categories)
+        # 2. Instanciar el modelo Decoder
+        # Asegúrate de usar los mismos hiperparámetros que durante el entrenamiento
+        decoder_model = DecoderModel(NUM_LAYERS, num_cols, categories, D_TOKEN, n_head = N_HEAD, factor = FACTOR).to(device)
 
-    # 2. Instanciar el modelo Decoder
-    # Asegúrate de usar los mismos hiperparámetros que durante el entrenamiento
-    decoder_model = DecoderModel(NUM_LAYERS, num_cols, categories, D_TOKEN, n_head = N_HEAD, factor = FACTOR).to(device)
+        # 3. Cargar los pesos del decoder entrenado
+        try:
+            decoder_model.load_state_dict(torch.load(decoder_weights_path, map_location=device))
+            #print(f"Pesos del decoder cargados desde: {decoder_weights_path}")
+        except FileNotFoundError:
+            raise FileNotFoundError(f"Archivo de pesos del decoder no encontrado: {decoder_weights_path}")
+        except Exception as e:
+            # Podría haber un error si la arquitectura no coincide exactamente
+            raise RuntimeError(f"Error cargando los pesos del decoder: {e}. Asegúrate de que los hiperparámetros coinciden.")
 
-    # 3. Cargar los pesos del decoder entrenado
-    try:
-        decoder_model.load_state_dict(torch.load(decoder_weights_path, map_location=device))
-        print(f"Pesos del decoder cargados desde: {decoder_weights_path}")
-    except FileNotFoundError:
-        raise FileNotFoundError(f"Archivo de pesos del decoder no encontrado: {decoder_weights_path}")
-    except Exception as e:
-        # Podría haber un error si la arquitectura no coincide exactamente
-        raise RuntimeError(f"Error cargando los pesos del decoder: {e}. Asegúrate de que los hiperparámetros coinciden.")
+        # Poner el modelo en modo evaluación (importante para desactivar dropout, etc.)
+        decoder_model.eval()
 
-    # Poner el modelo en modo evaluación (importante para desactivar dropout, etc.)
-    decoder_model.eval()
+        # 4. Pasar el espacio latente a través del decoder
+        print("Pasando datos latentes a través del decoder...")
+        with torch.no_grad(): # No necesitamos calcular gradientes
+            if latent_z_tensor.shape[1] == num_cols + len(categories) + 1: # Verifica si CLS está presente
+                print("Detectado token CLS en el espacio latente, eliminándolo para el decoder.")
+                latent_z_tensor_for_decoder = latent_z_tensor[:, 1:, :]
+            else:
+                # Si ya no tiene el CLS (por ejemplo, si guardaste z[:,1:]), úsalo directamente
+                print("Asumiendo que el espacio latente no contiene el token CLS.")
+                latent_z_tensor_for_decoder = latent_z_tensor
 
-    # 4. Pasar el espacio latente a través del decoder
-    print("Pasando datos latentes a través del decoder...")
-    with torch.no_grad(): # No necesitamos calcular gradientes
-        if latent_z_tensor.shape[1] == num_cols + len(categories) + 1: # Verifica si CLS está presente
-             print("Detectado token CLS en el espacio latente, eliminándolo para el decoder.")
-             latent_z_tensor_for_decoder = latent_z_tensor[:, 1:, :]
-        else:
-             # Si ya no tiene el CLS (por ejemplo, si guardaste z[:,1:]), úsalo directamente
-             print("Asumiendo que el espacio latente no contiene el token CLS.")
-             latent_z_tensor_for_decoder = latent_z_tensor
+            # Obtener reconstrucciones (aún escaladas/codificadas)
+            recon_num_processed, recon_cat_processed_list = decoder_model(latent_z_tensor_for_decoder)
+            #print("Categorias 2: ---",[recon_cat_processed_list[i].shape for i in range(len(recon_cat_processed_list))])
+        print("Reconstrucción completada. Invirtiendo transformaciones...")
 
-        # Obtener reconstrucciones (aún escaladas/codificadas)
-        recon_num_processed, recon_cat_processed_list = decoder_model(latent_z_tensor_for_decoder)
+        # 5. Invertir transformaciones
+        # Mover resultados a CPU y convertir a NumPy
+        recon_num_processed_np = recon_num_processed.detach().cpu().numpy()
+        recon_cat_processed_list
+        
+    else:
+        recon_num_processed_np = x
 
-    print("Reconstrucción completada. Invirtiendo transformaciones...")
+    categorical_offsets = torch.tensor([0] + categories[:-1]).cumsum(0)
+    #print("Suma de categorias: ", categorical_offsets)
+    # b) Invertir codificación categórica
+    recon_cat_encoded_list = []
+    for j, recon_cat_logits in enumerate(recon_cat_processed_list):
+        # Obtener el índice de la categoría predicha (la de mayor logit)
+        predicted_indices = torch.argmax(recon_cat_logits, dim=1)
+        # print("A",predicted_indices)
+        # # 2) Elimina el desplazamiento si tu training usó offsets globales
+        # idx = predicted_indices - categorical_offsets[j]
+        # print("B",idx)
 
-    # 5. Invertir transformaciones
-    # Mover resultados a CPU y convertir a NumPy
-    recon_num_processed_np = recon_num_processed.detach().cpu().numpy()
+        recon_cat_encoded_list.append(predicted_indices.cpu().numpy())
+        #recon_cat_encoded_list.append(predicted_indices.detach().cpu().numpy())
+    
+    #print("Categorias del encoder: ", cat_encoder.categories_)
 
+    # Combinar las columnas categóricas predichas (aún codificadas)
+    recon_cat_encoded_np = np.column_stack(recon_cat_encoded_list)
+    #print("Categorias 3: ---",recon_cat_encoded_np)
     # a) Invertir normalización numérica
     if num_scaler is not None:
         try:
@@ -293,26 +438,13 @@ def reconstruct_data(
         except Exception as e:
             raise ValueError("Error al invertir la codificación de la variable objetivo: {e}")
 
-
-    # b) Invertir codificación categórica
-    recon_cat_encoded_list = []
-    for recon_cat_logits in recon_cat_processed_list:
-        # Obtener el índice de la categoría predicha (la de mayor logit)
-        predicted_indices = torch.argmax(recon_cat_logits, dim=1)
-        recon_cat_encoded_list.append(predicted_indices.detach().cpu().numpy())
-
-    # Combinar las columnas categóricas predichas (aún codificadas)
-    recon_cat_encoded_np = np.column_stack(recon_cat_encoded_list)
-
     if cat_encoder is not None:
         try:
             # Usar el cat_encoder fitteado para invertir la transformación
             recon_cat_original = cat_encoder.inverse_transform(recon_cat_encoded_np)
             print("Codificación categórica invertida.")
         except Exception as e:
-            print(f"Error al invertir la codificación categórica: {e}")
-            print("Devolviendo datos categóricos codificados.")
-            recon_cat_original = recon_cat_encoded_np # Devolver codificado si falla la inversa
+            raise ValueError("Error al invertir la codificación categórica: {e}")   
     else:
         # Si no hubo encoder (improbable para categóricos), devolver como está
         recon_cat_original = recon_cat_encoded_np
@@ -320,7 +452,7 @@ def reconstruct_data(
 
     print("--- Reconstrucción finalizada ---")
 
-    print(original_num_columns, original_cat_columns)
+    #print(original_num_columns, original_cat_columns)
     # 6. Devolver resultados
     if original_num_columns is not None and original_cat_columns is not None:
         print("Combinando en un DataFrame de Pandas.")
@@ -343,12 +475,257 @@ def reconstruct_data(
         # Reordenar las columnas del DataFrame
         df_reconstructed = df_reconstructed[ordered_columns]
 
+        reconstructed_path = os.path.join(models_paths, 'reconstructed_data.csv')
+        df_reconstructed.to_csv(reconstructed_path, index=False)
+
         return df_reconstructed
-    else:
-        print("Here")
-        # Devolver como arrays NumPy separados
-        return recon_num_original, recon_cat_original
+    raise ValueError("No se encontraron los nombres de columnas originales.")
     
+
+# ------------------------------------------------------------------------
+# 1. F-score ponderado «minority-friendly»
+# ------------------------------------------------------------------------
+def weighted_f1_custom(y_true, y_pred):
+    """
+    Versión que DA MÁS peso a las clases minoritarias.
+    Para cada clase i:  w_i = (1 - p_i)/(k - 1)
+      p_i  = soporte_i / N
+      k    = nº de clases
+    """
+    report   = classification_report(y_true, y_pred, output_dict=True, zero_division=0)
+    classes  = list(report.keys())[:-3]                       # elimina avg/acc
+    supports = np.array([report[c]['support'] for c in classes], dtype=float)
+    f1s      = np.array([report[c]['f1-score'] for c in classes], dtype=float)
+    p        = supports / supports.sum()
+    weights  = (1 - p) / (len(classes) - 1)
+    return np.sum(f1s * weights)
+
+
+# -----------------------------------------------------------------------------
+# Funciones auxiliares (mínimas)
+# -----------------------------------------------------------------------------
+def _build_cv(n_splits, random_state):
+    """Crea un StratifiedKFold reproducible."""
+    return StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=random_state)
+
+
+def _objective(trial, cfg, X, y, cv):
+    """Función objetivo para Optuna: devuelve balanced‑accuracy promedio."""
+    params = {k: v(trial) for k, v in cfg["search_space"].items()}
+    model = cfg["constructor"](**cfg["static_args"], **params)
+    scores = cross_validate(
+        model,
+        X,
+        y,
+        scoring=_METRIC_SCORERS["balanced"],
+        cv=cv,
+        n_jobs=-1,
+        return_train_score=False,
+    )
+    return scores["test_score"].mean()
+
+
+def _tune_single_model(tag, cfg, X_train, y_train, cv, n_trials, random_state):
+    """Tunea hiper‑parámetros con Optuna y devuelve mejor modelo + métricas."""
+    tic = time.time()
+    study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=random_state), study_name=tag)
+    study.optimize(lambda t: _objective(t, cfg, X_train, y_train, cv), n_trials=n_trials, show_progress_bar=False)
+    best_params = study.best_params
+
+    # Mejor modelo con mejores HP
+    best_model = cfg["constructor"](**cfg["static_args"], **best_params)
+    best_model.fit(X_train, y_train)
+
+    # Métricas de CV para best_params
+    cv_res = cross_validate(
+        best_model,
+        X_train,
+        y_train,
+        scoring=_METRIC_SCORERS,
+        cv=cv,
+        n_jobs=-1,
+        return_train_score=False,
+    )
+
+    #print("METRICA: ------------",cv_res['test_balanced'].mean())
+    means = {m: cv_res[f"test_{m}"].mean() for m in _METRIC_SCORERS}
+    stds = {f"{m}_std": cv_res[f"test_{m}"].std() for m in _METRIC_SCORERS}
+
+    print("MEANS: ", means)
+
+    elapsed = time.time() - tic
+    return best_model, means, stds, best_params, elapsed
+
+
+def _evaluate_on_test(model, X_test, y_test):
+    """Calcula métricas en el conjunto de prueba."""
+    print("Clases: ",model.classes_)
+
+
+
+    y_pred = model.predict(X_test)
+    classes    = model.classes_                 # e.g. array([False, True])
+    pos_idx    = int(np.where(classes == True)[0]) 
+    if hasattr(model, "predict_proba"):
+        y_proba = model.predict_proba(X_test)
+        auc = roc_auc_score(y_test, y_proba[:,pos_idx], average="weighted")
+    else:
+        auc = np.nan
+
+    return {
+        "balanced": balanced_accuracy_score(y_test, y_pred),
+        "macro_f1": f1_score(y_test, y_pred, average="macro"),
+        "weighted_f1": _weighted_f1(y_test, y_pred),
+        "accuracy": accuracy_score(y_test, y_pred),
+        "roc_auc": auc,
+    }
+
+
+# -----------------------------------------------------------------------------
+# Función principal
+# -----------------------------------------------------------------------------
+
+
+def evaluate_models(
+    X_train,
+    y_train,
+    X_test,
+    y_test,
+    cv_folds=5,
+    n_trials=2,
+    ckpt_dir=None,
+    random_state=0,
+):
+    """Tunea y evalúa clasificadores con Optuna.
+
+    X_train, y_train : ndarray — datos de entrenamiento.
+    X_test,  y_test  : ndarray — datos de prueba.
+    cv_folds         : int    — número de folds (>=2) o 0/1 para hold‑out.
+    n_trials         : int    — evaluaciones de Optuna por modelo.
+    log_dir          : str    — carpeta TensorBoard (None ⇒ sin logging).
+    random_state     : int    — semilla global.
+    """
+
+    if ckpt_dir is not None:
+        best_dir = os.path.join(ckpt_dir, "best_models")
+        os.makedirs(best_dir, exist_ok=True)
+
+    cv = _build_cv(max(cv_folds, 2), random_state)
+
+    records = []
+    test_metrics_all = {}
+    best_models = {}
+
+    for tag, cfg in MODELS.items():
+        print(f"\n>>> Optuna tuning {tag} …")
+        best_model, cv_means, cv_stds, best_hp, t_time = _tune_single_model(
+            tag, cfg, X_train, y_train, cv, n_trials, random_state
+        )
+
+        # Guardar parámetros en JSON
+        if ckpt_dir is not None:
+            json_path = os.path.join(best_dir, f"{tag}_best_params.json")
+            with open(json_path, 'w', encoding='utf-8') as fp:
+                json.dump(best_hp, fp, indent=4, ensure_ascii=False)
+            print(f"Parametros guardados en {json_path}")
+
+        best_models[tag] = best_model
+        t_metrics = _evaluate_on_test(best_model, X_test, y_test)
+        test_metrics_all[tag] = t_metrics
+
+        records.append({"model": tag, **cv_means, **cv_stds, "cv_time": t_time})
+
+    results_df = pd.DataFrame(records)
+    if ckpt_dir is not None:
+        results_df.to_csv(os.path.join(ckpt_dir, "results.csv"), index=False)
+        print(f"Resultados guardados en {os.path.join(ckpt_dir, 'results.csv')}")
+    return results_df, test_metrics_all, best_models
+
+# def evaluate_models(
+#     X_train, y_train, X_test, y_test,
+#     n_splits: int = 5,
+#     random_state: int = 42,
+# ):
+#     """
+#     Ejecuta CV con *n_splits* para cada modelo definido en `models`
+#     y devuelve:
+#       - results_df  ▶ tabla (media ± std) de las métricas
+#       - test_metrics ▶ dict con métricas en test del mejor modelo (según 'avg')
+#       - best_model   ▶ modelo ya entrenado en todo el train
+#     `models` debe ser {alias: (Clase, dict_param)}  (igual al ejemplo enviado).
+#     """
+
+#     # --- métrica & esquema de validación ---
+#     scoring = {
+#         "macro_f1"   : make_scorer(f1_score, average="macro"),
+#         "weighted_f1": make_scorer(weighted_f1_custom),
+#         "roc_auc"    : make_scorer(roc_auc_score,
+#                                    multi_class="ovo", average="weighted"),
+#         "accuracy"   : make_scorer(accuracy_score),
+#     }
+#     cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=random_state)
+
+#     # --- cross-val por modelo ---
+#     records = []
+#     for tag, (model_cls, params) in MODELS.items():
+#         model  = model_cls(**params)
+#         cv_res = cross_validate(
+#             model, X_train, y_train,
+#             scoring=scoring, cv=cv, n_jobs=-1, return_train_score=False
+#         )
+#         means = {k.replace("test_", ""): v.mean() for k, v in cv_res.items()
+#                  if k.startswith("test_")}
+#         stds  = {k.replace("test_", "") + "_std": v.std() for k, v in cv_res.items()
+#                  if k.startswith("test_")}
+#         records.append(
+#             {"model": tag, "param": params, **means, **stds}
+#         )
+
+#     results = pd.DataFrame(records)
+#     results["avg"] = results[["macro_f1", "weighted_f1", "roc_auc"]].mean(axis=1)
+
+#     # --- mejores hiperparámetros según cada métrica ---
+#     best_f1_param       = results.param[results.macro_f1.idxmax()]
+#     best_weighted_param = results.param[results.weighted_f1.idxmax()]
+#     best_auroc_param    = results.param[results.roc_auc.idxmax()]
+#     best_acc_param      = results.param[results.accuracy.idxmax()]
+#     best_avg_param      = results.param[results.avg.idxmax()]
+
+#     # --- entrena el modelo con mejor 'avg' y evalúa en test ---
+#     best_tag         = results.model[results.avg.idxmax()]
+#     best_model_class = MODELS[best_tag][0]
+#     best_model       = best_model_class(**best_avg_param)
+#     best_model.fit(X_train, y_train)
+
+#     y_pred  = best_model.predict(X_test)
+#     y_proba = best_model.predict_proba(X_test)
+
+#     test_metrics = {
+#         "macro_f1"   : f1_score(y_test, y_pred, average="macro"),
+#         "weighted_f1": weighted_f1_custom(y_test, y_pred),
+#         "roc_auc"    : roc_auc_score(y_test, y_proba[:, 1],
+#                                      multi_class="ovo", average="weighted"),
+#         "accuracy"   : accuracy_score(y_test, y_pred),
+#     }
+
+#     # imprime resumen útil (opcional; comenta si no quieres salida)
+#     print("\n=== Cross-validation summary ===")
+#     print(results[["model", "macro_f1", "weighted_f1",
+#                    "roc_auc", "accuracy", "avg"]].round(4))
+#     print("\nMejores hiperparámetros por métrica:")
+#     print("macro_f1   :", best_f1_param)
+#     print("weighted_f1:", best_weighted_param)
+#     print("roc_auc    :", best_auroc_param)
+#     print("accuracy   :", best_acc_param)
+#     print("avg        :", best_avg_param)
+#     print("\n=== Test metrics (best model) ===")
+#     for k, v in test_metrics.items():
+#         print(f"{k:12s}: {v:.4f}")
+
+#     return results, test_metrics, best_model
+
+
+
 if __name__ == '__main__':
     # Ejemplo de uso
     json_config_path = '/mnt/d/home-2/Documentos/master/practica-deusto-tech/TFM/MyTabsyn/CorVAE/data/shoppers/metadata.json'
@@ -358,4 +735,3 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     reconstructed_data = reconstruct_data(z, y, models_paths, device, json_config_path)
-    reconstructed_data.to_csv('reconstructed_data.csv', index=False)
