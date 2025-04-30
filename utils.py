@@ -61,44 +61,56 @@ _METRIC_SCORERS = {
     "accuracy": make_scorer(accuracy_score),
 }
 
+
 MODELS = {
     "xgb": {
         "constructor": XGBClassifier,
         "static_args": {"objective": "binary:logistic", "tree_method": "hist"},
         "search_space": {
-            "n_estimators": lambda t: t.suggest_int("n_estimators", 50, 300),
-            "max_depth": lambda t: t.suggest_int("max_depth", 3, 10),
-            "learning_rate": lambda t: t.suggest_float("learning_rate", 1e-3, 1e-1, log=True),
+            "n_estimators": lambda t: t.suggest_categorical("n_estimators", [10,40,100]),
+            "max_depth": lambda t: t.suggest_categorical("max_depth", [5,20,30]),
+            "gamma": lambda t: t.suggest_float("gamma", 0.1,1.0),
             "subsample": lambda t: t.suggest_float("subsample", 0.5, 1.0),
             "colsample_bytree": lambda t: t.suggest_float("colsample_bytree", 0.5, 1.0),
         },
     },
-    "rf": {
-        "constructor": RandomForestClassifier,
-        "static_args": {"class_weight": "balanced"},
-        "search_space": {
-            "n_estimators": lambda t: t.suggest_int("n_estimators", 100, 500),
-            "max_depth": lambda t: t.suggest_int("max_depth", 3, 20),
-            "min_samples_split": lambda t: t.suggest_int("min_samples_split", 2, 10),
-            "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
-        },
-    },
-    "svc": {
-        "constructor": SVC,
-        "static_args": {"probability": True},
-        "search_space": {
-            "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
-            "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
-        },
-    },
-    "logreg": {
-        "constructor": LogisticRegression,
-        "static_args": {"max_iter": 200, "solver": "lbfgs"},
-        "search_space": {
-            "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
-            "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
-        },
-    },
+    # "rf": {
+    #     "constructor": RandomForestClassifier,
+    #     "static_args": {"class_weight": "balanced"},
+    #     "search_space": {
+    #         "n_estimators": lambda t: t.suggest_int("n_estimators", 100, 500),
+    #         "max_depth": lambda t: t.suggest_int("max_depth", 3, 20),
+    #         "min_samples_split": lambda t: t.suggest_int("min_samples_split", 2, 10),
+    #         "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
+    #     },
+    # },
+    # "svc": {
+    #     "constructor": SVC,
+    #     "static_args": {"probability": True},
+    #     "search_space": {
+    #         "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
+    #         "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
+    #     },
+    # },
+    # "logreg": {
+    #     "constructor": LogisticRegression,
+    #     "static_args": {"max_iter": 200, "solver": "lbfgs"},
+    #     "search_space": {
+    #         "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
+    #         "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
+    #     },
+    # },
+}
+
+MODEL_XGB = {
+    'max_depth': 20,
+    'learning_rate': 0.1,
+    'n_estimators': 100,
+    'subsample': 1.0,
+    'gamma': 1.0,
+    # Para usar GPU: 'tree_method': 'gpu_hist', 'gpu_id': 0,
+    'tree_method': 'hist',
+    'objective': 'binary:logistic'
 }
 
 def compute_relative_regret(
@@ -631,7 +643,7 @@ def evaluate_models(
     X_test,
     y_test,
     cv_folds=5,
-    n_trials=2,
+    n_trials=10,
     ckpt_dir=None,
     method='k-means',
     random_state=0,
@@ -691,6 +703,153 @@ def evaluate_models(
     results_df = pd.DataFrame(records)
     results_df.insert(0, "method", method)
     return results_df, test_metrics_all, best_models
+
+def evaluate_one_model(
+    X_train, y_train, X_test, y_test,
+    cv_folds=5, random_state=0
+):
+    """
+    Evalúa un XGBClassifier con parámetros fijos.
+
+    Realiza validación cruzada y evaluación en test.
+
+    Retorna:
+      - cv_means: medias de métricas en CV
+      - cv_stds: desviaciones estándar en CV
+      - test_metrics: métricas en el conjunto de prueba
+      - model: modelo entrenado sobre todo el set de entrenamiento
+    """
+    # Instanciar modelo
+    model = XGBClassifier(**MODEL_XGB, random_state=random_state)
+
+    # Crear CV reproducible
+    cv = StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=random_state)
+
+    # Definir métricas para CV
+    scoring = {
+        'balanced': 'balanced_accuracy',
+        'macro_f1': 'f1_macro',
+        'weighted_f1': 'f1_weighted',
+        'accuracy': 'accuracy',
+        'roc_auc': 'roc_auc'
+    }
+
+    # Validación cruzada
+    cv_res = cross_validate(
+        model, X_train, y_train,
+        scoring=scoring, cv=cv,
+        n_jobs=-1, return_train_score=False
+    )
+
+    # Calcular estadísticas de CV
+    cv_means = {m: cv_res[f'test_{m}'].mean() for m in scoring}
+    cv_stds = {f'{m}_std': cv_res[f'test_{m}'].std() for m in scoring}
+
+    # Entrenar en todo el set de entrenamiento
+    model.fit(X_train, y_train, verbose=False)
+
+    # Predicciones y probabilidades en test
+    y_pred = model.predict(X_test)
+    y_proba = model.predict_proba(X_test) if hasattr(model, 'predict_proba') else None
+
+    # Índice clase positiva
+    classes = model.classes_
+    pos_idx = int(np.where(classes == True)[0]) if True in classes else 1
+
+    # Cálculo de métricas en test
+    test_metrics = {
+        'balanced': balanced_accuracy_score(y_test, y_pred),
+        'macro_f1': f1_score(y_test, y_pred, average='macro'),
+        'weighted_f1': f1_score(y_test, y_pred, average='weighted'),
+        'accuracy': accuracy_score(y_test, y_pred),
+        'roc_auc': roc_auc_score(y_test, y_proba[:, pos_idx], average='weighted')
+        if y_proba is not None else np.nan
+    }
+
+    return cv_means, cv_stds, test_metrics, model
+    
+# def evaluate_models(
+#     X_train, y_train, X_test, y_test,
+#     n_splits: int = 5,
+#     random_state: int = 42,
+# ):
+#     """
+#     Ejecuta CV con *n_splits* para cada modelo definido en `models`
+#     y devuelve:
+#       - results_df  ▶ tabla (media ± std) de las métricas
+#       - test_metrics ▶ dict con métricas en test del mejor modelo (según 'avg')
+#       - best_model   ▶ modelo ya entrenado en todo el train
+#     `models` debe ser {alias: (Clase, dict_param)}  (igual al ejemplo enviado).
+#     """
+
+#     # --- métrica & esquema de validación ---
+#     scoring = {
+#         "macro_f1"   : make_scorer(f1_score, average="macro"),
+#         "weighted_f1": make_scorer(weighted_f1_custom),
+#         "roc_auc"    : make_scorer(roc_auc_score,
+#                                    multi_class="ovo", average="weighted"),
+#         "accuracy"   : make_scorer(accuracy_score),
+#     }
+#     cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=random_state)
+
+#     # --- cross-val por modelo ---
+#     records = []
+#     for tag, (model_cls, params) in MODELS.items():
+#         model  = model_cls(**params)
+#         cv_res = cross_validate(
+#             model, X_train, y_train,
+#             scoring=scoring, cv=cv, n_jobs=-1, return_train_score=False
+#         )
+#         means = {k.replace("test_", ""): v.mean() for k, v in cv_res.items()
+#                  if k.startswith("test_")}
+#         stds  = {k.replace("test_", "") + "_std": v.std() for k, v in cv_res.items()
+#                  if k.startswith("test_")}
+#         records.append(
+#             {"model": tag, "param": params, **means, **stds}
+#         )
+
+#     results = pd.DataFrame(records)
+#     results["avg"] = results[["macro_f1", "weighted_f1", "roc_auc"]].mean(axis=1)
+
+#     # --- mejores hiperparámetros según cada métrica ---
+#     best_f1_param       = results.param[results.macro_f1.idxmax()]
+#     best_weighted_param = results.param[results.weighted_f1.idxmax()]
+#     best_auroc_param    = results.param[results.roc_auc.idxmax()]
+#     best_acc_param      = results.param[results.accuracy.idxmax()]
+#     best_avg_param      = results.param[results.avg.idxmax()]
+
+#     # --- entrena el modelo con mejor 'avg' y evalúa en test ---
+#     best_tag         = results.model[results.avg.idxmax()]
+#     best_model_class = MODELS[best_tag][0]
+#     best_model       = best_model_class(**best_avg_param)
+#     best_model.fit(X_train, y_train)
+
+#     y_pred  = best_model.predict(X_test)
+#     y_proba = best_model.predict_proba(X_test)
+
+#     test_metrics = {
+#         "macro_f1"   : f1_score(y_test, y_pred, average="macro"),
+#         "weighted_f1": weighted_f1_custom(y_test, y_pred),
+#         "roc_auc"    : roc_auc_score(y_test, y_proba[:, 1],
+#                                      multi_class="ovo", average="weighted"),
+#         "accuracy"   : accuracy_score(y_test, y_pred),
+#     }
+
+#     # imprime resumen útil (opcional; comenta si no quieres salida)
+#     print("\n=== Cross-validation summary ===")
+#     print(results[["model", "macro_f1", "weighted_f1",
+#                    "roc_auc", "accuracy", "avg"]].round(4))
+#     print("\nMejores hiperparámetros por métrica:")
+#     print("macro_f1   :", best_f1_param)
+#     print("weighted_f1:", best_weighted_param)
+#     print("roc_auc    :", best_auroc_param)
+#     print("accuracy   :", best_acc_param)
+#     print("avg        :", best_avg_param)
+#     print("\n=== Test metrics (best model) ===")
+#     for k, v in test_metrics.items():
+#         print(f"{k:12s}: {v:.4f}")
+
+#     return results, test_metrics, best_model
 
 if __name__ == '__main__':
     # Ejemplo de uso
