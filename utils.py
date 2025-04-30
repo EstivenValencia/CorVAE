@@ -101,6 +101,60 @@ MODELS = {
     },
 }
 
+def compute_relative_regret(
+    test_metrics_all: dict,
+    metrics_random: list[dict],
+    metrics_method: list[dict],
+    method_name: str,
+    ipc: int,
+    metric_key: str = "balanced",
+) -> pd.DataFrame:
+    """
+    Parameters
+    ----------
+    test_metrics_all : dict
+        { model_name: {metric_key: float, ...}, ... }
+    metrics_random : list of dict
+        Lista (len 5) con la misma estructura que test_metrics_all
+        para cada semilla de random sampling.
+    metrics_method : list of dict
+        Igual, para el método (e.g. k-means).
+    method_name : str
+        Nombre del método (p.ej. "k-means").
+    ipc : int
+        Número de instancias por clase (para guardar la columna IPC).
+    metric_key : str
+        Qué métrica usar para el regret (por defecto "balanced").
+    """
+    records = []
+    n_seeds = len(metrics_random)
+    # para cada modelo (xgb, rf, …)
+    for model_name, all_metrics in test_metrics_all.items():
+        AF = all_metrics[metric_key]
+        regrets = []
+        for i in range(n_seeds):
+            AR = metrics_random[i][model_name][metric_key]
+            AM = metrics_method[i][model_name][metric_key]
+            # evita división por cero
+            denom = (AF - AR)
+            if denom == 0:
+                r = np.nan
+            else:
+                r = (AF - AM) / denom
+            regrets.append(r)
+        regrets = np.array(regrets, dtype=np.float64)
+        records.append({
+            "method":      method_name,
+            "ipc":         ipc,
+            "model":       model_name,
+            "regret_mean": np.nanmean(regrets),
+            "regret_std":  np.nanstd(regrets),
+        })
+
+    df = pd.DataFrame(records)
+    return df
+
+
 def read_json_config(json_config_path):
     
     try:
@@ -110,12 +164,9 @@ def read_json_config(json_config_path):
         raise FileNotFoundError(f"Archivo de configuración no encontrado: {json_config_path}")
     return config
 
-def split_train_test_custom(json_config_path, test_size=0.1, random_state=0):
-    # 1. Cargar configuración JSON
-    config = read_json_config(json_config_path)
+def split_train_test_custom(config, base_dir, test_size=0.1, random_state=0):
     target_col = config['target_col_name']
 
-    base_dir = os.path.dirname(json_config_path)
     data_file = os.path.join(base_dir, config['file'])
     
     try:
@@ -239,7 +290,7 @@ def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', 
         num_scaler, cat_encoder, label_encoder
     )
 
-def load_reconstructed_data(json_config_path, checkpoint_path):
+def load_reconstructed_data(json_config_path, checkpoint_path, random_state=0):
     config = read_json_config(json_config_path)
     base_dir = os.path.dirname(json_config_path)
     target_col = config['target_col_name']
@@ -253,21 +304,17 @@ def load_reconstructed_data(json_config_path, checkpoint_path):
     y_test = np.load(os.path.join(base_dir, 'y_test.npy'), allow_pickle=True)
 
     (
-        X_num_train, X_cat_train,
-        X_num_test,  X_cat_test,
-        y_train_enc, y_test_enc,
+        X_train_pre, X_test_pre,
+        y_train_pre, y_test_pre,
         num_scaler,  cat_encoder,
         label_encoder
-        )  = preprocessing(config, X_train, y_train, X_test, y_test, encoding='one-hot')
-
-    x_train = np.concatenate((X_num_train, X_cat_train), axis=1)
-    x_test = np.concatenate((X_num_test, X_cat_test), axis=1)
+        )  = preprocessing(config, X_train, y_train, X_test, y_test, encoding='one-hot', concat=True, random_state=random_state)
 
     #print("Train",X_train)
     #print("Test",X_test)
     #print(y_train, y_test)
 
-    return x_train, y_train, x_test, y_test_enc
+    return X_train_pre, y_train_pre, X_test_pre, y_test_pre
 
 
 MAX_BETA = 1e-2
@@ -594,6 +641,7 @@ def evaluate_models(
     cv_folds=5,
     n_trials=2,
     ckpt_dir=None,
+    method='k-means',
     random_state=0,
 ):
     """Tunea y evalúa clasificadores con Optuna.
@@ -607,7 +655,7 @@ def evaluate_models(
     """
 
     if ckpt_dir is not None:
-        best_dir = os.path.join(ckpt_dir, "best_models")
+        best_dir = os.path.join(ckpt_dir, method,"best_models")
         os.makedirs(best_dir, exist_ok=True)
 
     cv = _build_cv(max(cv_folds, 2), random_state)
@@ -633,12 +681,23 @@ def evaluate_models(
         t_metrics = _evaluate_on_test(best_model, X_test, y_test)
         test_metrics_all[tag] = t_metrics
 
-        records.append({"model": tag, **cv_means, **cv_stds, "cv_time": t_time})
+        # Preparar fila de resultados combinados CV vs Test
+        row = {'model': tag}
+        # Métricas de CV (Optuna)
+        for m, val in cv_means.items():
+            row[f'cv_{m}'] = round(val, 3)
+        for m_std, val in cv_stds.items():
+            row[f'cv_{m_std}'] = round(val, 3)
+        row['cv_time'] = round(t_time, 3)
+        # Métricas de Test
+        for m, val in t_metrics.items():
+            row[f'test_{m}'] = round(val, 3)
+
+        records.append(row)
+
 
     results_df = pd.DataFrame(records)
-    if ckpt_dir is not None:
-        results_df.to_csv(os.path.join(ckpt_dir, "results.csv"), index=False)
-        print(f"Resultados guardados en {os.path.join(ckpt_dir, 'results.csv')}")
+    results_df.insert(0, "method", method)
     return results_df, test_metrics_all, best_models
 
 # def evaluate_models(
@@ -723,8 +782,6 @@ def evaluate_models(
 #         print(f"{k:12s}: {v:.4f}")
 
 #     return results, test_metrics, best_model
-
-
 
 if __name__ == '__main__':
     # Ejemplo de uso

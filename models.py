@@ -518,23 +518,30 @@ class Reconstructor(nn.Module):
 
 
 class ClassifierHead(nn.Module):
-    """Classifier head with Batch Normalization and Dropout.
-
-    Args:
-        input_dim (int): Dimensionality of the latent feature vector.
-        num_classes (int): Number of target classes.
-        dropout (float, optional): Dropout probability applied after BatchNorm. Defaults to 0.3.
     """
-
-    def __init__(self, input_dim: int, num_classes: int, dropout: float = 0.3):
+    Clasificador f: R^d_token -> R^num_classes
+    Según eq. (2) del paper, se normaliza (LayerNorm),
+    se aplica dropout y finalmente una capa lineal.
+    """
+    def __init__(self,
+                 input_dim: int,
+                 num_classes: int,
+                 dropout: float = 0.3):
         super().__init__()
-        self.bn = nn.BatchNorm1d(input_dim)
+        # 1) Normalización estilo Transformer
+        self.norm = nn.LayerNorm(input_dim)
+        # 2) Dropout para regularizar
         self.dropout = nn.Dropout(dropout)
+        # 3) Capa lineal para logits finales
         self.fc = nn.Linear(input_dim, num_classes)
 
+        # Inicialización recomendada para capa final
+        nn.init.xavier_uniform_(self.fc.weight, gain=1.0)
+        nn.init.zeros_(self.fc.bias)
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        # x is the latent representation (e.g., CLS token or mu_z)
-        x = self.bn(x)
+        # x: [batch, d_token] (p. ej. token CLS o mu_z[:,0,:])
+        x = self.norm(x)
         x = self.dropout(x)
         logits = self.fc(x)
         return logits
@@ -542,7 +549,8 @@ class ClassifierHead(nn.Module):
 
 
 class ModelVAE(nn.Module):
-    def __init__(self, num_layers, d_numerical, categories, d_token, n_head = 1, factor = 4,  bias = True, num_classes = None):
+    def __init__(self, num_layers, d_numerical, categories, d_token, n_head = 1, factor = 4,  bias = True, num_classes = None, 
+                 droput_class = 0.3):
         super(ModelVAE, self).__init__()
 
         self.VAE = VAE(d_numerical, categories, num_layers, d_token, n_head = n_head, factor = factor, bias = bias)
@@ -556,7 +564,7 @@ class ModelVAE(nn.Module):
             #latent_dim_total = seq_len * d_token
             print(f"Creando ClassifierHead con input_dim={d_token} y num_classes={num_classes}")
             self.classifier = ClassifierHead(input_dim=d_token,
-                                            num_classes=num_classes)
+                                            num_classes=num_classes, dropout=droput_class)
         else:
             print("No se creó ClassifierHead (num_classes no proporcionado o <= 0).")
 

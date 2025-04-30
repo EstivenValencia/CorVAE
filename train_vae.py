@@ -25,28 +25,8 @@ from models import LossTracker
 
 warnings.filterwarnings('ignore')
 
-MAX_BETA = 1e-2
-MIN_BETA = 1e-5
-LAMBDA = 0.7
-
-LR = 1e-3
-WD = 0
-D_TOKEN = 4
-TOKEN_BIAS = True
-
-N_HEAD = 1
-FACTOR = 32
-NUM_LAYERS = 2
-
-LR_FINETUNE = 1e-4
-ALPHA_FT = 0.000005     # Peso para la pérdida de clasificación en fine-tuning
-PATIENCE_PRETRAIN = 15
-PATIENCE_FINETUNE = 50
-
-
-# Parametros de entrenamiento
-num_epochs = 100
-batch_size = 4096
+PATIENCE_PRETRAIN = 10
+PATIENCE_FINETUNE = 10
 
 def train_vae(model, loader, optimizer, device, beta=1.0, alpha=0.0):
     """Entrena una epoch de un VAE y devuelve las pérdidas medias: mse, ce, kld y total."""
@@ -209,20 +189,34 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
 
         return train_z
 
-def main(json_config_path, encoding='ordinal', random_state=0, batch_size=64, pretrain_epochs=50, finetune_epochs=30, ckpt_dir='ckpt', fine_tune= False):
+def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_size=64, pretrain_epochs=50, finetune_epochs=30, ckpt_dir='ckpt', fine_tune= False, hyperparams = {}):
+    
+    # Hiperparametros de VAE
+    max_beta = hyperparams.get('max_beta',1e-2)
+    min_beta = hyperparams.get('min_beta',1e-5)
+    lambda_ = hyperparams.get('lambda_',0.7)
+    lr_pretrain = hyperparams.get('lr_pretrain',1e-3)
+    wd_pretrain =hyperparams.get('wd_pretrain',0)
+    d_token =hyperparams.get('d_token',4)
+    token_bias =hyperparams.get('token_bias',True)
+    n_head = hyperparams.get('n_head',1)
+    factor = hyperparams.get('factor',32)
+    num_layers =hyperparams.get('num_layers',2)
+    early_stop_counter_pretrain = hyperparams.get('early_stop_counter_pretrain',15)
+
+    # Hiperparametros de la cabeza clasificadora
+    dropout_ft = hyperparams.get('dropout_ft',0.3)
+    alpha_ft = hyperparams.get("alpha_ft",1e-5)
+    lr_ft = hyperparams.get("lr_ft",1e-4)
+    wd_ft = hyperparams.get('wd_ft',0)
+    early_stop_counter_ft = hyperparams.get("early_stop_counter_ft",10)
+
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
     model_save_path = os.path.join(ckpt_dir, 'best_vae.pt')
     ft_model_save_path = os.path.join(ckpt_dir, 'ft_best_vae.pt')
 
-    config = read_json_config(json_config_path)
-    base_dir = os.path.dirname(json_config_path)
-
-    X_train = np.load(os.path.join(base_dir, 'X_train.npy'), allow_pickle=True)
-    X_test = np.load(os.path.join(base_dir, 'X_test.npy'), allow_pickle=True)
-    y_train = np.load(os.path.join(base_dir, 'y_train.npy'), allow_pickle=True)
-    y_test = np.load(os.path.join(base_dir, 'y_test.npy'), allow_pickle=True)
-    
+    X_train, y_train, X_test, y_test = set_data
     (
         X_num_train, X_cat_train,
         X_num_test,  X_cat_test,
@@ -230,12 +224,8 @@ def main(json_config_path, encoding='ordinal', random_state=0, batch_size=64, pr
         num_scaler,  cat_encoder,
         label_encoder
                         ) = preprocessing(config, X_train, y_train, X_test, y_test, encoding=encoding, random_state=random_state)
-    print("Categorias: ---",X_cat_train)
-    categories = [len(set(X_cat_train[:, i])) for i in range(X_cat_train.shape[1])]
-    print("Categorias en el encoder: ", categories)
     
-    print("Valores y dimensiones de categoricos: ",X_cat_train[:5,:])
-
+    categories = [len(set(X_cat_train[:, i])) for i in range(X_cat_train.shape[1])]
     num_classes = len(set(y_train_enc))
 
     # Tensores de entrenamiento
@@ -254,27 +244,33 @@ def main(json_config_path, encoding='ordinal', random_state=0, batch_size=64, pr
 
     num_cols, cat_cols = X_num_train.shape[1], X_cat_train.shape[1]   
 
-    model = ModelVAE(NUM_LAYERS, num_cols, categories, D_TOKEN, num_classes=None, n_head = N_HEAD, factor = FACTOR, bias = True)
+    model = ModelVAE(num_layers, num_cols, categories, d_token, num_classes=None, n_head = n_head, factor = factor, bias = True)
     model = model.to(device)
 
-    pre_encoder = EncoderModel(NUM_LAYERS, num_cols, categories, D_TOKEN, n_head = N_HEAD, factor = FACTOR).to(device)
-    pre_decoder = DecoderModel(NUM_LAYERS, num_cols, categories, D_TOKEN, n_head = N_HEAD, factor = FACTOR).to(device)
+    pre_encoder = EncoderModel(num_layers, num_cols, categories, d_token, n_head = n_head, factor = factor).to(device)
+    pre_decoder = DecoderModel(num_layers, num_cols, categories, d_token, n_head = n_head, factor = factor).to(device)
 
     pre_encoder.eval()
     pre_decoder.eval()
 
-    optimizer = torch.optim.AdamW(model.parameters(), lr=LR, weight_decay=WD)
+    optimizer = torch.optim.AdamW(model.parameters(), lr=lr_pretrain, weight_decay=wd_pretrain)
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.95, patience=10, verbose=True)
 
     tracker = LossTracker(log_dir=os.path.join(ckpt_dir, "runs"))
 
-    beta = MAX_BETA
+    beta = max_beta
     patience = 0
 
     best_val_loss = float('inf')
+    early_stop_counter = 0
+
+    # =======================================
+    # --- STAGE 1: Pretrain ---
+    # =======================================
+
     # 5. Bucle de entrenamiento
     start = time.time()
-    for epoch in range(1, num_epochs+1):
+    for epoch in range(1, pretrain_epochs+1):
         # Training
         train_mse, train_ce, train_kld, train_loss, _ = \
             train_vae(model, train_loader, optimizer, device, beta)
@@ -292,17 +288,24 @@ def main(json_config_path, encoding='ordinal', random_state=0, batch_size=64, pr
         # Guardar mejor modelo
         if val_loss < best_val_loss:
             best_val_loss = val_loss
+            early_stop_counter = 0
             patience = 0
             torch.save(model.state_dict(),model_save_path)
+
         else:
+            early_stop_counter += 1
             patience += 1
             if patience == 10:
-                if beta > MIN_BETA:
-                    beta = beta * LAMBDA
+                if beta > min_beta:
+                    beta = beta * lambda_
+
+        if early_stop_counter >= early_stop_counter_pretrain:
+            print(f"No hubo mejora en {early_stop_counter_pretrain} épocas. Early stopping en epoch {epoch}.")
+            break
 
         # Impresión de métricas
         print(
-            f"Epoch {epoch:03d}/{num_epochs} "
+            f"Epoch {epoch:03d}/{pretrain_epochs} "
             f"Train Loss: {train_loss:.6f} (MSE:{train_mse:.6f}, CE:{train_ce:.6f}, KLD:{train_kld:.6f})  "
             f"Val Loss: {val_loss:.6f} (MSE:{val_mse:.6f}, CE:{val_ce:.6f}, KLD:{val_kld:.6f})"
         )
@@ -318,9 +321,9 @@ def main(json_config_path, encoding='ordinal', random_state=0, batch_size=64, pr
 
         # Crear modelo CON cabeza clasificadora
         ft_model = ModelVAE(
-            num_layers=NUM_LAYERS, d_numerical=num_cols, categories=categories, d_token=D_TOKEN,
+            num_layers=num_layers, d_numerical=num_cols, categories=categories, d_token=d_token,
             num_classes=num_classes, # AHORA con cabeza clasificadora
-            n_head=N_HEAD, factor=FACTOR, bias=TOKEN_BIAS
+            n_head=n_head, factor=factor, bias=token_bias
         )
         ft_model = ft_model.to(device)
         ft_model.load_state_dict(torch.load(model_save_path), strict=False)
@@ -329,21 +332,21 @@ def main(json_config_path, encoding='ordinal', random_state=0, batch_size=64, pr
         print(ft_model)
 
         # Nuevo optimizador para fine-tuning (todos los parámetros, LR más bajo)
-        optimizer_ft = torch.optim.AdamW(ft_model.parameters(), lr=LR_FINETUNE, weight_decay=WD)
+        optimizer_ft = torch.optim.AdamW(ft_model.parameters(), lr=lr_ft, weight_decay=wd_ft)
         scheduler_ft = ReduceLROnPlateau(optimizer_ft, mode='min', factor=0.9, patience=5, verbose=True) # Menor paciencia para FT
 
         #beta = MIN_BETA # Empezar con beta bajo o mantener el final del pre-entrenamiento? Aquí usamos MIN_BETA
         patience_counter = 0
         best_val_loss_ft = float('inf')
-
+        early_stop_counter = 0
         for epoch in range(1, finetune_epochs + 1):
             # Entrenar con alpha > 0
             train_mse, train_ce, train_kld, train_loss, train_class_loss = \
-                train_vae(ft_model, train_loader, optimizer_ft, device, beta, alpha=ALPHA_FT)
+                train_vae(ft_model, train_loader, optimizer_ft, device, beta, alpha=alpha_ft)
 
             # Validar con alpha > 0
             val_mse, val_ce, val_kld, val_loss, val_class_loss = \
-                validate_vae(ft_model, test_loader, device, beta, alpha=ALPHA_FT)
+                validate_vae(ft_model, test_loader, device, beta, alpha=alpha_ft)
 
             tracker.log_finetune(train_mse, train_ce, train_kld, train_class_loss, train_loss,
                                 val_mse,   val_ce,   val_kld,   val_class_loss,   val_loss)
@@ -354,22 +357,27 @@ def main(json_config_path, encoding='ordinal', random_state=0, batch_size=64, pr
                 print(f"Stage 2 - Epoch {epoch}: Val loss improved to {val_loss:.6f}. Saving fine-tuned model...")
                 best_val_loss_ft = val_loss
                 torch.save(ft_model.state_dict(), ft_model_save_path)
+                early_stop_counter = 0
                 patience_counter = 0
             else:
+                early_stop_counter += 1
                 patience_counter += 1
                 print(f"Stage 2 - Epoch {epoch}: Val loss did not improve ({val_loss:.6f} vs best {best_val_loss_ft:.6f}). Patience: {patience_counter}/{PATIENCE_FINETUNE}")
                 if patience_counter >= PATIENCE_FINETUNE:
                     print("Early stopping fine-tuning.")
                     break # Salir del bucle de fine-tuning
 
-            print(f"Stage 2 - Epoch {epoch:03d}/{finetune_epochs} | Beta: {beta:.2e} | Alpha: {ALPHA_FT:.2f} | Loss: {train_loss:.4f} (MSE:{train_mse:.4f}, CE:{train_ce:.4f}, KLD:{train_kld:.4f}, ClassL:{train_class_loss:.4f}) | Val Loss: {val_loss:.4f} (MSE:{val_mse:.4f}, CE:{val_ce:.4f}, KLD:{val_kld:.4f}, ClassL:{val_class_loss:.4f})")
+            if early_stop_counter >= early_stop_counter_ft:
+                print(f"No hubo mejora en {early_stop_counter_ft} épocas. Early stopping en epoch {epoch}.")
+                break
+
+            print(f"Stage 2 - Epoch {epoch:03d}/{finetune_epochs} | Beta: {beta:.2e} | Alpha: {alpha_ft:.2f} | Loss: {train_loss:.4f} (MSE:{train_mse:.4f}, CE:{train_ce:.4f}, KLD:{train_kld:.4f}, ClassL:{train_class_loss:.4f}) | Val Loss: {val_loss:.4f} (MSE:{val_mse:.4f}, CE:{val_ce:.4f}, KLD:{val_kld:.4f}, ClassL:{val_class_loss:.4f})")
 
         print(f"--- Stage 2 Finished. Best fine-tuning validation loss: {best_val_loss_ft:.6f} ---")
         model_save_path = ft_model_save_path
         model = ft_model
     else:
         print("\n--- Skipping Stage 2: Supervised Fine-tuning (perform_fine_tune=False) ---")
-
 
     # Guardando información de encoder decoder
     train_z = save_best_encoder_decoder(

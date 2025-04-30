@@ -299,7 +299,7 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
 
 def main(json_config_path, encoding='ordinal', random_state=0, batch_size=64,
          pretrain_epochs=50, finetune_epochs=30, # Épocas separadas
-         ckpt_dir='ckpt', perform_fine_tune=False):
+         ckpt_dir='ckpt'):
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"Using device: {device}")
@@ -308,7 +308,7 @@ def main(json_config_path, encoding='ordinal', random_state=0, batch_size=64,
     os.makedirs(ckpt_dir, exist_ok=True)
     pretrained_vae_path = os.path.join(ckpt_dir, 'best_vae_pretrained.pt')
     finetuned_model_path = os.path.join(ckpt_dir, 'best_model_finetuned.pt')
-    final_model_path = finetuned_model_path if perform_fine_tune else pretrained_vae_path
+    final_model_path = finetuned_model_path if finetune_epochs > 0 else pretrained_vae_path
 
     # --- Carga y Preprocesamiento de Datos ---
     config = read_json_config(json_config_path)
@@ -400,7 +400,7 @@ def main(json_config_path, encoding='ordinal', random_state=0, batch_size=64,
     # =======================================
     # --- STAGE 2: Supervised Fine-tuning ---
     # =======================================
-    if perform_fine_tune:
+    if finetune_epochs > 0:
         print("\n--- Starting Stage 2: Supervised Fine-tuning ---")
 
         # Crear modelo CON cabeza clasificadora
@@ -464,7 +464,7 @@ def main(json_config_path, encoding='ordinal', random_state=0, batch_size=64,
     # Necesitamos crear una instancia del modelo correspondiente al state_dict final
     final_model_instance = ModelVAE(
         num_layers=NUM_LAYERS, d_numerical=num_cols, categories=categories, d_token=D_TOKEN,
-        num_classes=num_classes if perform_fine_tune else None, # Asegurar que la estructura coincida
+        num_classes=num_classes if finetune_epochs > 0 else None, # Asegurar que la estructura coincida
         n_head=N_HEAD, factor=FACTOR, bias=TOKEN_BIAS
     ).to(device)
     final_model_instance.load_state_dict(final_model_state_dict)

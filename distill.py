@@ -34,6 +34,53 @@ from sklearn.neighbors import NearestCentroid
 import ray
 
 
+def distill_random(X, y, n_per_class=10, random_state=None):
+    """
+    Toma X (array-like de forma [n_samples, ...]) y y (vector de etiquetas de longitud n_samples),
+    y devuelve un sub-conjunto con n_per_class muestras por cada clase de y.
+
+    Parámetros
+    ----------
+    X : array-like, shape (n_samples, n_features)
+        Matriz de características.
+    y : array-like, shape (n_samples,)
+        Etiquetas correspondientes.
+    n_per_class : int, opcional (default=10)
+        Número de muestras que queremos tomar de cada clase.
+    seed : int o None, opcional
+        Semilla para la generación de números aleatorios. Si es None, no fija semilla.
+
+    Devuelve
+    -------
+    X_sample : np.ndarray, shape (n_classes * n_per_class, n_features)
+        Subconjunto de X con n_per_class muestras por clase.
+    y_sample : np.ndarray, shape (n_classes * n_per_class,)
+        Etiquetas correspondientes a X_sample.
+    """
+    X = np.asarray(X)
+    y = np.asarray(y)
+    rng = np.random.RandomState(random_state)
+
+    classes = np.unique(y)
+    sampled_indices = []
+
+    for cls in classes:
+        # índices de la clase cls
+        idx = np.where(y == cls)[0]
+        if len(idx) < n_per_class:
+            raise ValueError(f"Clase {cls!r} sólo tiene {len(idx)} muestras, < n_per_class={n_per_class}")
+        # barajar y tomar las primeras n_per_class
+        rng.shuffle(idx)
+        sampled_indices.extend(idx[:n_per_class])
+
+    # opcional: barajar las filas resultantes
+    sampled_indices = np.array(sampled_indices)
+    rng.shuffle(sampled_indices)
+
+    X_sample = X[sampled_indices]
+    y_sample = y[sampled_indices]
+    return X_sample, y_sample
+
 def distill_with_kmeans(
     data: np.ndarray,
     labels: np.ndarray,
