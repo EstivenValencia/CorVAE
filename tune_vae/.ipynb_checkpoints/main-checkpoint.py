@@ -9,7 +9,7 @@ import sys
 # Añadir carpeta padre al path para importar tu modelo
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from train_vae import main as main_vae
-from utils import read_json_config, split_train_test_custom, reconstruct_data, load_reconstructed_data, evaluate_models
+from utils import read_json_config, split_train_test_custom, reconstruct_data, load_reconstructed_data, evaluate_models, evaluate_one_model
 from distill import distill_with_kmeans
 
 def objective(trial, args):
@@ -49,12 +49,13 @@ def objective(trial, args):
         hyperparams=hyperparams
     )
     distill_z, distill_y = distill_with_kmeans(train_z, train_y, num_centroids=args.IPC, get_closest=False, seed=args.seed)
-    reconstruct_data(distill_z, distill_y, models_paths=args.checkpoint_path, device='cpu',json_config_path=metadata_path, latent_space=True)
+    reconstruct_data(distill_z, distill_y, models_paths=args.checkpoint_path, device='cpu',json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams)
                     
     x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(metadata_path, args.checkpoint_path, random_state=args.seed)
                     
-    kmeans_df, test_metrics_k_means, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=args.checkpoint_path, method='k-means', random_state=args.seed)
-    return test_metrics_k_means['xgr']['roc_auc']
+    _,_, test_metrics_k_means, _ = evaluate_one_model(x_train_disti, y_train_disti, x_test_disti, y_test_disti, random_state=args.seed)
+
+    return test_metrics_k_means['roc_auc']
 
 if __name__ == '__main__':
 
@@ -86,14 +87,14 @@ if __name__ == '__main__':
     args.checkpoint_path = f'{root_dir_tune}/tune_{dataset}'                             # Carpeta de checkpoints
 
     # Parámetros de entrenamiento
-    args.epochs_latent = 10                                    # Épocas de pre-entrenamiento VAE
+    args.epochs_latent = 500                                    # Épocas de pre-entrenamiento VAE
     args.epochs_fine_tuning_latent = 0                        # Épocas de fine-tuning
     args.batch_size = 4096                                       # Tamaño de batch
     args.seed = 0                                              # Semilla global
     args.encoding = 'ordinal'                                  # Esquema de codificación
     args.set_data = set_data        # Tu tupla de datos (define o carga arriba)
-    args.n_trials = 50
-    args.IPC = 10
+    args.n_trials = 30
+    args.IPC = 50
 
     # Definir límites y categorías de búsqueda para Optuna
     args.search_space = {
@@ -102,7 +103,7 @@ if __name__ == '__main__':
         'lambda_': [0.5,0.7,0.9],
         'lr_pretrain': [1e-4, 1e-2],
         'wd_pretrain': [0,1e-4,1e-3],
-        'd_token': [4, 6, 8],
+        'd_token': [4, 8],
         'n_head': [1, 2, 4],
         'factor': [16, 32],
         'num_layers': [1, 2],
