@@ -316,20 +316,6 @@ def load_reconstructed_data(json_config_path, checkpoint_path, random_state=0):
 
     return X_train_pre, y_train_pre, X_test_pre, y_test_pre
 
-
-MAX_BETA = 1e-2
-MIN_BETA = 1e-5
-LAMBDA = 0.7
-
-LR = 1e-3
-WD = 0
-D_TOKEN = 4
-TOKEN_BIAS = True
-
-N_HEAD = 1
-FACTOR = 32
-NUM_LAYERS = 2
-
 def reconstruct_data(
     x: str,
     y: str,
@@ -705,89 +691,6 @@ def evaluate_models(
     results_df = pd.DataFrame(records)
     results_df.insert(0, "method", method)
     return results_df, test_metrics_all, best_models
-
-# def evaluate_models(
-#     X_train, y_train, X_test, y_test,
-#     n_splits: int = 5,
-#     random_state: int = 42,
-# ):
-#     """
-#     Ejecuta CV con *n_splits* para cada modelo definido en `models`
-#     y devuelve:
-#       - results_df  ▶ tabla (media ± std) de las métricas
-#       - test_metrics ▶ dict con métricas en test del mejor modelo (según 'avg')
-#       - best_model   ▶ modelo ya entrenado en todo el train
-#     `models` debe ser {alias: (Clase, dict_param)}  (igual al ejemplo enviado).
-#     """
-
-#     # --- métrica & esquema de validación ---
-#     scoring = {
-#         "macro_f1"   : make_scorer(f1_score, average="macro"),
-#         "weighted_f1": make_scorer(weighted_f1_custom),
-#         "roc_auc"    : make_scorer(roc_auc_score,
-#                                    multi_class="ovo", average="weighted"),
-#         "accuracy"   : make_scorer(accuracy_score),
-#     }
-#     cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=random_state)
-
-#     # --- cross-val por modelo ---
-#     records = []
-#     for tag, (model_cls, params) in MODELS.items():
-#         model  = model_cls(**params)
-#         cv_res = cross_validate(
-#             model, X_train, y_train,
-#             scoring=scoring, cv=cv, n_jobs=-1, return_train_score=False
-#         )
-#         means = {k.replace("test_", ""): v.mean() for k, v in cv_res.items()
-#                  if k.startswith("test_")}
-#         stds  = {k.replace("test_", "") + "_std": v.std() for k, v in cv_res.items()
-#                  if k.startswith("test_")}
-#         records.append(
-#             {"model": tag, "param": params, **means, **stds}
-#         )
-
-#     results = pd.DataFrame(records)
-#     results["avg"] = results[["macro_f1", "weighted_f1", "roc_auc"]].mean(axis=1)
-
-#     # --- mejores hiperparámetros según cada métrica ---
-#     best_f1_param       = results.param[results.macro_f1.idxmax()]
-#     best_weighted_param = results.param[results.weighted_f1.idxmax()]
-#     best_auroc_param    = results.param[results.roc_auc.idxmax()]
-#     best_acc_param      = results.param[results.accuracy.idxmax()]
-#     best_avg_param      = results.param[results.avg.idxmax()]
-
-#     # --- entrena el modelo con mejor 'avg' y evalúa en test ---
-#     best_tag         = results.model[results.avg.idxmax()]
-#     best_model_class = MODELS[best_tag][0]
-#     best_model       = best_model_class(**best_avg_param)
-#     best_model.fit(X_train, y_train)
-
-#     y_pred  = best_model.predict(X_test)
-#     y_proba = best_model.predict_proba(X_test)
-
-#     test_metrics = {
-#         "macro_f1"   : f1_score(y_test, y_pred, average="macro"),
-#         "weighted_f1": weighted_f1_custom(y_test, y_pred),
-#         "roc_auc"    : roc_auc_score(y_test, y_proba[:, 1],
-#                                      multi_class="ovo", average="weighted"),
-#         "accuracy"   : accuracy_score(y_test, y_pred),
-#     }
-
-#     # imprime resumen útil (opcional; comenta si no quieres salida)
-#     print("\n=== Cross-validation summary ===")
-#     print(results[["model", "macro_f1", "weighted_f1",
-#                    "roc_auc", "accuracy", "avg"]].round(4))
-#     print("\nMejores hiperparámetros por métrica:")
-#     print("macro_f1   :", best_f1_param)
-#     print("weighted_f1:", best_weighted_param)
-#     print("roc_auc    :", best_auroc_param)
-#     print("accuracy   :", best_acc_param)
-#     print("avg        :", best_avg_param)
-#     print("\n=== Test metrics (best model) ===")
-#     for k, v in test_metrics.items():
-#         print(f"{k:12s}: {v:.4f}")
-
-#     return results, test_metrics, best_model
 
 if __name__ == '__main__':
     # Ejemplo de uso
