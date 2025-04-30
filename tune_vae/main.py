@@ -21,7 +21,7 @@ def objective(trial, args):
         'lambda_': trial.suggest_categorical('lambda_', sp['lambda_']),
         'lr_pretrain': trial.suggest_loguniform('lr_pretrain', sp['lr_pretrain'][0], sp['lr_pretrain'][1]),
         'wd_pretrain': trial.suggest_categorical('wd_pretrain', sp['wd_pretrain']),
-        'd_token': trial.suggest_int('d_token', sp['d_token'][0], sp['d_token'][1]),
+        'd_token': trial.suggest_categorical('d_token', sp['d_token']),
         'token_bias': True,
         'n_head': trial.suggest_categorical('n_head', sp['n_head']),
         'factor': trial.suggest_categorical('factor', sp['factor']),
@@ -46,7 +46,6 @@ def objective(trial, args):
         pretrain_epochs=args.epochs_latent,
         finetune_epochs=args.epochs_fine_tuning_latent,
         ckpt_dir=args.checkpoint_path,
-        fine_tune=True,
         hyperparams=hyperparams
     )
     distill_z, distill_y = distill_with_kmeans(train_z, train_y, num_centroids=args.IPC, get_closest=False, seed=args.seed)
@@ -67,8 +66,13 @@ if __name__ == '__main__':
     args = Args()
 
     dataset = 'shoppers'
-    metadata_path = '/mnt/d/home-2/Documentos/master/practica-deusto-tech/TFM/MyTabsyn/CorVAE/data/shoppers/metadata.json'
+    metadata_path = '../data/shoppers/metadata.json'
     STATIC_SEED = 0
+
+    # __file__ es la ruta (relativa o absoluta) del script actual
+    script_path = os.path.abspath(__file__)              # ruta completa al archivo .py
+    root_dir_tune = os.path.dirname(script_path)   
+    
 
     config = read_json_config(metadata_path)
     base_dir = os.path.dirname(metadata_path)
@@ -79,10 +83,10 @@ if __name__ == '__main__':
     # Rutas y configuración manual
     args.config = config                      # Ruta al JSON de configuración
     args.base_dir = base_dir               # Directorio base inferido
-    args.checkpoint_path = f'tune_{dataset}'                             # Carpeta de checkpoints
+    args.checkpoint_path = f'{root_dir_tune}/tune_{dataset}'                             # Carpeta de checkpoints
 
     # Parámetros de entrenamiento
-    args.epochs_latent = 200                                    # Épocas de pre-entrenamiento VAE
+    args.epochs_latent = 10                                    # Épocas de pre-entrenamiento VAE
     args.epochs_fine_tuning_latent = 0                        # Épocas de fine-tuning
     args.batch_size = 4096                                       # Tamaño de batch
     args.seed = 0                                              # Semilla global
@@ -98,7 +102,7 @@ if __name__ == '__main__':
         'lambda_': [0.5,0.7,0.9],
         'lr_pretrain': [1e-4, 1e-2],
         'wd_pretrain': [0,1e-4,1e-3],
-        'd_token': [4, 8],
+        'd_token': [4, 6, 8],
         'n_head': [1, 2, 4],
         'factor': [16, 32],
         'num_layers': [1, 2],
