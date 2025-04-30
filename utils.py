@@ -337,6 +337,7 @@ def reconstruct_data(
     device: torch.device,
     json_config_path: str,
     latent_space = False, # Si es True, se asume que z es un espacio latente, de lo contrario es una destilación del espacio original
+    hyperparams = {}
 ) -> tuple[np.ndarray, np.ndarray] | pd.DataFrame:
     """
     Reconstruye los datos originales a partir del espacio latente guardado utilizando
@@ -371,6 +372,11 @@ def reconstruct_data(
             Si se proporcionan nombres de columnas:
                 Un DataFrame de Pandas con los datos reconstruidos y los nombres de columna originales.
     """
+    d_token =hyperparams.get('d_token',4)
+    n_head = hyperparams.get('n_head',1)
+    factor = hyperparams.get('factor',32)
+    num_layers =hyperparams.get('num_layers',2)
+    
     print("--- Iniciando reconstrucción de datos ---")
     
     config = read_json_config(json_config_path)
@@ -405,7 +411,7 @@ def reconstruct_data(
         #print("Categorias en la recons:", categories)
         # 2. Instanciar el modelo Decoder
         # Asegúrate de usar los mismos hiperparámetros que durante el entrenamiento
-        decoder_model = DecoderModel(NUM_LAYERS, num_cols, categories, D_TOKEN, n_head = N_HEAD, factor = FACTOR).to(device)
+        decoder_model = DecoderModel(num_layers, num_cols, categories, d_token, n_head = n_head, factor = factor).to(device)
 
         # 3. Cargar los pesos del decoder entrenado
         try:

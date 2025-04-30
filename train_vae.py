@@ -189,7 +189,7 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
 
         return train_z
 
-def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_size=64, pretrain_epochs=50, finetune_epochs=30, ckpt_dir='ckpt', fine_tune= False, hyperparams = {}):
+def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_size=64, pretrain_epochs=50, finetune_epochs=30, ckpt_dir='ckpt', hyperparams = {}):
     
     # Hiperparametros de VAE
     max_beta = hyperparams.get('max_beta',1e-2)
@@ -316,7 +316,7 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     # =======================================
     # --- STAGE 2: Supervised Fine-tuning ---
     # =======================================
-    if fine_tune:
+    if finetune_epochs > 0:
         print("\n--- Starting Stage 2: Supervised Fine-tuning ---")
 
         # Crear modelo CON cabeza clasificadora

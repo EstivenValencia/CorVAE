@@ -50,7 +50,7 @@ def objective(trial, args):
         hyperparams=hyperparams
     )
     distill_z, distill_y = distill_with_kmeans(train_z, train_y, num_centroids=args.IPC, get_closest=False, seed=args.seed)
-    reconstruct_data(distill_z, distill_y, models_paths=args.checkpoint_path, device='cpu',json_config_path=metadata_path, latent_space=True)
+    reconstruct_data(distill_z, distill_y, models_paths=args.checkpoint_path, device='cpu',json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams)
                     
     x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(metadata_path, args.checkpoint_path, random_state=args.seed)
                     
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     args.seed = 0                                              # Semilla global
     args.encoding = 'ordinal'                                  # Esquema de codificación
     args.set_data = set_data        # Tu tupla de datos (define o carga arriba)
-    args.n_trials = 50
+    args.n_trials = 30
     args.IPC = 10
 
     # Definir límites y categorías de búsqueda para Optuna
