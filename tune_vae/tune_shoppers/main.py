@@ -88,7 +88,7 @@ if __name__ == '__main__':
 
     # Parámetros de entrenamiento
     args.epochs_latent = 500                                    # Épocas de pre-entrenamiento VAE
-    args.epochs_fine_tuning_latent = 200                        # Épocas de fine-tuning
+    args.epochs_fine_tuning_latent = 0                        # Épocas de fine-tuning
     args.batch_size = 4096                                       # Tamaño de batch
     args.seed = 0                                              # Semilla global
     args.encoding = 'ordinal'                                  # Esquema de codificación
