@@ -328,20 +328,6 @@ def load_reconstructed_data(json_config_path, checkpoint_path, random_state=0):
 
     return X_train_pre, y_train_pre, X_test_pre, y_test_pre
 
-
-MAX_BETA = 1e-2
-MIN_BETA = 1e-5
-LAMBDA = 0.7
-
-LR = 1e-3
-WD = 0
-D_TOKEN = 4
-TOKEN_BIAS = True
-
-N_HEAD = 1
-FACTOR = 32
-NUM_LAYERS = 2
-
 def reconstruct_data(
     x: str,
     y: str,
