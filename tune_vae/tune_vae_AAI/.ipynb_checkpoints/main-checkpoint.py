@@ -65,8 +65,13 @@ if __name__ == '__main__':
     class Args: pass
     args = Args()
 
+<<<<<<< HEAD
     dataset = 'default'
     metadata_path = '../../data/default/metadata.json'
+=======
+    dataset = 'magic_telescope'
+    metadata_path = '../../data/magic_telescope/metadata.json'
+>>>>>>> 7b7a2e6f6d4cbac5bc832f4d99ab5fa4182c3e04
     STATIC_SEED = 0
 
     # __file__ es la ruta (relativa o absoluta) del script actual
