@@ -186,6 +186,12 @@ def split_train_test_custom(config, base_dir, test_size=0.1, random_state=0):
     except FileNotFoundError:
         raise FileNotFoundError(f"Archivo de datos no encontrado: {data_file}")
     
+    # Eliminacion de posibles caracteres especiales
+    try:
+        df[target_col] = df[target_col].str.replace('.', '', regex=False)
+    except:
+        print("No se encontraron caracteres extranos en la columna target")
+    
     y = df[target_col].to_numpy()  
     X = df.drop(columns=[target_col]).to_numpy()
 
@@ -285,10 +291,13 @@ def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', 
     X_cat_test = cat_encoder.transform(X_cat_test)
 
     # 11. Codificación de la variable objetivo y_label_encoder
+    print("Datos unicos de y_train: ",np.unique(y_train))
+
     label_encoder = LabelEncoder()
     y_train_enc = label_encoder.fit_transform(y_train)
     y_test_enc = label_encoder.transform(y_test)
 
+    print("Datos unicos de y_train luego: ",np.unique(y_train_enc))
     # 12. Retornar datos preprocesados y encoders
     if concat:
         # Concatenar numéricas y categóricas
@@ -755,6 +764,9 @@ def evaluate_one_model(
     # Índice clase positiva
     classes = model.classes_
     pos_idx = int(np.where(classes == True)[0]) if True in classes else 1
+
+    print("Informacion de y_test:", y_test)
+    print("Informacion de y_proba:", y_proba[:, pos_idx])
 
     # Cálculo de métricas en test
     test_metrics = {

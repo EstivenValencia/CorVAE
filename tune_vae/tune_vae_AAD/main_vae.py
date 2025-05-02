@@ -86,7 +86,7 @@ if __name__ == '__main__':
     args.checkpoint_path = f'{root_dir_tune}/tune_{dataset}_AAC'                             # Carpeta de checkpoints
 
     # Parámetros de entrenamiento
-    args.epochs_latent = 700                                    # Épocas de pre-entrenamiento VAE
+    args.epochs_latent = 10                                    # Épocas de pre-entrenamiento VAE
     args.epochs_fine_tuning_latent = 0                        # Épocas de fine-tuning
     args.batch_size = 4096                                       # Tamaño de batch
     args.seed = 0                                              # Semilla global

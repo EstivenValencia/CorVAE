@@ -224,7 +224,7 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         num_scaler,  cat_encoder,
         label_encoder
                         ) = preprocessing(config, X_train, y_train, X_test, y_test, encoding=encoding, random_state=random_state)
-    
+
     categories = [len(set(X_cat_train[:, i])) for i in range(X_cat_train.shape[1])]
     num_classes = len(set(y_train_enc))
 
