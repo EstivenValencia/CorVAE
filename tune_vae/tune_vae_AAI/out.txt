@@ -1,2213 +1,384 @@
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-02 17:54:19,758] A new study created in memory with name: no-name-a7011a64-6bae-42e4-bf35-8c7dd6d2eddc
-No se encontraron caracteres extranos en la columna target
-Datos de train y test guardados en ../../data/default
-Datos unicos de y_train:  [0 1]
+[I 2025-05-02 19:00:07,070] A new study created in memory with name: no-name-360209e9-26a0-4bd1-bcd6-e086589f9d01
+Datos de train y test guardados en ../../data/magic_telescope
+Categoricas entrenamiento:  0
+Datos unicos de y_train:  ['g' 'h']
 Datos unicos de y_train luego:  [0 1]
 No se creó ClassifierHead (num_classes no proporcionado o <= 0).
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:05,  1.01it/s]
-100%|██████████| 7/7 [00:01<00:00,  8.31it/s]
-100%|██████████| 7/7 [00:01<00:00,  6.02it/s]
-Epoch 001/500 Train Loss: 2343.433442 (MSE:2318.889590, CE:2.440151, KLD:794.332680)  Val Loss: 5.705749 (MSE:3.805358, CE:1.871294, KLD:1.045629)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.96it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.29it/s]
-100%|██████████| 7/7 [00:00<00:00, 15.56it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.72it/s]
-Epoch 002/500 Train Loss: 74.327008 (MSE:70.256448, CE:1.922020, KLD:77.211201)  Val Loss: 6.844903 (MSE:5.224504, CE:1.595873, KLD:0.881345)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.84it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.00it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.27it/s]
-Epoch 003/500 Train Loss: 15.552036 (MSE:13.235028, CE:1.536294, KLD:28.056171)  Val Loss: 3.917494 (MSE:2.653757, CE:1.236347, KLD:0.984305)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.78it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 16.00it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.31it/s]
-Epoch 004/500 Train Loss: 8.999486 (MSE:7.446945, CE:1.081001, KLD:16.945561)  Val Loss: 1.811026 (MSE:0.906881, CE:0.870626, KLD:1.204546)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.93it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 13.35it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.38it/s]
-Epoch 005/500 Train Loss: 22.068839 (MSE:20.901984, CE:0.820501, KLD:12.446773)  Val Loss: 1.810092 (MSE:1.170261, CE:0.596951, KLD:1.540952)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.84it/s]
-100%|██████████| 7/7 [00:00<00:00, 18.71it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.37it/s]
-Epoch 006/500 Train Loss: 11.554439 (MSE:10.758456, CE:0.516307, KLD:10.050569)  Val Loss: 2.297966 (MSE:1.810374, CE:0.433651, KLD:1.938506)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.84it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.91it/s]
-Epoch 007/500 Train Loss: 7.168745 (MSE:6.523072, CE:0.362839, KLD:10.164072)  Val Loss: 4.839151 (MSE:4.481770, CE:0.295485, KLD:2.224366)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.80it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 16.15it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.38it/s]
-Epoch 008/500 Train Loss: 10.174446 (MSE:9.662429, CE:0.250979, KLD:9.380814)  Val Loss: 1.182684 (MSE:0.919169, CE:0.196468, KLD:2.409461)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.76it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 15.81it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.14it/s]
-Epoch 009/500 Train Loss: 5.481102 (MSE:4.712420, CE:0.173007, KLD:21.406526)  Val Loss: 0.634130 (MSE:0.432618, CE:0.129916, KLD:2.572904)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.82it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.13it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.87it/s]
-Epoch 010/500 Train Loss: 8.072061 (MSE:7.344134, CE:0.127981, KLD:21.560001)  Val Loss: 15.970073 (MSE:15.693422, CE:0.202721, KLD:2.656795)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.82it/s]
-100%|██████████| 7/7 [00:00<00:00, 18.97it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.84it/s]
-Epoch 011/500 Train Loss: 10.731864 (MSE:10.326772, CE:0.091326, KLD:11.275678)  Val Loss: 0.670675 (MSE:0.526240, CE:0.070341, KLD:2.662692)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.87it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.00it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.93it/s]
-Epoch 012/500 Train Loss: 5.662662 (MSE:5.414698, CE:0.089755, KLD:5.685512)  Val Loss: 1.409676 (MSE:1.264668, CE:0.071649, KLD:2.636315)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.84it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 15.77it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.28it/s]
-Epoch 013/500 Train Loss: 1.979706 (MSE:1.763132, CE:0.063479, KLD:5.501687)  Val Loss: 0.690107 (MSE:0.569450, CE:0.047184, KLD:2.640389)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.84it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 15.80it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.13it/s]
-Epoch 014/500 Train Loss: 16.980465 (MSE:16.773520, CE:0.064092, KLD:5.133639)  Val Loss: 0.394780 (MSE:0.288343, CE:0.032723, KLD:2.649023)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.85it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.92it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.78it/s]
-Epoch 015/500 Train Loss: 1.635132 (MSE:1.457212, CE:0.051687, KLD:4.536372)  Val Loss: 0.338131 (MSE:0.235717, CE:0.027588, KLD:2.688977)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.69it/s]
-100%|██████████| 7/7 [00:00<00:00, 18.41it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.37it/s]
-Epoch 016/500 Train Loss: 12.604997 (MSE:12.443151, CE:0.048435, KLD:4.075570)  Val Loss: 0.339280 (MSE:0.242778, CE:0.021796, KLD:2.684692)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.83it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 16.14it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.53it/s]
-Epoch 017/500 Train Loss: 3.671298 (MSE:3.525858, CE:0.037533, KLD:3.877791)  Val Loss: 0.420891 (MSE:0.325042, CE:0.021645, KLD:2.666641)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.91it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.29it/s]
-100%|██████████| 7/7 [00:00<00:00, 15.37it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.67it/s]
-Epoch 018/500 Train Loss: 5.060478 (MSE:4.933100, CE:0.032958, KLD:3.393162)  Val Loss: 1.321403 (MSE:1.227550, CE:0.019141, KLD:2.684892)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.60it/s]
-100%|██████████| 7/7 [00:00<00:00, 17.31it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.70it/s]
-Epoch 019/500 Train Loss: 3.657727 (MSE:3.522768, CE:0.043134, KLD:3.299890)  Val Loss: 0.406159 (MSE:0.313006, CE:0.018402, KLD:2.686267)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
-100%|██████████| 7/7 [00:00<00:00, 18.34it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.61it/s]
-Epoch 020/500 Train Loss: 1.646487 (MSE:1.530036, CE:0.027781, KLD:3.186517)  Val Loss: 0.621520 (MSE:0.525017, CE:0.021990, KLD:2.677754)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.68it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.14it/s]
-100%|██████████| 7/7 [00:00<00:00, 15.10it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.37it/s]
-Epoch 021/500 Train Loss: 1.214068 (MSE:1.104940, CE:0.022847, KLD:3.100638)  Val Loss: 0.693984 (MSE:0.605983, CE:0.014057, KLD:2.657307)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.78it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.01it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.84it/s]
-Epoch 022/500 Train Loss: 0.732930 (MSE:0.627673, CE:0.021185, KLD:3.021260)  Val Loss: 0.608502 (MSE:0.523661, CE:0.012271, KLD:2.607907)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:01,  3.13it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.70it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.50it/s]
-Epoch 023/500 Train Loss: 0.679709 (MSE:0.581715, CE:0.015893, KLD:2.950435)  Val Loss: 0.637361 (MSE:0.546695, CE:0.019553, KLD:2.555547)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.91it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 16.59it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.65it/s]
-Epoch 024/500 Train Loss: 0.552702 (MSE:0.457591, CE:0.014921, KLD:2.881750)  Val Loss: 0.374676 (MSE:0.289918, CE:0.012760, KLD:2.587336)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.70it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 15.67it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.25it/s]
-Epoch 025/500 Train Loss: 0.949930 (MSE:0.849044, CE:0.017081, KLD:3.011664)  Val Loss: 0.281794 (MSE:0.190877, CE:0.012539, KLD:2.816618)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.78it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.43it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.82it/s]
-Epoch 026/500 Train Loss: 0.810883 (MSE:0.706678, CE:0.015083, KLD:3.202746)  Val Loss: 0.543083 (MSE:0.442849, CE:0.018098, KLD:2.951676)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.88it/s]
-100%|██████████| 7/7 [00:00<00:00, 18.92it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.66it/s]
-Epoch 027/500 Train Loss: 2.544635 (MSE:2.426807, CE:0.026743, KLD:3.273274)  Val Loss: 0.257050 (MSE:0.162953, CE:0.010985, KLD:2.986727)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.67it/s]
-100%|██████████| 7/7 [00:00<00:00, 17.98it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.19it/s]
-Epoch 028/500 Train Loss: 0.697848 (MSE:0.592616, CE:0.015181, KLD:3.236132)  Val Loss: 0.232569 (MSE:0.141490, CE:0.008893, KLD:2.953469)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.76it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  9.91it/s]
-100%|██████████| 7/7 [00:00<00:00, 14.84it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.31it/s]
-Epoch 029/500 Train Loss: 0.861926 (MSE:0.756509, CE:0.017741, KLD:3.150803)  Val Loss: 0.219403 (MSE:0.130606, CE:0.008897, KLD:2.871345)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:01,  3.07it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.63it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.18it/s]
-Epoch 030/500 Train Loss: 1.069594 (MSE:0.966571, CE:0.018540, KLD:3.036060)  Val Loss: 0.267130 (MSE:0.182306, CE:0.007530, KLD:2.777684)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:01,  3.04it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.87it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.61it/s]
-Epoch 031/500 Train Loss: 0.833495 (MSE:0.735619, CE:0.016227, KLD:2.934180)  Val Loss: 0.192975 (MSE:0.110427, CE:0.007507, KLD:2.696714)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 15.75it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.52it/s]
-Epoch 032/500 Train Loss: 0.613804 (MSE:0.525903, CE:0.008760, KLD:2.844076)  Val Loss: 0.354533 (MSE:0.273005, CE:0.008488, KLD:2.624832)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.85it/s]
-100%|██████████| 7/7 [00:00<00:00, 18.74it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.64it/s]
-Epoch 033/500 Train Loss: 0.287344 (MSE:0.199385, CE:0.011003, KLD:2.765539)  Val Loss: 0.442568 (MSE:0.359099, CE:0.011992, KLD:2.568667)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.78it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 15.99it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.09it/s]
-Epoch 034/500 Train Loss: 1.248415 (MSE:1.161936, CE:0.011058, KLD:2.710377)  Val Loss: 0.189081 (MSE:0.112161, CE:0.006848, KLD:2.518170)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.70it/s]
-100%|██████████| 7/7 [00:00<00:00, 17.77it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.28it/s]
-Epoch 035/500 Train Loss: 0.408827 (MSE:0.319484, CE:0.015741, KLD:2.644989)  Val Loss: 0.216791 (MSE:0.140329, CE:0.007736, KLD:2.469785)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.85it/s]
-100%|██████████| 7/7 [00:00<00:00, 18.40it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.75it/s]
-Epoch 036/500 Train Loss: 0.360919 (MSE:0.281013, CE:0.007681, KLD:2.595522)  Val Loss: 0.187668 (MSE:0.113800, CE:0.006393, KLD:2.424822)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:01,  3.03it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.75it/s]
-100%|██████████| 7/7 [00:00<00:00, 16.04it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.92it/s]
-Epoch 037/500 Train Loss: 0.337411 (MSE:0.258273, CE:0.008121, KLD:2.552117)  Val Loss: 0.422999 (MSE:0.343084, CE:0.013487, KLD:2.387223)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.96it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.62it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.36it/s]
-Epoch 038/500 Train Loss: 0.395252 (MSE:0.315477, CE:0.009933, KLD:2.509857)  Val Loss: 0.181471 (MSE:0.110298, CE:0.005727, KLD:2.351890)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:01,  3.13it/s]
-100%|██████████| 7/7 [00:00<00:00, 20.44it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.58it/s]
-Epoch 039/500 Train Loss: 0.527446 (MSE:0.443535, CE:0.015122, KLD:2.472044)  Val Loss: 0.218156 (MSE:0.148022, CE:0.005766, KLD:2.313167)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.84it/s]
-100%|██████████| 7/7 [00:00<00:00, 18.98it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.88it/s]
-Epoch 040/500 Train Loss: 1.836811 (MSE:1.752278, CE:0.016984, KLD:2.427508)  Val Loss: 0.310041 (MSE:0.236381, CE:0.010227, KLD:2.279560)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.79it/s]
-100%|██████████| 7/7 [00:00<00:00, 18.99it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.96it/s]
-Epoch 041/500 Train Loss: 0.736037 (MSE:0.640987, CE:0.028544, KLD:2.389995)  Val Loss: 0.396310 (MSE:0.319298, CE:0.013639, KLD:2.277396)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.81it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.31it/s]
-100%|██████████| 7/7 [00:00<00:00, 15.27it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.68it/s]
-Epoch 042/500 Train Loss: 0.480894 (MSE:0.396003, CE:0.018503, KLD:2.385763)  Val Loss: 0.142890 (MSE:0.074079, CE:0.005206, KLD:2.285759)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.90it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.85it/s]
-Epoch 043/500 Train Loss: 0.302383 (MSE:0.226405, CE:0.009972, KLD:2.372014)  Val Loss: 0.792171 (MSE:0.710499, CE:0.018483, KLD:2.270793)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:01,  3.12it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.35it/s]
-Epoch 044/500 Train Loss: 0.246268 (MSE:0.166448, CE:0.014527, KLD:2.346406)  Val Loss: 0.145544 (MSE:0.078085, CE:0.005103, KLD:2.240891)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.75it/s]
-100%|██████████| 7/7 [00:00<00:00, 18.10it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.84it/s]
-Epoch 045/500 Train Loss: 0.338471 (MSE:0.263758, CE:0.009053, KLD:2.359631)  Val Loss: 0.474564 (MSE:0.401529, CE:0.008538, KLD:2.317827)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.64it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.46it/s]
-Epoch 046/500 Train Loss: 0.399614 (MSE:0.317627, CE:0.014970, KLD:2.408330)  Val Loss: 0.534741 (MSE:0.459000, CE:0.011355, KLD:2.313778)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.81it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 13.16it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.67it/s]
-Epoch 047/500 Train Loss: 0.161796 (MSE:0.086737, CE:0.008727, KLD:2.383725)  Val Loss: 0.212221 (MSE:0.144333, CE:0.004487, KLD:2.278438)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.69it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 15.75it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.08it/s]
-Epoch 048/500 Train Loss: 0.407187 (MSE:0.333723, CE:0.008168, KLD:2.346518)  Val Loss: 0.138509 (MSE:0.070894, CE:0.005241, KLD:2.241510)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.60it/s]
-100%|██████████| 7/7 [00:00<00:00, 17.25it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.91it/s]
-Epoch 049/500 Train Loss: 0.157238 (MSE:0.086342, CE:0.006725, KLD:2.306059)  Val Loss: 0.228449 (MSE:0.161856, CE:0.005391, KLD:2.199391)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.91it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.34it/s]
-100%|██████████| 7/7 [00:00<00:00, 15.25it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.63it/s]
-Epoch 050/500 Train Loss: 0.386621 (MSE:0.314293, CE:0.009253, KLD:2.266695)  Val Loss: 0.167689 (MSE:0.102823, CE:0.003949, KLD:2.189152)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.99it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.38it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.16it/s]
-Epoch 051/500 Train Loss: 0.348633 (MSE:0.269497, CE:0.016015, KLD:2.268357)  Val Loss: 0.188847 (MSE:0.116160, CE:0.009479, KLD:2.271484)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
-100%|██████████| 7/7 [00:00<00:00, 18.08it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.30it/s]
-Epoch 052/500 Train Loss: 0.458748 (MSE:0.363745, CE:0.022969, KLD:2.588648)  Val Loss: 0.192880 (MSE:0.103693, CE:0.010358, KLD:2.832859)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.78it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.06it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.94it/s]
-Epoch 053/500 Train Loss: 0.539345 (MSE:0.433596, CE:0.020951, KLD:3.047318)  Val Loss: 0.223737 (MSE:0.127859, CE:0.009921, KLD:3.088992)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.93it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.19it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.06it/s]
-Epoch 054/500 Train Loss: 0.227991 (MSE:0.126241, CE:0.012629, KLD:3.202707)  Val Loss: 0.243727 (MSE:0.151349, CE:0.005496, KLD:3.122255)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.95it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.00it/s]
-Epoch 055/500 Train Loss: 1.097773 (MSE:0.985624, CE:0.024013, KLD:3.167304)  Val Loss: 0.153638 (MSE:0.064000, CE:0.004917, KLD:3.044554)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.82it/s]
-100%|██████████| 7/7 [00:00<00:00, 18.85it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.90it/s]
-Epoch 056/500 Train Loss: 0.740659 (MSE:0.637535, CE:0.018361, KLD:3.046129)  Val Loss: 0.153442 (MSE:0.068140, CE:0.004289, KLD:2.911316)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.79it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 16.06it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.34it/s]
-Epoch 057/500 Train Loss: 0.210791 (MSE:0.124183, CE:0.005669, KLD:2.908686)  Val Loss: 0.169239 (MSE:0.088752, CE:0.003182, KLD:2.778080)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.54it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  9.30it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.34it/s]
-Epoch 058/500 Train Loss: 0.305483 (MSE:0.217777, CE:0.010250, KLD:2.783510)  Val Loss: 0.312189 (MSE:0.233633, CE:0.004246, KLD:2.670471)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.84it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.07it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.67it/s]
-Epoch 059/500 Train Loss: 0.483103 (MSE:0.431258, CE:0.014426, KLD:2.689432)  Val Loss: 0.280094 (MSE:0.238590, CE:0.005190, KLD:2.610003)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.89it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.55it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.04it/s]
-Epoch 060/500 Train Loss: 0.508047 (MSE:0.455788, CE:0.015493, KLD:2.642452)  Val Loss: 0.429244 (MSE:0.379886, CE:0.013470, KLD:2.579426)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.92it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 13.50it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.57it/s]
-Epoch 061/500 Train Loss: 0.144227 (MSE:0.102751, CE:0.005058, KLD:2.617459)  Val Loss: 0.182967 (MSE:0.144618, CE:0.002684, KLD:2.563339)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.94it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.64it/s]
-Epoch 062/500 Train Loss: 0.138671 (MSE:0.097677, CE:0.004794, KLD:2.601855)  Val Loss: 0.239948 (MSE:0.202011, CE:0.002425, KLD:2.552303)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:01,  3.03it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.85it/s]
-No hubo mejora en 15 épocas. Early stopping en epoch 63.
-Training time: 61.23 seconds
-
---- Starting Stage 2: Supervised Fine-tuning ---
-Creando ClassifierHead con input_dim=8 y num_classes=2
-Fine-tuning model architecture:
-ModelVAE(
-  (VAE): VAE(
-    (Tokenizer): Tokenizer(
-      (categorical_embeddings): Embedding(77, 8)
-    )
-    (encoder_mu): Transformer(
-      (layers): ModuleList(
-        (0): ModuleDict(
-          (attention): MultiheadAttention(
-            (W_q): Linear(in_features=8, out_features=8, bias=True)
-            (W_k): Linear(in_features=8, out_features=8, bias=True)
-            (W_v): Linear(in_features=8, out_features=8, bias=True)
-          )
-          (linear0): Linear(in_features=8, out_features=128, bias=True)
-          (linear1): Linear(in_features=128, out_features=8, bias=True)
-          (norm1): LayerNorm((8,), eps=1e-05, elementwise_affine=True)
-        )
-      )
-      (activation): ReLU()
-      (last_activation): ReLU()
-      (last_normalization): LayerNorm((8,), eps=1e-05, elementwise_affine=True)
-      (head): Linear(in_features=8, out_features=8, bias=True)
-    )
-    (encoder_logvar): Transformer(
-      (layers): ModuleList(
-        (0): ModuleDict(
-          (attention): MultiheadAttention(
-            (W_q): Linear(in_features=8, out_features=8, bias=True)
-            (W_k): Linear(in_features=8, out_features=8, bias=True)
-            (W_v): Linear(in_features=8, out_features=8, bias=True)
-          )
-          (linear0): Linear(in_features=8, out_features=128, bias=True)
-          (linear1): Linear(in_features=128, out_features=8, bias=True)
-          (norm1): LayerNorm((8,), eps=1e-05, elementwise_affine=True)
-        )
-      )
-      (activation): ReLU()
-      (last_activation): ReLU()
-      (last_normalization): LayerNorm((8,), eps=1e-05, elementwise_affine=True)
-      (head): Linear(in_features=8, out_features=8, bias=True)
-    )
-    (decoder): Transformer(
-      (layers): ModuleList(
-        (0): ModuleDict(
-          (attention): MultiheadAttention(
-            (W_q): Linear(in_features=8, out_features=8, bias=True)
-            (W_k): Linear(in_features=8, out_features=8, bias=True)
-            (W_v): Linear(in_features=8, out_features=8, bias=True)
-          )
-          (linear0): Linear(in_features=8, out_features=128, bias=True)
-          (linear1): Linear(in_features=128, out_features=8, bias=True)
-          (norm1): LayerNorm((8,), eps=1e-05, elementwise_affine=True)
-        )
-      )
-      (activation): ReLU()
-      (last_activation): ReLU()
-      (last_normalization): LayerNorm((8,), eps=1e-05, elementwise_affine=True)
-      (head): Linear(in_features=8, out_features=8, bias=True)
-    )
-  )
-  (Reconstructor): Reconstructor(
-    (cat_recons): ModuleList(
-      (0): Linear(in_features=8, out_features=2, bias=True)
-      (1): Linear(in_features=8, out_features=7, bias=True)
-      (2): Linear(in_features=8, out_features=4, bias=True)
-      (3-6): 4 x Linear(in_features=8, out_features=11, bias=True)
-      (7-8): 2 x Linear(in_features=8, out_features=10, bias=True)
-    )
-  )
-  (classifier): ClassifierHead(
-    (norm): LayerNorm((8,), eps=1e-05, elementwise_affine=True)
-    (dropout): Dropout(p=0.3, inplace=False)
-    (fc): Linear(in_features=8, out_features=2, bias=True)
-  )
-)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.78it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.95it/s]
-Stage 2 - Epoch 1: Val loss improved to 0.372016. Saving fine-tuned model...
-Stage 2 - Epoch 001/200 | Beta: 1.39e-02 | Alpha: 0.50 | Loss: 0.5885 (MSE:0.2146, CE:0.0053, KLD:2.3228, ClassL:0.6724) | Val Loss: 0.3720 (MSE:0.0665, CE:0.0040, KLD:2.2430, ClassL:0.5406)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.83it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.30it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.91it/s]
-Stage 2 - Epoch 2: Val loss did not improve (0.424003 vs best 0.372016). Patience: 1/10
-Stage 2 - Epoch 002/200 | Beta: 1.39e-02 | Alpha: 0.50 | Loss: 0.4605 (MSE:0.0889, CE:0.0057, KLD:2.3231, ClassL:0.6671) | Val Loss: 0.4240 (MSE:0.1185, CE:0.0040, KLD:2.2445, ClassL:0.5406)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.75it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.19it/s]
-100%|██████████| 7/7 [00:00<00:00, 15.03it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.31it/s]
-Stage 2 - Epoch 3: Val loss improved to 0.370861. Saving fine-tuned model...
-Stage 2 - Epoch 003/200 | Beta: 1.39e-02 | Alpha: 0.50 | Loss: 0.5832 (MSE:0.2043, CE:0.0105, KLD:2.3242, ClassL:0.6720) | Val Loss: 0.3709 (MSE:0.0647, CE:0.0045, KLD:2.2458, ClassL:0.5407)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.94it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 16.79it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.72it/s]
-Stage 2 - Epoch 4: Val loss did not improve (0.484404 vs best 0.370861). Patience: 1/10
-Stage 2 - Epoch 004/200 | Beta: 1.39e-02 | Alpha: 0.50 | Loss: 0.6769 (MSE:0.3009, CE:0.0084, KLD:2.3250, ClassL:0.6707) | Val Loss: 0.4844 (MSE:0.1777, CE:0.0051, KLD:2.2471, ClassL:0.5407)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:01,  3.02it/s]
-100%|██████████| 7/7 [00:00<00:00, 20.09it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.51it/s]
-Stage 2 - Epoch 5: Val loss did not improve (0.970579 vs best 0.370861). Patience: 2/10
-Stage 2 - Epoch 005/200 | Beta: 1.39e-02 | Alpha: 0.50 | Loss: 0.6000 (MSE:0.2225, CE:0.0103, KLD:2.3258, ClassL:0.6695) | Val Loss: 0.9706 (MSE:0.6591, CE:0.0099, KLD:2.2483, ClassL:0.5405)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.86it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 16.27it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.50it/s]
-Stage 2 - Epoch 6: Val loss did not improve (0.415096 vs best 0.370861). Patience: 3/10
-Stage 2 - Epoch 006/200 | Beta: 1.39e-02 | Alpha: 0.50 | Loss: 0.5457 (MSE:0.1752, CE:0.0061, KLD:2.3262, ClassL:0.6640) | Val Loss: 0.4151 (MSE:0.1094, CE:0.0042, KLD:2.2493, ClassL:0.5404)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.66it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 15.11it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.82it/s]
-Stage 2 - Epoch 7: Val loss did not improve (0.435900 vs best 0.370861). Patience: 4/10
-Stage 2 - Epoch 007/200 | Beta: 1.39e-02 | Alpha: 0.50 | Loss: 0.5051 (MSE:0.1341, CE:0.0089, KLD:2.3266, ClassL:0.6594) | Val Loss: 0.4359 (MSE:0.1293, CE:0.0052, KLD:2.2503, ClassL:0.5403)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.88it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.20it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.08it/s]
-Stage 2 - Epoch 8: Val loss did not improve (0.570519 vs best 0.370861). Patience: 5/10
-Stage 2 - Epoch 008/200 | Beta: 1.39e-02 | Alpha: 0.50 | Loss: 0.6321 (MSE:0.2605, CE:0.0097, KLD:2.3273, ClassL:0.6590) | Val Loss: 0.5705 (MSE:0.2642, CE:0.0049, KLD:2.2515, ClassL:0.5402)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.75it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 15.78it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.78it/s]
-Stage 2 - Epoch 9: Val loss did not improve (0.391109 vs best 0.370861). Patience: 6/10
-Stage 2 - Epoch 009/200 | Beta: 1.39e-02 | Alpha: 0.50 | Loss: 0.5916 (MSE:0.2166, CE:0.0128, KLD:2.3282, ClassL:0.6594) | Val Loss: 0.3911 (MSE:0.0855, CE:0.0042, KLD:2.2528, ClassL:0.5401)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.82it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 16.06it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.47it/s]
-Stage 2 - Epoch 10: Val loss did not improve (0.398841 vs best 0.370861). Patience: 7/10
-Stage 2 - Epoch 010/200 | Beta: 1.39e-02 | Alpha: 0.50 | Loss: 0.4671 (MSE:0.0983, CE:0.0074, KLD:2.3289, ClassL:0.6580) | Val Loss: 0.3988 (MSE:0.0925, CE:0.0050, KLD:2.2539, ClassL:0.5401)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.70it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  9.66it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.75it/s]
-Stage 2 - Epoch 11: Val loss did not improve (0.466574 vs best 0.370861). Patience: 8/10
-Stage 2 - Epoch 011/200 | Beta: 1.39e-02 | Alpha: 0.50 | Loss: 0.8012 (MSE:0.4262, CE:0.0149, KLD:2.3295, ClassL:0.6553) | Val Loss: 0.4666 (MSE:0.1611, CE:0.0041, KLD:2.2549, ClassL:0.5400)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.80it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 16.16it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.57it/s]
-Stage 2 - Epoch 12: Val loss did not improve (0.372005 vs best 0.370861). Patience: 9/10
-Stage 2 - Epoch 012/200 | Beta: 1.39e-02 | Alpha: 0.50 | Loss: 0.8220 (MSE:0.4489, CE:0.0117, KLD:2.3300, ClassL:0.6580) | Val Loss: 0.3720 (MSE:0.0664, CE:0.0043, KLD:2.2561, ClassL:0.5399)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.86it/s]
-100%|██████████| 7/7 [00:00<00:00, 19.20it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.54it/s]
-Stage 2 - Epoch 13: Val loss did not improve (0.376839 vs best 0.370861). Patience: 10/10
-Early stopping fine-tuning.
---- Stage 2 Finished. Best fine-tuning validation loss: 0.370861 ---
-Successfully saved best encoder, decoder, and latent embeddings!
---- Iniciando reconstrucción de datos ---
-Objetos de preprocesamiento cargados.
-Pasando datos latentes a través del decoder...
-Detectado token CLS en el espacio latente, eliminándolo para el decoder.
-Reconstrucción completada. Invirtiendo transformaciones...
-Normalización numérica invertida.
-Codificación de la variable objetivo invertida.
-Codificación categórica invertida.
---- Reconstrucción finalizada ---
-Combinando en un DataFrame de Pandas.
-Datos unicos de y_train:  [0 1]
-Datos unicos de y_train luego:  [0 1]
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-[I 2025-05-02 17:55:42,652] Trial 0 finished with value: 0.6554496023477471 and parameters: {'max_beta': 0.027826803674433895, 'min_beta': 4.064001739537899e-06, 'lambda_': 0.5, 'lr_pretrain': 0.0035661104120919608, 'wd_pretrain': 0.0001, 'd_token': 8, 'n_head': 1, 'factor': 16, 'num_layers': 1, 'dropout_ft': 0.2, 'alpha_ft': 0.5, 'lr_ft': 1.0572802102474729e-05, 'wd_ft': 0.001}. Best is trial 0 with value: 0.6554496023477471.
-Informacion de y_test: [0 0 0 ... 0 0 0]
-Informacion de y_proba: [0.89188695 0.5023925  0.9275192  ... 0.73340046 0.5127095  0.11071774]
-Datos unicos de y_train:  [0 1]
-Datos unicos de y_train luego:  [0 1]
-No se creó ClassifierHead (num_classes no proporcionado o <= 0).
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.57it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.95it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.92it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.49it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.63it/s]
-Epoch 001/500 Train Loss: 2420659.958551 (MSE:2406045.513665, CE:13.151508, KLD:587281.049999)  Val Loss: 16432740.000000 (MSE:16126490.000000, CE:179.928406, KLD:12310550.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.70it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.10it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.62it/s]
-Epoch 002/500 Train Loss: 518072.020863 (MSE:504194.457483, CE:9.266532, KLD:557800.890020)  Val Loss: 49709928.000000 (MSE:49409208.000000, CE:407.147522, KLD:12078894.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.72it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.31it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.11it/s]
-Epoch 003/500 Train Loss: 42369.150907 (MSE:28994.810535, CE:3.425346, KLD:537796.272712)  Val Loss: 149642960.000000 (MSE:149353568.000000, CE:360.737335, KLD:11624764.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.60it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.96it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.02it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.77it/s]
-Epoch 004/500 Train Loss: 1816429.299171 (MSE:1803484.858806, CE:10.093970, KLD:520239.865714)  Val Loss: 124266392.000000 (MSE:123986736.000000, CE:154.371262, KLD:11241913.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.65it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.01it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.91it/s]
-Epoch 005/500 Train Loss: 4452737.011064 (MSE:4440516.352771, CE:14.515830, KLD:490940.891579)  Val Loss: 2953772.500000 (MSE:2687712.250000, CE:47.733704, KLD:10699387.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.26it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.97it/s]
-Epoch 006/500 Train Loss: 2663814.789170 (MSE:2652060.822938, CE:22.403312, KLD:471853.631516)  Val Loss: 16240063.000000 (MSE:15991879.000000, CE:154.137421, KLD:9976098.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.53it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.87it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.18it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.32it/s]
-Epoch 007/500 Train Loss: 478974.392048 (MSE:468301.592975, CE:5.782217, KLD:429042.989933)  Val Loss: 14236886.000000 (MSE:13998388.000000, CE:126.734917, KLD:9587617.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.66it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.97it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.62it/s]
-Epoch 008/500 Train Loss: 102302.285796 (MSE:92037.286298, CE:4.815977, KLD:412678.574346)  Val Loss: 23398040.000000 (MSE:23164698.000000, CE:154.975601, KLD:9379128.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.66it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.61it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.75it/s]
-Epoch 009/500 Train Loss: 272635.485754 (MSE:262508.995731, CE:5.189279, KLD:407092.766833)  Val Loss: 32154450.000000 (MSE:31924262.000000, CE:243.753250, KLD:9248633.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.64it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.03it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.76it/s]
-Epoch 010/500 Train Loss: 849525.383858 (MSE:839569.892950, CE:5.916932, KLD:400184.272087)  Val Loss: 26169086.000000 (MSE:25942490.000000, CE:75.846565, KLD:9110948.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.66it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.68it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.70it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.89it/s]
-Epoch 011/500 Train Loss: 424678.088003 (MSE:414904.057059, CE:6.158507, KLD:392877.117636)  Val Loss: 9805637.000000 (MSE:9581869.000000, CE:55.741135, KLD:8998006.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.63it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.94it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.82it/s]
-Epoch 012/500 Train Loss: 259547.169803 (MSE:249937.190411, CE:6.010283, KLD:386284.635234)  Val Loss: 57593668.000000 (MSE:57371448.000000, CE:267.995270, KLD:8927184.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.68it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.27it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.15it/s]
-Epoch 013/500 Train Loss: 1718704.513815 (MSE:1709174.686672, CE:14.369495, KLD:382722.076646)  Val Loss: 8559784.000000 (MSE:8341563.000000, CE:86.752426, KLD:8773659.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.46it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  8.85it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 11.06it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.82it/s]
-Epoch 014/500 Train Loss: 779181.337911 (MSE:769934.200477, CE:11.427325, KLD:371470.482003)  Val Loss: 3729589.500000 (MSE:3515644.250000, CE:36.556149, KLD:8603702.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.59it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.69it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.60it/s]
-Epoch 015/500 Train Loss: 309614.176359 (MSE:300558.332954, CE:7.925471, KLD:363919.183628)  Val Loss: 5785260.000000 (MSE:5574734.000000, CE:72.239563, KLD:8464744.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.90it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.78it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.26it/s]
-Epoch 016/500 Train Loss: 75092.692709 (MSE:67053.078721, CE:3.580572, KLD:359133.665935)  Val Loss: 9998583.000000 (MSE:9810993.000000, CE:56.771473, KLD:8380935.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.79it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.29it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.24it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.89it/s]
-Epoch 017/500 Train Loss: 2478924.227308 (MSE:2471000.584097, CE:10.920367, KLD:353626.919896)  Val Loss: 1353300.125000 (MSE:1168305.625000, CE:31.571032, KLD:8266062.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.77it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.35it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.06it/s]
-Epoch 018/500 Train Loss: 388666.163113 (MSE:381035.293048, CE:7.479572, KLD:340691.173011)  Val Loss: 4040171.250000 (MSE:3863773.500000, CE:52.515633, KLD:7880936.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.38it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.25it/s]
-Epoch 019/500 Train Loss: 621017.893025 (MSE:613761.263953, CE:12.390857, KLD:323748.251303)  Val Loss: 19246196.000000 (MSE:19074316.000000, CE:95.103851, KLD:7677103.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.97it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.03it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.70it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.69it/s]
-Epoch 020/500 Train Loss: 853079.272591 (MSE:845921.866761, CE:11.321330, KLD:319362.795793)  Val Loss: 21035596.000000 (MSE:20867256.000000, CE:147.676514, KLD:7516565.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.65it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.88it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.64it/s]
-Epoch 021/500 Train Loss: 278713.121718 (MSE:271802.529106, CE:9.150878, KLD:308428.076508)  Val Loss: 2428640.000000 (MSE:2262520.500000, CE:53.959431, KLD:7421533.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.23it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.09it/s]
-Epoch 022/500 Train Loss: 60194.236178 (MSE:53436.078574, CE:3.886233, KLD:301851.146150)  Val Loss: 9486614.000000 (MSE:9321597.000000, CE:125.596786, KLD:7369049.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.86it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.97it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.08it/s]
-Epoch 023/500 Train Loss: 1059952.266927 (MSE:1053235.369252, CE:11.948756, KLD:299648.676925)  Val Loss: 20020450.000000 (MSE:19857570.000000, CE:107.688690, KLD:7274384.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.58it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.77it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.61it/s]
-Epoch 024/500 Train Loss: 272192.485186 (MSE:265617.179835, CE:4.996019, KLD:293629.549462)  Val Loss: 356949.375000 (MSE:196185.140625, CE:15.849415, KLD:7183909.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.76it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.86it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.31it/s]
-Epoch 025/500 Train Loss: 600918.439061 (MSE:594445.587236, CE:12.242444, KLD:288725.860858)  Val Loss: 32395812.000000 (MSE:32236438.000000, CE:210.096146, KLD:7113079.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.64it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.07it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.83it/s]
-Epoch 026/500 Train Loss: 52111.871503 (MSE:45710.803141, CE:3.910443, KLD:285891.390440)  Val Loss: 7558303.000000 (MSE:7400765.000000, CE:69.022156, KLD:7037348.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.50it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.52it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.21it/s]
-Epoch 027/500 Train Loss: 1238272.699974 (MSE:1231925.934976, CE:18.465167, KLD:282813.094704)  Val Loss: 209569.421875 (MSE:55024.761719, CE:5.868834, KLD:6906399.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.59it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  9.75it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.15it/s]
-Epoch 028/500 Train Loss: 1762210.409089 (MSE:1755994.372825, CE:10.429950, KLD:277332.567296)  Val Loss: 17162054.000000 (MSE:17013218.000000, CE:112.970123, KLD:6646527.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.82it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.61it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.14it/s]
-Epoch 029/500 Train Loss: 1189338.211556 (MSE:1183386.792125, CE:6.443595, KLD:265682.054272)  Val Loss: 1671263.000000 (MSE:1527656.000000, CE:47.582645, KLD:6415726.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.51it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.80it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.84it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.41it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.55it/s]
-Epoch 030/500 Train Loss: 229573.759113 (MSE:223956.726074, CE:6.038952, KLD:250758.082563)  Val Loss: 49227616.000000 (MSE:49086368.000000, CE:239.867813, KLD:6301618.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.68it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.99it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.83it/s]
-Epoch 031/500 Train Loss: 414237.586156 (MSE:408655.138837, CE:7.092851, KLD:249164.804860)  Val Loss: 1566319.250000 (MSE:1427634.500000, CE:44.407757, KLD:6195895.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.83it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.35it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.26it/s]
-Epoch 032/500 Train Loss: 51516.339790 (MSE:46075.923840, CE:4.206031, KLD:242946.369730)  Val Loss: 4993443.500000 (MSE:4855987.000000, CE:82.051186, KLD:6139326.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.48it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.70it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.73it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.31it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.45it/s]
-Epoch 033/500 Train Loss: 152905.076231 (MSE:147502.614036, CE:6.650936, KLD:241141.054502)  Val Loss: 68003928.000000 (MSE:67867256.000000, CE:205.464462, KLD:6098723.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.72it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.23it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.10it/s]
-Epoch 034/500 Train Loss: 378248.616062 (MSE:372904.077476, CE:8.505583, KLD:238469.682333)  Val Loss: 3110055.750000 (MSE:2974195.500000, CE:43.293541, KLD:6069712.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.64it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.99it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.48it/s]
-Epoch 035/500 Train Loss: 16950.148026 (MSE:11663.629369, CE:3.730689, KLD:236089.860724)  Val Loss: 1448456.875000 (MSE:1313242.500000, CE:35.781940, KLD:6041185.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.49it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.76it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.90it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.56it/s]
-Epoch 036/500 Train Loss: 243055.995495 (MSE:237791.755381, CE:6.020560, KLD:234992.065542)  Val Loss: 32835230.000000 (MSE:32700478.000000, CE:100.022072, KLD:6017610.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.77it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.48it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.15it/s]
-Epoch 037/500 Train Loss: 656057.450357 (MSE:650819.744008, CE:5.346385, KLD:233833.292988)  Val Loss: 37570036.000000 (MSE:37436664.000000, CE:171.130920, KLD:5952692.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.67it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.14it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.92it/s]
-Epoch 038/500 Train Loss: 1574566.499610 (MSE:1569930.389553, CE:10.109310, KLD:229711.692900)  Val Loss: 186801.906250 (MSE:70483.507812, CE:9.989750, KLD:5775409.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.49it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.78it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.85it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.52it/s]
-Epoch 039/500 Train Loss: 421092.167865 (MSE:416631.811153, CE:7.288037, KLD:221122.594366)  Val Loss: 577526.937500 (MSE:463932.750000, CE:28.733206, KLD:5639205.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.70it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.28it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.81it/s]
-Epoch 040/500 Train Loss: 130646.677563 (MSE:126292.630751, CE:6.489575, KLD:215882.295135)  Val Loss: 5755574.000000 (MSE:5643523.000000, CE:51.397449, KLD:5561456.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.17it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.97it/s]
-Epoch 041/500 Train Loss: 253383.958255 (MSE:249128.687312, CE:4.590920, KLD:211071.588592)  Val Loss: 532167.062500 (MSE:421054.500000, CE:19.815073, KLD:5516420.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.32it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.36it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.95it/s]
-Epoch 042/500 Train Loss: 14155.738939 (MSE:9925.521108, CE:3.460929, KLD:209883.822968)  Val Loss: 2670450.500000 (MSE:2559910.750000, CE:41.713554, KLD:5486882.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.46it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.49it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.52it/s]
-Epoch 043/500 Train Loss: 1416010.794668 (MSE:1411817.538702, CE:10.013769, KLD:207719.384189)  Val Loss: 71455216.000000 (MSE:71346568.000000, CE:292.342560, KLD:5380461.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.69it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.21it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.94it/s]
-Epoch 044/500 Train Loss: 16470.338771 (MSE:12424.795023, CE:3.047796, KLD:200734.200114)  Val Loss: 14960642.000000 (MSE:14854174.000000, CE:104.361015, KLD:5281592.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.60it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.00it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.19it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.25it/s]
-Epoch 045/500 Train Loss: 359412.952707 (MSE:355394.764250, CE:4.981724, KLD:199278.862054)  Val Loss: 3712298.500000 (MSE:3607347.250000, CE:67.640762, KLD:5208098.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.67it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.21it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.81it/s]
-Epoch 046/500 Train Loss: 14014.816997 (MSE:10070.966591, CE:2.982761, KLD:195687.669593)  Val Loss: 3346678.500000 (MSE:3242494.000000, CE:36.704750, KLD:5171563.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.32it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.01it/s]
-Epoch 047/500 Train Loss: 523109.226802 (MSE:519209.820040, CE:5.627923, KLD:193349.959066)  Val Loss: 4625555.000000 (MSE:4522053.500000, CE:34.194653, KLD:5137792.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.58it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.97it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 12.84it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.68it/s]
-Epoch 048/500 Train Loss: 12163.507510 (MSE:8324.625841, CE:3.375403, KLD:190455.900408)  Val Loss: 20280578.000000 (MSE:20177632.000000, CE:117.149170, KLD:5105984.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.22it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.15it/s]
-Epoch 049/500 Train Loss: 634401.568336 (MSE:630971.602832, CE:6.550639, KLD:188881.074120)  Val Loss: 4785551.500000 (MSE:4693640.500000, CE:64.383125, KLD:5067486.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.33it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.75it/s]
-Epoch 050/500 Train Loss: 234336.771052 (MSE:230937.148879, CE:6.034453, KLD:187235.554680)  Val Loss: 23251604.000000 (MSE:23160862.000000, CE:143.304092, KLD:4998544.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.39it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  9.19it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.96it/s]
-Epoch 051/500 Train Loss: 378073.824206 (MSE:374565.172528, CE:5.540981, KLD:193277.689099)  Val Loss: 8782790.000000 (MSE:8692846.000000, CE:89.134903, KLD:4957607.500000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.57it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.75it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.87it/s]
-Epoch 052/500 Train Loss: 242008.369972 (MSE:238510.057707, CE:6.323615, KLD:192665.375648)  Val Loss: 12738385.000000 (MSE:12649293.000000, CE:152.996582, KLD:4907087.000000)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  9.72it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.34it/s]
-No hubo mejora en 15 épocas. Early stopping en epoch 53.
-Training time: 57.51 seconds
-
---- Starting Stage 2: Supervised Fine-tuning ---
-Creando ClassifierHead con input_dim=4 y num_classes=2
-Fine-tuning model architecture:
-ModelVAE(
-  (VAE): VAE(
-    (Tokenizer): Tokenizer(
-      (categorical_embeddings): Embedding(77, 4)
-    )
-    (encoder_mu): Transformer(
-      (layers): ModuleList(
-        (0): ModuleDict(
-          (attention): MultiheadAttention(
-            (W_q): Linear(in_features=4, out_features=4, bias=True)
-            (W_k): Linear(in_features=4, out_features=4, bias=True)
-            (W_v): Linear(in_features=4, out_features=4, bias=True)
-            (W_out): Linear(in_features=4, out_features=4, bias=True)
-          )
-          (linear0): Linear(in_features=4, out_features=64, bias=True)
-          (linear1): Linear(in_features=64, out_features=4, bias=True)
-          (norm1): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-        )
-        (1): ModuleDict(
-          (attention): MultiheadAttention(
-            (W_q): Linear(in_features=4, out_features=4, bias=True)
-            (W_k): Linear(in_features=4, out_features=4, bias=True)
-            (W_v): Linear(in_features=4, out_features=4, bias=True)
-            (W_out): Linear(in_features=4, out_features=4, bias=True)
-          )
-          (linear0): Linear(in_features=4, out_features=64, bias=True)
-          (linear1): Linear(in_features=64, out_features=4, bias=True)
-          (norm1): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-          (norm0): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-        )
-      )
-      (activation): ReLU()
-      (last_activation): ReLU()
-      (last_normalization): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-      (head): Linear(in_features=4, out_features=4, bias=True)
-    )
-    (encoder_logvar): Transformer(
-      (layers): ModuleList(
-        (0): ModuleDict(
-          (attention): MultiheadAttention(
-            (W_q): Linear(in_features=4, out_features=4, bias=True)
-            (W_k): Linear(in_features=4, out_features=4, bias=True)
-            (W_v): Linear(in_features=4, out_features=4, bias=True)
-            (W_out): Linear(in_features=4, out_features=4, bias=True)
-          )
-          (linear0): Linear(in_features=4, out_features=64, bias=True)
-          (linear1): Linear(in_features=64, out_features=4, bias=True)
-          (norm1): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-        )
-        (1): ModuleDict(
-          (attention): MultiheadAttention(
-            (W_q): Linear(in_features=4, out_features=4, bias=True)
-            (W_k): Linear(in_features=4, out_features=4, bias=True)
-            (W_v): Linear(in_features=4, out_features=4, bias=True)
-            (W_out): Linear(in_features=4, out_features=4, bias=True)
-          )
-          (linear0): Linear(in_features=4, out_features=64, bias=True)
-          (linear1): Linear(in_features=64, out_features=4, bias=True)
-          (norm1): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-          (norm0): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-        )
-      )
-      (activation): ReLU()
-      (last_activation): ReLU()
-      (last_normalization): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-      (head): Linear(in_features=4, out_features=4, bias=True)
-    )
-    (decoder): Transformer(
-      (layers): ModuleList(
-        (0): ModuleDict(
-          (attention): MultiheadAttention(
-            (W_q): Linear(in_features=4, out_features=4, bias=True)
-            (W_k): Linear(in_features=4, out_features=4, bias=True)
-            (W_v): Linear(in_features=4, out_features=4, bias=True)
-            (W_out): Linear(in_features=4, out_features=4, bias=True)
-          )
-          (linear0): Linear(in_features=4, out_features=64, bias=True)
-          (linear1): Linear(in_features=64, out_features=4, bias=True)
-          (norm1): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-        )
-        (1): ModuleDict(
-          (attention): MultiheadAttention(
-            (W_q): Linear(in_features=4, out_features=4, bias=True)
-            (W_k): Linear(in_features=4, out_features=4, bias=True)
-            (W_v): Linear(in_features=4, out_features=4, bias=True)
-            (W_out): Linear(in_features=4, out_features=4, bias=True)
-          )
-          (linear0): Linear(in_features=4, out_features=64, bias=True)
-          (linear1): Linear(in_features=64, out_features=4, bias=True)
-          (norm1): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-          (norm0): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-        )
-      )
-      (activation): ReLU()
-      (last_activation): ReLU()
-      (last_normalization): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-      (head): Linear(in_features=4, out_features=4, bias=True)
-    )
-  )
-  (Reconstructor): Reconstructor(
-    (cat_recons): ModuleList(
-      (0): Linear(in_features=4, out_features=2, bias=True)
-      (1): Linear(in_features=4, out_features=7, bias=True)
-      (2): Linear(in_features=4, out_features=4, bias=True)
-      (3-6): 4 x Linear(in_features=4, out_features=11, bias=True)
-      (7-8): 2 x Linear(in_features=4, out_features=10, bias=True)
-    )
-  )
-  (classifier): ClassifierHead(
-    (norm): LayerNorm((4,), eps=1e-05, elementwise_affine=True)
-    (dropout): Dropout(p=0.3, inplace=False)
-    (fc): Linear(in_features=4, out_features=2, bias=True)
-  )
-)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.77it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.39it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.89it/s]
-Stage 2 - Epoch 1: Val loss improved to 8448397.000000. Saving fine-tuned model...
-Stage 2 - Epoch 001/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 1273594.3291 (MSE:1269710.3806, CE:5.1956, KLD:213986.9408, ClassL:0.5701) | Val Loss: 8448397.0000 (MSE:8349192.5000, CE:83.7579, KLD:5468816.5000, ClassL:0.5403)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.69it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.01it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.80it/s]
-Stage 2 - Epoch 2: Val loss did not improve (45765904.000000 vs best 8448397.000000). Patience: 1/10
-Stage 2 - Epoch 002/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 24108.1813 (MSE:20325.5123, CE:4.1448, KLD:208458.2096, ClassL:0.5670) | Val Loss: 45765904.0000 (MSE:45669084.0000, CE:218.2907, KLD:5329841.5000, ClassL:0.5397)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.25it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.90it/s]
-Stage 2 - Epoch 3: Val loss improved to 4566792.500000. Saving fine-tuned model...
-Stage 2 - Epoch 003/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 607874.7908 (MSE:604216.9165, CE:6.7817, KLD:201427.2284, ClassL:0.5657) | Val Loss: 4566792.5000 (MSE:4471612.5000, CE:51.4573, KLD:5248524.5000, ClassL:0.5392)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.75it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.25it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.07it/s]
-Stage 2 - Epoch 4: Val loss did not improve (28928192.000000 vs best 4566792.500000). Patience: 1/10
-Stage 2 - Epoch 004/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 135742.2772 (MSE:132170.3504, CE:4.3468, KLD:196819.5016, ClassL:0.5666) | Val Loss: 28928192.0000 (MSE:28835088.0000, CE:105.2984, KLD:5131055.0000, ClassL:0.5385)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.65it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.03it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.97it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.12it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.59it/s]
-Stage 2 - Epoch 5: Val loss improved to 664971.125000. Saving fine-tuned model...
-Stage 2 - Epoch 005/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 9181.0605 (MSE:5665.7845, CE:3.3786, KLD:193747.4840, ClassL:0.5653) | Val Loss: 664971.1250 (MSE:573406.4375, CE:23.9227, KLD:5050593.5000, ClassL:0.5379)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.75it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.01it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.80it/s]
-Stage 2 - Epoch 6: Val loss did not improve (2789178.000000 vs best 664971.125000). Patience: 1/10
-Stage 2 - Epoch 006/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 24751.3303 (MSE:21315.4017, CE:3.1931, KLD:189379.7874, ClassL:0.5656) | Val Loss: 2789178.0000 (MSE:2698383.2500, CE:42.4117, KLD:5007086.5000, ClassL:0.5374)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.72it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.03it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.90it/s]
-Stage 2 - Epoch 7: Val loss did not improve (2099190.750000 vs best 664971.125000). Patience: 2/10
-Stage 2 - Epoch 007/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 106282.0159 (MSE:102864.7021, CE:6.0886, KLD:188192.8452, ClassL:0.5618) | Val Loss: 2099190.7500 (MSE:2008952.7500, CE:34.6796, KLD:4976800.5000, ClassL:0.5368)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.45it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.70it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.74it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.57it/s]
-Stage 2 - Epoch 8: Val loss did not improve (3677811.250000 vs best 664971.125000). Patience: 3/10
-Stage 2 - Epoch 008/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 76320.9748 (MSE:72921.0500, CE:4.4001, KLD:187326.8020, ClassL:0.5635) | Val Loss: 3677811.2500 (MSE:3588326.5000, CE:18.7063, KLD:4936123.5000, ClassL:0.5362)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.69it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.10it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.69it/s]
-Stage 2 - Epoch 9: Val loss did not improve (4142563.750000 vs best 664971.125000). Patience: 4/10
-Stage 2 - Epoch 009/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 198747.8327 (MSE:195383.0913, CE:8.5202, KLD:185158.8378, ClassL:0.5649) | Val Loss: 4142563.7500 (MSE:4053899.2500, CE:54.4542, KLD:4888901.5000, ClassL:0.5358)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.79it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.57it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.31it/s]
-Stage 2 - Epoch 10: Val loss did not improve (47596456.000000 vs best 664971.125000). Patience: 5/10
-Stage 2 - Epoch 010/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 380203.4486 (MSE:376878.9638, CE:4.6473, KLD:183150.3589, ClassL:0.5632) | Val Loss: 47596456.0000 (MSE:47509316.0000, CE:163.3765, KLD:4798782.0000, ClassL:0.5354)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.47it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.72it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.77it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.63it/s]
-Stage 2 - Epoch 11: Val loss did not improve (7490533.500000 vs best 664971.125000). Patience: 6/10
-Stage 2 - Epoch 011/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 333527.4758 (MSE:330261.3081, CE:7.6139, KLD:179770.8168, ClassL:0.5625) | Val Loss: 7490533.5000 (MSE:7405603.0000, CE:60.4359, KLD:4682529.5000, ClassL:0.5350)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.31it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.24it/s]
-Stage 2 - Epoch 12: Val loss did not improve (801715.875000 vs best 664971.125000). Patience: 7/10
-Stage 2 - Epoch 012/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 14379.8716 (MSE:11217.0298, CE:3.4730, KLD:174297.4068, ClassL:0.5616) | Val Loss: 801715.8750 (MSE:718053.1875, CE:18.4755, KLD:4614916.0000, ClassL:0.5348)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.64it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.95it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.83it/s]
-Stage 2 - Epoch 13: Val loss did not improve (1548780.500000 vs best 664971.125000). Patience: 8/10
-Stage 2 - Epoch 013/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 919812.6849 (MSE:916675.9520, CE:7.2166, KLD:172646.3990, ClassL:0.5637) | Val Loss: 1548780.5000 (MSE:1467521.1250, CE:27.0940, KLD:4481842.5000, ClassL:0.5348)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.42it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.67it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.69it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.77it/s]
-Stage 2 - Epoch 14: Val loss did not improve (3731521.750000 vs best 664971.125000). Patience: 9/10
-Stage 2 - Epoch 014/200 | Beta: 1.81e-02 | Alpha: 0.50 | Loss: 202075.6892 (MSE:199047.6613, CE:3.8848, KLD:166837.3879, ClassL:0.5630) | Val Loss: 3731521.7500 (MSE:3652584.2500, CE:46.6814, KLD:4352657.0000, ClassL:0.5347)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.61it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.75it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.60it/s]
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-[I 2025-05-02 17:56:57,895] Trial 1 finished with value: 0.5190667421397921 and parameters: {'max_beta': 0.024862414702848168, 'min_beta': 0.0006966205470353714, 'lambda_': 0.9, 'lr_pretrain': 0.00010424884489209752, 'wd_pretrain': 0.0001, 'd_token': 4, 'n_head': 4, 'factor': 16, 'num_layers': 2, 'dropout_ft': 0.3, 'alpha_ft': 0.5, 'lr_ft': 6.370874155250538e-05, 'wd_ft': 0.0001}. Best is trial 0 with value: 0.6554496023477471.
-Stage 2 - Epoch 15: Val loss did not improve (8881003.000000 vs best 664971.125000). Patience: 10/10
-Early stopping fine-tuning.
---- Stage 2 Finished. Best fine-tuning validation loss: 664971.125000 ---
-Successfully saved best encoder, decoder, and latent embeddings!
---- Iniciando reconstrucción de datos ---
-Objetos de preprocesamiento cargados.
-Pasando datos latentes a través del decoder...
-Detectado token CLS en el espacio latente, eliminándolo para el decoder.
-Reconstrucción completada. Invirtiendo transformaciones...
-Normalización numérica invertida.
-Codificación de la variable objetivo invertida.
-Codificación categórica invertida.
---- Reconstrucción finalizada ---
-Combinando en un DataFrame de Pandas.
-Datos unicos de y_train:  [0 1]
-Datos unicos de y_train luego:  [0 1]
-Informacion de y_test: [0 0 0 ... 0 0 0]
-Informacion de y_proba: [0.6986421  0.28994513 0.6411535  ... 0.3169842  0.5940341  0.47692347]
-Datos unicos de y_train:  [0 1]
-Datos unicos de y_train luego:  [0 1]
-No se creó ClassifierHead (num_classes no proporcionado o <= 0).
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.88it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 13.06it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.04it/s]
-Epoch 001/500 Train Loss: 27464.893311 (MSE:19962.365689, CE:3.301535, KLD:100746.668931)  Val Loss: 3.642425 (MSE:1.550534, CE:2.062680, KLD:0.392422)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.56it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.04it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.18it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.76it/s]
-Epoch 002/500 Train Loss: 85286.434097 (MSE:81204.405106, CE:3.673210, KLD:54789.737805)  Val Loss: 3.259597 (MSE:1.219541, CE:2.008094, KLD:0.429388)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.71it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.46it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.26it/s]
-Epoch 003/500 Train Loss: 38685.050502 (MSE:36697.893137, CE:4.099809, KLD:26640.912319)  Val Loss: 3.112267 (MSE:1.102740, CE:1.971219, KLD:0.514647)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.39it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.14it/s]
-Epoch 004/500 Train Loss: 53662.920726 (MSE:52695.020396, CE:3.190858, KLD:12960.207107)  Val Loss: 3.309992 (MSE:1.306560, CE:1.957372, KLD:0.618798)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.38it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  8.84it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.69it/s]
-Epoch 005/500 Train Loss: 14230.716577 (MSE:13679.773987, CE:2.280970, KLD:7370.878524)  Val Loss: 3.047925 (MSE:1.088672, CE:1.909647, KLD:0.666418)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.57it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.10it/s]
-Epoch 006/500 Train Loss: 1277.692624 (MSE:997.577631, CE:1.922854, KLD:3737.310183)  Val Loss: 3.038705 (MSE:1.109090, CE:1.878564, KLD:0.685819)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.77it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.15it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.52it/s]
-Epoch 007/500 Train Loss: 3184.191914 (MSE:2919.044808, CE:2.044764, KLD:3534.591100)  Val Loss: 2.997521 (MSE:1.087088, CE:1.858256, KLD:0.700955)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.90it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.92it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.43it/s]
-Epoch 008/500 Train Loss: 703.296874 (MSE:483.181468, CE:1.960370, KLD:2930.755017)  Val Loss: 2.947276 (MSE:1.062655, CE:1.829746, KLD:0.737215)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.76it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.61it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.57it/s]
-Epoch 009/500 Train Loss: 2883.359597 (MSE:2681.579774, CE:1.910558, KLD:2685.100077)  Val Loss: 2.965192 (MSE:1.120916, CE:1.787365, KLD:0.764569)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.66it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.11it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.80it/s]
-Epoch 010/500 Train Loss: 547.540049 (MSE:355.353408, CE:1.828043, KLD:2557.330140)  Val Loss: 2.879626 (MSE:1.082138, CE:1.738979, KLD:0.786034)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.96it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 13.19it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.86it/s]
-Epoch 011/500 Train Loss: 188.910008 (MSE:5.911228, CE:1.736413, KLD:2435.128409)  Val Loss: 2.849977 (MSE:1.103101, CE:1.686504, KLD:0.811054)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.65it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.13it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.98it/s]
-Epoch 012/500 Train Loss: 314.578666 (MSE:136.401482, CE:1.721150, KLD:2370.558823)  Val Loss: 2.823591 (MSE:1.132758, CE:1.628062, KLD:0.843280)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.61it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.23it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.74it/s]
-Epoch 013/500 Train Loss: 1090.629870 (MSE:913.894492, CE:1.736302, KLD:2350.985826)  Val Loss: 2.750919 (MSE:1.117348, CE:1.568008, KLD:0.880782)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.80it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.71it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.34it/s]
-Epoch 014/500 Train Loss: 285.064244 (MSE:113.406449, CE:1.639568, KLD:2284.071563)  Val Loss: 2.610503 (MSE:1.033993, CE:1.508399, KLD:0.915031)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.45it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.77it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.91it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.58it/s]
-Epoch 015/500 Train Loss: 522.192172 (MSE:352.708469, CE:1.564956, KLD:2255.866566)  Val Loss: 2.680740 (MSE:1.147622, CE:1.463143, KLD:0.940065)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.67it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.27it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.17it/s]
-Epoch 016/500 Train Loss: 272.630334 (MSE:106.754593, CE:1.538172, KLD:2207.756205)  Val Loss: 2.628035 (MSE:1.135152, CE:1.421276, KLD:0.961980)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.89it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.94it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.57it/s]
-Epoch 017/500 Train Loss: 382.488177 (MSE:218.600613, CE:1.421671, KLD:2182.611381)  Val Loss: 2.488199 (MSE:1.047272, CE:1.367817, KLD:0.982188)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.64it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.10it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.16it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.77it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.72it/s]
-Epoch 018/500 Train Loss: 420.038269 (MSE:257.647999, CE:1.478987, KLD:2161.726736)  Val Loss: 2.521417 (MSE:1.114935, CE:1.332082, KLD:0.999499)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.58it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.12it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.86it/s]
-Epoch 019/500 Train Loss: 1931.525132 (MSE:1770.971460, CE:1.664449, KLD:2134.560937)  Val Loss: 2.371062 (MSE:1.014244, CE:1.281361, KLD:1.013699)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.60it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.31it/s]
-Epoch 020/500 Train Loss: 579.567224 (MSE:425.573171, CE:1.475124, KLD:2048.981278)  Val Loss: 2.380154 (MSE:1.059729, CE:1.243919, KLD:1.027808)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.84it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.96it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.84it/s]
-Epoch 021/500 Train Loss: 384.426368 (MSE:235.723489, CE:1.293132, KLD:1980.342798)  Val Loss: 2.318400 (MSE:1.040624, CE:1.199539, KLD:1.051053)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.92it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.94it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.49it/s]
-Epoch 022/500 Train Loss: 1031.619630 (MSE:884.572674, CE:1.265979, KLD:1958.462152)  Val Loss: 2.243613 (MSE:1.008242, CE:1.155736, KLD:1.069841)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.78it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.55it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.21it/s]
-Epoch 023/500 Train Loss: 3243.922438 (MSE:3102.797922, CE:1.426424, KLD:1876.743292)  Val Loss: 2.232959 (MSE:1.033499, CE:1.118103, KLD:1.092985)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.67it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.19it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.62it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.52it/s]
-Epoch 024/500 Train Loss: 908.080510 (MSE:775.231987, CE:1.329143, KLD:1766.868162)  Val Loss: 2.160578 (MSE:0.995276, CE:1.082651, KLD:1.110372)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.72it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.48it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.23it/s]
-Epoch 025/500 Train Loss: 2108.366988 (MSE:1985.294027, CE:1.263518, KLD:1636.421896)  Val Loss: 2.166773 (MSE:1.031132, CE:1.051700, KLD:1.127694)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.64it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.15it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.68it/s]
-Epoch 026/500 Train Loss: 189.668841 (MSE:76.394845, CE:1.121072, KLD:1506.693295)  Val Loss: 2.103623 (MSE:0.995836, CE:1.022746, KLD:1.142458)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.22it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 13.13it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.86it/s]
-Epoch 027/500 Train Loss: 2173.693349 (MSE:2064.277713, CE:1.168084, KLD:1454.227959)  Val Loss: 2.125579 (MSE:1.042211, CE:0.997177, KLD:1.157905)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.69it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.42it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.15it/s]
-Epoch 028/500 Train Loss: 1512.937902 (MSE:1410.170473, CE:1.131590, KLD:1365.403530)  Val Loss: 2.049311 (MSE:0.991713, CE:0.970235, KLD:1.173667)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.38it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  9.26it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.59it/s]
-Epoch 029/500 Train Loss: 1994.502955 (MSE:1897.483710, CE:1.199982, KLD:1287.261429)  Val Loss: 2.169719 (MSE:1.132410, CE:0.948721, KLD:1.190122)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.76it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.66it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.04it/s]
-Epoch 030/500 Train Loss: 1751.564609 (MSE:1661.383268, CE:1.193990, KLD:1195.481481)  Val Loss: 2.018211 (MSE:1.006141, CE:0.922245, KLD:1.206744)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.69it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  8.89it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 11.31it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.19it/s]
-Epoch 031/500 Train Loss: 4706.961001 (MSE:4622.452206, CE:1.382805, KLD:1116.738000)  Val Loss: 1.989072 (MSE:0.995967, CE:0.901161, KLD:1.235211)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.75it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.54it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.23it/s]
-Epoch 032/500 Train Loss: 1396.794997 (MSE:1328.586555, CE:1.136423, KLD:901.064257)  Val Loss: 1.940291 (MSE:0.967739, CE:0.878232, KLD:1.267128)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.66it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.18it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.86it/s]
-Epoch 033/500 Train Loss: 560.796971 (MSE:498.881526, CE:1.020327, KLD:818.082100)  Val Loss: 1.959454 (MSE:0.999902, CE:0.863543, KLD:1.289808)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.57it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.00it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.24it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.73it/s]
-Epoch 034/500 Train Loss: 412.374113 (MSE:351.260419, CE:0.953812, KLD:808.204673)  Val Loss: 1.907182 (MSE:0.966200, CE:0.843585, KLD:1.308460)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.72it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.38it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.20it/s]
-Epoch 035/500 Train Loss: 78.299594 (MSE:22.259072, CE:0.838444, KLD:741.599927)  Val Loss: 1.866531 (MSE:0.947534, CE:0.819629, KLD:1.334932)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.71it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.51it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.61it/s]
-Epoch 036/500 Train Loss: 95.457228 (MSE:41.134253, CE:0.836590, KLD:718.550787)  Val Loss: 1.845976 (MSE:0.941003, CE:0.804572, KLD:1.348820)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.49it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.04it/s]
-Epoch 037/500 Train Loss: 56.498305 (MSE:2.574618, CE:0.804923, KLD:713.612056)  Val Loss: 1.818107 (MSE:0.924100, CE:0.793624, KLD:1.348574)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.10it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.87it/s]
-Epoch 038/500 Train Loss: 99.929668 (MSE:46.764550, CE:0.802796, KLD:703.449818)  Val Loss: 1.769318 (MSE:0.894964, CE:0.774419, KLD:1.342555)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.25it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.11it/s]
-Epoch 039/500 Train Loss: 834.024173 (MSE:781.148203, CE:0.916700, KLD:698.035758)  Val Loss: 1.789607 (MSE:0.933767, CE:0.755742, KLD:1.344736)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.86it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.77it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.39it/s]
-Epoch 040/500 Train Loss: 182.380039 (MSE:130.919050, CE:0.791500, KLD:680.707794)  Val Loss: 1.769775 (MSE:0.933961, CE:0.735506, KLD:1.347574)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.56it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.94it/s]
-100%|██████████| 7/7 [00:00<00:00, 13.17it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.51it/s]
-Epoch 041/500 Train Loss: 564.392571 (MSE:513.792314, CE:0.860510, KLD:668.217161)  Val Loss: 1.728116 (MSE:0.910000, CE:0.717195, KLD:1.355807)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.56it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.97it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.78it/s]
-Epoch 042/500 Train Loss: 84.997166 (MSE:36.031390, CE:0.753207, KLD:647.700893)  Val Loss: 1.706086 (MSE:0.903226, CE:0.701346, KLD:1.363768)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.98it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 13.12it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.76it/s]
-Epoch 043/500 Train Loss: 85.028594 (MSE:36.638047, CE:0.749533, KLD:640.022529)  Val Loss: 1.669279 (MSE:0.881124, CE:0.685567, KLD:1.378189)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.85it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.32it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 12.58it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.04it/s]
-Epoch 044/500 Train Loss: 1287.642733 (MSE:1239.571950, CE:0.985901, KLD:632.550535)  Val Loss: 1.681592 (MSE:0.908350, CE:0.669440, KLD:1.394496)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.85it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.75it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.29it/s]
-Epoch 045/500 Train Loss: 75.468087 (MSE:29.427328, CE:0.679330, KLD:609.397878)  Val Loss: 1.625530 (MSE:0.871761, CE:0.648314, KLD:1.416720)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:01,  3.03it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 13.34it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.83it/s]
-Epoch 046/500 Train Loss: 233.807739 (MSE:189.256798, CE:0.700016, KLD:589.105362)  Val Loss: 1.652200 (MSE:0.914753, CE:0.630974, KLD:1.430379)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.61it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  8.82it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 11.26it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.02it/s]
-Epoch 047/500 Train Loss: 1788.475800 (MSE:1744.770204, CE:0.950263, KLD:574.386823)  Val Loss: 1.570977 (MSE:0.854710, CE:0.608877, KLD:1.442713)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.68it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.24it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.16it/s]
-Epoch 048/500 Train Loss: 499.473759 (MSE:457.804423, CE:0.836455, KLD:548.560020)  Val Loss: 1.543962 (MSE:0.843620, CE:0.591091, KLD:1.467711)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.83it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.83it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.41it/s]
-Epoch 049/500 Train Loss: 387.577145 (MSE:348.477834, CE:0.799117, KLD:514.535383)  Val Loss: 1.548687 (MSE:0.864004, CE:0.574021, KLD:1.486666)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.46it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.83it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.01it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.55it/s]
-Epoch 050/500 Train Loss: 72.387137 (MSE:35.902582, CE:0.596347, KLD:482.132049)  Val Loss: 1.555013 (MSE:0.882590, CE:0.560491, KLD:1.503724)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.68it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.39it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.26it/s]
-Epoch 051/500 Train Loss: 51.514899 (MSE:15.430263, CE:0.580129, KLD:476.977325)  Val Loss: 1.542075 (MSE:0.886325, CE:0.542481, KLD:1.521697)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.76it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.56it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.05it/s]
-Epoch 052/500 Train Loss: 412.945758 (MSE:377.229159, CE:0.742074, KLD:469.857234)  Val Loss: 1.502382 (MSE:0.860276, CE:0.527564, KLD:1.538787)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.54it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  9.61it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.49it/s]
-Epoch 053/500 Train Loss: 85.153956 (MSE:50.351997, CE:0.554266, KLD:460.092911)  Val Loss: 1.592327 (MSE:0.954142, CE:0.522106, KLD:1.559436)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.68it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.30it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.58it/s]
-Epoch 054/500 Train Loss: 376.516764 (MSE:341.831992, CE:0.602760, KLD:457.866903)  Val Loss: 1.485538 (MSE:0.871407, CE:0.496384, KLD:1.581844)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.72it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.18it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.56it/s]
-Epoch 055/500 Train Loss: 730.524573 (MSE:696.752504, CE:0.635646, KLD:445.163672)  Val Loss: 1.399935 (MSE:0.804321, CE:0.476225, KLD:1.603918)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.54it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.27it/s]
-Epoch 056/500 Train Loss: 1048.324250 (MSE:1015.854291, CE:0.648102, KLD:427.504315)  Val Loss: 1.396784 (MSE:0.813188, CE:0.462883, KLD:1.621696)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.69it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.94it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.59it/s]
-Epoch 057/500 Train Loss: 249.639641 (MSE:219.681559, CE:0.530808, KLD:395.333986)  Val Loss: 1.411646 (MSE:0.835958, CE:0.453999, KLD:1.634802)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.69it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.26it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.70it/s]
-Epoch 058/500 Train Loss: 473.130404 (MSE:444.180405, CE:0.560697, KLD:381.389518)  Val Loss: 1.374793 (MSE:0.815418, CE:0.436252, KLD:1.654060)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.82it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.75it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.40it/s]
-Epoch 059/500 Train Loss: 319.162861 (MSE:290.665966, CE:0.612117, KLD:374.612015)  Val Loss: 1.358515 (MSE:0.809687, CE:0.423795, KLD:1.679728)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.68it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.25it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.39it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.98it/s]
-Epoch 060/500 Train Loss: 139.109183 (MSE:111.838066, CE:0.464101, KLD:360.132796)  Val Loss: 1.329788 (MSE:0.786711, CE:0.416881, KLD:1.695349)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.64it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.19it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.84it/s]
-Epoch 061/500 Train Loss: 36.994224 (MSE:10.425013, CE:0.433104, KLD:351.119619)  Val Loss: 1.315409 (MSE:0.781121, CE:0.406858, KLD:1.711938)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.25it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.02it/s]
-Epoch 062/500 Train Loss: 88.362475 (MSE:62.253550, CE:0.450401, KLD:344.703712)  Val Loss: 1.305000 (MSE:0.778898, CE:0.397186, KLD:1.731896)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.64it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.12it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.85it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.60it/s]
-Epoch 063/500 Train Loss: 163.173284 (MSE:137.096916, CE:0.496093, KLD:343.652403)  Val Loss: 1.266607 (MSE:0.751705, CE:0.383754, KLD:1.761879)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.65it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.23it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.00it/s]
-Epoch 064/500 Train Loss: 444.852272 (MSE:419.224885, CE:0.555717, KLD:336.819692)  Val Loss: 1.277579 (MSE:0.769598, CE:0.375974, KLD:1.773428)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.67it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.28it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.74it/s]
-Epoch 065/500 Train Loss: 85.841899 (MSE:60.766268, CE:0.418280, KLD:331.253663)  Val Loss: 1.237510 (MSE:0.739343, CE:0.362446, KLD:1.823316)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.56it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.00it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 12.91it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.82it/s]
-Epoch 066/500 Train Loss: 26.659910 (MSE:2.271749, CE:0.364499, KLD:322.740472)  Val Loss: 1.225331 (MSE:0.728438, CE:0.359925, KLD:1.840066)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.70it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.29it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.82it/s]
-Epoch 067/500 Train Loss: 56.001751 (MSE:31.740702, CE:0.373682, KLD:320.909456)  Val Loss: 1.225181 (MSE:0.735801, CE:0.350185, KLD:1.869987)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.68it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.09it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.78it/s]
-Epoch 068/500 Train Loss: 154.802530 (MSE:130.714183, CE:0.400893, KLD:318.223792)  Val Loss: 1.198979 (MSE:0.720590, CE:0.338178, KLD:1.883633)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.93it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.96it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.22it/s]
-Epoch 069/500 Train Loss: 402.950909 (MSE:379.129275, CE:0.412233, KLD:314.488089)  Val Loss: 1.269256 (MSE:0.794887, CE:0.333279, KLD:1.895442)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.79it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.82it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.15it/s]
-Epoch 070/500 Train Loss: 672.391027 (MSE:648.938372, CE:0.516324, KLD:308.132108)  Val Loss: 1.173915 (MSE:0.712997, CE:0.318366, KLD:1.915081)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.80it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.64it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.38it/s]
-Epoch 071/500 Train Loss: 89.861848 (MSE:67.666254, CE:0.375458, KLD:293.137646)  Val Loss: 1.178677 (MSE:0.725148, CE:0.308240, KLD:1.951850)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.94it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 13.03it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.70it/s]
-Epoch 072/500 Train Loss: 30.328519 (MSE:9.071901, CE:0.324015, KLD:281.214337)  Val Loss: 1.153509 (MSE:0.704768, CE:0.301311, KLD:1.980625)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.68it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  9.75it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 12.22it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.63it/s]
-Epoch 073/500 Train Loss: 515.202428 (MSE:494.073106, CE:0.386407, KLD:278.665640)  Val Loss: 1.126793 (MSE:0.685872, CE:0.291154, KLD:2.012021)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.70it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.44it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.24it/s]
-Epoch 074/500 Train Loss: 2986.827125 (MSE:2966.215199, CE:0.549973, KLD:269.517501)  Val Loss: 1.163335 (MSE:0.726464, CE:0.285148, KLD:2.038289)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.83it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.85it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.47it/s]
-Epoch 075/500 Train Loss: 18.545863 (MSE:0.727007, CE:0.275011, KLD:235.688820)  Val Loss: 1.114181 (MSE:0.684048, CE:0.276693, KLD:2.061358)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.70it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.18it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.90it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.53it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.51it/s]
-Epoch 076/500 Train Loss: 55.716096 (MSE:39.304472, CE:0.290582, KLD:216.574555)  Val Loss: 1.089777 (MSE:0.666023, CE:0.267776, KLD:2.095435)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.51it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.70it/s]
-Epoch 077/500 Train Loss: 54.718851 (MSE:39.834584, CE:0.278909, KLD:196.212349)  Val Loss: 1.136589 (MSE:0.715004, CE:0.264540, KLD:2.109784)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.48it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.22it/s]
-Epoch 078/500 Train Loss: 182.949469 (MSE:168.352666, CE:0.291427, KLD:192.182415)  Val Loss: 1.086535 (MSE:0.678175, CE:0.251878, KLD:2.102218)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.61it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.05it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 13.01it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.77it/s]
-Epoch 079/500 Train Loss: 53.363576 (MSE:39.276941, CE:0.297755, KLD:185.243554)  Val Loss: 1.057441 (MSE:0.653849, CE:0.246841, KLD:2.105837)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.57it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.00it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.80it/s]
-Epoch 080/500 Train Loss: 250.154989 (MSE:236.252261, CE:0.373344, KLD:181.757459)  Val Loss: 1.047112 (MSE:0.649530, CE:0.238668, KLD:2.134897)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.53it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.25it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.14it/s]
-Epoch 081/500 Train Loss: 158.607709 (MSE:145.303697, CE:0.262819, KLD:175.199094)  Val Loss: 1.018361 (MSE:0.627809, CE:0.231002, KLD:2.143426)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.33it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.15it/s]
-Epoch 082/500 Train Loss: 135.614213 (MSE:122.763316, CE:0.319575, KLD:168.349225)  Val Loss: 1.035524 (MSE:0.651221, CE:0.223501, KLD:2.160262)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.59it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.04it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.51it/s]
-Epoch 083/500 Train Loss: 186.963614 (MSE:174.613646, CE:0.254397, KLD:162.495198)  Val Loss: 0.996024 (MSE:0.617804, CE:0.217584, KLD:2.158025)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.79it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.29it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.03it/s]
-Epoch 084/500 Train Loss: 13.959533 (MSE:1.741223, CE:0.214728, KLD:161.259422)  Val Loss: 1.086478 (MSE:0.706748, CE:0.217664, KLD:2.177242)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.87it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.58it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.06it/s]
-Epoch 085/500 Train Loss: 101.409966 (MSE:89.699747, CE:0.235866, KLD:154.149574)  Val Loss: 0.980953 (MSE:0.609358, CE:0.208260, KLD:2.194286)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.70it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.99it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.40it/s]
-Epoch 086/500 Train Loss: 19.822172 (MSE:8.399684, CE:0.214974, KLD:150.564825)  Val Loss: 0.977018 (MSE:0.610460, CE:0.202482, KLD:2.204234)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.81it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.61it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.83it/s]
-Epoch 087/500 Train Loss: 165.740404 (MSE:154.555049, CE:0.229821, KLD:147.179666)  Val Loss: 0.957861 (MSE:0.595253, CE:0.198146, KLD:2.209436)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.97it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 13.10it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.87it/s]
-Epoch 088/500 Train Loss: 43.967735 (MSE:33.183827, CE:0.205806, KLD:142.109124)  Val Loss: 0.979100 (MSE:0.621907, CE:0.192380, KLD:2.214139)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.55it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.97it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.29it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.94it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.77it/s]
-Epoch 089/500 Train Loss: 70.363823 (MSE:59.785393, CE:0.209799, KLD:139.295031)  Val Loss: 0.943998 (MSE:0.592645, CE:0.185686, KLD:2.225630)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.79it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.61it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.25it/s]
-Epoch 090/500 Train Loss: 125.356672 (MSE:115.018512, CE:0.209658, KLD:136.069010)  Val Loss: 0.935939 (MSE:0.588235, CE:0.180985, KLD:2.239757)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.83it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.83it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.54it/s]
-Epoch 091/500 Train Loss: 11.512620 (MSE:1.442026, CE:0.178323, KLD:132.895510)  Val Loss: 0.919696 (MSE:0.575274, CE:0.178058, KLD:2.234969)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.57it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.01it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.19it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.72it/s]
-Epoch 092/500 Train Loss: 26.861315 (MSE:16.895562, CE:0.211434, KLD:131.042220)  Val Loss: 0.926461 (MSE:0.585656, CE:0.173859, KLD:2.242806)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.65it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.33it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.20it/s]
-Epoch 093/500 Train Loss: 182.803832 (MSE:172.972867, CE:0.166358, KLD:129.837064)  Val Loss: 0.916176 (MSE:0.578259, CE:0.171805, KLD:2.231585)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.83it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.49it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.12it/s]
-Epoch 094/500 Train Loss: 51.467800 (MSE:41.967786, CE:0.167810, KLD:125.371397)  Val Loss: 0.891172 (MSE:0.557764, CE:0.166774, KLD:2.238604)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.51it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.10it/s]
-100%|██████████| 7/7 [00:00<00:00, 15.54it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.07it/s]
-Epoch 095/500 Train Loss: 125.060345 (MSE:115.653496, CE:0.286258, KLD:122.528512)  Val Loss: 0.957128 (MSE:0.621270, CE:0.169334, KLD:2.237123)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.57it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.02it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.87it/s]
-Epoch 096/500 Train Loss: 88.417699 (MSE:79.142397, CE:0.262527, KLD:121.080142)  Val Loss: 0.917840 (MSE:0.587653, CE:0.162486, KLD:2.252939)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.68it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.12it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.88it/s]
-Epoch 097/500 Train Loss: 468.855064 (MSE:459.694987, CE:0.401682, KLD:117.662545)  Val Loss: 0.882922 (MSE:0.557105, CE:0.155955, KLD:2.281968)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.92it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.70it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.46it/s]
-Epoch 098/500 Train Loss: 10.856998 (MSE:2.499281, CE:0.168178, KLD:110.020503)  Val Loss: 0.876251 (MSE:0.553005, CE:0.152932, KLD:2.288045)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.67it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.22it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 12.45it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.80it/s]
-Epoch 099/500 Train Loss: 55.296922 (MSE:47.225374, CE:0.225849, KLD:105.401261)  Val Loss: 0.874140 (MSE:0.543025, CE:0.160444, KLD:2.292846)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.61it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.13it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.91it/s]
-Epoch 100/500 Train Loss: 139.950892 (MSE:131.971377, CE:0.283242, KLD:103.393879)  Val Loss: 0.923272 (MSE:0.596718, CE:0.154216, KLD:2.315248)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.68it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.33it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.12it/s]
-Epoch 101/500 Train Loss: 142.096206 (MSE:134.389498, CE:0.146453, KLD:101.566646)  Val Loss: 0.867270 (MSE:0.546684, CE:0.147955, KLD:2.319163)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.00it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.08it/s]
-100%|██████████| 7/7 [00:00<00:00, 12.32it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.61it/s]
-Epoch 102/500 Train Loss: 32.812259 (MSE:25.318549, CE:0.204272, KLD:97.928325)  Val Loss: 0.870407 (MSE:0.551632, CE:0.144926, KLD:2.335535)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.57it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.35it/s]
-Epoch 103/500 Train Loss: 225.604761 (MSE:218.186173, CE:0.327268, KLD:95.266686)  Val Loss: 0.832715 (MSE:0.515687, CE:0.143369, KLD:2.332978)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.26it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.97it/s]
-Epoch 104/500 Train Loss: 57.043747 (MSE:50.104747, CE:0.137194, KLD:91.377329)  Val Loss: 0.875119 (MSE:0.556727, CE:0.144789, KLD:2.332224)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.49it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.89it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.00it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.77it/s]
-Epoch 105/500 Train Loss: 12.995706 (MSE:6.192603, CE:0.166136, KLD:89.162828)  Val Loss: 0.820830 (MSE:0.509378, CE:0.137696, KLD:2.334285)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.68it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.15it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.95it/s]
-Epoch 106/500 Train Loss: 24.211983 (MSE:17.496569, CE:0.145124, KLD:88.267069)  Val Loss: 0.879605 (MSE:0.562893, CE:0.144150, KLD:2.318243)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.91it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 13.13it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.64it/s]
-Epoch 107/500 Train Loss: 265.131020 (MSE:258.335377, CE:0.329456, KLD:86.868461)  Val Loss: 0.835712 (MSE:0.526691, CE:0.135502, KLD:2.331107)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.58it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.09it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.23it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.88it/s]
-Epoch 108/500 Train Loss: 435.707409 (MSE:429.163930, CE:0.380291, KLD:82.797850)  Val Loss: 0.819888 (MSE:0.513268, CE:0.131877, KLD:2.347557)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.71it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.48it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.28it/s]
-Epoch 109/500 Train Loss: 24.595240 (MSE:18.896343, CE:0.126740, KLD:74.857885)  Val Loss: 0.817016 (MSE:0.510472, CE:0.131866, KLD:2.346660)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.87it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.92it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.65it/s]
-Epoch 110/500 Train Loss: 21.460747 (MSE:15.881981, CE:0.172333, KLD:72.631505)  Val Loss: 0.800660 (MSE:0.497164, CE:0.128861, KLD:2.346098)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.10it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.54it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.64it/s]
-Epoch 111/500 Train Loss: 7.070753 (MSE:1.652279, CE:0.125276, KLD:71.110277)  Val Loss: 0.822619 (MSE:0.520760, CE:0.127884, KLD:2.337222)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.78it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.69it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.42it/s]
-Epoch 112/500 Train Loss: 333.687056 (MSE:328.394624, CE:0.123948, KLD:69.434761)  Val Loss: 0.794958 (MSE:0.496028, CE:0.124962, KLD:2.337132)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.78it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.80it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.33it/s]
-Epoch 113/500 Train Loss: 5.933360 (MSE:0.750539, CE:0.125799, KLD:67.937427)  Val Loss: 0.811148 (MSE:0.510884, CE:0.125987, KLD:2.341279)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.50it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.06it/s]
-100%|██████████| 7/7 [00:00<00:00, 15.75it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.03it/s]
-Epoch 114/500 Train Loss: 21.644429 (MSE:16.715187, CE:0.120272, KLD:64.605027)  Val Loss: 0.795196 (MSE:0.498631, CE:0.121436, KLD:2.352713)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.11it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.11it/s]
-Epoch 115/500 Train Loss: 30.671023 (MSE:25.845936, CE:0.174240, KLD:62.480738)  Val Loss: 0.759764 (MSE:0.467213, CE:0.118359, KLD:2.340149)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.67it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.20it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.77it/s]
-Epoch 116/500 Train Loss: 86.021812 (MSE:81.235429, CE:0.222297, KLD:61.315171)  Val Loss: 0.769051 (MSE:0.478031, CE:0.117006, KLD:2.337753)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.65it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.23it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 13.18it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.06it/s]
-Epoch 117/500 Train Loss: 10.989135 (MSE:6.383328, CE:0.138889, KLD:60.009799)  Val Loss: 0.763319 (MSE:0.476244, CE:0.113271, KLD:2.334916)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.69it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.28it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.06it/s]
-Epoch 118/500 Train Loss: 19.996051 (MSE:15.498512, CE:0.109281, KLD:58.953066)  Val Loss: 0.767744 (MSE:0.480930, CE:0.112960, KLD:2.335601)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.72it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.44it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.13it/s]
-Epoch 119/500 Train Loss: 5.206488 (MSE:0.742900, CE:0.114403, KLD:58.428143)  Val Loss: 0.760469 (MSE:0.476353, CE:0.110883, KLD:2.327276)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.59it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.11it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.47it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.48it/s]
-Epoch 120/500 Train Loss: 15.240524 (MSE:10.780480, CE:0.143236, KLD:57.993185)  Val Loss: 0.754853 (MSE:0.473385, CE:0.108446, KLD:2.324433)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.39it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.21it/s]
-Epoch 121/500 Train Loss: 16.019483 (MSE:11.578513, CE:0.143192, KLD:57.737523)  Val Loss: 0.736529 (MSE:0.456308, CE:0.107344, KLD:2.322476)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.63it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.23it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.73it/s]
-Epoch 122/500 Train Loss: 9.583707 (MSE:5.202598, CE:0.102417, KLD:57.481135)  Val Loss: 0.737795 (MSE:0.459542, CE:0.105710, KLD:2.317995)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.67it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.28it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.68it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.62it/s]
-Epoch 123/500 Train Loss: 40.088756 (MSE:35.743898, CE:0.101905, KLD:57.000987)  Val Loss: 0.710033 (MSE:0.432490, CE:0.105183, KLD:2.315529)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.71it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.48it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.28it/s]
-Epoch 124/500 Train Loss: 54.192640 (MSE:49.813727, CE:0.180708, KLD:56.399839)  Val Loss: 0.732113 (MSE:0.456636, CE:0.102163, KLD:2.328346)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.67it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.40it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.11it/s]
-Epoch 125/500 Train Loss: 9.952755 (MSE:5.729535, CE:0.095759, KLD:55.449444)  Val Loss: 0.703668 (MSE:0.430730, CE:0.100744, KLD:2.313298)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.37it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.82it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.89it/s]
-Epoch 126/500 Train Loss: 4.973070 (MSE:0.789326, CE:0.095005, KLD:54.929247)  Val Loss: 0.710223 (MSE:0.438494, CE:0.099229, KLD:2.317413)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.74it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.41it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.14it/s]
-Epoch 127/500 Train Loss: 70.643212 (MSE:66.495052, CE:0.093437, KLD:54.472240)  Val Loss: 0.715216 (MSE:0.446894, CE:0.096472, KLD:2.308671)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.81it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.81it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.16it/s]
-Epoch 128/500 Train Loss: 7.259446 (MSE:3.210690, CE:0.111499, KLD:52.894190)  Val Loss: 0.699818 (MSE:0.431725, CE:0.096033, KLD:2.311493)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.14it/s]
- 86%|████████▌ | 6/7 [00:00<00:00, 13.40it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.98it/s]
-Epoch 129/500 Train Loss: 31.989477 (MSE:27.958039, CE:0.154009, KLD:52.090449)  Val Loss: 0.697615 (MSE:0.431622, CE:0.093939, KLD:2.311423)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.76it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.41it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.01it/s]
-Epoch 130/500 Train Loss: 50.064503 (MSE:46.043340, CE:0.166844, KLD:51.780030)  Val Loss: 0.700122 (MSE:0.434816, CE:0.092566, KLD:2.320638)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.70it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  9.99it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.64it/s]
-Epoch 131/500 Train Loss: 16.799188 (MSE:12.955953, CE:0.129428, KLD:49.892298)  Val Loss: 0.699279 (MSE:0.434514, CE:0.092981, KLD:2.307793)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.65it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.02it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.95it/s]
-Epoch 132/500 Train Loss: 6.331140 (MSE:2.548216, CE:0.102939, KLD:49.437932)  Val Loss: 0.681903 (MSE:0.419735, CE:0.089412, KLD:2.320857)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.61it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.12it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.87it/s]
-Epoch 133/500 Train Loss: 63.138749 (MSE:59.396864, CE:0.091187, KLD:49.044490)  Val Loss: 0.689068 (MSE:0.426683, CE:0.088811, KLD:2.331838)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.66it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.72it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.75it/s]
-Epoch 134/500 Train Loss: 41.686531 (MSE:38.050015, CE:0.085057, KLD:47.711260)  Val Loss: 0.687210 (MSE:0.423537, CE:0.088215, KLD:2.357156)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.58it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  9.90it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.70it/s]
-Epoch 135/500 Train Loss: 20.680368 (MSE:17.065107, CE:0.129702, KLD:46.825960)  Val Loss: 0.665063 (MSE:0.404078, CE:0.085991, KLD:2.350912)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.58it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.08it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.87it/s]
-Epoch 136/500 Train Loss: 13.195706 (MSE:9.683386, CE:0.081948, KLD:46.084570)  Val Loss: 0.674280 (MSE:0.414707, CE:0.084005, KLD:2.358628)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.01it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.78it/s]
-Epoch 137/500 Train Loss: 4.280395 (MSE:0.800112, CE:0.080538, KLD:45.673118)  Val Loss: 0.663423 (MSE:0.405076, CE:0.083527, KLD:2.348582)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.80it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.66it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.51it/s]
-Epoch 138/500 Train Loss: 23.885482 (MSE:20.374951, CE:0.130697, KLD:45.405639)  Val Loss: 0.717666 (MSE:0.454991, CE:0.087929, KLD:2.347587)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.64it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.28it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.15it/s]
-Epoch 139/500 Train Loss: 3.757776 (MSE:0.331827, CE:0.077218, KLD:44.987770)  Val Loss: 0.655585 (MSE:0.399708, CE:0.081247, KLD:2.346033)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.63it/s]
- 57%|█████▋    | 4/7 [00:00<00:00,  9.98it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.79it/s]
-Epoch 140/500 Train Loss: 29.191765 (MSE:25.728774, CE:0.133498, KLD:44.729316)  Val Loss: 0.659543 (MSE:0.404789, CE:0.079738, KLD:2.351217)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.81it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.76it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.39it/s]
-Epoch 141/500 Train Loss: 14.382398 (MSE:11.021121, CE:0.074793, KLD:44.151534)  Val Loss: 0.644671 (MSE:0.390860, CE:0.079156, KLD:2.346370)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.78it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.66it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.98it/s]
-Epoch 142/500 Train Loss: 11.193591 (MSE:7.865515, CE:0.075453, KLD:43.696620)  Val Loss: 0.641562 (MSE:0.388692, CE:0.078163, KLD:2.347059)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.79it/s]
- 57%|█████▋    | 4/7 [00:00<00:00, 10.37it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.09it/s]
-Epoch 143/500 Train Loss: 24.022021 (MSE:20.717833, CE:0.072957, KLD:43.409252)  Val Loss: 0.656285 (MSE:0.403619, CE:0.078204, KLD:2.343778)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.82it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.88it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.48it/s]
-Epoch 144/500 Train Loss: 240.356354 (MSE:236.934405, CE:0.235487, KLD:42.807945)  Val Loss: 0.643184 (MSE:0.392558, CE:0.075803, KLD:2.348623)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.66it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.04it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.25it/s]
-Epoch 145/500 Train Loss: 33.100746 (MSE:29.993649, CE:0.132840, KLD:39.956975)  Val Loss: 0.640962 (MSE:0.391067, CE:0.074356, KLD:2.358250)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.58it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.91it/s]
-100%|██████████| 7/7 [00:00<00:00, 10.80it/s]
-Epoch 146/500 Train Loss: 92.435543 (MSE:89.409252, CE:0.176973, KLD:38.278564)  Val Loss: 0.630603 (MSE:0.381193, CE:0.072795, KLD:2.372698)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.88it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.71it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.41it/s]
-Epoch 147/500 Train Loss: 11.025609 (MSE:8.197954, CE:0.097190, KLD:36.681822)  Val Loss: 0.645741 (MSE:0.394733, CE:0.074011, KLD:2.377834)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.53it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.93it/s]
- 71%|███████▏  | 5/7 [00:00<00:00,  9.45it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.37it/s]
-Epoch 148/500 Train Loss: 50.024200 (MSE:47.247245, CE:0.137455, KLD:35.459754)  Val Loss: 0.636790 (MSE:0.386499, CE:0.073023, KLD:2.381476)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.40it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.23it/s]
-Epoch 149/500 Train Loss: 10.283862 (MSE:7.625093, CE:0.094379, KLD:34.450715)  Val Loss: 0.632415 (MSE:0.381820, CE:0.072246, KLD:2.395971)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.80it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.75it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.33it/s]
-Epoch 150/500 Train Loss: 4.245209 (MSE:1.671037, CE:0.066638, KLD:33.686899)  Val Loss: 0.637080 (MSE:0.387025, CE:0.071884, KLD:2.393605)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.63it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.16it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.38it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.93it/s]
-Epoch 151/500 Train Loss: 3.602740 (MSE:1.070814, CE:0.067211, KLD:33.111659)  Val Loss: 0.626305 (MSE:0.376572, CE:0.071883, KLD:2.389280)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.62it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.11it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.03it/s]
-Epoch 152/500 Train Loss: 2.959977 (MSE:0.438797, CE:0.065580, KLD:32.989197)  Val Loss: 0.612037 (MSE:0.363538, CE:0.070517, KLD:2.391058)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.58it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 11.98it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.02it/s]
-Epoch 153/500 Train Loss: 2.836511 (MSE:0.331094, CE:0.066478, KLD:32.765369)  Val Loss: 0.616554 (MSE:0.370301, CE:0.069114, KLD:2.379729)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.52it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.98it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.10it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.09it/s]
-Epoch 154/500 Train Loss: 3.068457 (MSE:0.568173, CE:0.069206, KLD:32.659779)  Val Loss: 0.598369 (MSE:0.352881, CE:0.068559, KLD:2.376917)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.52it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.30it/s]
-Epoch 155/500 Train Loss: 14.259728 (MSE:11.771532, CE:0.063206, KLD:32.578002)  Val Loss: 0.602789 (MSE:0.357641, CE:0.067912, KLD:2.381033)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.73it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.61it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.36it/s]
-Epoch 156/500 Train Loss: 2.969274 (MSE:0.497274, CE:0.063368, KLD:32.358223)  Val Loss: 0.615733 (MSE:0.372904, CE:0.066678, KLD:2.366453)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.70it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.34it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.47it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.04it/s]
-Epoch 157/500 Train Loss: 5.279692 (MSE:2.816685, CE:0.061640, KLD:32.260616)  Val Loss: 0.594396 (MSE:0.352109, CE:0.066546, KLD:2.360954)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.81it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.76it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.41it/s]
-Epoch 158/500 Train Loss: 11.942537 (MSE:9.454872, CE:0.090706, KLD:32.201411)  Val Loss: 0.588206 (MSE:0.347357, CE:0.065261, KLD:2.358906)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.78it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.50it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.18it/s]
-Epoch 159/500 Train Loss: 19.800220 (MSE:17.320547, CE:0.101737, KLD:31.945847)  Val Loss: 0.592429 (MSE:0.349724, CE:0.066617, KLD:2.365612)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.69it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  6.87it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.05it/s]
-100%|██████████| 7/7 [00:00<00:00,  8.87it/s]
-Epoch 160/500 Train Loss: 2.814227 (MSE:0.397991, CE:0.059457, KLD:31.661612)  Val Loss: 0.576833 (MSE:0.336953, CE:0.064016, KLD:2.362608)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.72it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.28it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.02it/s]
-Epoch 161/500 Train Loss: 7.616073 (MSE:5.209751, CE:0.059236, KLD:31.531399)  Val Loss: 0.575270 (MSE:0.335932, CE:0.063968, KLD:2.355968)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.83it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 12.88it/s]
-100%|██████████| 7/7 [00:00<00:00, 11.42it/s]
-Epoch 162/500 Train Loss: 42.570094 (MSE:40.119729, CE:0.120833, KLD:31.295600)  Val Loss: 0.582905 (MSE:0.344347, CE:0.062961, KLD:2.359009)
-
-  0%|          | 0/7 [00:00<?, ?it/s]
- 14%|█▍        | 1/7 [00:00<00:02,  2.61it/s]
- 43%|████▎     | 3/7 [00:00<00:00,  7.06it/s]
- 71%|███████▏  | 5/7 [00:00<00:00, 10.53it/s]
-100%|██████████| 7/7 [00:00<00:00,  9.54it/s]
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:03,  1.10it/s]100%|██████████| 5/5 [00:01<00:00,  4.87it/s]
+Epoch 001/500 Train Loss: 1.334486 (MSE:1.334102, CE:0.000000, KLD:0.157072)  Val Loss: 1.241982 (MSE:1.241614, CE:0.000000, KLD:0.150050)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.00it/s]100%|██████████| 5/5 [00:00<00:00, 10.90it/s]
+Epoch 002/500 Train Loss: 1.241343 (MSE:1.240974, CE:0.000000, KLD:0.150482)  Val Loss: 1.174395 (MSE:1.174034, CE:0.000000, KLD:0.147335)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.04it/s]100%|██████████| 5/5 [00:00<00:00, 10.29it/s]
+Epoch 003/500 Train Loss: 1.162649 (MSE:1.162282, CE:0.000000, KLD:0.149546)  Val Loss: 1.092485 (MSE:1.092117, CE:0.000000, KLD:0.150162)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.07it/s]100%|██████████| 5/5 [00:00<00:00, 11.26it/s]
+Epoch 004/500 Train Loss: 1.102121 (MSE:1.101744, CE:0.000000, KLD:0.153966)  Val Loss: 1.031958 (MSE:1.031571, CE:0.000000, KLD:0.157890)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.96it/s]100%|██████████| 5/5 [00:00<00:00, 10.66it/s]
+Epoch 005/500 Train Loss: 1.041849 (MSE:1.041449, CE:0.000000, KLD:0.163121)  Val Loss: 0.978241 (MSE:0.977824, CE:0.000000, KLD:0.169992)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.11it/s]100%|██████████| 5/5 [00:00<00:00, 10.26it/s]
+Epoch 006/500 Train Loss: 0.987265 (MSE:0.986833, CE:0.000000, KLD:0.176547)  Val Loss: 0.927567 (MSE:0.927111, CE:0.000000, KLD:0.185999)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.90it/s]100%|██████████| 5/5 [00:00<00:00, 10.09it/s]
+Epoch 007/500 Train Loss: 0.939560 (MSE:0.939086, CE:0.000000, KLD:0.193687)  Val Loss: 0.883532 (MSE:0.883029, CE:0.000000, KLD:0.205441)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.23it/s]100%|██████████| 5/5 [00:00<00:00, 11.19it/s]
+Epoch 008/500 Train Loss: 0.892978 (MSE:0.892453, CE:0.000000, KLD:0.214290)  Val Loss: 0.844051 (MSE:0.843492, CE:0.000000, KLD:0.228206)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.02it/s]100%|██████████| 5/5 [00:00<00:00, 10.70it/s]
+Epoch 009/500 Train Loss: 0.849896 (MSE:0.849312, CE:0.000000, KLD:0.238156)  Val Loss: 0.813118 (MSE:0.812495, CE:0.000000, KLD:0.254196)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.14it/s]100%|██████████| 5/5 [00:00<00:00, 11.34it/s]
+Epoch 010/500 Train Loss: 0.811707 (MSE:0.811057, CE:0.000000, KLD:0.265208)  Val Loss: 0.753976 (MSE:0.753282, CE:0.000000, KLD:0.283241)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.87it/s]100%|██████████| 5/5 [00:00<00:00, 10.25it/s]
+Epoch 011/500 Train Loss: 0.764691 (MSE:0.763968, CE:0.000000, KLD:0.295275)  Val Loss: 0.720196 (MSE:0.719423, CE:0.000000, KLD:0.315149)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.14it/s]100%|██████████| 5/5 [00:00<00:00, 10.87it/s]
+Epoch 012/500 Train Loss: 0.730239 (MSE:0.729435, CE:0.000000, KLD:0.328170)  Val Loss: 0.681831 (MSE:0.680974, CE:0.000000, KLD:0.349881)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.03it/s]100%|██████████| 5/5 [00:00<00:00, 10.37it/s]
+Epoch 013/500 Train Loss: 0.687418 (MSE:0.686527, CE:0.000000, KLD:0.363830)  Val Loss: 0.638901 (MSE:0.637953, CE:0.000000, KLD:0.387036)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.14it/s]100%|██████████| 5/5 [00:00<00:00, 11.30it/s]
+Epoch 014/500 Train Loss: 0.652401 (MSE:0.651416, CE:0.000000, KLD:0.401800)  Val Loss: 0.606261 (MSE:0.605216, CE:0.000000, KLD:0.426457)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.96it/s]100%|██████████| 5/5 [00:00<00:00,  9.69it/s]
+Epoch 015/500 Train Loss: 0.610912 (MSE:0.609828, CE:0.000000, KLD:0.441951)  Val Loss: 0.574755 (MSE:0.573609, CE:0.000000, KLD:0.467616)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.89it/s]100%|██████████| 5/5 [00:00<00:00,  9.82it/s]
+Epoch 016/500 Train Loss: 0.576040 (MSE:0.574854, CE:0.000000, KLD:0.483715)  Val Loss: 0.544955 (MSE:0.543705, CE:0.000000, KLD:0.510344)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.07it/s]100%|██████████| 5/5 [00:00<00:00, 11.29it/s]
+Epoch 017/500 Train Loss: 0.544719 (MSE:0.543427, CE:0.000000, KLD:0.527118)  Val Loss: 0.505531 (MSE:0.504171, CE:0.000000, KLD:0.554709)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.46it/s]100%|██████████| 5/5 [00:00<00:00, 11.19it/s]
+Epoch 018/500 Train Loss: 0.510685 (MSE:0.509283, CE:0.000000, KLD:0.572081)  Val Loss: 0.480622 (MSE:0.479150, CE:0.000000, KLD:0.600291)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.97it/s]100%|██████████| 5/5 [00:00<00:00, 10.64it/s]
+Epoch 019/500 Train Loss: 0.481609 (MSE:0.480094, CE:0.000000, KLD:0.618134)  Val Loss: 0.454695 (MSE:0.453110, CE:0.000000, KLD:0.646834)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.35it/s]100%|██████████| 5/5 [00:00<00:00,  8.21it/s]
+Epoch 020/500 Train Loss: 0.452064 (MSE:0.450433, CE:0.000000, KLD:0.665207)  Val Loss: 0.426839 (MSE:0.425137, CE:0.000000, KLD:0.694293)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.06it/s]100%|██████████| 5/5 [00:00<00:00, 10.46it/s]
+Epoch 021/500 Train Loss: 0.424062 (MSE:0.422314, CE:0.000000, KLD:0.713157)  Val Loss: 0.394817 (MSE:0.392996, CE:0.000000, KLD:0.742709)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.72it/s]100%|██████████| 5/5 [00:00<00:00,  9.44it/s]
+Epoch 022/500 Train Loss: 0.399294 (MSE:0.397426, CE:0.000000, KLD:0.762148)  Val Loss: 0.372940 (MSE:0.370999, CE:0.000000, KLD:0.792041)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.93it/s]100%|██████████| 5/5 [00:00<00:00,  9.69it/s]
+Epoch 023/500 Train Loss: 0.374997 (MSE:0.373008, CE:0.000000, KLD:0.811791)  Val Loss: 0.352303 (MSE:0.350240, CE:0.000000, KLD:0.841519)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.21it/s]100%|██████████| 5/5 [00:00<00:00,  7.99it/s]
+Epoch 024/500 Train Loss: 0.351008 (MSE:0.348897, CE:0.000000, KLD:0.861544)  Val Loss: 0.333218 (MSE:0.331033, CE:0.000000, KLD:0.891228)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.19it/s]100%|██████████| 5/5 [00:00<00:00,  8.07it/s]
+Epoch 025/500 Train Loss: 0.328730 (MSE:0.326496, CE:0.000000, KLD:0.911494)  Val Loss: 0.310726 (MSE:0.308421, CE:0.000000, KLD:0.940782)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.36it/s]100%|██████████| 5/5 [00:00<00:00,  8.14it/s]
+Epoch 026/500 Train Loss: 0.310722 (MSE:0.308366, CE:0.000000, KLD:0.961026)  Val Loss: 0.291126 (MSE:0.288700, CE:0.000000, KLD:0.989688)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.16it/s]100%|██████████| 5/5 [00:00<00:00,  7.86it/s]
+Epoch 027/500 Train Loss: 0.290970 (MSE:0.288494, CE:0.000000, KLD:1.010154)  Val Loss: 0.272991 (MSE:0.270446, CE:0.000000, KLD:1.038608)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.19it/s]100%|██████████| 5/5 [00:00<00:00,  7.67it/s]
+Epoch 028/500 Train Loss: 0.272720 (MSE:0.270124, CE:0.000000, KLD:1.059313)  Val Loss: 0.258859 (MSE:0.256193, CE:0.000000, KLD:1.087485)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.23it/s]100%|██████████| 5/5 [00:00<00:00,  8.20it/s]
+Epoch 029/500 Train Loss: 0.257055 (MSE:0.254339, CE:0.000000, KLD:1.108193)  Val Loss: 0.242384 (MSE:0.239601, CE:0.000000, KLD:1.135754)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.23it/s]100%|██████████| 5/5 [00:00<00:00,  8.06it/s]
+Epoch 030/500 Train Loss: 0.241186 (MSE:0.238352, CE:0.000000, KLD:1.156445)  Val Loss: 0.226050 (MSE:0.223149, CE:0.000000, KLD:1.183514)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.28it/s]100%|██████████| 5/5 [00:00<00:00,  8.16it/s]
+Epoch 031/500 Train Loss: 0.225529 (MSE:0.222577, CE:0.000000, KLD:1.204453)  Val Loss: 0.213019 (MSE:0.210001, CE:0.000000, KLD:1.231354)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.84it/s]100%|██████████| 5/5 [00:00<00:00, 10.35it/s]
+Epoch 032/500 Train Loss: 0.211524 (MSE:0.208454, CE:0.000000, KLD:1.252338)  Val Loss: 0.199355 (MSE:0.196221, CE:0.000000, KLD:1.278666)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.95it/s]100%|██████████| 5/5 [00:00<00:00, 10.66it/s]
+Epoch 033/500 Train Loss: 0.199804 (MSE:0.196619, CE:0.000000, KLD:1.299793)  Val Loss: 0.186194 (MSE:0.182945, CE:0.000000, KLD:1.325917)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.94it/s]100%|██████████| 5/5 [00:00<00:00, 10.59it/s]
+Epoch 034/500 Train Loss: 0.187591 (MSE:0.184289, CE:0.000000, KLD:1.347364)  Val Loss: 0.177599 (MSE:0.174233, CE:0.000000, KLD:1.373329)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.85it/s]100%|██████████| 5/5 [00:00<00:00,  9.99it/s]
+Epoch 035/500 Train Loss: 0.175140 (MSE:0.171721, CE:0.000000, KLD:1.394940)  Val Loss: 0.164414 (MSE:0.160933, CE:0.000000, KLD:1.420232)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.46it/s]100%|██████████| 5/5 [00:00<00:00, 11.75it/s]
+Epoch 036/500 Train Loss: 0.165453 (MSE:0.161920, CE:0.000000, KLD:1.441678)  Val Loss: 0.155734 (MSE:0.152140, CE:0.000000, KLD:1.466455)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.78it/s]100%|██████████| 5/5 [00:00<00:00,  9.54it/s]
+Epoch 037/500 Train Loss: 0.154619 (MSE:0.150972, CE:0.000000, KLD:1.487992)  Val Loss: 0.146831 (MSE:0.143125, CE:0.000000, KLD:1.512416)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.06it/s]100%|██████████| 5/5 [00:00<00:00,  7.62it/s]
+Epoch 038/500 Train Loss: 0.145899 (MSE:0.142139, CE:0.000000, KLD:1.534307)  Val Loss: 0.136364 (MSE:0.132544, CE:0.000000, KLD:1.558516)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.19it/s]100%|██████████| 5/5 [00:00<00:00,  8.10it/s]
+Epoch 039/500 Train Loss: 0.137408 (MSE:0.133534, CE:0.000000, KLD:1.580539)  Val Loss: 0.131162 (MSE:0.127230, CE:0.000000, KLD:1.604415)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.21it/s]100%|██████████| 5/5 [00:00<00:00,  8.04it/s]
+Epoch 040/500 Train Loss: 0.129577 (MSE:0.125590, CE:0.000000, KLD:1.626661)  Val Loss: 0.123190 (MSE:0.119145, CE:0.000000, KLD:1.650059)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.18it/s]100%|██████████| 5/5 [00:00<00:00,  7.90it/s]
+Epoch 041/500 Train Loss: 0.122187 (MSE:0.118089, CE:0.000000, KLD:1.672043)  Val Loss: 0.116576 (MSE:0.112423, CE:0.000000, KLD:1.694587)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.33it/s]100%|██████████| 5/5 [00:00<00:00,  8.54it/s]
+Epoch 042/500 Train Loss: 0.116292 (MSE:0.112085, CE:0.000000, KLD:1.716743)  Val Loss: 0.111115 (MSE:0.106853, CE:0.000000, KLD:1.738951)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.11it/s]100%|██████████| 5/5 [00:00<00:00,  7.64it/s]
+Epoch 043/500 Train Loss: 0.110201 (MSE:0.105885, CE:0.000000, KLD:1.761011)  Val Loss: 0.106505 (MSE:0.102138, CE:0.000000, KLD:1.781777)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.10it/s]100%|██████████| 5/5 [00:00<00:00,  7.44it/s]
+Epoch 044/500 Train Loss: 0.104465 (MSE:0.100046, CE:0.000000, KLD:1.802963)  Val Loss: 0.101721 (MSE:0.097256, CE:0.000000, KLD:1.821720)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.11it/s]100%|██████████| 5/5 [00:00<00:00,  7.68it/s]
+Epoch 045/500 Train Loss: 0.099461 (MSE:0.094944, CE:0.000000, KLD:1.842779)  Val Loss: 0.095526 (MSE:0.090964, CE:0.000000, KLD:1.861318)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.37it/s]100%|██████████| 5/5 [00:00<00:00,  8.31it/s]
+Epoch 046/500 Train Loss: 0.095201 (MSE:0.090587, CE:0.000000, KLD:1.882546)  Val Loss: 0.092961 (MSE:0.088303, CE:0.000000, KLD:1.900756)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.16it/s]100%|██████████| 5/5 [00:00<00:00,  8.05it/s]
+Epoch 047/500 Train Loss: 0.091312 (MSE:0.086602, CE:0.000000, KLD:1.921919)  Val Loss: 0.088285 (MSE:0.083532, CE:0.000000, KLD:1.939032)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.11it/s]100%|██████████| 5/5 [00:00<00:00,  7.78it/s]
+Epoch 048/500 Train Loss: 0.087360 (MSE:0.082557, CE:0.000000, KLD:1.959919)  Val Loss: 0.084322 (MSE:0.079479, CE:0.000000, KLD:1.975982)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.23it/s]100%|██████████| 5/5 [00:00<00:00,  7.92it/s]
+Epoch 049/500 Train Loss: 0.083982 (MSE:0.079089, CE:0.000000, KLD:1.996459)  Val Loss: 0.081064 (MSE:0.076133, CE:0.000000, KLD:2.011790)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.10it/s]100%|██████████| 5/5 [00:00<00:00,  7.83it/s]
+Epoch 050/500 Train Loss: 0.080205 (MSE:0.075224, CE:0.000000, KLD:2.032409)  Val Loss: 0.077709 (MSE:0.072692, CE:0.000000, KLD:2.046980)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.20it/s]100%|██████████| 5/5 [00:00<00:00,  8.18it/s]
+Epoch 051/500 Train Loss: 0.077376 (MSE:0.072310, CE:0.000000, KLD:2.067077)  Val Loss: 0.074867 (MSE:0.069768, CE:0.000000, KLD:2.080565)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.14it/s]100%|██████████| 5/5 [00:00<00:00,  7.68it/s]
+Epoch 052/500 Train Loss: 0.074955 (MSE:0.069806, CE:0.000000, KLD:2.100752)  Val Loss: 0.072983 (MSE:0.067801, CE:0.000000, KLD:2.114257)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.35it/s]100%|██████████| 5/5 [00:00<00:00,  8.32it/s]
+Epoch 053/500 Train Loss: 0.072145 (MSE:0.066914, CE:0.000000, KLD:2.134446)  Val Loss: 0.069989 (MSE:0.064725, CE:0.000000, KLD:2.147800)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.13it/s]100%|██████████| 5/5 [00:00<00:00,  7.66it/s]
+Epoch 054/500 Train Loss: 0.069583 (MSE:0.064268, CE:0.000000, KLD:2.168238)  Val Loss: 0.069558 (MSE:0.064213, CE:0.000000, KLD:2.180715)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.25it/s]100%|██████████| 5/5 [00:00<00:00,  8.21it/s]
+Epoch 055/500 Train Loss: 0.067237 (MSE:0.061845, CE:0.000000, KLD:2.200051)  Val Loss: 0.066065 (MSE:0.060647, CE:0.000000, KLD:2.210514)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.33it/s]100%|██████████| 5/5 [00:00<00:00,  8.14it/s]
+Epoch 056/500 Train Loss: 0.065022 (MSE:0.059557, CE:0.000000, KLD:2.229798)  Val Loss: 0.063243 (MSE:0.057751, CE:0.000000, KLD:2.240541)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.10it/s]100%|██████████| 5/5 [00:00<00:00,  7.81it/s]
+Epoch 057/500 Train Loss: 0.063274 (MSE:0.057734, CE:0.000000, KLD:2.260103)  Val Loss: 0.061950 (MSE:0.056384, CE:0.000000, KLD:2.270683)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.27it/s]100%|██████████| 5/5 [00:00<00:00,  8.08it/s]
+Epoch 058/500 Train Loss: 0.061256 (MSE:0.055644, CE:0.000000, KLD:2.289997)  Val Loss: 0.060001 (MSE:0.054364, CE:0.000000, KLD:2.299625)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.19it/s]100%|██████████| 5/5 [00:00<00:00,  7.80it/s]
+Epoch 059/500 Train Loss: 0.059516 (MSE:0.053834, CE:0.000000, KLD:2.318619)  Val Loss: 0.058570 (MSE:0.052865, CE:0.000000, KLD:2.327938)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.27it/s]100%|██████████| 5/5 [00:00<00:00,  8.45it/s]
+Epoch 060/500 Train Loss: 0.057996 (MSE:0.052243, CE:0.000000, KLD:2.347254)  Val Loss: 0.057201 (MSE:0.051426, CE:0.000000, KLD:2.356343)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.21it/s]100%|██████████| 5/5 [00:00<00:00,  7.78it/s]
+Epoch 061/500 Train Loss: 0.056242 (MSE:0.050420, CE:0.000000, KLD:2.375183)  Val Loss: 0.056224 (MSE:0.050383, CE:0.000000, KLD:2.383000)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.20it/s]100%|██████████| 5/5 [00:00<00:00,  8.08it/s]
+Epoch 062/500 Train Loss: 0.054760 (MSE:0.048874, CE:0.000000, KLD:2.401561)  Val Loss: 0.053387 (MSE:0.047483, CE:0.000000, KLD:2.408769)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.29it/s]100%|██████████| 5/5 [00:00<00:00,  8.42it/s]
+Epoch 063/500 Train Loss: 0.053309 (MSE:0.047360, CE:0.000000, KLD:2.427198)  Val Loss: 0.052544 (MSE:0.046579, CE:0.000000, KLD:2.433677)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.12it/s]100%|██████████| 5/5 [00:00<00:00,  7.51it/s]
+Epoch 064/500 Train Loss: 0.052115 (MSE:0.046106, CE:0.000000, KLD:2.451833)  Val Loss: 0.051738 (MSE:0.045714, CE:0.000000, KLD:2.458111)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.27it/s]100%|██████████| 5/5 [00:00<00:00,  8.25it/s]
+Epoch 065/500 Train Loss: 0.050829 (MSE:0.044760, CE:0.000000, KLD:2.476376)  Val Loss: 0.050297 (MSE:0.044213, CE:0.000000, KLD:2.482358)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.18it/s]100%|██████████| 5/5 [00:00<00:00,  7.98it/s]
+Epoch 066/500 Train Loss: 0.049712 (MSE:0.043584, CE:0.000000, KLD:2.500395)  Val Loss: 0.049724 (MSE:0.043583, CE:0.000000, KLD:2.505672)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.18it/s]100%|██████████| 5/5 [00:00<00:00,  8.01it/s]
+Epoch 067/500 Train Loss: 0.048633 (MSE:0.042448, CE:0.000000, KLD:2.523508)  Val Loss: 0.049174 (MSE:0.042976, CE:0.000000, KLD:2.528919)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.29it/s]100%|██████████| 5/5 [00:00<00:00,  8.10it/s]
+Epoch 068/500 Train Loss: 0.047710 (MSE:0.041467, CE:0.000000, KLD:2.547172)  Val Loss: 0.047568 (MSE:0.041313, CE:0.000000, KLD:2.552123)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.24it/s]100%|██████████| 5/5 [00:00<00:00,  7.66it/s]
+Epoch 069/500 Train Loss: 0.046550 (MSE:0.040252, CE:0.000000, KLD:2.569680)  Val Loss: 0.046877 (MSE:0.040569, CE:0.000000, KLD:2.573570)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.21it/s]100%|██████████| 5/5 [00:00<00:00,  7.63it/s]
+Epoch 070/500 Train Loss: 0.045694 (MSE:0.039343, CE:0.000000, KLD:2.591338)  Val Loss: 0.045930 (MSE:0.039569, CE:0.000000, KLD:2.595364)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.19it/s]100%|██████████| 5/5 [00:00<00:00,  7.81it/s]
+Epoch 071/500 Train Loss: 0.044740 (MSE:0.038337, CE:0.000000, KLD:2.612811)  Val Loss: 0.044945 (MSE:0.038534, CE:0.000000, KLD:2.615535)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.28it/s]100%|██████████| 5/5 [00:00<00:00,  8.35it/s]
+Epoch 072/500 Train Loss: 0.044082 (MSE:0.037630, CE:0.000000, KLD:2.632555)  Val Loss: 0.043747 (MSE:0.037288, CE:0.000000, KLD:2.635370)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.25it/s]100%|██████████| 5/5 [00:00<00:00,  8.34it/s]
+Epoch 073/500 Train Loss: 0.043193 (MSE:0.036691, CE:0.000000, KLD:2.652840)  Val Loss: 0.043415 (MSE:0.036906, CE:0.000000, KLD:2.655773)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.25it/s]100%|██████████| 5/5 [00:00<00:00,  7.92it/s]
+Epoch 074/500 Train Loss: 0.042461 (MSE:0.035911, CE:0.000000, KLD:2.672736)  Val Loss: 0.043424 (MSE:0.036869, CE:0.000000, KLD:2.674408)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.24it/s]100%|██████████| 5/5 [00:00<00:00,  8.10it/s]
+Epoch 075/500 Train Loss: 0.041702 (MSE:0.035106, CE:0.000000, KLD:2.691409)  Val Loss: 0.041778 (MSE:0.035178, CE:0.000000, KLD:2.693205)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.18it/s]100%|██████████| 5/5 [00:00<00:00,  7.88it/s]
+Epoch 076/500 Train Loss: 0.040799 (MSE:0.034156, CE:0.000000, KLD:2.710266)  Val Loss: 0.041032 (MSE:0.034386, CE:0.000000, KLD:2.711888)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.26it/s]100%|██████████| 5/5 [00:00<00:00,  7.90it/s]
+Epoch 077/500 Train Loss: 0.040280 (MSE:0.033591, CE:0.000000, KLD:2.729020)  Val Loss: 0.040737 (MSE:0.034045, CE:0.000000, KLD:2.730477)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.08it/s]100%|██████████| 5/5 [00:00<00:00,  7.55it/s]
+Epoch 078/500 Train Loss: 0.039765 (MSE:0.033033, CE:0.000000, KLD:2.747069)  Val Loss: 0.039881 (MSE:0.033147, CE:0.000000, KLD:2.747431)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.29it/s]100%|██████████| 5/5 [00:00<00:00,  8.30it/s]
+Epoch 079/500 Train Loss: 0.038959 (MSE:0.032185, CE:0.000000, KLD:2.763794)  Val Loss: 0.039354 (MSE:0.032578, CE:0.000000, KLD:2.764282)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.29it/s]100%|██████████| 5/5 [00:00<00:00,  8.17it/s]
+Epoch 080/500 Train Loss: 0.038352 (MSE:0.031536, CE:0.000000, KLD:2.781195)  Val Loss: 0.038627 (MSE:0.031810, CE:0.000000, KLD:2.781422)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.15it/s]100%|██████████| 5/5 [00:00<00:00,  7.73it/s]
+Epoch 081/500 Train Loss: 0.037659 (MSE:0.030802, CE:0.000000, KLD:2.797560)  Val Loss: 0.037917 (MSE:0.031061, CE:0.000000, KLD:2.797147)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.21it/s]100%|██████████| 5/5 [00:00<00:00,  8.15it/s]
+Epoch 082/500 Train Loss: 0.037241 (MSE:0.030345, CE:0.000000, KLD:2.813829)  Val Loss: 0.037541 (MSE:0.030645, CE:0.000000, KLD:2.813546)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.23it/s]100%|██████████| 5/5 [00:00<00:00,  7.86it/s]
+Epoch 083/500 Train Loss: 0.036796 (MSE:0.029861, CE:0.000000, KLD:2.829664)  Val Loss: 0.036725 (MSE:0.029792, CE:0.000000, KLD:2.828371)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.32it/s]100%|██████████| 5/5 [00:00<00:00,  8.44it/s]
+Epoch 084/500 Train Loss: 0.036389 (MSE:0.029417, CE:0.000000, KLD:2.844644)  Val Loss: 0.036599 (MSE:0.029629, CE:0.000000, KLD:2.843741)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.29it/s]100%|██████████| 5/5 [00:00<00:00,  8.29it/s]
+Epoch 085/500 Train Loss: 0.035582 (MSE:0.028573, CE:0.000000, KLD:2.860066)  Val Loss: 0.035817 (MSE:0.028809, CE:0.000000, KLD:2.859324)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.28it/s]100%|██████████| 5/5 [00:00<00:00,  8.37it/s]
+Epoch 086/500 Train Loss: 0.035181 (MSE:0.028133, CE:0.000000, KLD:2.875555)  Val Loss: 0.035379 (MSE:0.028335, CE:0.000000, KLD:2.874089)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.22it/s]100%|██████████| 5/5 [00:00<00:00,  8.26it/s]
+Epoch 087/500 Train Loss: 0.034737 (MSE:0.027653, CE:0.000000, KLD:2.890086)  Val Loss: 0.035114 (MSE:0.028036, CE:0.000000, KLD:2.888106)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.27it/s]100%|██████████| 5/5 [00:00<00:00,  8.04it/s]
+Epoch 088/500 Train Loss: 0.034225 (MSE:0.027106, CE:0.000000, KLD:2.904280)  Val Loss: 0.034573 (MSE:0.027459, CE:0.000000, KLD:2.902496)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.29it/s]100%|██████████| 5/5 [00:00<00:00,  8.07it/s]
+Epoch 089/500 Train Loss: 0.033931 (MSE:0.026779, CE:0.000000, KLD:2.918405)  Val Loss: 0.034300 (MSE:0.027153, CE:0.000000, KLD:2.916291)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.22it/s]100%|██████████| 5/5 [00:00<00:00,  7.96it/s]
+Epoch 090/500 Train Loss: 0.033255 (MSE:0.026068, CE:0.000000, KLD:2.932136)  Val Loss: 0.034398 (MSE:0.027217, CE:0.000000, KLD:2.929761)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.10it/s]100%|██████████| 5/5 [00:00<00:00,  7.89it/s]
+Epoch 091/500 Train Loss: 0.032838 (MSE:0.025619, CE:0.000000, KLD:2.945605)  Val Loss: 0.033643 (MSE:0.026431, CE:0.000000, KLD:2.942851)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.24it/s]100%|██████████| 5/5 [00:00<00:00,  8.23it/s]
+Epoch 092/500 Train Loss: 0.032440 (MSE:0.025189, CE:0.000000, KLD:2.958680)  Val Loss: 0.033391 (MSE:0.026145, CE:0.000000, KLD:2.956328)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.18it/s]100%|██████████| 5/5 [00:00<00:00,  7.77it/s]
+Epoch 093/500 Train Loss: 0.032021 (MSE:0.024737, CE:0.000000, KLD:2.972006)  Val Loss: 0.032532 (MSE:0.025256, CE:0.000000, KLD:2.968719)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.26it/s]100%|██████████| 5/5 [00:00<00:00,  7.75it/s]
+Epoch 094/500 Train Loss: 0.031611 (MSE:0.024298, CE:0.000000, KLD:2.984115)  Val Loss: 0.032099 (MSE:0.024793, CE:0.000000, KLD:2.980622)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.35it/s]100%|██████████| 5/5 [00:00<00:00,  8.48it/s]
+Epoch 095/500 Train Loss: 0.031214 (MSE:0.023871, CE:0.000000, KLD:2.995966)  Val Loss: 0.031679 (MSE:0.024345, CE:0.000000, KLD:2.992199)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.19it/s]100%|██████████| 5/5 [00:00<00:00,  7.99it/s]
+Epoch 096/500 Train Loss: 0.030863 (MSE:0.023492, CE:0.000000, KLD:3.007351)  Val Loss: 0.031295 (MSE:0.023935, CE:0.000000, KLD:3.003162)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.18it/s]100%|██████████| 5/5 [00:00<00:00,  7.96it/s]
+Epoch 097/500 Train Loss: 0.030456 (MSE:0.023058, CE:0.000000, KLD:3.018378)  Val Loss: 0.031142 (MSE:0.023753, CE:0.000000, KLD:3.014870)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.22it/s]100%|██████████| 5/5 [00:00<00:00,  7.88it/s]
+Epoch 098/500 Train Loss: 0.030036 (MSE:0.022609, CE:0.000000, KLD:3.030172)  Val Loss: 0.030580 (MSE:0.023163, CE:0.000000, KLD:3.026500)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.19it/s]100%|██████████| 5/5 [00:00<00:00,  8.11it/s]
+Epoch 099/500 Train Loss: 0.029788 (MSE:0.022333, CE:0.000000, KLD:3.041738)  Val Loss: 0.030410 (MSE:0.022965, CE:0.000000, KLD:3.037479)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.25it/s]100%|██████████| 5/5 [00:00<00:00,  8.28it/s]
+Epoch 100/500 Train Loss: 0.029355 (MSE:0.021873, CE:0.000000, KLD:3.052422)  Val Loss: 0.029594 (MSE:0.022125, CE:0.000000, KLD:3.047336)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.22it/s]100%|██████████| 5/5 [00:00<00:00,  8.15it/s]
+Epoch 101/500 Train Loss: 0.029029 (MSE:0.021524, CE:0.000000, KLD:3.062011)  Val Loss: 0.029773 (MSE:0.022280, CE:0.000000, KLD:3.057443)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.24it/s]100%|██████████| 5/5 [00:00<00:00,  8.22it/s]
+Epoch 102/500 Train Loss: 0.028662 (MSE:0.021131, CE:0.000000, KLD:3.072479)  Val Loss: 0.029378 (MSE:0.021859, CE:0.000000, KLD:3.067737)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  3.07it/s]100%|██████████| 5/5 [00:00<00:00, 10.34it/s]
+Epoch 103/500 Train Loss: 0.028394 (MSE:0.020839, CE:0.000000, KLD:3.082339)  Val Loss: 0.029100 (MSE:0.021559, CE:0.000000, KLD:3.076880)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.28it/s]100%|██████████| 5/5 [00:00<00:00,  8.05it/s]
+Epoch 104/500 Train Loss: 0.028171 (MSE:0.020594, CE:0.000000, KLD:3.091541)  Val Loss: 0.028696 (MSE:0.021130, CE:0.000000, KLD:3.087012)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.22it/s]100%|██████████| 5/5 [00:00<00:00,  8.30it/s]
+Epoch 105/500 Train Loss: 0.027743 (MSE:0.020140, CE:0.000000, KLD:3.101983)  Val Loss: 0.028654 (MSE:0.021064, CE:0.000000, KLD:3.096849)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.12it/s]100%|██████████| 5/5 [00:00<00:00,  7.90it/s]
+Epoch 106/500 Train Loss: 0.027481 (MSE:0.019855, CE:0.000000, KLD:3.111475)  Val Loss: 0.028396 (MSE:0.020784, CE:0.000000, KLD:3.105875)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.28it/s]100%|██████████| 5/5 [00:00<00:00,  8.32it/s]
+Epoch 107/500 Train Loss: 0.027299 (MSE:0.019652, CE:0.000000, KLD:3.120128)  Val Loss: 0.028019 (MSE:0.020386, CE:0.000000, KLD:3.114115)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.16it/s]100%|██████████| 5/5 [00:00<00:00,  7.93it/s]
+Epoch 108/500 Train Loss: 0.026917 (MSE:0.019249, CE:0.000000, KLD:3.128475)  Val Loss: 0.027586 (MSE:0.019932, CE:0.000000, KLD:3.123007)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.09it/s]100%|██████████| 5/5 [00:00<00:00,  7.60it/s]
+Epoch 109/500 Train Loss: 0.026697 (MSE:0.019007, CE:0.000000, KLD:3.137832)  Val Loss: 0.027362 (MSE:0.019685, CE:0.000000, KLD:3.132517)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.14it/s]100%|██████████| 5/5 [00:00<00:00,  7.84it/s]
+Epoch 110/500 Train Loss: 0.026410 (MSE:0.018697, CE:0.000000, KLD:3.146910)  Val Loss: 0.027355 (MSE:0.019657, CE:0.000000, KLD:3.140974)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.12it/s]100%|██████████| 5/5 [00:00<00:00,  7.83it/s]
+Epoch 111/500 Train Loss: 0.026128 (MSE:0.018396, CE:0.000000, KLD:3.154989)  Val Loss: 0.027077 (MSE:0.019360, CE:0.000000, KLD:3.148654)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.12it/s]100%|██████████| 5/5 [00:00<00:00,  7.79it/s]
+Epoch 112/500 Train Loss: 0.025684 (MSE:0.017932, CE:0.000000, KLD:3.162622)  Val Loss: 0.026592 (MSE:0.018856, CE:0.000000, KLD:3.156244)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.29it/s]100%|██████████| 5/5 [00:00<00:00,  8.01it/s]
+Epoch 113/500 Train Loss: 0.025497 (MSE:0.017726, CE:0.000000, KLD:3.170711)  Val Loss: 0.026381 (MSE:0.018626, CE:0.000000, KLD:3.164294)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.33it/s]100%|██████████| 5/5 [00:00<00:00,  8.42it/s]
+Epoch 114/500 Train Loss: 0.025311 (MSE:0.017522, CE:0.000000, KLD:3.178016)  Val Loss: 0.026531 (MSE:0.018759, CE:0.000000, KLD:3.171285)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.13it/s]100%|██████████| 5/5 [00:00<00:00,  7.76it/s]
+Epoch 115/500 Train Loss: 0.025029 (MSE:0.017223, CE:0.000000, KLD:3.185140)  Val Loss: 0.025736 (MSE:0.017947, CE:0.000000, KLD:3.177817)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.23it/s]100%|██████████| 5/5 [00:00<00:00,  8.38it/s]
+Epoch 116/500 Train Loss: 0.024835 (MSE:0.017014, CE:0.000000, KLD:3.191370)  Val Loss: 0.025616 (MSE:0.017811, CE:0.000000, KLD:3.184463)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.26it/s]100%|██████████| 5/5 [00:00<00:00,  8.25it/s]
+Epoch 117/500 Train Loss: 0.024611 (MSE:0.016772, CE:0.000000, KLD:3.198467)  Val Loss: 0.025489 (MSE:0.017666, CE:0.000000, KLD:3.191765)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.30it/s]100%|██████████| 5/5 [00:00<00:00,  8.09it/s]
+Epoch 118/500 Train Loss: 0.024500 (MSE:0.016644, CE:0.000000, KLD:3.205405)  Val Loss: 0.025170 (MSE:0.017332, CE:0.000000, KLD:3.198129)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.23it/s]100%|██████████| 5/5 [00:00<00:00,  8.22it/s]
+Epoch 119/500 Train Loss: 0.024199 (MSE:0.016328, CE:0.000000, KLD:3.211669)  Val Loss: 0.024638 (MSE:0.016784, CE:0.000000, KLD:3.204134)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.16it/s]100%|██████████| 5/5 [00:00<00:00,  7.93it/s]
+Epoch 120/500 Train Loss: 0.023928 (MSE:0.016041, CE:0.000000, KLD:3.218054)  Val Loss: 0.024698 (MSE:0.016828, CE:0.000000, KLD:3.211152)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.26it/s]100%|██████████| 5/5 [00:00<00:00,  8.25it/s]
+Epoch 121/500 Train Loss: 0.023593 (MSE:0.015690, CE:0.000000, KLD:3.224629)  Val Loss: 0.024540 (MSE:0.016655, CE:0.000000, KLD:3.216911)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.25it/s]100%|██████████| 5/5 [00:00<00:00,  8.16it/s]
+Epoch 122/500 Train Loss: 0.023482 (MSE:0.015564, CE:0.000000, KLD:3.230379)  Val Loss: 0.024439 (MSE:0.016541, CE:0.000000, KLD:3.222509)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.23it/s]100%|██████████| 5/5 [00:00<00:00,  8.03it/s]
+Epoch 123/500 Train Loss: 0.023370 (MSE:0.015439, CE:0.000000, KLD:3.235970)  Val Loss: 0.023961 (MSE:0.016048, CE:0.000000, KLD:3.228609)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.33it/s]100%|██████████| 5/5 [00:00<00:00,  8.37it/s]
+Epoch 124/500 Train Loss: 0.023058 (MSE:0.015111, CE:0.000000, KLD:3.242191)  Val Loss: 0.023748 (MSE:0.015819, CE:0.000000, KLD:3.235106)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.24it/s]100%|██████████| 5/5 [00:00<00:00,  8.15it/s]
+Epoch 125/500 Train Loss: 0.022943 (MSE:0.014980, CE:0.000000, KLD:3.248724)  Val Loss: 0.023682 (MSE:0.015738, CE:0.000000, KLD:3.241347)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.24it/s]100%|██████████| 5/5 [00:00<00:00,  8.17it/s]
+Epoch 126/500 Train Loss: 0.022610 (MSE:0.014633, CE:0.000000, KLD:3.254607)  Val Loss: 0.023490 (MSE:0.015535, CE:0.000000, KLD:3.245549)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.27it/s]100%|██████████| 5/5 [00:00<00:00,  7.98it/s]
+Epoch 127/500 Train Loss: 0.022597 (MSE:0.014611, CE:0.000000, KLD:3.258341)  Val Loss: 0.023187 (MSE:0.015220, CE:0.000000, KLD:3.250644)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.24it/s]100%|██████████| 5/5 [00:00<00:00,  8.35it/s]
+Epoch 128/500 Train Loss: 0.022302 (MSE:0.014303, CE:0.000000, KLD:3.263862)  Val Loss: 0.023285 (MSE:0.015307, CE:0.000000, KLD:3.255099)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.17it/s]100%|██████████| 5/5 [00:00<00:00,  8.08it/s]
+Epoch 129/500 Train Loss: 0.022125 (MSE:0.014115, CE:0.000000, KLD:3.268329)  Val Loss: 0.022946 (MSE:0.014954, CE:0.000000, KLD:3.261101)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.30it/s]100%|██████████| 5/5 [00:00<00:00,  8.56it/s]
+Epoch 130/500 Train Loss: 0.021979 (MSE:0.013953, CE:0.000000, KLD:3.274436)  Val Loss: 0.022418 (MSE:0.014413, CE:0.000000, KLD:3.266210)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.28it/s]100%|██████████| 5/5 [00:00<00:00,  8.31it/s]
+Epoch 131/500 Train Loss: 0.021722 (MSE:0.013685, CE:0.000000, KLD:3.279310)  Val Loss: 0.022405 (MSE:0.014388, CE:0.000000, KLD:3.271055)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.28it/s]100%|██████████| 5/5 [00:00<00:00,  8.33it/s]
+Epoch 132/500 Train Loss: 0.021571 (MSE:0.013522, CE:0.000000, KLD:3.283893)  Val Loss: 0.022349 (MSE:0.014321, CE:0.000000, KLD:3.275156)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.08it/s]100%|██████████| 5/5 [00:00<00:00,  7.73it/s]
+Epoch 133/500 Train Loss: 0.021346 (MSE:0.013288, CE:0.000000, KLD:3.287891)  Val Loss: 0.022045 (MSE:0.014009, CE:0.000000, KLD:3.279143)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.30it/s]100%|██████████| 5/5 [00:00<00:00,  8.31it/s]
+Epoch 134/500 Train Loss: 0.021231 (MSE:0.013163, CE:0.000000, KLD:3.292045)  Val Loss: 0.022086 (MSE:0.014037, CE:0.000000, KLD:3.284150)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.21it/s]100%|██████████| 5/5 [00:00<00:00,  8.01it/s]
+Epoch 135/500 Train Loss: 0.021077 (MSE:0.012997, CE:0.000000, KLD:3.296898)  Val Loss: 0.021904 (MSE:0.013845, CE:0.000000, KLD:3.288193)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.33it/s]100%|██████████| 5/5 [00:00<00:00,  8.53it/s]
+Epoch 136/500 Train Loss: 0.020850 (MSE:0.012759, CE:0.000000, KLD:3.301101)  Val Loss: 0.021715 (MSE:0.013645, CE:0.000000, KLD:3.292559)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.13it/s]100%|██████████| 5/5 [00:00<00:00,  7.72it/s]
+Epoch 137/500 Train Loss: 0.020687 (MSE:0.012586, CE:0.000000, KLD:3.305098)  Val Loss: 0.021355 (MSE:0.013278, CE:0.000000, KLD:3.295633)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.32it/s]100%|██████████| 5/5 [00:00<00:00,  8.15it/s]
+Epoch 138/500 Train Loss: 0.020506 (MSE:0.012398, CE:0.000000, KLD:3.307914)  Val Loss: 0.021348 (MSE:0.013264, CE:0.000000, KLD:3.298513)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.30it/s]100%|██████████| 5/5 [00:00<00:00,  8.36it/s]
+Epoch 139/500 Train Loss: 0.020398 (MSE:0.012282, CE:0.000000, KLD:3.311282)  Val Loss: 0.021424 (MSE:0.013329, CE:0.000000, KLD:3.302897)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.25it/s]100%|██████████| 5/5 [00:00<00:00,  8.29it/s]
+Epoch 140/500 Train Loss: 0.020318 (MSE:0.012192, CE:0.000000, KLD:3.315558)  Val Loss: 0.020858 (MSE:0.012755, CE:0.000000, KLD:3.306233)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.14it/s]100%|██████████| 5/5 [00:00<00:00,  7.98it/s]
+Epoch 141/500 Train Loss: 0.020122 (MSE:0.011987, CE:0.000000, KLD:3.318856)  Val Loss: 0.020892 (MSE:0.012781, CE:0.000000, KLD:3.309460)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.25it/s]100%|██████████| 5/5 [00:00<00:00,  7.99it/s]
+Epoch 142/500 Train Loss: 0.019939 (MSE:0.011798, CE:0.000000, KLD:3.321779)  Val Loss: 0.020997 (MSE:0.012878, CE:0.000000, KLD:3.312639)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.54it/s]100%|██████████| 5/5 [00:00<00:00,  8.92it/s]
+Epoch 143/500 Train Loss: 0.019748 (MSE:0.011599, CE:0.000000, KLD:3.325152)  Val Loss: 0.020799 (MSE:0.012673, CE:0.000000, KLD:3.315454)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.15it/s]100%|██████████| 5/5 [00:00<00:00,  7.89it/s]
+Epoch 144/500 Train Loss: 0.019670 (MSE:0.011514, CE:0.000000, KLD:3.327726)  Val Loss: 0.020604 (MSE:0.012470, CE:0.000000, KLD:3.318731)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.24it/s]100%|██████████| 5/5 [00:00<00:00,  8.11it/s]
+Epoch 145/500 Train Loss: 0.019514 (MSE:0.011350, CE:0.000000, KLD:3.330986)  Val Loss: 0.020382 (MSE:0.012241, CE:0.000000, KLD:3.321689)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.20it/s]100%|██████████| 5/5 [00:00<00:00,  8.11it/s]
+Epoch 146/500 Train Loss: 0.019382 (MSE:0.011210, CE:0.000000, KLD:3.334407)  Val Loss: 0.020042 (MSE:0.011892, CE:0.000000, KLD:3.325316)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.20it/s]100%|██████████| 5/5 [00:00<00:00,  8.13it/s]
+Epoch 147/500 Train Loss: 0.019155 (MSE:0.010976, CE:0.000000, KLD:3.337224)  Val Loss: 0.019963 (MSE:0.011809, CE:0.000000, KLD:3.326856)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.22it/s]100%|██████████| 5/5 [00:00<00:00,  8.10it/s]
+Epoch 148/500 Train Loss: 0.019077 (MSE:0.010893, CE:0.000000, KLD:3.338801)  Val Loss: 0.020101 (MSE:0.011942, CE:0.000000, KLD:3.329148)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.13it/s]100%|██████████| 5/5 [00:00<00:00,  7.86it/s]
+Epoch 149/500 Train Loss: 0.018983 (MSE:0.010795, CE:0.000000, KLD:3.341108)  Val Loss: 0.019772 (MSE:0.011606, CE:0.000000, KLD:3.331546)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.26it/s]100%|██████████| 5/5 [00:00<00:00,  8.23it/s]
+Epoch 150/500 Train Loss: 0.018750 (MSE:0.010555, CE:0.000000, KLD:3.343670)  Val Loss: 0.019602 (MSE:0.011431, CE:0.000000, KLD:3.333801)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.32it/s]100%|██████████| 5/5 [00:00<00:00,  8.47it/s]
+Epoch 151/500 Train Loss: 0.018756 (MSE:0.010556, CE:0.000000, KLD:3.345616)  Val Loss: 0.019605 (MSE:0.011430, CE:0.000000, KLD:3.335525)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.19it/s]100%|██████████| 5/5 [00:00<00:00,  8.10it/s]
+Epoch 152/500 Train Loss: 0.018605 (MSE:0.010400, CE:0.000000, KLD:3.347649)  Val Loss: 0.019375 (MSE:0.011193, CE:0.000000, KLD:3.338113)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.25it/s]100%|██████████| 5/5 [00:00<00:00,  8.13it/s]
+Epoch 153/500 Train Loss: 0.018450 (MSE:0.010239, CE:0.000000, KLD:3.350225)  Val Loss: 0.019348 (MSE:0.011162, CE:0.000000, KLD:3.339628)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.17it/s]100%|██████████| 5/5 [00:00<00:00,  7.90it/s]
+Epoch 154/500 Train Loss: 0.018307 (MSE:0.010093, CE:0.000000, KLD:3.351372)  Val Loss: 0.019240 (MSE:0.011051, CE:0.000000, KLD:3.341456)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.23it/s]100%|██████████| 5/5 [00:00<00:00,  8.14it/s]
+Epoch 155/500 Train Loss: 0.018224 (MSE:0.010005, CE:0.000000, KLD:3.353054)  Val Loss: 0.019057 (MSE:0.010864, CE:0.000000, KLD:3.342867)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.25it/s]100%|██████████| 5/5 [00:00<00:00,  8.24it/s]
+Epoch 156/500 Train Loss: 0.018061 (MSE:0.009838, CE:0.000000, KLD:3.355030)  Val Loss: 0.018930 (MSE:0.010730, CE:0.000000, KLD:3.345634)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.24it/s]100%|██████████| 5/5 [00:00<00:00,  7.91it/s]
+Epoch 157/500 Train Loss: 0.018055 (MSE:0.009826, CE:0.000000, KLD:3.357423)  Val Loss: 0.018880 (MSE:0.010677, CE:0.000000, KLD:3.346990)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.28it/s]100%|██████████| 5/5 [00:00<00:00,  8.12it/s]
+Epoch 158/500 Train Loss: 0.017919 (MSE:0.009687, CE:0.000000, KLD:3.358863)  Val Loss: 0.018700 (MSE:0.010492, CE:0.000000, KLD:3.349118)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.32it/s]100%|██████████| 5/5 [00:00<00:00,  8.38it/s]
+Epoch 159/500 Train Loss: 0.017777 (MSE:0.009539, CE:0.000000, KLD:3.360965)  Val Loss: 0.018618 (MSE:0.010405, CE:0.000000, KLD:3.351135)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.27it/s]100%|██████████| 5/5 [00:00<00:00,  8.35it/s]
+Epoch 160/500 Train Loss: 0.017646 (MSE:0.009403, CE:0.000000, KLD:3.363183)  Val Loss: 0.018357 (MSE:0.010139, CE:0.000000, KLD:3.352714)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.28it/s]100%|██████████| 5/5 [00:00<00:00,  8.43it/s]
+Epoch 161/500 Train Loss: 0.017535 (MSE:0.009289, CE:0.000000, KLD:3.364429)  Val Loss: 0.018283 (MSE:0.010061, CE:0.000000, KLD:3.354381)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.20it/s]100%|██████████| 5/5 [00:00<00:00,  8.08it/s]
+Epoch 162/500 Train Loss: 0.017420 (MSE:0.009171, CE:0.000000, KLD:3.365903)  Val Loss: 0.018268 (MSE:0.010043, CE:0.000000, KLD:3.355940)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.20it/s]100%|██████████| 5/5 [00:00<00:00,  7.97it/s]
+Epoch 163/500 Train Loss: 0.017301 (MSE:0.009046, CE:0.000000, KLD:3.367916)  Val Loss: 0.018034 (MSE:0.009805, CE:0.000000, KLD:3.357364)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.31it/s]100%|██████████| 5/5 [00:00<00:00,  8.42it/s]
+Epoch 164/500 Train Loss: 0.017184 (MSE:0.008928, CE:0.000000, KLD:3.368748)  Val Loss: 0.017977 (MSE:0.009747, CE:0.000000, KLD:3.357910)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.23it/s]100%|██████████| 5/5 [00:00<00:00,  8.20it/s]
+Epoch 165/500 Train Loss: 0.017161 (MSE:0.008904, CE:0.000000, KLD:3.369172)  Val Loss: 0.017941 (MSE:0.009710, CE:0.000000, KLD:3.358551)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.21it/s]100%|██████████| 5/5 [00:00<00:00,  8.11it/s]
+Epoch 166/500 Train Loss: 0.017074 (MSE:0.008814, CE:0.000000, KLD:3.370182)  Val Loss: 0.017760 (MSE:0.009524, CE:0.000000, KLD:3.360472)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.19it/s]100%|██████████| 5/5 [00:00<00:00,  8.04it/s]
+Epoch 167/500 Train Loss: 0.016938 (MSE:0.008674, CE:0.000000, KLD:3.372124)  Val Loss: 0.017659 (MSE:0.009418, CE:0.000000, KLD:3.362382)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.34it/s]100%|██████████| 5/5 [00:00<00:00,  8.48it/s]
+Epoch 168/500 Train Loss: 0.016811 (MSE:0.008541, CE:0.000000, KLD:3.374258)  Val Loss: 0.017578 (MSE:0.009334, CE:0.000000, KLD:3.363613)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.19it/s]100%|██████████| 5/5 [00:00<00:00,  7.88it/s]
+Epoch 169/500 Train Loss: 0.016725 (MSE:0.008454, CE:0.000000, KLD:3.374677)  Val Loss: 0.017385 (MSE:0.009141, CE:0.000000, KLD:3.363632)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.21it/s]100%|██████████| 5/5 [00:00<00:00,  8.01it/s]
+Epoch 170/500 Train Loss: 0.016606 (MSE:0.008334, CE:0.000000, KLD:3.374920)  Val Loss: 0.017284 (MSE:0.009037, CE:0.000000, KLD:3.364693)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.32it/s]100%|██████████| 5/5 [00:00<00:00,  8.33it/s]
+Epoch 171/500 Train Loss: 0.016526 (MSE:0.008251, CE:0.000000, KLD:3.376426)  Val Loss: 0.017427 (MSE:0.009177, CE:0.000000, KLD:3.366139)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.19it/s]100%|██████████| 5/5 [00:00<00:00,  7.97it/s]
+Epoch 172/500 Train Loss: 0.016481 (MSE:0.008202, CE:0.000000, KLD:3.377766)  Val Loss: 0.017011 (MSE:0.008757, CE:0.000000, KLD:3.367506)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.22it/s]100%|██████████| 5/5 [00:00<00:00,  8.18it/s]
+Epoch 173/500 Train Loss: 0.016376 (MSE:0.008094, CE:0.000000, KLD:3.378774)  Val Loss: 0.016950 (MSE:0.008695, CE:0.000000, KLD:3.368149)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.20it/s]100%|██████████| 5/5 [00:00<00:00,  7.81it/s]
+Epoch 174/500 Train Loss: 0.016272 (MSE:0.007990, CE:0.000000, KLD:3.379434)  Val Loss: 0.017033 (MSE:0.008778, CE:0.000000, KLD:3.368137)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.34it/s]100%|██████████| 5/5 [00:00<00:00,  8.00it/s]
+Epoch 175/500 Train Loss: 0.016167 (MSE:0.007884, CE:0.000000, KLD:3.379486)  Val Loss: 0.016816 (MSE:0.008558, CE:0.000000, KLD:3.369447)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.29it/s]100%|██████████| 5/5 [00:00<00:00,  8.32it/s]
+Epoch 176/500 Train Loss: 0.016121 (MSE:0.007835, CE:0.000000, KLD:3.380637)  Val Loss: 0.016768 (MSE:0.008509, CE:0.000000, KLD:3.369853)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.22it/s]100%|██████████| 5/5 [00:00<00:00,  8.11it/s]
+Epoch 177/500 Train Loss: 0.016006 (MSE:0.007719, CE:0.000000, KLD:3.381359)  Val Loss: 0.016830 (MSE:0.008569, CE:0.000000, KLD:3.370453)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.26it/s]100%|██████████| 5/5 [00:00<00:00,  8.11it/s]
+Epoch 178/500 Train Loss: 0.015933 (MSE:0.007645, CE:0.000000, KLD:3.381450)  Val Loss: 0.016773 (MSE:0.008511, CE:0.000000, KLD:3.370918)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.17it/s]100%|██████████| 5/5 [00:00<00:00,  8.16it/s]
+Epoch 179/500 Train Loss: 0.015827 (MSE:0.007539, CE:0.000000, KLD:3.381825)  Val Loss: 0.016609 (MSE:0.008349, CE:0.000000, KLD:3.370091)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.11it/s]100%|██████████| 5/5 [00:00<00:00,  7.77it/s]
+Epoch 180/500 Train Loss: 0.015736 (MSE:0.007448, CE:0.000000, KLD:3.381724)  Val Loss: 0.016373 (MSE:0.008109, CE:0.000000, KLD:3.371561)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.27it/s]100%|██████████| 5/5 [00:00<00:00,  8.07it/s]
+Epoch 181/500 Train Loss: 0.015709 (MSE:0.007418, CE:0.000000, KLD:3.382449)  Val Loss: 0.016452 (MSE:0.008189, CE:0.000000, KLD:3.371633)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.16it/s]100%|██████████| 5/5 [00:00<00:00,  8.01it/s]
+Epoch 182/500 Train Loss: 0.015619 (MSE:0.007328, CE:0.000000, KLD:3.382937)  Val Loss: 0.016228 (MSE:0.007964, CE:0.000000, KLD:3.371937)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.18it/s]100%|██████████| 5/5 [00:00<00:00,  7.44it/s]
+Epoch 183/500 Train Loss: 0.015530 (MSE:0.007238, CE:0.000000, KLD:3.383147)  Val Loss: 0.016202 (MSE:0.007935, CE:0.000000, KLD:3.372685)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.24it/s]100%|██████████| 5/5 [00:00<00:00,  8.22it/s]
+Epoch 184/500 Train Loss: 0.015491 (MSE:0.007197, CE:0.000000, KLD:3.384057)  Val Loss: 0.016122 (MSE:0.007854, CE:0.000000, KLD:3.373237)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.30it/s]100%|██████████| 5/5 [00:00<00:00,  8.16it/s]
+Epoch 185/500 Train Loss: 0.015371 (MSE:0.007076, CE:0.000000, KLD:3.384632)  Val Loss: 0.016138 (MSE:0.007869, CE:0.000000, KLD:3.373675)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.16it/s]100%|██████████| 5/5 [00:00<00:00,  8.21it/s]
+Epoch 186/500 Train Loss: 0.015301 (MSE:0.007006, CE:0.000000, KLD:3.384507)  Val Loss: 0.016080 (MSE:0.007813, CE:0.000000, KLD:3.373148)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.19it/s]100%|██████████| 5/5 [00:00<00:00,  8.04it/s]
+Epoch 187/500 Train Loss: 0.015203 (MSE:0.006910, CE:0.000000, KLD:3.383931)  Val Loss: 0.016098 (MSE:0.007831, CE:0.000000, KLD:3.372903)
+  0%|          | 0/5 [00:00<?, ?it/s] 20%|██        | 1/5 [00:00<00:01,  2.32it/s]100%|██████████| 5/5 [00:00<00:00,  8.03it/s]
