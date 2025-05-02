@@ -286,9 +286,10 @@ def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', 
         cat_encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
     else:
         cat_encoder = OrdinalEncoder()
-    #print("Categoricas entrenamiento: ", X_cat_train)
-    X_cat_train = cat_encoder.fit_transform(X_cat_train)
-    X_cat_test = cat_encoder.transform(X_cat_test)
+    print("Categoricas entrenamiento: ", X_cat_train.shape[1])
+    if X_cat_train.shape[1] > 0:
+        X_cat_train = cat_encoder.fit_transform(X_cat_train) 
+        X_cat_test = cat_encoder.transform(X_cat_test)
 
     # 11. Codificación de la variable objetivo y_label_encoder
     print("Datos unicos de y_train: ",np.unique(y_train))
@@ -456,12 +457,12 @@ def reconstruct_data(
         
     else:
         recon_num_processed_np = x
-
-    categorical_offsets = torch.tensor([0] + categories[:-1]).cumsum(0)
+    
     #print("Suma de categorias: ", categorical_offsets)
     # b) Invertir codificación categórica
     recon_cat_encoded_list = []
     for j, recon_cat_logits in enumerate(recon_cat_processed_list):
+        print("HEY HEY")
         # Obtener el índice de la categoría predicha (la de mayor logit)
         predicted_indices = torch.argmax(recon_cat_logits, dim=1)
         # print("A",predicted_indices)
@@ -475,7 +476,8 @@ def reconstruct_data(
     #print("Categorias del encoder: ", cat_encoder.categories_)
 
     # Combinar las columnas categóricas predichas (aún codificadas)
-    recon_cat_encoded_np = np.column_stack(recon_cat_encoded_list)
+    if recon_cat_encoded_list:
+        recon_cat_encoded_np = np.column_stack(recon_cat_encoded_list)
     #print("Categorias 3: ---",recon_cat_encoded_np)
     # a) Invertir normalización numérica
     if num_scaler is not None:
@@ -498,7 +500,7 @@ def reconstruct_data(
         except Exception as e:
             raise ValueError("Error al invertir la codificación de la variable objetivo: {e}")
 
-    if cat_encoder is not None:
+    if cat_encoder is not None and recon_cat_encoded_list:
         try:
             # Usar el cat_encoder fitteado para invertir la transformación
             recon_cat_original = cat_encoder.inverse_transform(recon_cat_encoded_np)
@@ -507,27 +509,35 @@ def reconstruct_data(
             raise ValueError("Error al invertir la codificación categórica: {e}")   
     else:
         # Si no hubo encoder (improbable para categóricos), devolver como está
-        recon_cat_original = recon_cat_encoded_np
         print("No se aplicó codificación categórica (¿inesperado?), usando datos reconstruidos directamente.")
 
     print("--- Reconstrucción finalizada ---")
 
     #print(original_num_columns, original_cat_columns)
     # 6. Devolver resultados
-    if original_num_columns is not None and original_cat_columns is not None:
+    if original_num_columns is not None:
         print("Combinando en un DataFrame de Pandas.")
         # Crear DataFrames separados y concatenar
         df_num = pd.DataFrame(recon_num_original, columns=original_num_columns)
-        df_cat = pd.DataFrame(recon_cat_original, columns=original_cat_columns)
         df_target = pd.DataFrame(y_reconstructed, columns=original_target_column)
-        # Asegurarse de que los índices coincidan si se concatenan
-        df_num.index = df_cat.index
-        df_reconstructed = pd.concat([df_num, df_cat, df_target], axis=1)
 
-        # Combinar los nombres en orden original usando los índices
-        all_columns = dict(zip(num_cols_idx, original_num_columns)) | \
-                    dict(zip(cat_cols_idx, original_cat_columns)) | \
-                    dict(zip(target_cols_idx, original_target_column))
+        if recon_cat_encoded_list:
+            df_cat = pd.DataFrame(recon_cat_original, columns=original_cat_columns)
+            # Asegurarse de que los índices coincidan si se concatenan
+            df_num.index = df_cat.index
+            df_reconstructed = pd.concat([df_num, df_cat, df_target], axis=1)
+
+            # Combinar los nombres en orden original usando los índices
+            all_columns = dict(zip(num_cols_idx, original_num_columns)) | \
+                        dict(zip(cat_cols_idx, original_cat_columns)) | \
+                        dict(zip(target_cols_idx, original_target_column))
+        else: 
+            # Asegurarse de que los índices coincidan si se concatenan
+            df_reconstructed = pd.concat([df_num, df_target], axis=1)
+
+            # Combinar los nombres en orden original usando los índices
+            all_columns = dict(zip(num_cols_idx, original_num_columns)) | \
+                        dict(zip(target_cols_idx, original_target_column))
 
         # Ordenar los nombres por el índice original
         ordered_columns = [all_columns[i] for i in sorted(all_columns)]

@@ -157,6 +157,9 @@ def compute_loss(
     # Promediar CE por número de features categóricas
     ce_loss = ce_loss / max(n_cat_features, 1)
 
+    if isinstance(ce_loss, float):  # <- puede ser 0.0 si no hay features categóricas
+        ce_loss = torch.tensor(ce_loss, device=X_num.device)
+
     # Precisión como fracción de aciertos
     acc = correct / total if total > 0 else torch.tensor(0.0)
 
