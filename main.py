@@ -108,7 +108,7 @@ def main(args):
         # Call the distillation function
         train_z, train_y = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=SEED, 
                                     batch_size=batch_size, pretrain_epochs=epochs_latent, 
-                                    finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=checkpoint_path, fine_tune=False)
+                                    finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=checkpoint_path)
         
         train_z = np.load(os.path.join(checkpoint_path, 'train_z.npy'))
         train_y = np.load(os.path.join(checkpoint_path, 'train_y.npy'))
