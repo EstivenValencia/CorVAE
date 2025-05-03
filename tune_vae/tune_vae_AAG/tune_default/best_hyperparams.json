@@ -1,0 +1,82 @@
+{
+    "best_params": {
+        "max_beta": 0.025791314152753816,
+        "min_beta": 1.686749912946325e-07,
+        "lambda_": 0.9,
+        "lr_pretrain": 0.0008014233285491121,
+        "wd_pretrain": 0,
+        "d_token": 8,
+        "n_head": 1,
+        "factor": 16,
+        "num_layers": 2,
+        "dropout_ft": 0.1,
+        "alpha_ft": 0.5,
+        "lr_ft": 1.4413618036235928e-05,
+        "wd_ft": 0.001
+    },
+    "search_space": {
+        "max_beta": [
+            0.001,
+            0.1
+        ],
+        "min_beta": [
+            1e-07,
+            0.001
+        ],
+        "lambda_": [
+            0.5,
+            0.7,
+            0.9
+        ],
+        "lr_pretrain": [
+            0.0001,
+            0.01
+        ],
+        "wd_pretrain": [
+            0,
+            0.0001,
+            0.001
+        ],
+        "d_token": [
+            4,
+            8
+        ],
+        "n_head": [
+            1,
+            2,
+            4
+        ],
+        "factor": [
+            16,
+            32
+        ],
+        "num_layers": [
+            1,
+            2
+        ],
+        "dropout_ft": [
+            0.1,
+            0.2,
+            0.3
+        ],
+        "alpha_ft": [
+            0.3,
+            0.5,
+            0.7
+        ],
+        "lr_ft": [
+            1e-05,
+            0.001
+        ],
+        "wd_ft": [
+            0,
+            0.0001,
+            0.001
+        ]
+    },
+    "checkpoint_path": "/data/home/rtabares/.juan/CorVAE/tune_vae/tune_vae_AAG/tune_default",
+    "epochs_latent": 500,
+    "epochs_fine_tuning_latent": 200,
+    "batch_size": 4096,
+    "seed": 0
+}
