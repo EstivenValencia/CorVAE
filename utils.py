@@ -75,42 +75,42 @@ MODELS = {
             "colsample_bytree": lambda t: t.suggest_float("colsample_bytree", 0.5, 1.0),
         },
     },
-    # "rf": {
-    #     "constructor": RandomForestClassifier,
-    #     "static_args": {"class_weight": "balanced"},
-    #     "search_space": {
-    #         "n_estimators": lambda t: t.suggest_int("n_estimators", 100, 500),
-    #         "max_depth": lambda t: t.suggest_int("max_depth", 3, 20),
-    #         "min_samples_split": lambda t: t.suggest_int("min_samples_split", 2, 10),
-    #         "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
-    #     },
-    # },
-    # "svc": {
-    #     "constructor": SVC,
-    #     "static_args": {"probability": True},
-    #     "search_space": {
-    #         "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
-    #         "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
-    #     },
-    # },
-    # "logreg": {
-    #     "constructor": LogisticRegression,
-    #     "static_args": {"max_iter": 200, "solver": "lbfgs"},
-    #     "search_space": {
-    #         "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
-    #         "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
-    #     },
-    # },
-    # "mlp": {
-    #         "constructor": MLPClassifier,
-    #         "search_space": {
-    #             "hidden_layer_sizes": lambda t: t.suggest_categorical(
-    #                 "hidden_layer_sizes", [(100,), (200,), (100, 100)]
-    #             ),
-    #             "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
-    #             "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
-    #         },
-    #     },
+    "rf": {
+        "constructor": RandomForestClassifier,
+        "static_args": {"class_weight": "balanced"},
+        "search_space": {
+            "n_estimators": lambda t: t.suggest_int("n_estimators", 100, 500),
+            "max_depth": lambda t: t.suggest_int("max_depth", 3, 20),
+            "min_samples_split": lambda t: t.suggest_int("min_samples_split", 2, 10),
+            "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
+        },
+    },
+    "svc": {
+        "constructor": SVC,
+        "static_args": {"probability": True},
+        "search_space": {
+            "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
+            "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
+        },
+    },
+    "logreg": {
+        "constructor": LogisticRegression,
+        "static_args": {"max_iter": 200, "solver": "lbfgs"},
+        "search_space": {
+            "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
+            "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
+        },
+    },
+    "mlp": {
+            "constructor": MLPClassifier,
+            "search_space": {
+                "hidden_layer_sizes": lambda t: t.suggest_categorical(
+                    "hidden_layer_sizes", [(100,), (200,), (100, 100)]
+                ),
+                "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
+                "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
+            },
+        },
 
 }
 
@@ -678,7 +678,7 @@ def evaluate_models(
     X_test,
     y_test,
     cv_folds=5,
-    n_trials=10,
+    n_trials=30,
     ckpt_dir=None,
     method='k-means',
     random_state=0,
