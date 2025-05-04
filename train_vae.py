@@ -24,6 +24,7 @@ import pickle
 from models import LossTracker
 
 warnings.filterwarnings('ignore')
+import time
 
 PATIENCE_PRETRAIN = 10
 PATIENCE_FINETUNE = 10
@@ -144,7 +145,7 @@ def validate_vae(model, loader, device, beta=1.0, alpha=0.0):
     return avg_mse, avg_ce, avg_kld, avg_total, avg_class_loss
 
 def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_encoder, pre_decoder, num_scaler, cat_encoder, label_encoder,
-                               X_train_num, X_train_cat, y_train_enc, ckpt_dir, device):
+                               X_train_num, X_train_cat, y_train_enc, ckpt_dir, device, random_state=None):
     """
     Recarga el mejor modelo guardado, extrae pesos para pre_encoder y pre_decoder,
     guarda sus pesos, y guarda las embeddings latentes (train_z.npy).
@@ -153,14 +154,14 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
     """
 
     # Definir paths de guardado
-    encoder_save_path = os.path.join(ckpt_dir, 'encoder.pt')
-    decoder_save_path = os.path.join(ckpt_dir, 'decoder.pt')
+    encoder_save_path = os.path.join(ckpt_dir, f'encoder_{random_state}.pt')
+    decoder_save_path = os.path.join(ckpt_dir, f'decoder_{random_state}.pt')
 
     # 1. Recargar el mejor modelo
     model.load_state_dict(torch.load(model_save_path, map_location=device))
     model.eval()
 
-    with open(os.path.join(ckpt_dir, 'pre_encoders.pkl'), 'wb') as f:
+    with open(os.path.join(ckpt_dir, f'pre_encoders_{random_state}.pkl'), 'wb') as f:
         pickle.dump({
             "num_cols": num_cols,
             "categories": categories,
@@ -179,15 +180,22 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
         torch.save(pre_decoder.state_dict(), decoder_save_path)
 
         # 5. Obtener representaciones latentes
+        start = time.time()
         train_z = pre_encoder(X_train_num, X_train_cat).detach().cpu().numpy()
+        end = time.time()
+        encoder_inference_time = (end - start) / X_train_num.shape[0]
 
         # 6. Guardar las representaciones latentes
-        np.save(os.path.join(ckpt_dir, 'train_z.npy'), train_z)
-        np.save(os.path.join(ckpt_dir, 'train_y.npy'), y_train_enc)
+        if random_state != None:
+            np.save(os.path.join(ckpt_dir, f'train_z.npy'), train_z)
+            np.save(os.path.join(ckpt_dir, f'train_y.npy'), y_train_enc)
+        else:
+            np.save(os.path.join(ckpt_dir, f'train_z_{random_state}.npy'), train_z)
+            np.save(os.path.join(ckpt_dir, f'train_y_{random_state}.npy'), y_train_enc)
 
         print('Successfully saved best encoder, decoder, and latent embeddings!')
 
-        return train_z
+        return train_z, encoder_inference_time
 
 def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_size=64, pretrain_epochs=50, finetune_epochs=30, ckpt_dir='ckpt', hyperparams = {}):
     
@@ -209,12 +217,12 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     alpha_ft = hyperparams.get("alpha_ft",1e-5)
     lr_ft = hyperparams.get("lr_ft",1e-4)
     wd_ft = hyperparams.get('wd_ft',0)
-    early_stop_counter_ft = hyperparams.get("early_stop_counter_ft",10)
+    early_stop_counter_ft = hyperparams.get("early_stop_counter_ft",15)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    model_save_path = os.path.join(ckpt_dir, 'best_vae.pt')
-    ft_model_save_path = os.path.join(ckpt_dir, 'ft_best_vae.pt')
+    model_save_path = os.path.join(ckpt_dir, f'best_vae_{random_state}.pt')
+    ft_model_save_path = os.path.join(ckpt_dir, f'ft_best_vae_{random_state}.pt')
 
     X_train, y_train, X_test, y_test = set_data
     (
@@ -256,7 +264,7 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr_pretrain, weight_decay=wd_pretrain)
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.95, patience=10, verbose=True)
 
-    tracker = LossTracker(log_dir=os.path.join(ckpt_dir, "runs"))
+    tracker = LossTracker(log_dir=os.path.join(ckpt_dir, f"runs_seed_{random_state}"))
 
     beta = max_beta
     patience = 0
@@ -279,8 +287,8 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         val_mse, val_ce, val_kld, val_loss, _ = \
             validate_vae(model, test_loader, device, beta)
 
-        tracker.log_pretrain(train_mse, train_ce, train_kld, train_loss,
-                            val_mse,   val_ce,   val_kld,   val_loss)
+        tracker.log_finetune(train_mse, train_ce, train_kld, 0, train_loss,
+                            val_mse,   val_ce,   val_kld,   0,   val_loss)
 
         # Ajuste de learning rate
         scheduler.step(val_loss)
@@ -310,12 +318,14 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
             f"Val Loss: {val_loss:.6f} (MSE:{val_mse:.6f}, CE:{val_ce:.6f}, KLD:{val_kld:.6f})"
         )
     end = time.time()
+    pretrain_time = end - start
     print(f"Training time: {end - start:.2f} seconds")
 
 
     # =======================================
     # --- STAGE 2: Supervised Fine-tuning ---
     # =======================================
+    finetune_time = 0
     if finetune_epochs > 0:
         print("\n--- Starting Stage 2: Supervised Fine-tuning ---")
 
@@ -323,7 +333,7 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         ft_model = ModelVAE(
             num_layers=num_layers, d_numerical=num_cols, categories=categories, d_token=d_token,
             num_classes=num_classes, # AHORA con cabeza clasificadora
-            n_head=n_head, factor=factor, bias=token_bias
+            n_head=n_head, factor=factor, bias=token_bias, droput_class=dropout_ft
         )
         ft_model = ft_model.to(device)
         ft_model.load_state_dict(torch.load(model_save_path), strict=False)
@@ -339,6 +349,8 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         patience_counter = 0
         best_val_loss_ft = float('inf')
         early_stop_counter = 0
+
+        start = time.time()
         for epoch in range(1, finetune_epochs + 1):
             # Entrenar con alpha > 0
             train_mse, train_ce, train_kld, train_loss, train_class_loss = \
@@ -374,13 +386,15 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
             print(f"Stage 2 - Epoch {epoch:03d}/{finetune_epochs} | Beta: {beta:.2e} | Alpha: {alpha_ft:.2f} | Loss: {train_loss:.4f} (MSE:{train_mse:.4f}, CE:{train_ce:.4f}, KLD:{train_kld:.4f}, ClassL:{train_class_loss:.4f}) | Val Loss: {val_loss:.4f} (MSE:{val_mse:.4f}, CE:{val_ce:.4f}, KLD:{val_kld:.4f}, ClassL:{val_class_loss:.4f})")
 
         print(f"--- Stage 2 Finished. Best fine-tuning validation loss: {best_val_loss_ft:.6f} ---")
+        end = time.time()
+        finetune_time = end - start
         model_save_path = ft_model_save_path
         model = ft_model
     else:
         print("\n--- Skipping Stage 2: Supervised Fine-tuning (perform_fine_tune=False) ---")
 
     # Guardando información de encoder decoder
-    train_z = save_best_encoder_decoder(
+    train_z, encoder_inference_time = save_best_encoder_decoder(
         model=model,
         model_save_path=model_save_path,
         num_cols=num_cols, 
@@ -394,10 +408,11 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         X_train_cat=X_cat_train.to(device),
         y_train_enc=y_train_enc,
         ckpt_dir=ckpt_dir,
-        device=device
+        device=device,
+        random_state=random_state
     )
 
-    return train_z, y_train_enc
+    return train_z, y_train_enc, pretrain_time, finetune_time, encoder_inference_time
     
 if __name__ == "__main__":
     dataset_path = '/mnt/d/home-2/Documentos/master/practica-deusto-tech/TFM/MyTabsyn/CorVAE/data/shoppers/metadata.json'

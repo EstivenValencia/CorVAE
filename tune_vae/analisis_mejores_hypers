@@ -1,0 +1,74 @@
+#Shoppers
+
+{'max_beta': 0.007715720500892705, 'min_beta': 0.00014144050146933074, 
+'lambda_': 0.9, 
+'lr_pretrain': 0.005105439988316641, 
+'wd_pretrain': 0, 'd_token': 8, 
+'n_head': 2, 'factor': 16, 
+'num_layers': 1}
+
+# Adult
+
+{'max_beta': 0.05669339374836432, 'min_beta': 0.0003096330038482151, 
+'lambda_': 0.5, 'lr_pretrain': 0.003524985305492756, 
+'wd_pretrain': 0.0001, 'd_token': 4, 
+'n_head': 1, 'factor': 32, 
+'num_layers': 1}
+
+# Default
+
+{'max_beta': 0.023230876964173173, 'min_beta': 4.147547527061323e-06, 
+'lambda_': 0.7, 'lr_pretrain': 0.0017394140998238934, 
+'wd_pretrain': 0, 'd_token': 8, 
+'n_head': 1, 'factor': 16, 
+'num_layers': 2}
+
+# Magic
+
+{'max_beta': 0.021495362825287564, 'min_beta': 1.6164236369881187e-05, 
+'lambda_': 0.5, 'lr_pretrain': 0.006758123190714948, 
+'wd_pretrain': 0.0001, 'd_token': 8, 
+'n_head': 2, 'factor': 32, 
+'num_layers': 1}
+
+#------------------------- Con cabeza clasificadora
+
+#Shoppers
+
+{'max_beta': 0.04800379909045802, 'min_beta': 4.0188112186012394e-06, 
+'lambda_': 0.9, 'lr_pretrain': 0.008535956930667063, 
+'wd_pretrain': 0.0001, 'd_token': 4, 
+'n_head': 4, 'factor': 32, 
+'num_layers': 1, 'dropout_ft': 0.3, 
+'alpha_ft': 0.7, 'lr_ft': 0.00027023158777982677, 
+'wd_ft': 0.001}
+
+# Adult
+
+{'max_beta': 0.04537863633936606, 'min_beta': 2.1533563584922016e-05, 
+'lambda_': 0.5, 'lr_pretrain': 0.002525916030369546, 
+'wd_pretrain': 0.001, 'd_token': 8, 
+'n_head': 1, 'factor': 16, 
+'num_layers': 1, 'dropout_ft': 0.3, 
+'alpha_ft': 0.7, 'lr_ft': 0.0001855659136407585, 
+'wd_ft': 0}
+
+# Default
+
+{'max_beta': 0.025791314152753816, 'min_beta': 1.686749912946325e-07, 
+'lambda_': 0.9, 'lr_pretrain': 0.0008014233285491121, 
+'wd_pretrain': 0, 'd_token': 8,
+ 'n_head': 1, 'factor': 16, 
+ 'num_layers': 2, 'dropout_ft': 0.1, 
+ 'alpha_ft': 0.5, 'lr_ft': 1.4413618036235928e-05, 
+ 'wd_ft': 0.001}
+
+# Magic
+
+{'max_beta': 0.01981074514054827, 'min_beta': 0.00010172886977403253, 
+'lambda_': 0.5, 'lr_pretrain': 0.002643380859254828, 
+'wd_pretrain': 0.0001, 'd_token': 4, 
+'n_head': 2, 'factor': 16, 
+'num_layers': 1, 'dropout_ft': 0.3, 
+'alpha_ft': 0.7, 'lr_ft': 0.0009319743852113347, 
+'wd_ft': 0}
