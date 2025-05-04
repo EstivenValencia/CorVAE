@@ -101,16 +101,16 @@ MODELS = {
             "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
         },
     },
-    "mlp": {
-            "constructor": MLPClassifier,
-            "search_space": {
-                "hidden_layer_sizes": lambda t: t.suggest_categorical(
-                    "hidden_layer_sizes", [(100,), (200,), (100, 100)]
-                ),
-                "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
-                "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
-            },
-        },
+    # "mlp": {
+    #         "constructor": MLPClassifier,
+    #         "search_space": {
+    #             "hidden_layer_sizes": lambda t: t.suggest_categorical(
+    #                 "hidden_layer_sizes", [(100,), (200,), (100, 100)]
+    #             ),
+    #             "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
+    #             "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
+    #         },
+    #     },
 
 }
 
