@@ -406,7 +406,7 @@ def reconstruct_data(
     target_cols_idx = config['target_col_idx']
 
 
-    with open(os.path.join(models_paths, 'pre_encoders.pkl'), 'rb') as f:
+    with open(os.path.join(models_paths, f'pre_encoders_{seed}.pkl'), 'rb') as f:
         encoders = pickle.load(f)
         num_cols = encoders['num_cols']
         categories = encoders['categories']
@@ -421,7 +421,7 @@ def reconstruct_data(
 
     decoder_inference_time = 0
     if latent_space:
-        decoder_weights_path = os.path.join(models_paths, 'decoder.pt')
+        decoder_weights_path = os.path.join(models_paths, f'decoder_{seed}.pt')
 
         # Convertir a tensor y mover al dispositivo
         latent_z_tensor = torch.tensor(x, dtype=torch.float32).to(device)
@@ -678,7 +678,7 @@ def evaluate_models(
     X_test,
     y_test,
     cv_folds=5,
-    n_trials=30,
+    n_trials=2,
     ckpt_dir=None,
     method='k-means',
     random_state=0,

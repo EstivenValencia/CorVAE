@@ -12,7 +12,9 @@ import pandas as pd
 import json
 
 IPC_LIST = list(range(10,100,10)) + [200,500,1000]
+IPC_LIST = list(range(10,20,10))
 RANDOM_SEED_EVALUATE = range(5)
+RANDOM_SEED_EVALUATE = range(1)
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Distillation Configuration")
