@@ -50,6 +50,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 import optuna
+from sklearn.neural_network import MLPClassifier
 
 def _weighted_f1(y_true, y_pred):
     return f1_score(y_true, y_pred, average="weighted")
@@ -74,32 +75,43 @@ MODELS = {
             "colsample_bytree": lambda t: t.suggest_float("colsample_bytree", 0.5, 1.0),
         },
     },
-    # "rf": {
-    #     "constructor": RandomForestClassifier,
-    #     "static_args": {"class_weight": "balanced"},
-    #     "search_space": {
-    #         "n_estimators": lambda t: t.suggest_int("n_estimators", 100, 500),
-    #         "max_depth": lambda t: t.suggest_int("max_depth", 3, 20),
-    #         "min_samples_split": lambda t: t.suggest_int("min_samples_split", 2, 10),
-    #         "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
+    "rf": {
+        "constructor": RandomForestClassifier,
+        "static_args": {"class_weight": "balanced"},
+        "search_space": {
+            "n_estimators": lambda t: t.suggest_int("n_estimators", 100, 500),
+            "max_depth": lambda t: t.suggest_int("max_depth", 3, 20),
+            "min_samples_split": lambda t: t.suggest_int("min_samples_split", 2, 10),
+            "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
+        },
+    },
+    "svc": {
+        "constructor": SVC,
+        "static_args": {"probability": True},
+        "search_space": {
+            "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
+            "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
+        },
+    },
+    "logreg": {
+        "constructor": LogisticRegression,
+        "static_args": {"max_iter": 200, "solver": "lbfgs"},
+        "search_space": {
+            "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
+            "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
+        },
+    },
+    # "mlp": {
+    #         "constructor": MLPClassifier,
+    #         "search_space": {
+    #             "hidden_layer_sizes": lambda t: t.suggest_categorical(
+    #                 "hidden_layer_sizes", [(100,), (200,), (100, 100)]
+    #             ),
+    #             "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
+    #             "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
+    #         },
     #     },
-    # },
-    # "svc": {
-    #     "constructor": SVC,
-    #     "static_args": {"probability": True},
-    #     "search_space": {
-    #         "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
-    #         "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
-    #     },
-    # },
-    # "logreg": {
-    #     "constructor": LogisticRegression,
-    #     "static_args": {"max_iter": 200, "solver": "lbfgs"},
-    #     "search_space": {
-    #         "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
-    #         "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
-    #     },
-    # },
+
 }
 
 MODEL_XGB = {
@@ -185,6 +197,12 @@ def split_train_test_custom(config, base_dir, test_size=0.1, random_state=0):
         df = pd.read_csv(data_file)
     except FileNotFoundError:
         raise FileNotFoundError(f"Archivo de datos no encontrado: {data_file}")
+    
+    # Eliminacion de posibles caracteres especiales
+    try:
+        df[target_col] = df[target_col].str.replace('.', '', regex=False)
+    except:
+        print("No se encontraron caracteres extranos en la columna target")
     
     y = df[target_col].to_numpy()  
     X = df.drop(columns=[target_col]).to_numpy()
@@ -280,15 +298,19 @@ def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', 
         cat_encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
     else:
         cat_encoder = OrdinalEncoder()
-    #print("Categoricas entrenamiento: ", X_cat_train)
-    X_cat_train = cat_encoder.fit_transform(X_cat_train)
-    X_cat_test = cat_encoder.transform(X_cat_test)
+    print("Categoricas entrenamiento: ", X_cat_train.shape[1])
+    if X_cat_train.shape[1] > 0:
+        X_cat_train = cat_encoder.fit_transform(X_cat_train) 
+        X_cat_test = cat_encoder.transform(X_cat_test)
 
     # 11. Codificación de la variable objetivo y_label_encoder
+    print("Datos unicos de y_train: ",np.unique(y_train))
+
     label_encoder = LabelEncoder()
     y_train_enc = label_encoder.fit_transform(y_train)
     y_test_enc = label_encoder.transform(y_test)
 
+    print("Datos unicos de y_train luego: ",np.unique(y_train_enc))
     # 12. Retornar datos preprocesados y encoders
     if concat:
         # Concatenar numéricas y categóricas
@@ -302,13 +324,11 @@ def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', 
         num_scaler, cat_encoder, label_encoder
     )
 
-def load_reconstructed_data(json_config_path, checkpoint_path, random_state=0):
+def load_reconstructed_data(df, json_config_path, checkpoint_path, random_state=0):
     config = read_json_config(json_config_path)
     base_dir = os.path.dirname(json_config_path)
     target_col = config['target_col_name']
 
-    df_path = os.path.join(checkpoint_path, 'reconstructed_data.csv')
-    df = pd.read_csv(df_path)
     y_train = df[target_col].to_numpy()
     X_train = df.drop(columns=[target_col]).to_numpy()    
 
@@ -322,25 +342,7 @@ def load_reconstructed_data(json_config_path, checkpoint_path, random_state=0):
         label_encoder
         )  = preprocessing(config, X_train, y_train, X_test, y_test, encoding='one-hot', concat=True, random_state=random_state)
 
-    #print("Train",X_train)
-    #print("Test",X_test)
-    #print(y_train, y_test)
-
     return X_train_pre, y_train_pre, X_test_pre, y_test_pre
-
-
-MAX_BETA = 1e-2
-MIN_BETA = 1e-5
-LAMBDA = 0.7
-
-LR = 1e-3
-WD = 0
-D_TOKEN = 4
-TOKEN_BIAS = True
-
-N_HEAD = 1
-FACTOR = 32
-NUM_LAYERS = 2
 
 def reconstruct_data(
     x: str,
@@ -349,7 +351,9 @@ def reconstruct_data(
     device: torch.device,
     json_config_path: str,
     latent_space = False, # Si es True, se asume que z es un espacio latente, de lo contrario es una destilación del espacio original
-    hyperparams = {}
+    hyperparams = {},
+    method = 'k-means',
+    seed = 0
 ) -> tuple[np.ndarray, np.ndarray] | pd.DataFrame:
     """
     Reconstruye los datos originales a partir del espacio latente guardado utilizando
@@ -415,6 +419,7 @@ def reconstruct_data(
         label_encoder = encoders['label_encoder']
         print("Objetos de preprocesamiento cargados.")
 
+    decoder_inference_time = 0
     if latent_space:
         decoder_weights_path = os.path.join(models_paths, 'decoder.pt')
 
@@ -423,6 +428,7 @@ def reconstruct_data(
         #print("Categorias en la recons:", categories)
         # 2. Instanciar el modelo Decoder
         # Asegúrate de usar los mismos hiperparámetros que durante el entrenamiento
+    
         decoder_model = DecoderModel(num_layers, num_cols, categories, d_token, n_head = n_head, factor = factor).to(device)
 
         # 3. Cargar los pesos del decoder entrenado
@@ -450,7 +456,11 @@ def reconstruct_data(
                 latent_z_tensor_for_decoder = latent_z_tensor
 
             # Obtener reconstrucciones (aún escaladas/codificadas)
+            start = time.time()
             recon_num_processed, recon_cat_processed_list = decoder_model(latent_z_tensor_for_decoder)
+            end = time.time()
+            decoder_inference_time = end - start
+
             #print("Categorias 2: ---",[recon_cat_processed_list[i].shape for i in range(len(recon_cat_processed_list))])
         print("Reconstrucción completada. Invirtiendo transformaciones...")
 
@@ -461,8 +471,7 @@ def reconstruct_data(
         
     else:
         recon_num_processed_np = x
-
-    categorical_offsets = torch.tensor([0] + categories[:-1]).cumsum(0)
+    
     #print("Suma de categorias: ", categorical_offsets)
     # b) Invertir codificación categórica
     recon_cat_encoded_list = []
@@ -480,7 +489,8 @@ def reconstruct_data(
     #print("Categorias del encoder: ", cat_encoder.categories_)
 
     # Combinar las columnas categóricas predichas (aún codificadas)
-    recon_cat_encoded_np = np.column_stack(recon_cat_encoded_list)
+    if recon_cat_encoded_list:
+        recon_cat_encoded_np = np.column_stack(recon_cat_encoded_list)
     #print("Categorias 3: ---",recon_cat_encoded_np)
     # a) Invertir normalización numérica
     if num_scaler is not None:
@@ -503,7 +513,7 @@ def reconstruct_data(
         except Exception as e:
             raise ValueError("Error al invertir la codificación de la variable objetivo: {e}")
 
-    if cat_encoder is not None:
+    if cat_encoder is not None and recon_cat_encoded_list:
         try:
             # Usar el cat_encoder fitteado para invertir la transformación
             recon_cat_original = cat_encoder.inverse_transform(recon_cat_encoded_np)
@@ -512,27 +522,35 @@ def reconstruct_data(
             raise ValueError("Error al invertir la codificación categórica: {e}")   
     else:
         # Si no hubo encoder (improbable para categóricos), devolver como está
-        recon_cat_original = recon_cat_encoded_np
         print("No se aplicó codificación categórica (¿inesperado?), usando datos reconstruidos directamente.")
 
     print("--- Reconstrucción finalizada ---")
 
     #print(original_num_columns, original_cat_columns)
     # 6. Devolver resultados
-    if original_num_columns is not None and original_cat_columns is not None:
+    if original_num_columns is not None:
         print("Combinando en un DataFrame de Pandas.")
         # Crear DataFrames separados y concatenar
         df_num = pd.DataFrame(recon_num_original, columns=original_num_columns)
-        df_cat = pd.DataFrame(recon_cat_original, columns=original_cat_columns)
         df_target = pd.DataFrame(y_reconstructed, columns=original_target_column)
-        # Asegurarse de que los índices coincidan si se concatenan
-        df_num.index = df_cat.index
-        df_reconstructed = pd.concat([df_num, df_cat, df_target], axis=1)
 
-        # Combinar los nombres en orden original usando los índices
-        all_columns = dict(zip(num_cols_idx, original_num_columns)) | \
-                    dict(zip(cat_cols_idx, original_cat_columns)) | \
-                    dict(zip(target_cols_idx, original_target_column))
+        if recon_cat_encoded_list:
+            df_cat = pd.DataFrame(recon_cat_original, columns=original_cat_columns)
+            # Asegurarse de que los índices coincidan si se concatenan
+            df_num.index = df_cat.index
+            df_reconstructed = pd.concat([df_num, df_cat, df_target], axis=1)
+
+            # Combinar los nombres en orden original usando los índices
+            all_columns = dict(zip(num_cols_idx, original_num_columns)) | \
+                        dict(zip(cat_cols_idx, original_cat_columns)) | \
+                        dict(zip(target_cols_idx, original_target_column))
+        else: 
+            # Asegurarse de que los índices coincidan si se concatenan
+            df_reconstructed = pd.concat([df_num, df_target], axis=1)
+
+            # Combinar los nombres en orden original usando los índices
+            all_columns = dict(zip(num_cols_idx, original_num_columns)) | \
+                        dict(zip(target_cols_idx, original_target_column))
 
         # Ordenar los nombres por el índice original
         ordered_columns = [all_columns[i] for i in sorted(all_columns)]
@@ -540,10 +558,10 @@ def reconstruct_data(
         # Reordenar las columnas del DataFrame
         df_reconstructed = df_reconstructed[ordered_columns]
 
-        reconstructed_path = os.path.join(models_paths, 'reconstructed_data.csv')
+        reconstructed_path = os.path.join(models_paths, f'reconstructed_data_{method}_seed_{seed}.csv')
         df_reconstructed.to_csv(reconstructed_path, index=False)
 
-        return df_reconstructed
+        return df_reconstructed, decoder_inference_time
     raise ValueError("No se encontraron los nombres de columnas originales.")
     
 
@@ -570,9 +588,7 @@ def weighted_f1_custom(y_true, y_pred):
 # Funciones auxiliares (mínimas)
 # -----------------------------------------------------------------------------
 def _build_cv(n_splits, random_state):
-    """Crea un StratifiedKFold reproducible."""
     return StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=random_state)
-
 
 def _objective(trial, cfg, X, y, cv):
     """Función objetivo para Optuna: devuelve balanced‑accuracy promedio."""
@@ -589,52 +605,61 @@ def _objective(trial, cfg, X, y, cv):
     )
     return scores["test_score"].mean()
 
+def _tune_single_model(tag, cfg, X, y, cv, n_trials, random_state):
+    """Tunea hiper-parámetros con Optuna y mide tiempos de tuning y entrenamiento."""
+    # Medir tiempo de optimización Optuna
+    tic_opt = time.time()
+    study = optuna.create_study(
+        direction="maximize",
+        sampler=optuna.samplers.TPESampler(seed=random_state),
+        study_name=tag
+    )
+    study.optimize(
+        lambda t: _objective(t, cfg, X, y, cv),
+        n_trials=n_trials,
+        show_progress_bar=False
+    )
+    optuna_time = time.time() - tic_opt
 
-def _tune_single_model(tag, cfg, X_train, y_train, cv, n_trials, random_state):
-    """Tunea hiper‑parámetros con Optuna y devuelve mejor modelo + métricas."""
-    tic = time.time()
-    study = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=random_state), study_name=tag)
-    study.optimize(lambda t: _objective(t, cfg, X_train, y_train, cv), n_trials=n_trials, show_progress_bar=False)
     best_params = study.best_params
-
-    # Mejor modelo con mejores HP
     best_model = cfg["constructor"](**cfg["static_args"], **best_params)
-    best_model.fit(X_train, y_train)
 
-    # Métricas de CV para best_params
+    # Medir tiempo de entrenamiento del mejor modelo
+    tic_train = time.time()
+    best_model.fit(X, y)
+    train_time = time.time() - tic_train
+
+    # Métricas de CV para best_params (sin contar tiempos)
     cv_res = cross_validate(
         best_model,
-        X_train,
-        y_train,
+        X,
+        y,
         scoring=_METRIC_SCORERS,
         cv=cv,
         n_jobs=-1,
-        return_train_score=False,
+        return_train_score=False
     )
-
-    #print("METRICA: ------------",cv_res['test_balanced'].mean())
     means = {m: cv_res[f"test_{m}"].mean() for m in _METRIC_SCORERS}
     stds = {f"{m}_std": cv_res[f"test_{m}"].std() for m in _METRIC_SCORERS}
 
-    print("MEANS: ", means)
-
-    elapsed = time.time() - tic
-    return best_model, means, stds, best_params, elapsed
+    return best_model, means, stds, best_params, optuna_time, train_time
 
 
 def _evaluate_on_test(model, X_test, y_test):
-    """Calcula métricas en el conjunto de prueba."""
-    print("Clases: ",model.classes_)
-
-
-
+    """Calcula métricas en el conjunto de prueba y mide tiempo de inferencia."""
+    # Medir tiempo de inferencia
+    tic_inf = time.time()
     y_pred = model.predict(X_test)
-    classes    = model.classes_                 # e.g. array([False, True])
-    pos_idx    = int(np.where(classes == True)[0]) 
-    if hasattr(model, "predict_proba"):
+    inf_time_total = time.time() - tic_inf
+    time_per_sample = inf_time_total / len(X_test)
+
+    # Calcular métricas
+    classes = model.classes_
+    try:
+        pos_idx = int(np.where(classes == True)[0])
         y_proba = model.predict_proba(X_test)
-        auc = roc_auc_score(y_test, y_proba[:,pos_idx], average="weighted")
-    else:
+        auc = roc_auc_score(y_test, y_proba[:, pos_idx], average="weighted")
+    except Exception:
         auc = np.nan
 
     return {
@@ -643,12 +668,8 @@ def _evaluate_on_test(model, X_test, y_test):
         "weighted_f1": _weighted_f1(y_test, y_pred),
         "accuracy": accuracy_score(y_test, y_pred),
         "roc_auc": auc,
+        "inf_time_per_sample": time_per_sample
     }
-
-
-# -----------------------------------------------------------------------------
-# Función principal
-# -----------------------------------------------------------------------------
 
 
 def evaluate_models(
@@ -657,70 +678,63 @@ def evaluate_models(
     X_test,
     y_test,
     cv_folds=5,
-    n_trials=10,
+    n_trials=30,
     ckpt_dir=None,
     method='k-means',
     random_state=0,
 ):
-    """Tunea y evalúa clasificadores con Optuna.
-
-    X_train, y_train : ndarray — datos de entrenamiento.
-    X_test,  y_test  : ndarray — datos de prueba.
-    cv_folds         : int    — número de folds (>=2) o 0/1 para hold‑out.
-    n_trials         : int    — evaluaciones de Optuna por modelo.
-    log_dir          : str    — carpeta TensorBoard (None ⇒ sin logging).
-    random_state     : int    — semilla global.
-    """
-
+    """Tunea y evalúa clasificadores con Optuna, incluyendo tiempos de tuning, entrenamiento e inferencia."""
     if ckpt_dir is not None:
-        best_dir = os.path.join(ckpt_dir, method,"best_models")
+        best_dir = os.path.join(ckpt_dir, method, f"best_models_{method}_seed_{random_state}")
         os.makedirs(best_dir, exist_ok=True)
 
     cv = _build_cv(max(cv_folds, 2), random_state)
-
     records = []
     test_metrics_all = {}
     best_models = {}
 
     for tag, cfg in MODELS.items():
-        print(f"\n>>> Optuna tuning {tag} …")
-        best_model, cv_means, cv_stds, best_hp, t_time = _tune_single_model(
+        print(f"\n\n>>> Optuna tuning {tag}\n\n")
+        best_model, cv_means, cv_stds, best_hp, opt_time, train_time = _tune_single_model(
             tag, cfg, X_train, y_train, cv, n_trials, random_state
         )
 
-        # Guardar parámetros en JSON
+        # Guardar parámetros
         if ckpt_dir is not None:
             json_path = os.path.join(best_dir, f"{tag}_best_params.json")
             with open(json_path, 'w', encoding='utf-8') as fp:
                 json.dump(best_hp, fp, indent=4, ensure_ascii=False)
-            print(f"Parametros guardados en {json_path}")
+            print(f"Parámetros guardados en {json_path}")
 
         best_models[tag] = best_model
-        t_metrics = _evaluate_on_test(best_model, X_test, y_test)
-        test_metrics_all[tag] = t_metrics
+        test_metrics = _evaluate_on_test(best_model, X_test, y_test)
+        test_metrics_all[tag] = test_metrics
 
-        # Preparar fila de resultados combinados CV vs Test
-        row = {'model': tag}
-        # Métricas de CV (Optuna)
+        # Registrar resultados
+        row = {'model': tag, 'method': method}
+        # CV metrics
         for m, val in cv_means.items():
             row[f'cv_{m}'] = round(val, 3)
         for m_std, val in cv_stds.items():
             row[f'cv_{m_std}'] = round(val, 3)
-        row['cv_time'] = round(t_time, 3)
-        # Métricas de Test
-        for m, val in t_metrics.items():
-            row[f'test_{m}'] = round(val, 3)
+        row['optuna_time'] = round(opt_time, 3)
+        row['train_time'] = round(train_time, 3)
+        # Test metrics including inference time
+        for m, val in test_metrics.items():
+            if m == 'inf_time_per_sample':
+                row['inf_time_per_sample'] = round(val, 6)
+            else:
+                row[f'test_{m}'] = round(val, 3)
 
         records.append(row)
 
-
     results_df = pd.DataFrame(records)
-    results_df.insert(0, "method", method)
     return results_df, test_metrics_all, best_models
+
 
 def evaluate_one_model(
     X_train, y_train, X_test, y_test,
-    cv_folds=5, random_state=0
+    cv_folds=2, random_state=0
 ):
     """
     Evalúa un XGBClassifier con parámetros fijos.
@@ -770,6 +784,9 @@ def evaluate_one_model(
     classes = model.classes_
     pos_idx = int(np.where(classes == True)[0]) if True in classes else 1
 
+    print("Informacion de y_test:", y_test)
+    print("Informacion de y_proba:", y_proba[:, pos_idx])
+
     # Cálculo de métricas en test
     test_metrics = {
         'balanced': balanced_accuracy_score(y_test, y_pred),
@@ -782,88 +799,6 @@ def evaluate_one_model(
 
     return cv_means, cv_stds, test_metrics, model
     
-# def evaluate_models(
-#     X_train, y_train, X_test, y_test,
-#     n_splits: int = 5,
-#     random_state: int = 42,
-# ):
-#     """
-#     Ejecuta CV con *n_splits* para cada modelo definido en `models`
-#     y devuelve:
-#       - results_df  ▶ tabla (media ± std) de las métricas
-#       - test_metrics ▶ dict con métricas en test del mejor modelo (según 'avg')
-#       - best_model   ▶ modelo ya entrenado en todo el train
-#     `models` debe ser {alias: (Clase, dict_param)}  (igual al ejemplo enviado).
-#     """
-
-#     # --- métrica & esquema de validación ---
-#     scoring = {
-#         "macro_f1"   : make_scorer(f1_score, average="macro"),
-#         "weighted_f1": make_scorer(weighted_f1_custom),
-#         "roc_auc"    : make_scorer(roc_auc_score,
-#                                    multi_class="ovo", average="weighted"),
-#         "accuracy"   : make_scorer(accuracy_score),
-#     }
-#     cv = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=random_state)
-
-#     # --- cross-val por modelo ---
-#     records = []
-#     for tag, (model_cls, params) in MODELS.items():
-#         model  = model_cls(**params)
-#         cv_res = cross_validate(
-#             model, X_train, y_train,
-#             scoring=scoring, cv=cv, n_jobs=-1, return_train_score=False
-#         )
-#         means = {k.replace("test_", ""): v.mean() for k, v in cv_res.items()
-#                  if k.startswith("test_")}
-#         stds  = {k.replace("test_", "") + "_std": v.std() for k, v in cv_res.items()
-#                  if k.startswith("test_")}
-#         records.append(
-#             {"model": tag, "param": params, **means, **stds}
-#         )
-
-#     results = pd.DataFrame(records)
-#     results["avg"] = results[["macro_f1", "weighted_f1", "roc_auc"]].mean(axis=1)
-
-#     # --- mejores hiperparámetros según cada métrica ---
-#     best_f1_param       = results.param[results.macro_f1.idxmax()]
-#     best_weighted_param = results.param[results.weighted_f1.idxmax()]
-#     best_auroc_param    = results.param[results.roc_auc.idxmax()]
-#     best_acc_param      = results.param[results.accuracy.idxmax()]
-#     best_avg_param      = results.param[results.avg.idxmax()]
-
-#     # --- entrena el modelo con mejor 'avg' y evalúa en test ---
-#     best_tag         = results.model[results.avg.idxmax()]
-#     best_model_class = MODELS[best_tag][0]
-#     best_model       = best_model_class(**best_avg_param)
-#     best_model.fit(X_train, y_train)
-
-#     y_pred  = best_model.predict(X_test)
-#     y_proba = best_model.predict_proba(X_test)
-
-#     test_metrics = {
-#         "macro_f1"   : f1_score(y_test, y_pred, average="macro"),
-#         "weighted_f1": weighted_f1_custom(y_test, y_pred),
-#         "roc_auc"    : roc_auc_score(y_test, y_proba[:, 1],
-#                                      multi_class="ovo", average="weighted"),
-#         "accuracy"   : accuracy_score(y_test, y_pred),
-#     }
-
-#     # imprime resumen útil (opcional; comenta si no quieres salida)
-#     print("\n=== Cross-validation summary ===")
-#     print(results[["model", "macro_f1", "weighted_f1",
-#                    "roc_auc", "accuracy", "avg"]].round(4))
-#     print("\nMejores hiperparámetros por métrica:")
-#     print("macro_f1   :", best_f1_param)
-#     print("weighted_f1:", best_weighted_param)
-#     print("roc_auc    :", best_auroc_param)
-#     print("accuracy   :", best_acc_param)
-#     print("avg        :", best_avg_param)
-#     print("\n=== Test metrics (best model) ===")
-#     for k, v in test_metrics.items():
-#         print(f"{k:12s}: {v:.4f}")
-
-#     return results, test_metrics, best_model
 
 if __name__ == '__main__':
     # Ejemplo de uso
