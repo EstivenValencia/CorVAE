@@ -3,7 +3,7 @@ export export CUDA_VISIBLE_DEVICES=3;python3.12 main.py \
     --method_distillation k-means \
     --distillation_space latent \
     --fine_tuning false \
-    --epochs_latent 10 \
+    --epochs_latent 3000 \
     --epochs_fine_tuning_latent 0 \
     --batch_size 4069 \
     --token_dimension 4 --alpha 0.5 \
@@ -17,7 +17,7 @@ export export CUDA_VISIBLE_DEVICES=3;python3.12 main.py \
     --method_distillation k-means \
     --distillation_space latent \
     --fine_tuning false \
-    --epochs_latent 10 \
+    --epochs_latent 3000 \
     --epochs_fine_tuning_latent 1000 \
     --batch_size 4069 \
     --token_dimension 4 --alpha 0.5 \
@@ -31,7 +31,7 @@ export export CUDA_VISIBLE_DEVICES=4;python3.12 main.py \
     --method_distillation k-means \
     --distillation_space original \
     --fine_tuning false \
-    --epochs_latent 10 \
+    --epochs_latent 3000 \
     --epochs_fine_tuning_latent 0 \
     --batch_size 4069 \
     --token_dimension 4 --alpha 0.5 \

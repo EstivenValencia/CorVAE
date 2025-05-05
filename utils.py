@@ -52,6 +52,9 @@ from sklearn.svm import SVC
 import optuna
 from sklearn.neural_network import MLPClassifier
 
+import warnings
+warnings.filterwarnings("ignore")
+
 def _weighted_f1(y_true, y_pred):
     return f1_score(y_true, y_pred, average="weighted")
 
@@ -101,16 +104,17 @@ MODELS = {
             "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
         },
     },
-    # "mlp": {
-    #         "constructor": MLPClassifier,
-    #         "search_space": {
-    #             "hidden_layer_sizes": lambda t: t.suggest_categorical(
-    #                 "hidden_layer_sizes", [(100,), (200,), (100, 100)]
-    #             ),
-    #             "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
-    #             "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
-    #         },
-    #     },
+    "mlp": {
+            "constructor": MLPClassifier,
+            "static_args": {},
+            "search_space": {
+                "hidden_layer_sizes": lambda t: t.suggest_categorical(
+                    "hidden_layer_sizes", [(100,), (200,), (100, 100)]
+                ),
+                "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
+                "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
+            },
+        },
 
 }
 
@@ -621,7 +625,16 @@ def _tune_single_model(tag, cfg, X, y, cv, n_trials, random_state):
     )
     optuna_time = time.time() - tic_opt
 
-    best_params = study.best_params
+    completed = [t for t in study.trials if t.state == optuna.trial.TrialState.COMPLETE]
+    if not completed:
+        # decides un fallback: aquí uso los static_args como "parámetros por defecto"
+        best_params = {}
+        print(f"⚠️  No hay trials completados en '{tag}'; usando argumentos estáticos.")
+    else:
+        best_params = study.best_params
+    # ---------------------------------------------------------------------
+
+    # Construye el modelo con best_params (o solo static_args si best_params quedó vacío)
     best_model = cfg["constructor"](**cfg["static_args"], **best_params)
 
     # Medir tiempo de entrenamiento del mejor modelo
@@ -678,7 +691,7 @@ def evaluate_models(
     X_test,
     y_test,
     cv_folds=5,
-    n_trials=2,
+    n_trials=30,
     ckpt_dir=None,
     method='k-means',
     random_state=0,
