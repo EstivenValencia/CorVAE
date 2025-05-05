@@ -26,9 +26,6 @@ from models import LossTracker
 warnings.filterwarnings('ignore')
 import time
 
-PATIENCE_PRETRAIN = 10
-PATIENCE_FINETUNE = 10
-
 def train_vae(model, loader, optimizer, device, beta=1.0, alpha=0.0):
     """Entrena una epoch de un VAE y devuelve las pérdidas medias: mse, ce, kld y total."""
     model.train()
@@ -154,14 +151,14 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
     """
 
     # Definir paths de guardado
-    encoder_save_path = os.path.join(ckpt_dir, f'encoder_{random_state}.pt')
-    decoder_save_path = os.path.join(ckpt_dir, f'decoder_{random_state}.pt')
+    encoder_save_path = os.path.join(ckpt_dir, f'encoder_seed_{random_state}.pt')
+    decoder_save_path = os.path.join(ckpt_dir, f'decoder_seed_{random_state}.pt')
 
     # 1. Recargar el mejor modelo
     model.load_state_dict(torch.load(model_save_path, map_location=device))
     model.eval()
 
-    with open(os.path.join(ckpt_dir, f'pre_encoders_{random_state}.pkl'), 'wb') as f:
+    with open(os.path.join(ckpt_dir, f'pre_encoders_seed_{random_state}.pkl'), 'wb') as f:
         pickle.dump({
             "num_cols": num_cols,
             "categories": categories,
@@ -186,12 +183,12 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
         encoder_inference_time = (end - start) / X_train_num.shape[0]
 
         # 6. Guardar las representaciones latentes
-        if random_state != None:
+        if random_state == None:
             np.save(os.path.join(ckpt_dir, f'train_z.npy'), train_z)
             np.save(os.path.join(ckpt_dir, f'train_y.npy'), y_train_enc)
         else:
-            np.save(os.path.join(ckpt_dir, f'train_z_{random_state}.npy'), train_z)
-            np.save(os.path.join(ckpt_dir, f'train_y_{random_state}.npy'), y_train_enc)
+            np.save(os.path.join(ckpt_dir, f'train_z_seed_{random_state}.npy'), train_z)
+            np.save(os.path.join(ckpt_dir, f'train_y_seed_{random_state}.npy'), y_train_enc)
 
         print('Successfully saved best encoder, decoder, and latent embeddings!')
 
@@ -210,19 +207,19 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     n_head = hyperparams.get('n_head',1)
     factor = hyperparams.get('factor',32)
     num_layers =hyperparams.get('num_layers',2)
-    early_stop_counter_pretrain = hyperparams.get('early_stop_counter_pretrain',15)
+    early_stop_counter_pretrain = hyperparams.get('early_stop_counter_pretrain',100)
 
     # Hiperparametros de la cabeza clasificadora
     dropout_ft = hyperparams.get('dropout_ft',0.3)
     alpha_ft = hyperparams.get("alpha_ft",1e-5)
     lr_ft = hyperparams.get("lr_ft",1e-4)
     wd_ft = hyperparams.get('wd_ft',0)
-    early_stop_counter_ft = hyperparams.get("early_stop_counter_ft",15)
+    early_stop_counter_ft = hyperparams.get("early_stop_counter_ft",100)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-    model_save_path = os.path.join(ckpt_dir, f'best_vae_{random_state}.pt')
-    ft_model_save_path = os.path.join(ckpt_dir, f'ft_best_vae_{random_state}.pt')
+    model_save_path = os.path.join(ckpt_dir, f'best_vae_seed_{random_state}.pt')
+    ft_model_save_path = os.path.join(ckpt_dir, f'ft_best_vae_seed_{random_state}.pt')
 
     X_train, y_train, X_test, y_test = set_data
     (
@@ -254,7 +251,7 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
 
     model = ModelVAE(num_layers, num_cols, categories, d_token, num_classes=None, n_head = n_head, factor = factor, bias = True)
     model = model.to(device)
-
+    print(model)
     pre_encoder = EncoderModel(num_layers, num_cols, categories, d_token, n_head = n_head, factor = factor).to(device)
     pre_decoder = DecoderModel(num_layers, num_cols, categories, d_token, n_head = n_head, factor = factor).to(device)
 
@@ -264,7 +261,7 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr_pretrain, weight_decay=wd_pretrain)
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.95, patience=10, verbose=True)
 
-    tracker = LossTracker(log_dir=os.path.join(ckpt_dir, f"runs_seed_{random_state}"))
+    tracker = LossTracker(log_dir=os.path.join(ckpt_dir, 'runs',f"seed_{random_state}"))
 
     beta = max_beta
     patience = 0
@@ -287,7 +284,7 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         val_mse, val_ce, val_kld, val_loss, _ = \
             validate_vae(model, test_loader, device, beta)
 
-        tracker.log_finetune(train_mse, train_ce, train_kld, 0, train_loss,
+        tracker.log(train_mse, train_ce, train_kld, 0, train_loss,
                             val_mse,   val_ce,   val_kld,   0,   val_loss)
 
         # Ajuste de learning rate
@@ -339,13 +336,13 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         ft_model.load_state_dict(torch.load(model_save_path), strict=False)
 
         print("Fine-tuning model architecture:")
-        print(ft_model)
+        #print(ft_model)
 
         # Nuevo optimizador para fine-tuning (todos los parámetros, LR más bajo)
         optimizer_ft = torch.optim.AdamW(ft_model.parameters(), lr=lr_ft, weight_decay=wd_ft)
         scheduler_ft = ReduceLROnPlateau(optimizer_ft, mode='min', factor=0.9, patience=5, verbose=True) # Menor paciencia para FT
 
-        #beta = MIN_BETA # Empezar con beta bajo o mantener el final del pre-entrenamiento? Aquí usamos MIN_BETA
+        beta = min_beta # Empezar con beta bajo o mantener el final del pre-entrenamiento? Aquí usamos MIN_BETA
         patience_counter = 0
         best_val_loss_ft = float('inf')
         early_stop_counter = 0
@@ -360,7 +357,7 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
             val_mse, val_ce, val_kld, val_loss, val_class_loss = \
                 validate_vae(ft_model, test_loader, device, beta, alpha=alpha_ft)
 
-            tracker.log_finetune(train_mse, train_ce, train_kld, train_class_loss, train_loss,
+            tracker.log(train_mse, train_ce, train_kld, train_class_loss, train_loss,
                                 val_mse,   val_ce,   val_kld,   val_class_loss,   val_loss)
 
             scheduler_ft.step(val_loss) # Usar scheduler de fine-tuning
@@ -370,14 +367,11 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
                 best_val_loss_ft = val_loss
                 torch.save(ft_model.state_dict(), ft_model_save_path)
                 early_stop_counter = 0
-                patience_counter = 0
+
             else:
                 early_stop_counter += 1
-                patience_counter += 1
-                print(f"Stage 2 - Epoch {epoch}: Val loss did not improve ({val_loss:.6f} vs best {best_val_loss_ft:.6f}). Patience: {patience_counter}/{PATIENCE_FINETUNE}")
-                if patience_counter >= PATIENCE_FINETUNE:
-                    print("Early stopping fine-tuning.")
-                    break # Salir del bucle de fine-tuning
+                if beta > min_beta:
+                    beta = beta * lambda_
 
             if early_stop_counter >= early_stop_counter_ft:
                 print(f"No hubo mejora en {early_stop_counter_ft} épocas. Early stopping en epoch {epoch}.")

@@ -44,33 +44,7 @@ class LossTracker:
         self.writer: SummaryWriter = SummaryWriter(log_dir)
         self.epoch: int = 0
 
-    # ---------------------------------------------------------------------
-    # Pre‑training (sin cabeza) -------------------------------------------
-    # ---------------------------------------------------------------------
-    def log_pretrain(
-        self,
-        train_mse: float,
-        train_ce: float,
-        train_kld: float,
-        train_total: float,
-        val_mse: float,
-        val_ce: float,
-        val_kld: float,
-        val_total: float,
-    ) -> None:
-        recon_train = train_mse + train_ce
-        recon_val   = val_mse   + val_ce
-
-        self.writer.add_scalars("Pretrain/Recon", {"Train": recon_train, "Val": recon_val}, self.epoch)
-        self.writer.add_scalars("Pretrain/KL",    {"Train": train_kld,     "Val": val_kld},    self.epoch)
-        self.writer.add_scalars("Pretrain/Total", {"Train": train_total,   "Val": val_total},  self.epoch)
-
-        self.epoch += 1
-
-    # ---------------------------------------------------------------------
-    # Fine‑tuning (con cabeza) --------------------------------------------
-    # ---------------------------------------------------------------------
-    def log_finetune(
+    def log(
         self,
         train_mse: float,
         train_ce: float,
@@ -86,10 +60,10 @@ class LossTracker:
         recon_train = train_mse + train_ce
         recon_val   = val_mse   + val_ce
 
-        self.writer.add_scalars("Finetune/Recon", {"Train": recon_train, "Val": recon_val}, self.epoch)
-        self.writer.add_scalars("Finetune/KL",    {"Train": train_kld,   "Val": val_kld},  self.epoch)
-        self.writer.add_scalars("Finetune/Class", {"Train": train_class, "Val": val_class}, self.epoch)
-        self.writer.add_scalars("Finetune/Total", {"Train": train_total, "Val": val_total}, self.epoch)
+        self.writer.add_scalars("Recon", {"Train": recon_train, "Val": recon_val}, self.epoch)
+        self.writer.add_scalars("KL",    {"Train": train_kld,   "Val": val_kld},  self.epoch)
+        self.writer.add_scalars("Class", {"Train": train_class, "Val": val_class}, self.epoch)
+        self.writer.add_scalars("Total", {"Train": train_total, "Val": val_total}, self.epoch)
 
         self.epoch += 1
 

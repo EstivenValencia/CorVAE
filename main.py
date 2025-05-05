@@ -11,8 +11,8 @@ from utils import read_json_config
 import pandas as pd
 import json
 
-IPC_LIST = list(range(10,100,10)) + [200,500,1000]
-#IPC_LIST = list(range(10,20,10))
+IPC_LIST = list(range(10,110,10)) + [200,500,1000]
+#IPC_LIST = list(range(10,30,10)) # Solo para depuración
 RANDOM_SEED_EVALUATE = range(5)
 #RANDOM_SEED_EVALUATE = range(1)
 
@@ -150,7 +150,7 @@ def main(args):
         # Destilación con sample random class
         for seed in RANDOM_SEED_EVALUATE:
             X_random, y_random = distill_random(X_train_pre, y_train_pre, n_per_class=ipc, random_state=seed)
-            random_df, test_metrics_random, _ = evaluate_models(X_random, y_random, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='random', random_state=seed)
+            random_df, test_metrics_random, _ = evaluate_models(X_random, y_random, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='random', random_state=seed, ipc=ipc)
             random_df = add_meta(random_df, ipc=ipc, seed=seed)
 
             full_df = pd.concat([full_df, random_df], axis=0, ignore_index=True)
@@ -162,19 +162,22 @@ def main(args):
                     data_dict = json.load(f)
                     hyperparams_vae = data_dict['best_params']
 
+                vae_dir = os.path.join(checkpoint_path, 'vae',f'IPC_{ipc}') 
+                os.makedirs(vae_dir, exist_ok=True)
+
                 # Call the distillation function
                 train_z, train_y,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
                                             batch_size=batch_size, pretrain_epochs=epochs_latent, 
-                                            finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=checkpoint_path, hyperparams=hyperparams_vae)
+                                            finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae)
 
                 # Destilación con Least Confidence y recontruyendo
 
                 distill_z, distill_y = distill_least_confidence(train_z, train_y, num_samples=ipc, seed=seed)
-                df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=checkpoint_path,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='LC', seed=seed)
+                df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=vae_dir,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='LC', seed=seed)
                 
                 x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, random_state=seed)
                 
-                lc_df, test_metrics_lc, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='lc', random_state=seed)
+                lc_df, test_metrics_lc, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='lc', random_state=seed, ipc=ipc)
             
                 lc_df = add_meta(lc_df,
                                     ipc=ipc,
@@ -187,11 +190,11 @@ def main(args):
                 # Destilación con craig y recontruyendo
 
                 distill_z, distill_y = distill_with_craig(train_z, train_y, num_samples=ipc, seed=seed)
-                df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=checkpoint_path,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='LC', seed=seed)
+                df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=vae_dir,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='LC', seed=seed)
                 
                 x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, random_state=seed)
                 
-                craig_df, test_metrics_craig, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='craig', random_state=seed)
+                craig_df, test_metrics_craig, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='craig', random_state=seed, ipc=ipc)
             
                 craig_df = add_meta(craig_df,
                                     ipc=ipc,
@@ -204,11 +207,11 @@ def main(args):
                 # Destilación con K-centers y recontruyendo
 
                 distill_z, distill_y = distill_with_kcenters(train_z, train_y, num_centroids=ipc, seed=seed)
-                df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=checkpoint_path,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='k-centers', seed=seed)
+                df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=vae_dir,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='k-centers', seed=seed)
                 
                 x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, random_state=seed)
                 
-                k_center_df, test_metrics_k_center, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='k_center', random_state=seed)
+                k_center_df, test_metrics_k_center, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='k_center', random_state=seed, ipc=ipc)
             
                 k_center_df = add_meta(k_center_df,
                                     ipc=ipc,
@@ -222,11 +225,11 @@ def main(args):
                 if kmeans_type == 'centroid':
                     distill_z, distill_y = distill_with_kmeans(train_z, train_y, num_centroids=ipc, get_closest=False, seed=seed)
 
-                    df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=checkpoint_path,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='k-means', seed=seed)
+                    df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=vae_dir,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='k-means', seed=seed)
                     
                     x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, random_state=seed)
                     
-                    kmeans_df, test_metrics_k_means, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='k-means', random_state=seed)
+                    kmeans_df, test_metrics_k_means, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='k-means', random_state=seed, ipc=ipc)
                 
                     kmeans_df = add_meta(kmeans_df,
                                         ipc=ipc,
@@ -239,11 +242,11 @@ def main(args):
                 # Destilacion con AG y reconstruyendo
 
                 distill_z, distill_y = distill_with_agglomerative(train_z, train_y, num_clusters=ipc, get_closest=False, seed=seed)
-                df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=checkpoint_path,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='ag', seed=seed)
+                df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=vae_dir,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='ag', seed=seed)
                 
                 x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, random_state=seed)
                 
-                ag_df, test_metrics_ag, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='ag', random_state=seed)
+                ag_df, test_metrics_ag, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='ag', random_state=seed, ipc=ipc)
             
                 ag_df = add_meta(ag_df,
                                     ipc=ipc,
@@ -257,7 +260,7 @@ def main(args):
 
                 # Destilación con LC
                 distill_z, distill_y = distill_least_confidence(X_train_pre, y_train_pre, num_samples=ipc, seed=seed)
-                lc_df, test_metrics_lc, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='lc', random_state=seed)
+                lc_df, test_metrics_lc, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='lc', random_state=seed, ipc=ipc)
                             
                 lc_df = add_meta(lc_df,
                                     ipc=ipc,
@@ -265,7 +268,7 @@ def main(args):
 
                 # Destilación CRAIG
                 distill_z, distill_y = distill_with_craig(X_train_pre, y_train_pre, num_samples=ipc, seed=seed)
-                craig_df, test_metrics_craig, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='craig', random_state=seed)
+                craig_df, test_metrics_craig, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='craig', random_state=seed, ipc=ipc)
             
                 craig_df = add_meta(craig_df,
                                     ipc=ipc,
@@ -274,7 +277,7 @@ def main(args):
                 # Destilación con K-means en el espacio original
 
                 distill_z, distill_y = distill_with_kmeans(X_train_pre, y_train_pre, num_centroids=ipc, get_closest=False, seed=seed)
-                kmeans_df, test_metrics_k_means, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='k-means', random_state=seed)
+                kmeans_df, test_metrics_k_means, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='k-means', random_state=seed, ipc=ipc)
 
                 kmeans_df = add_meta(kmeans_df,
                                     ipc=ipc,
@@ -282,7 +285,7 @@ def main(args):
 
                 # Destilación con AG
                 distill_z, distill_y = distill_with_agglomerative(X_train_pre, y_train_pre, num_clusters=ipc, get_closest=False, seed=seed)
-                ag_df, test_metrics_ag, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='ag', random_state=seed)
+                ag_df, test_metrics_ag, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='ag', random_state=seed, ipc=ipc)
                 
                 ag_df = add_meta(ag_df,
                                     ipc=ipc,
@@ -290,7 +293,7 @@ def main(args):
                 
                 # Destilación con k-centers
                 distill_z, distill_y = distill_with_kcenters(X_train_pre, y_train_pre, num_centroids=ipc, seed=seed)
-                k_center_df, test_metrics_k_center, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='k_center', random_state=seed)
+                k_center_df, test_metrics_k_center, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='k_center', random_state=seed, ipc=ipc)
             
                 k_center_df = add_meta(k_center_df,
                                     ipc=ipc,

@@ -78,43 +78,43 @@ MODELS = {
             "colsample_bytree": lambda t: t.suggest_float("colsample_bytree", 0.5, 1.0),
         },
     },
-    "rf": {
-        "constructor": RandomForestClassifier,
-        "static_args": {"class_weight": "balanced"},
-        "search_space": {
-            "n_estimators": lambda t: t.suggest_int("n_estimators", 100, 500),
-            "max_depth": lambda t: t.suggest_int("max_depth", 3, 20),
-            "min_samples_split": lambda t: t.suggest_int("min_samples_split", 2, 10),
-            "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
-        },
-    },
-    "svc": {
-        "constructor": SVC,
-        "static_args": {"probability": True},
-        "search_space": {
-            "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
-            "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
-        },
-    },
-    "logreg": {
-        "constructor": LogisticRegression,
-        "static_args": {"max_iter": 200, "solver": "lbfgs"},
-        "search_space": {
-            "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
-            "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
-        },
-    },
-    "mlp": {
-            "constructor": MLPClassifier,
-            "static_args": {},
-            "search_space": {
-                "hidden_layer_sizes": lambda t: t.suggest_categorical(
-                    "hidden_layer_sizes", [(100,), (200,), (100, 100)]
-                ),
-                "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
-                "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
-            },
-        },
+    # "rf": {
+    #     "constructor": RandomForestClassifier,
+    #     "static_args": {"class_weight": "balanced"},
+    #     "search_space": {
+    #         "n_estimators": lambda t: t.suggest_int("n_estimators", 100, 500),
+    #         "max_depth": lambda t: t.suggest_int("max_depth", 3, 20),
+    #         "min_samples_split": lambda t: t.suggest_int("min_samples_split", 2, 10),
+    #         "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
+    #     },
+    # },
+    # "svc": {
+    #     "constructor": SVC,
+    #     "static_args": {"probability": True},
+    #     "search_space": {
+    #         "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
+    #         "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
+    #     },
+    # },
+    # "logreg": {
+    #     "constructor": LogisticRegression,
+    #     "static_args": {"max_iter": 200, "solver": "lbfgs"},
+    #     "search_space": {
+    #         "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
+    #         "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
+    #     },
+    # },
+    # "mlp": {
+    #         "constructor": MLPClassifier,
+    #         "static_args": {},
+    #         "search_space": {
+    #             "hidden_layer_sizes": lambda t: t.suggest_categorical(
+    #                 "hidden_layer_sizes", [(100,), (200,), (100, 100)]
+    #             ),
+    #             "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
+    #             "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
+    #         },
+    #     },
 
 }
 
@@ -392,6 +392,12 @@ def reconstruct_data(
             Si se proporcionan nombres de columnas:
                 Un DataFrame de Pandas con los datos reconstruidos y los nombres de columna originales.
     """
+
+    # Datos recontruidos
+    reconstructed_dir = os.path.join(models_paths, 'reconstructed_data')
+    os.makedirs(reconstructed_dir, exist_ok=True)
+
+
     d_token =hyperparams.get('d_token',4)
     n_head = hyperparams.get('n_head',1)
     factor = hyperparams.get('factor',32)
@@ -410,7 +416,7 @@ def reconstruct_data(
     target_cols_idx = config['target_col_idx']
 
 
-    with open(os.path.join(models_paths, f'pre_encoders_{seed}.pkl'), 'rb') as f:
+    with open(os.path.join(models_paths, f'pre_encoders_seed_{seed}.pkl'), 'rb') as f:
         encoders = pickle.load(f)
         num_cols = encoders['num_cols']
         categories = encoders['categories']
@@ -425,7 +431,7 @@ def reconstruct_data(
 
     decoder_inference_time = 0
     if latent_space:
-        decoder_weights_path = os.path.join(models_paths, f'decoder_{seed}.pt')
+        decoder_weights_path = os.path.join(models_paths, f'decoder_seed_{seed}.pt')
 
         # Convertir a tensor y mover al dispositivo
         latent_z_tensor = torch.tensor(x, dtype=torch.float32).to(device)
@@ -562,7 +568,7 @@ def reconstruct_data(
         # Reordenar las columnas del DataFrame
         df_reconstructed = df_reconstructed[ordered_columns]
 
-        reconstructed_path = os.path.join(models_paths, f'reconstructed_data_{method}_seed_{seed}.csv')
+        reconstructed_path = os.path.join(reconstructed_dir, f'method_{method}_seed_{seed}.csv')
         df_reconstructed.to_csv(reconstructed_path, index=False)
 
         return df_reconstructed, decoder_inference_time
@@ -695,10 +701,11 @@ def evaluate_models(
     ckpt_dir=None,
     method='k-means',
     random_state=0,
+    ipc=0,
 ):
     """Tunea y evalúa clasificadores con Optuna, incluyendo tiempos de tuning, entrenamiento e inferencia."""
     if ckpt_dir is not None:
-        best_dir = os.path.join(ckpt_dir, method, f"best_models_{method}_seed_{random_state}")
+        best_dir = os.path.join(ckpt_dir, method, f"IPC_{ipc}", f"best_models_{method}_seed_{random_state}")
         os.makedirs(best_dir, exist_ok=True)
 
     cv = _build_cv(max(cv_folds, 2), random_state)
@@ -707,7 +714,7 @@ def evaluate_models(
     best_models = {}
 
     for tag, cfg in MODELS.items():
-        print(f"\n\n>>> Optuna tuning {tag}\n\n")
+        print(f"\n\n>>> Optuna tuning {tag} metodo {method} IPC {ipc} seed {random_state}\n\n")
         best_model, cv_means, cv_stds, best_hp, opt_time, train_time = _tune_single_model(
             tag, cfg, X_train, y_train, cv, n_trials, random_state
         )

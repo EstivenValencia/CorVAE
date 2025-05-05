@@ -39,6 +39,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.metrics import pairwise_distances
+from xgboost import XGBClassifier
 
 def distill_random(X, y, n_per_class=10, random_state=None):
     """
@@ -389,7 +390,7 @@ def distill_least_confidence(
     if model is None:
         clf = LogisticRegression(
             random_state=seed,
-            max_iter=1000,
+            max_iter=500,
             multi_class='auto',
             solver='lbfgs'
         )
