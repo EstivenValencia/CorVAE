@@ -142,7 +142,7 @@ def validate_vae(model, loader, device, beta=1.0, alpha=0.0):
     return avg_mse, avg_ce, avg_kld, avg_total, avg_class_loss
 
 def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_encoder, pre_decoder, num_scaler, cat_encoder, label_encoder,
-                               X_train_num, X_train_cat, y_train_enc, ckpt_dir, device, random_state=None):
+                               X_train_num, X_train_cat, y_train_enc, X_test_num, X_test_cat, y_test_enc, ckpt_dir, device, random_state=None):
     """
     Recarga el mejor modelo guardado, extrae pesos para pre_encoder y pre_decoder,
     guarda sus pesos, y guarda las embeddings latentes (train_z.npy).
@@ -182,6 +182,8 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
         end = time.time()
         encoder_inference_time = (end - start) / X_train_num.shape[0]
 
+        test_z = pre_encoder(X_test_num, X_test_cat).detach().cpu().numpy()
+
         # 6. Guardar las representaciones latentes
         if random_state == None:
             np.save(os.path.join(ckpt_dir, f'train_z.npy'), train_z)
@@ -189,6 +191,8 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
         else:
             np.save(os.path.join(ckpt_dir, f'train_z_seed_{random_state}.npy'), train_z)
             np.save(os.path.join(ckpt_dir, f'train_y_seed_{random_state}.npy'), y_train_enc)
+            np.save(os.path.join(ckpt_dir, f'test_z_seed_{random_state}.npy'), test_z)
+            np.save(os.path.join(ckpt_dir, f'test_y_seed_{random_state}.npy'), y_test_enc)
 
         print('Successfully saved best encoder, decoder, and latent embeddings!')
 
@@ -207,14 +211,14 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     n_head = hyperparams.get('n_head',1)
     factor = hyperparams.get('factor',32)
     num_layers =hyperparams.get('num_layers',2)
-    early_stop_counter_pretrain = hyperparams.get('early_stop_counter_pretrain',100)
+    early_stop_counter_pretrain = hyperparams.get('early_stop_counter_pretrain',20)
 
     # Hiperparametros de la cabeza clasificadora
     dropout_ft = hyperparams.get('dropout_ft',0.3)
     alpha_ft = hyperparams.get("alpha_ft",1e-5)
     lr_ft = hyperparams.get("lr_ft",1e-4)
     wd_ft = hyperparams.get('wd_ft',0)
-    early_stop_counter_ft = hyperparams.get("early_stop_counter_ft",100)
+    early_stop_counter_ft = hyperparams.get("early_stop_counter_ft",20)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -343,7 +347,7 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         scheduler_ft = ReduceLROnPlateau(optimizer_ft, mode='min', factor=0.9, patience=5, verbose=True) # Menor paciencia para FT
 
         beta = min_beta # Empezar con beta bajo o mantener el final del pre-entrenamiento? Aquí usamos MIN_BETA
-        patience_counter = 0
+        patience = 0
         best_val_loss_ft = float('inf')
         early_stop_counter = 0
 
@@ -367,11 +371,14 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
                 best_val_loss_ft = val_loss
                 torch.save(ft_model.state_dict(), ft_model_save_path)
                 early_stop_counter = 0
+                patience = 0
 
             else:
                 early_stop_counter += 1
-                if beta > min_beta:
-                    beta = beta * lambda_
+                patience += 1
+                if patience == 10:
+                    if beta > min_beta:
+                        beta = beta * lambda_
 
             if early_stop_counter >= early_stop_counter_ft:
                 print(f"No hubo mejora en {early_stop_counter_ft} épocas. Early stopping en epoch {epoch}.")
@@ -401,6 +408,9 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         X_train_num=X_num_train.to(device),
         X_train_cat=X_cat_train.to(device),
         y_train_enc=y_train_enc,
+        X_test_num=X_num_test.to(device),
+        X_test_cat=X_cat_test.to(device),
+        y_test_enc=y_test_enc,
         ckpt_dir=ckpt_dir,
         device=device,
         random_state=random_state
