@@ -1,0 +1,11 @@
+Running distillation pipeline with the following configuration:
+No se encontraron caracteres extranos en la columna target
+Datos de train y test guardados en data/shoppers
+Categoricas entrenamiento:  7
+Datos unicos de y_train:  [False  True]
+Datos unicos de y_train luego:  [0 1]
+
+
+>>> Optuna tuning xgb metodo Full-data IPC 0 seed 0
+
+

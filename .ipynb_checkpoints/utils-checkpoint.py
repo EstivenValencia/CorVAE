@@ -392,6 +392,12 @@ def reconstruct_data(
             Si se proporcionan nombres de columnas:
                 Un DataFrame de Pandas con los datos reconstruidos y los nombres de columna originales.
     """
+
+    # Datos recontruidos
+    reconstructed_dir = os.path.join(models_paths, 'reconstructed_data')
+    os.makedirs(reconstructed_dir, exist_ok=True)
+
+
     d_token =hyperparams.get('d_token',4)
     n_head = hyperparams.get('n_head',1)
     factor = hyperparams.get('factor',32)
@@ -410,7 +416,7 @@ def reconstruct_data(
     target_cols_idx = config['target_col_idx']
 
 
-    with open(os.path.join(models_paths, f'pre_encoders_{seed}.pkl'), 'rb') as f:
+    with open(os.path.join(models_paths, f'pre_encoders_seed_{seed}.pkl'), 'rb') as f:
         encoders = pickle.load(f)
         num_cols = encoders['num_cols']
         categories = encoders['categories']
@@ -425,7 +431,7 @@ def reconstruct_data(
 
     decoder_inference_time = 0
     if latent_space:
-        decoder_weights_path = os.path.join(models_paths, f'decoder_{seed}.pt')
+        decoder_weights_path = os.path.join(models_paths, f'decoder_seed_{seed}.pt')
 
         # Convertir a tensor y mover al dispositivo
         latent_z_tensor = torch.tensor(x, dtype=torch.float32).to(device)
@@ -562,7 +568,7 @@ def reconstruct_data(
         # Reordenar las columnas del DataFrame
         df_reconstructed = df_reconstructed[ordered_columns]
 
-        reconstructed_path = os.path.join(models_paths, f'reconstructed_data_{method}_seed_{seed}.csv')
+        reconstructed_path = os.path.join(reconstructed_dir, f'method_{method}_seed_{seed}.csv')
         df_reconstructed.to_csv(reconstructed_path, index=False)
 
         return df_reconstructed, decoder_inference_time
@@ -695,11 +701,11 @@ def evaluate_models(
     ckpt_dir=None,
     method='k-means',
     random_state=0,
+    ipc=0,
 ):
     """Tunea y evalúa clasificadores con Optuna, incluyendo tiempos de tuning, entrenamiento e inferencia."""
-    if ckpt_dir is not None:
-        best_dir = os.path.join(ckpt_dir, method, f"best_models_{method}_seed_{random_state}")
-        os.makedirs(best_dir, exist_ok=True)
+    best_dir = os.path.join(ckpt_dir, method, f"IPC_{ipc}", f"best_models_{method}_seed_{random_state}")
+    os.makedirs(best_dir, exist_ok=True)
 
     cv = _build_cv(max(cv_folds, 2), random_state)
     records = []
@@ -707,7 +713,7 @@ def evaluate_models(
     best_models = {}
 
     for tag, cfg in MODELS.items():
-        print(f"\n\n>>> Optuna tuning {tag}\n\n")
+        print(f"\n\n>>> Optuna tuning {tag} metodo {method} IPC {ipc} seed {random_state}\n\n")
         best_model, cv_means, cv_stds, best_hp, opt_time, train_time = _tune_single_model(
             tag, cfg, X_train, y_train, cv, n_trials, random_state
         )

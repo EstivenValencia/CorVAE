@@ -137,7 +137,7 @@ def main(args):
     full_df = add_meta(full_df)
     
     all_dfs = pd.DataFrame()
-    full_df = pd.DataFrame()
+    #full_df = pd.DataFrame()
 
     for ipc in IPC_LIST:
         METRICS_KMEANS = []
