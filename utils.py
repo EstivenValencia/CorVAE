@@ -88,33 +88,33 @@ MODELS = {
             "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
         },
     },
-    "svc": {
-        "constructor": SVC,
-        "static_args": {"probability": True},
-        "search_space": {
-            "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
-            "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
-        },
-    },
-    "logreg": {
-        "constructor": LogisticRegression,
-        "static_args": {"max_iter": 200, "solver": "lbfgs"},
-        "search_space": {
-            "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
-            "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
-        },
-    },
-    "mlp": {
-            "constructor": MLPClassifier,
-            "static_args": {},
-            "search_space": {
-                "hidden_layer_sizes": lambda t: t.suggest_categorical(
-                    "hidden_layer_sizes", [(100,), (200,), (100, 100)]
-                ),
-                "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
-                "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
-            },
-        },
+    # "svc": {
+    #     "constructor": SVC,
+    #     "static_args": {"probability": True},
+    #     "search_space": {
+    #         "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
+    #         "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
+    #     },
+    # },
+    # "logreg": {
+    #     "constructor": LogisticRegression,
+    #     "static_args": {"max_iter": 200, "solver": "lbfgs"},
+    #     "search_space": {
+    #         "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
+    #         "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
+    #     },
+    # },
+    # "mlp": {
+    #         "constructor": MLPClassifier,
+    #         "static_args": {},
+    #         "search_space": {
+    #             "hidden_layer_sizes": lambda t: t.suggest_categorical(
+    #                 "hidden_layer_sizes", [(100,), (200,), (100, 100)]
+    #             ),
+    #             "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
+    #             "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
+    #         },
+    #     },
 
 }
 
@@ -328,23 +328,74 @@ def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', 
         num_scaler, cat_encoder, label_encoder
     )
 
-def load_reconstructed_data(df, json_config_path, checkpoint_path, random_state=0):
+# def load_reconstructed_data(df, json_config_path, checkpoint_path, num_scaler,cat_encoder,label_encoder, random_state=0):
+#     config = read_json_config(json_config_path)
+#     base_dir = os.path.dirname(json_config_path)
+#     target_col = config['target_col_name']
+
+#     y_train = df[target_col].to_numpy()
+#     X_train = df.drop(columns=[target_col]).to_numpy()    
+
+#     X_test = np.load(os.path.join(base_dir, 'X_test.npy'), allow_pickle=True)
+#     y_test = np.load(os.path.join(base_dir, 'y_test.npy'), allow_pickle=True)
+
+#     (
+#         X_train_pre, X_test_pre,
+#         y_train_pre, y_test_pre,
+#         num_scaler,  cat_encoder,
+#         label_encoder
+#         )  = preprocessing(config, X_train, y_train, X_test, y_test, encoding='one-hot', concat=True, random_state=random_state)
+
+#     return X_train_pre, y_train_pre, X_test_pre, y_test_pre
+
+def load_reconstructed_data(
+    df_recon: pd.DataFrame,
+    json_config_path: str,
+    num_scaler,
+    cat_encoder,
+    label_encoder,
+):
+    # 1) Carga config y localiza columnas
     config = read_json_config(json_config_path)
-    base_dir = os.path.dirname(json_config_path)
     target_col = config['target_col_name']
+    num_idx = config['num_col_idx']
+    cat_idx = config['cat_col_idx']
+    
+    # 2) Extrae y raw de tu df reconstruido
+    y_train_raw = df_recon[target_col].to_numpy()
+    X_train_raw = df_recon.drop(columns=[target_col]).to_numpy()
 
-    y_train = df[target_col].to_numpy()
-    X_train = df.drop(columns=[target_col]).to_numpy()    
+    # 3) Transforma las numéricas con el mismo scaler
+    X_num_recon = X_train_raw[:, num_idx]
+    if num_scaler:
+        X_num_recon = num_scaler.transform(X_num_recon)
 
-    X_test = np.load(os.path.join(base_dir, 'X_test.npy'), allow_pickle=True)
-    y_test = np.load(os.path.join(base_dir, 'y_test.npy'), allow_pickle=True)
+    # 4) Transforma las categóricas con el mismo OneHotEncoder
+    X_cat_recon = X_train_raw[:, cat_idx]
+    if cat_encoder:
+        X_cat_recon = cat_encoder.transform(X_cat_recon)
 
-    (
-        X_train_pre, X_test_pre,
-        y_train_pre, y_test_pre,
-        num_scaler,  cat_encoder,
-        label_encoder
-        )  = preprocessing(config, X_train, y_train, X_test, y_test, encoding='one-hot', concat=True, random_state=random_state)
+    # 5) Concatena en el mismo orden (como hiciste en preprocessing concat=True)
+    X_train_pre = np.concatenate([X_num_recon, X_cat_recon], axis=1)
+
+    # 6) Codifica el target usando label_encoder
+    y_train_pre = label_encoder.transform(y_train_raw)
+
+    # 7) Haz lo mismo con el test “crudo” guardado
+    base_dir = os.path.dirname(json_config_path)
+    X_test_raw = np.load(os.path.join(base_dir, 'X_test.npy'), allow_pickle=True)
+    y_test_raw = np.load(os.path.join(base_dir, 'y_test.npy'), allow_pickle=True)
+
+    X_num_test = X_test_raw[:, num_idx]
+    if num_scaler:
+        X_num_test = num_scaler.transform(X_num_test)
+
+    X_cat_test = X_test_raw[:, cat_idx]
+    if cat_encoder:
+        X_cat_test = cat_encoder.transform(X_cat_test)
+
+    X_test_pre = np.concatenate([X_num_test, X_cat_test], axis=1)
+    y_test_pre = label_encoder.transform(y_test_raw)
 
     return X_train_pre, y_train_pre, X_test_pre, y_test_pre
 

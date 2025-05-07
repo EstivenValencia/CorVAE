@@ -95,6 +95,26 @@ def add_meta(df, mle_space='original',ipc=None, seed=None,
         decoder_inference_time=decoder_time,
     )
 
+def flatten_vectors(x: np.ndarray) -> np.ndarray:
+    """
+    Aplana un array de forma (n, t, d) a (n, t*d).
+
+    Parámetros
+    ----------
+    x : np.ndarray
+        Array de entrada con forma (n, t, d).
+
+    Devuelve
+    -------
+    np.ndarray
+        Array de salida con forma (n, t*d).
+    """
+    if x.ndim != 3:
+        raise ValueError(f"Se esperaba un array 3D, pero x.ndim = {x.ndim}")
+    x = x[:,1:,:]
+    n, t, d = x.shape
+    return x.reshape(n, t * d)
+
 def main(args):
     print("Running distillation pipeline with the following configuration:")
 
@@ -149,34 +169,21 @@ def main(args):
             data_dict = json.load(f)
             hyperparams_vae = data_dict['best_params']
 
-        vae_dir = os.path.join(checkpoint_path, 'vae') 
+
+        #vae_dir = os.path.join(checkpoint_path, 'vae') 
+        vae_dir = os.path.join('Experiments_B/checkpoint_shoppers_Dlatent_Roriginal_B', 'vae') 
         os.makedirs(vae_dir, exist_ok=True)
+
+        pretrain_time=0
+        finetune_time=0
+        encoder_inference_time=0
+
         for seed in RANDOM_SEED_EVALUATE:
-
+            pass
             # Call the distillation function
-            _, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
-                                        batch_size=batch_size, pretrain_epochs=epochs_latent, 
-                                        finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae)
-
-    def flatten_vectors(x: np.ndarray) -> np.ndarray:
-        """
-        Aplana un array de forma (n, t, d) a (n, t*d).
-
-        Parámetros
-        ----------
-        x : np.ndarray
-            Array de entrada con forma (n, t, d).
-
-        Devuelve
-        -------
-        np.ndarray
-            Array de salida con forma (n, t*d).
-        """
-        if x.ndim != 3:
-            raise ValueError(f"Se esperaba un array 3D, pero x.ndim = {x.ndim}")
-        x = x[:,1:,:]
-        n, t, d = x.shape
-        return x.reshape(n, t * d)
+            # _, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
+            #                             batch_size=batch_size, pretrain_epochs=epochs_latent, 
+            #                             finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae)
 
     for ipc in IPC_LIST:
         METRICS_KMEANS = []
@@ -203,48 +210,15 @@ def main(args):
                 train_z, train_y = np.load(train_z_path), np.load(train_y_path)
                 test_z, test_y = np.load(test_z_path), np.load(test_y_path)
 
-                # Destilación con K-centers y recontruyendo
-
-                distill_z, distill_y = distill_with_kcenters(train_z, train_y, num_centroids=ipc, seed=seed)
-                df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=vae_dir,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='k-centers', seed=seed)
-                
-                x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, random_state=seed)
-
-                # Evaluacion con espacio latente
-                flatten_train_z, flatten_test_z = flatten_vectors(distill_z), flatten_vectors(test_z)
-                k_center_lat_df, test_metrics_k_center_lat, _ = evaluate_models(flatten_train_z, distill_y, flatten_test_z, test_y, 
-                                                                        ckpt_dir=checkpoint_path, method='k_center', random_state=seed, 
-                                                                        ipc=ipc, space='latent')
-
-                k_center_lat_df = add_meta(k_center_lat_df,
-                                    mle_space='latent',
-                                    ipc=ipc,
-                                    seed=seed,
-                                    pretrain_time=pretrain_time,
-                                    finetune_time=finetune_time,
-                                    encoder_time=encoder_inference_time,
-                                    decoder_time=decoder_inference_time)
-
-                # # Evaluacion con reconstrucción
-                k_center_df, test_metrics_k_center, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, 
-                                                                        ckpt_dir=checkpoint_path, method='k_center', 
-                                                                        random_state=seed, ipc=ipc)
-            
-                k_center_df = add_meta(k_center_df,
-                                    ipc=ipc,
-                                    seed=seed,
-                                    pretrain_time=pretrain_time,
-                                    finetune_time=finetune_time,
-                                    encoder_time=encoder_inference_time,
-                                    decoder_time=decoder_inference_time)
-
                 # Destilación con K-means en el espacio latente y reconstruyendo
                 if kmeans_type == 'centroid':
                     distill_z, distill_y = distill_with_kmeans(train_z, train_y, num_centroids=ipc, get_closest=False, seed=seed)
 
                     df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=vae_dir,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='k-means', seed=seed)
-                    
-                    x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, random_state=seed)
+
+                    x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, 
+                                                                                                       random_state=seed, num_scaler=num_scaler,
+                                                                                                       cat_encoder=cat_encoder,label_encoder=label_encoder)
                     
 
                     # Evaluacion con espacio latente
@@ -274,39 +248,76 @@ def main(args):
                                         encoder_time=encoder_inference_time,
                                         decoder_time=decoder_inference_time)
 
-                # Destilacion con AG y reconstruyendo
+                # Destilación con K-centers y recontruyendo
 
-                distill_z, distill_y = distill_with_agglomerative(train_z, train_y, num_clusters=ipc, get_closest=False, seed=seed)
-                df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=vae_dir,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='ag', seed=seed)
+                # distill_z, distill_y = distill_with_kcenters(train_z, train_y, num_centroids=ipc, seed=seed)
+                # df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=vae_dir,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='k-centers', seed=seed)
                 
-                x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, random_state=seed)
-                
-                # Evaluacion con espacio latente
-                flatten_train_z, flatten_test_z = flatten_vectors(distill_z), flatten_vectors(test_z)
-                ag_lat_df, test_metrics_ag_lat, _ = evaluate_models(flatten_train_z, distill_y, flatten_test_z, test_y, 
-                                                                        ckpt_dir=checkpoint_path, method='ag', random_state=seed, 
-                                                                        ipc=ipc, space='latent')
+                # x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, random_state=seed)
 
-                ag_lat_df = add_meta(ag_lat_df,
-                                    mle_space='latent',
-                                    ipc=ipc,
-                                    seed=seed,
-                                    pretrain_time=pretrain_time,
-                                    finetune_time=finetune_time,
-                                    encoder_time=encoder_inference_time,
-                                    decoder_time=decoder_inference_time)
+                # # Evaluacion con espacio latente
+                # flatten_train_z, flatten_test_z = flatten_vectors(distill_z), flatten_vectors(test_z)
+                # k_center_lat_df, test_metrics_k_center_lat, _ = evaluate_models(flatten_train_z, distill_y, flatten_test_z, test_y, 
+                #                                                         ckpt_dir=checkpoint_path, method='k_center', random_state=seed, 
+                #                                                         ipc=ipc, space='latent')
 
-                ag_df, test_metrics_ag, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='ag', random_state=seed, ipc=ipc)
+                # k_center_lat_df = add_meta(k_center_lat_df,
+                #                     mle_space='latent',
+                #                     ipc=ipc,
+                #                     seed=seed,
+                #                     pretrain_time=pretrain_time,
+                #                     finetune_time=finetune_time,
+                #                     encoder_time=encoder_inference_time,
+                #                     decoder_time=decoder_inference_time)
+
+                # # # Evaluacion con reconstrucción
+                # k_center_df, test_metrics_k_center, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, 
+                #                                                         ckpt_dir=checkpoint_path, method='k_center', 
+                #                                                         random_state=seed, ipc=ipc)
             
-                ag_df = add_meta(ag_df,
-                                    ipc=ipc,
-                                    seed=seed,
-                                    pretrain_time=pretrain_time,
-                                    finetune_time=finetune_time,
-                                    encoder_time=encoder_inference_time,
-                                    decoder_time=decoder_inference_time)
+                # k_center_df = add_meta(k_center_df,
+                #                     ipc=ipc,
+                #                     seed=seed,
+                #                     pretrain_time=pretrain_time,
+                #                     finetune_time=finetune_time,
+                #                     encoder_time=encoder_inference_time,
+                #                     decoder_time=decoder_inference_time)
+
+
+                # # Destilacion con AG y reconstruyendo
+
+                # distill_z, distill_y = distill_with_agglomerative(train_z, train_y, num_clusters=ipc, get_closest=False, seed=seed)
+                # df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=vae_dir,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='ag', seed=seed)
                 
-                full_df = pd.concat([full_df, kmeans_df, ag_df, k_center_df, k_means_lat_df, ag_lat_df, k_center_lat_df], axis=0, ignore_index=True)
+                # x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, random_state=seed)
+                
+                # # Evaluacion con espacio latente
+                # flatten_train_z, flatten_test_z = flatten_vectors(distill_z), flatten_vectors(test_z)
+                # ag_lat_df, test_metrics_ag_lat, _ = evaluate_models(flatten_train_z, distill_y, flatten_test_z, test_y, 
+                #                                                         ckpt_dir=checkpoint_path, method='ag', random_state=seed, 
+                #                                                         ipc=ipc, space='latent')
+
+                # ag_lat_df = add_meta(ag_lat_df,
+                #                     mle_space='latent',
+                #                     ipc=ipc,
+                #                     seed=seed,
+                #                     pretrain_time=pretrain_time,
+                #                     finetune_time=finetune_time,
+                #                     encoder_time=encoder_inference_time,
+                #                     decoder_time=decoder_inference_time)
+
+                # ag_df, test_metrics_ag, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='ag', random_state=seed, ipc=ipc)
+            
+                # ag_df = add_meta(ag_df,
+                #                     ipc=ipc,
+                #                     seed=seed,
+                #                     pretrain_time=pretrain_time,
+                #                     finetune_time=finetune_time,
+                #                     encoder_time=encoder_inference_time,
+                #                     decoder_time=decoder_inference_time)
+                
+                #full_df = pd.concat([full_df, kmeans_df, ag_df, k_center_df, k_means_lat_df, ag_lat_df, k_center_lat_df], axis=0, ignore_index=True)
+                full_df = pd.concat([full_df, kmeans_df, k_means_lat_df], axis=0, ignore_index=True)
 
                 # Destilación con Least Confidence y recontruyendo
 
@@ -375,25 +386,25 @@ def main(args):
                                     ipc=ipc,
                                     seed=seed)
 
-                # Destilación con AG
-                distill_z, distill_y = distill_with_agglomerative(X_train_pre, y_train_pre, num_clusters=ipc, get_closest=False, seed=seed)
-                ag_df, test_metrics_ag, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='ag', random_state=seed, ipc=ipc)
+                # # Destilación con AG
+                # distill_z, distill_y = distill_with_agglomerative(X_train_pre, y_train_pre, num_clusters=ipc, get_closest=False, seed=seed)
+                # ag_df, test_metrics_ag, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='ag', random_state=seed, ipc=ipc)
                 
-                ag_df = add_meta(ag_df,
-                                    ipc=ipc,
-                                    seed=seed)
+                # ag_df = add_meta(ag_df,
+                #                     ipc=ipc,
+                #                     seed=seed)
                 
-                # Destilación con k-centers
-                distill_z, distill_y = distill_with_kcenters(X_train_pre, y_train_pre, num_centroids=ipc, seed=seed)
-                k_center_df, test_metrics_k_center, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='k_center', random_state=seed, ipc=ipc)
+                # # Destilación con k-centers
+                # distill_z, distill_y = distill_with_kcenters(X_train_pre, y_train_pre, num_centroids=ipc, seed=seed)
+                # k_center_df, test_metrics_k_center, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='k_center', random_state=seed, ipc=ipc)
             
-                k_center_df = add_meta(k_center_df,
-                                    ipc=ipc,
-                                    seed=seed)
+                # k_center_df = add_meta(k_center_df,
+                #                     ipc=ipc,
+                #                     seed=seed)
                 
                 #full_df = pd.concat([full_df, kmeans_df, ag_df, k_center_df, craig_df, lc_df], axis=0, ignore_index=True)
             
-                full_df = pd.concat([full_df, kmeans_df, ag_df, k_center_df], axis=0, ignore_index=True)
+                full_df = pd.concat([full_df, kmeans_df], axis=0, ignore_index=True)
             full_df.to_csv(os.path.join(checkpoint_path, "metrics.csv"), index=False)
             
             # METRICS_RANDOM.append(test_metrics_random)
