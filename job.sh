@@ -12,32 +12,32 @@
 #     --kmeans_type centroid \
 #     --hyperparams_vae tune_vae/tune_vae_AAB/tune_shoppers/best_hyperparams.json > Dlatent_Roriginal_shoppers_B.txt 2>&1
 
-export CUDA_VISIBLE_DEVICES=3;python3.12 main.py \
-    --metadata_path data/shoppers/metadata.json \
-    --method_distillation k-means \
-    --distillation_space latent \
-    --fine_tuning false \
-    --epochs_latent 3000 \
-    --epochs_fine_tuning_latent 1000 \
-    --batch_size 4069 \
-    --token_dimension 4 --alpha 0.5 \
-    --examples_for_distillation 10 \
-    --checkpoint_path checkpoint_shoppers_Dlatent_Roriginal_ft_B \
-    --kmeans_type centroid \
-    --hyperparams_vae tune_vae/tune_vae_AAB/tune_shoppers/best_hyperparams.json > Dlatent_Roriginal_shoppers_ft_B.txt 2>&1 
-
-# export export CUDA_VISIBLE_DEVICES=4;python3.12 main.py \
+# export CUDA_VISIBLE_DEVICES=3;python3.12 main.py \
 #     --metadata_path data/shoppers/metadata.json \
 #     --method_distillation k-means \
-#     --distillation_space original \
+#     --distillation_space latent \
 #     --fine_tuning false \
 #     --epochs_latent 3000 \
-#     --epochs_fine_tuning_latent 0 \
+#     --epochs_fine_tuning_latent 1000 \
 #     --batch_size 4069 \
 #     --token_dimension 4 --alpha 0.5 \
 #     --examples_for_distillation 10 \
-#     --checkpoint_path checkpoint_shoppers_Doriginal_Roriginal_B \
-#     --kmeans_type centroid > Doriginal_Roriginal_shoppers_B.txt 2>&1 &
+#     --checkpoint_path checkpoint_shoppers_Dlatent_Roriginal_ft_B \
+#     --kmeans_type centroid \
+#     --hyperparams_vae tune_vae/tune_vae_AAB/tune_shoppers/best_hyperparams.json > Dlatent_Roriginal_shoppers_ft_B.txt 2>&1 
+
+export export CUDA_VISIBLE_DEVICES=4;python3.12 main.py \
+    --metadata_path data/shoppers/metadata.json \
+    --method_distillation k-means \
+    --distillation_space original \
+    --fine_tuning false \
+    --epochs_latent 3000 \
+    --epochs_fine_tuning_latent 0 \
+    --batch_size 4069 \
+    --token_dimension 4 --alpha 0.5 \
+    --examples_for_distillation 10 \
+    --checkpoint_path checkpoint_shoppers_Doriginal_Roriginal_B \
+    --kmeans_type centroid > Doriginal_Roriginal_shoppers_B.txt 2>&1 &
 
 # export export CUDA_VISIBLE_DEVICES=4;python3.12 main.py \
 #     --metadata_path data/adult/metadata.json \

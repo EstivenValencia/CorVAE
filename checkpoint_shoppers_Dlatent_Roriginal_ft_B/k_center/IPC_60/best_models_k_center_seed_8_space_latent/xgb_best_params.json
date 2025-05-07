@@ -1,0 +1,7 @@
+{
+    "n_estimators": 10,
+    "max_depth": 5,
+    "gamma": 0.18410723768097287,
+    "subsample": 0.5553452563893566,
+    "colsample_bytree": 0.6995033400609513
+}
