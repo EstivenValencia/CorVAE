@@ -1,0 +1,6 @@
+model,method,cv_balanced,cv_macro_f1,cv_weighted_f1,cv_accuracy,cv_balanced_std,cv_macro_f1_std,cv_weighted_f1_std,cv_accuracy_std,optuna_time,train_time,test_balanced,test_macro_f1,test_weighted_f1,test_accuracy,test_roc_auc,inf_time_per_sample,space,IPC,seed,vae_pretrain_time,vae_fine_tunning_time,encoder_inference_time,decoder_inference_time
+xgb,random,0.85,0.843,0.843,0.85,0.082,0.09,0.09,0.082,11.806,0.53,0.823,0.727,0.83,0.809,0.887,1.8e-05,original,30,0,,,,
+rf,random,0.767,0.762,0.762,0.767,0.097,0.101,0.101,0.097,15.203,0.394,0.779,0.681,0.795,0.767,0.854,2.7e-05,original,30,0,,,,
+svc,random,0.733,0.709,0.709,0.733,0.062,0.077,0.077,0.062,5.614,0.003,0.743,0.756,0.876,0.879,0.878,8e-06,original,30,0,,,,
+logreg,random,0.8,0.793,0.793,0.8,0.041,0.043,0.043,0.041,5.516,0.008,0.778,0.698,0.814,0.792,0.849,1e-06,original,30,0,,,,
+mlp,random,0.783,0.781,0.781,0.783,0.113,0.115,0.115,0.113,7.356,1.387,0.737,0.649,0.774,0.743,0.802,6.7e-05,original,30,0,,,,

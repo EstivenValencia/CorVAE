@@ -702,9 +702,10 @@ def evaluate_models(
     method='k-means',
     random_state=0,
     ipc=0,
+    space='original'
 ):
     """Tunea y evalúa clasificadores con Optuna, incluyendo tiempos de tuning, entrenamiento e inferencia."""
-    best_dir = os.path.join(ckpt_dir, method, f"IPC_{ipc}", f"best_models_{method}_seed_{random_state}")
+    best_dir = os.path.join(ckpt_dir, method, f"IPC_{ipc}", f"best_models_{method}_seed_{random_state}_space_{space}")
     os.makedirs(best_dir, exist_ok=True)
 
     cv = _build_cv(max(cv_folds, 2), random_state)
@@ -753,7 +754,7 @@ def evaluate_models(
 
 def evaluate_one_model(
     X_train, y_train, X_test, y_test,
-    cv_folds=2, random_state=0
+    cv_folds=5, random_state=0
 ):
     """
     Evalúa un XGBClassifier con parámetros fijos.

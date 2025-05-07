@@ -754,7 +754,7 @@ def evaluate_models(
 
 def evaluate_one_model(
     X_train, y_train, X_test, y_test,
-    cv_folds=2, random_state=0
+    cv_folds=5, random_state=0
 ):
     """
     Evalúa un XGBClassifier con parámetros fijos.
