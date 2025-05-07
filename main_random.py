@@ -14,7 +14,7 @@ import json
 IPC_LIST = list(range(10,110,10)) + [200,500,1000]
 #IPC_LIST = list(range(10,30,10)) # Solo para depuración
 RANDOM_SEED_EVALUATE = range(20)
-#RANDOM_SEED_EVALUATE = range(1)
+RANDOM_SEED_EVALUATE = range(5,10)
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Distillation Configuration")
@@ -141,22 +141,26 @@ def main(args):
     all_dfs = pd.DataFrame()
     full_df = pd.DataFrame()
 
-    # Se realiza entrenamiento del VAE sobre las diferentes semillas
-    if distillation_space == 'latent':
+    with open(hyperparams_vae_path, 'r', encoding='utf-8') as f:
+        data_dict = json.load(f)
+        hyperparams_vae = data_dict['best_params']
 
-        # Se carga el diccionario con los parametros del VAE
-        with open(hyperparams_vae_path, 'r', encoding='utf-8') as f:
-            data_dict = json.load(f)
-            hyperparams_vae = data_dict['best_params']
+    # # Se realiza entrenamiento del VAE sobre las diferentes semillas
+    # if distillation_space == 'latent':
 
-        vae_dir = os.path.join(checkpoint_path, 'vae') 
-        os.makedirs(vae_dir, exist_ok=True)
-        for seed in RANDOM_SEED_EVALUATE:
+    #     # Se carga el diccionario con los parametros del VAE
+    #     with open(hyperparams_vae_path, 'r', encoding='utf-8') as f:
+    #         data_dict = json.load(f)
+    #         hyperparams_vae = data_dict['best_params']
 
-            # Call the distillation function
-            _, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
-                                        batch_size=batch_size, pretrain_epochs=epochs_latent, 
-                                        finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae)
+    #     vae_dir = os.path.join(checkpoint_path, 'vae') 
+    #     os.makedirs(vae_dir, exist_ok=True)
+    #     for seed in RANDOM_SEED_EVALUATE:
+
+    #         # Call the distillation function
+    #         _, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
+    #                                     batch_size=batch_size, pretrain_epochs=epochs_latent, 
+    #                                     finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae)
 
     def flatten_vectors(x: np.ndarray) -> np.ndarray:
         """
@@ -178,47 +182,35 @@ def main(args):
         n, t, d = x.shape
         return x.reshape(n, t * d)
 
+    vae_dir = os.path.join(checkpoint_path, 'vae') 
     # Destilación con sample random class
-    ipc = 30
-    for seed in RANDOM_SEED_EVALUATE:
-        X_random, y_random = distill_random(X_train_pre, y_train_pre, n_per_class=ipc, random_state=seed)
-        print("Tamano de salida: ",X_random.shape)
-        print("Tamano de salida: ",y_random.shape)
-        random_df, test_metrics_random, _ = evaluate_models(X_random, y_random, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='random', random_state=seed, ipc=ipc)
-        random_df = add_meta(random_df, ipc=ipc, seed=seed)
+    for ipc in [10]:
+        print("\n\nIPC\n\n",ipc)
+        for seed in RANDOM_SEED_EVALUATE:
+            # Se cargan los datos de destilacion
+            train_z_path, train_y_path= os.path.join(vae_dir,f'train_z_seed_{seed}.npy'), os.path.join(vae_dir,f'train_y_seed_{seed}.npy')
+            test_z_path, test_y_path= os.path.join(vae_dir,f'test_z_seed_{seed}.npy'), os.path.join(vae_dir,f'test_y_seed_{seed}.npy')
 
-        full_df = pd.concat([full_df, random_df], axis=0, ignore_index=True)
+            train_z, train_y = np.load(train_z_path), np.load(train_y_path)
+            test_z, test_y = np.load(test_z_path), np.load(test_y_path)
 
-        full_df.to_csv(os.path.join(checkpoint_path, "metrics.csv"), index=False)
+            distill_z, distill_y = distill_with_kmeans(train_z, train_y, num_centroids=ipc, get_closest=False, seed=seed)
+
+            df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=vae_dir,device=device,json_config_path=metadata_path, latent_space=True, hyperparams=hyperparams_vae, method='k-means', seed=seed)
+            print(df_reconstruct.Month)
+            x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, random_state=seed)
+            print("Valr de X train unique: ",np.unique(x_train_disti[:,10]))
+            print("Valr de X test unique: ",x_test_disti[:,10])
+            print("Otra cosa: ",np.unique(X_test_init[:,10]))
+            print("Valr de X train unique original: ",np.unique(X_train_pre[:,10]))
+            print("Valr de X train unique original: ",X_test_pre[:,10])
+
+            print("Shape real:", X_train_init.shape, np.bincount(y_train_init))
+            print("Shape synth:", x_train_disti.shape, np.bincount(y_train_disti))
+            #kmeans_df, test_metrics_k_means, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method='k-means', random_state=seed, ipc=ipc)
+            #print(test_metrics_k_means)        
             
-            # METRICS_RANDOM.append(test_metrics_random)
-            # #METRICS_LEAST_CONFIDENCE.append(test_metrics_lc)
-            # #METRICS_CRAIG.append(test_metrics_craig)
-            # METRICS_K_CENTER.append(test_metrics_k_center)
-            # METRICS_KMEANS.append(test_metrics_k_means)
-            # METRICS_AGGLOMERATIVE_CLUSTERING.append(test_metrics_ag)
 
-        # df1 = compute_relative_regret(test_metrics_all, METRICS_RANDOM, METRICS_KMEANS, 'k-means', ipc)
-        # df2 = compute_relative_regret(test_metrics_all, METRICS_RANDOM, METRICS_RANDOM, 'random', ipc)
-        # df3 = compute_relative_regret(test_metrics_all, METRICS_RANDOM, [test_metrics_all]*len(RANDOM_SEED_EVALUATE), 'original', ipc)
-
-        # df4 = compute_relative_regret(test_metrics_all, METRICS_RANDOM, METRICS_AGGLOMERATIVE_CLUSTERING, 'ag', ipc)
-        # df5 = compute_relative_regret(test_metrics_all, METRICS_RANDOM, METRICS_K_CENTER, 'k_center', ipc)
-        # df6 = compute_relative_regret(test_metrics_all, METRICS_RANDOM, METRICS_LEAST_CONFIDENCE, 'lc', ipc)
-        # df7 = compute_relative_regret(test_metrics_all, METRICS_RANDOM, METRICS_CRAIG, 'craig', ipc)
-            
-        # all_dfs = pd.concat([all_dfs,df1,df2,df3,df4,df5,df6,df7], axis=0, ignore_index=True) 
-
-        # csv_path = os.path.join(checkpoint_path, "relative_regret.csv")
-        # all_dfs.to_csv(csv_path, index=False)
-        # print("Relative regret guardado en", csv_path)
-
-    # guardas a CSV
-    # csv_path = os.path.join(checkpoint_path, "relative_regret.csv")
-    # all_dfs.to_csv(csv_path, index=False)
-    # print("Relative regret guardado en", csv_path)
-
-    full_df.to_csv(os.path.join(checkpoint_path, "metrics.csv"), index=False)
 
 if __name__ == '__main__':
     args = parse_args()

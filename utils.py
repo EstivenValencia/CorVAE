@@ -299,7 +299,7 @@ def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', 
 
     # 10. Codificación de datos categóricos
     if encoding == 'one-hot':
-        cat_encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
+        cat_encoder = OneHotEncoder(sparse_output=False)
     else:
         cat_encoder = OrdinalEncoder()
     print("Categoricas entrenamiento: ", X_cat_train.shape[1])
