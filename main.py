@@ -131,15 +131,15 @@ def main(args):
         y_train_pre, y_test_pre,
         num_scaler,  cat_encoder,
         label_encoder
-                        ) = preprocessing(config, X_train_init, y_train_init, X_test_init, y_test_init, encoding='one-hot', concat=True, random_state=SEED)
+                        ) = preprocessing(config, X_train_init, y_train_init, X_test_init, y_test_init, encoding='ordinal', concat=True, random_state=SEED)
 
     # Entrenamiento con todos los datos para el relative regret
     
-    full_df, test_metrics_all, _ = evaluate_models(X_train_pre, y_train_pre, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='Full-data', random_state=SEED)
-    full_df = add_meta(full_df)
+    # full_df, test_metrics_all, _ = evaluate_models(X_train_pre, y_train_pre, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='Full-data', random_state=SEED)
+    # full_df = add_meta(full_df)
     
     all_dfs = pd.DataFrame()
-    #full_df = pd.DataFrame()
+    full_df = pd.DataFrame()
 
     # Se realiza entrenamiento del VAE sobre las diferentes semillas
     if distillation_space == 'latent':
