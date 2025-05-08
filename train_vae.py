@@ -198,7 +198,7 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
 
         return train_z, encoder_inference_time
 
-def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_size=64, pretrain_epochs=50, finetune_epochs=30, ckpt_dir='ckpt', hyperparams = {}):
+def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_size=64, pretrain_epochs=50, finetune_epochs=30, concat_label=False,ckpt_dir='ckpt', hyperparams = {}):
     
     # Hiperparametros de VAE
     max_beta = hyperparams.get('max_beta',1e-2)
@@ -232,7 +232,7 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         y_train_enc, y_test_enc,
         num_scaler,  cat_encoder,
         label_encoder
-                        ) = preprocessing(config, X_train, y_train, X_test, y_test, encoding=encoding, random_state=random_state)
+                        ) = preprocessing(config, X_train, y_train, X_test, y_test, encoding=encoding, concat_label=concat_label, random_state=random_state)
 
     categories = [len(set(X_cat_train[:, i])) for i in range(X_cat_train.shape[1])]
     num_classes = len(set(y_train_enc))
