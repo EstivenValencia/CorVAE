@@ -226,7 +226,12 @@ def split_train_test_custom(config, base_dir, test_size=0.1, random_state=0):
 
     return X_train, y_train, X_test, y_test
 
-def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', concat=False, random_state=0): # Se utiliza la misma semilla que 
+def concat_label(X, y):
+    if X is None:
+        return y.reshape(-1, 1)
+    return np.concatenate([X, y.reshape(-1, 1)], axis=1)
+
+def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', concat_label=False, concat=False, random_state=0): # Se utiliza la misma semilla que 
     """
     Función para preprocesar un dataset tabular según configuración JSON.
     Lee rutas, separa columnas, divide en train/test, imputa, normaliza y codifica.
@@ -251,8 +256,6 @@ def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', 
     - Para datos numéricos: X_orig = num_scaler.inverse_transform(X_scaled)
     - Para y: y_orig = label_encoder.inverse_transform(y_enc)
     """
-
-
 
     # 4. Extraer índices y validar
     num_idx = config['num_col_idx']
@@ -297,9 +300,13 @@ def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', 
         X_num_train = num_scaler.fit_transform(X_num_train)
         X_num_test = num_scaler.transform(X_num_test)
 
+
+    if concat_label:
+        X_train = concat_label(X_train, y_train)
+
     # 10. Codificación de datos categóricos
     if encoding == 'one-hot':
-        cat_encoder = OneHotEncoder(sparse_output=False, handle_unknown='ignore')
+        cat_encoder = OneHotEncoder(sparse_output=False)
     else:
         cat_encoder = OrdinalEncoder()
     print("Categoricas entrenamiento: ", X_cat_train.shape[1])
@@ -328,25 +335,56 @@ def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', 
         num_scaler, cat_encoder, label_encoder
     )
 
-def load_reconstructed_data(df, json_config_path, checkpoint_path, random_state=0):
+def load_reconstructed_data(
+    df_recon: pd.DataFrame,
+    json_config_path: str,
+    num_scaler,
+    cat_encoder,
+    label_encoder,
+):
+    # 1) Carga config y localiza columnas
     config = read_json_config(json_config_path)
-    base_dir = os.path.dirname(json_config_path)
     target_col = config['target_col_name']
+    num_idx = config['num_col_idx']
+    cat_idx = config['cat_col_idx']
+    
+    # 2) Extrae y raw de tu df reconstruido
+    y_train_raw = df_recon[target_col].to_numpy()
+    X_train_raw = df_recon.drop(columns=[target_col]).to_numpy()
 
-    y_train = df[target_col].to_numpy()
-    X_train = df.drop(columns=[target_col]).to_numpy()    
+    # 3) Transforma las numéricas con el mismo scaler
+    X_num_recon = X_train_raw[:, num_idx]
+    if num_scaler:
+        X_num_recon = num_scaler.transform(X_num_recon)
 
-    X_test = np.load(os.path.join(base_dir, 'X_test.npy'), allow_pickle=True)
-    y_test = np.load(os.path.join(base_dir, 'y_test.npy'), allow_pickle=True)
+    # 4) Transforma las categóricas con el mismo OneHotEncoder
+    X_cat_recon = X_train_raw[:, cat_idx]
+    if cat_encoder:
+        X_cat_recon = cat_encoder.transform(X_cat_recon)
 
-    (
-        X_train_pre, X_test_pre,
-        y_train_pre, y_test_pre,
-        num_scaler,  cat_encoder,
-        label_encoder
-        )  = preprocessing(config, X_train, y_train, X_test, y_test, encoding='one-hot', concat=True, random_state=random_state)
+    # 5) Concatena en el mismo orden (como hiciste en preprocessing concat=True)
+    X_train_pre = np.concatenate([X_num_recon, X_cat_recon], axis=1)
 
-    return X_train_pre, y_train_pre, X_test_pre, y_test_pre
+    # 6) Codifica el target usando label_encoder
+    y_train_pre = label_encoder.transform(y_train_raw)
+
+    # 7) Haz lo mismo con el test “crudo” guardado
+    #base_dir = os.path.dirname(json_config_path)
+    #X_test_raw = np.load(os.path.join(base_dir, 'X_test.npy'), allow_pickle=True)
+    #y_test_raw = np.load(os.path.join(base_dir, 'y_test.npy'), allow_pickle=True)
+
+    #X_num_test = X_test_raw[:, num_idx]
+    #if num_scaler:
+    #    X_num_test = num_scaler.transform(X_num_test)
+
+    #X_cat_test = X_test_raw[:, cat_idx]
+    #if cat_encoder:
+    #    X_cat_test = cat_encoder.transform(X_cat_test)
+
+    #X_test_pre = np.concatenate([X_num_test, X_cat_test], axis=1)
+    #y_test_pre = label_encoder.transform(y_test_raw)
+
+    return X_train_pre, y_train_pre
 
 def reconstruct_data(
     x: str,
@@ -357,7 +395,9 @@ def reconstruct_data(
     latent_space = False, # Si es True, se asume que z es un espacio latente, de lo contrario es una destilación del espacio original
     hyperparams = {},
     method = 'k-means',
-    seed = 0
+    ipc = 0,
+    seed = 0,
+    concat_label=False
 ) -> tuple[np.ndarray, np.ndarray] | pd.DataFrame:
     """
     Reconstruye los datos originales a partir del espacio latente guardado utilizando
@@ -394,9 +434,8 @@ def reconstruct_data(
     """
 
     # Datos recontruidos
-    reconstructed_dir = os.path.join(models_paths, 'reconstructed_data')
+    reconstructed_dir = os.path.join(models_paths, 'reconstructed_data', f'IPC_{ipc}')
     os.makedirs(reconstructed_dir, exist_ok=True)
-
 
     d_token =hyperparams.get('d_token',4)
     n_head = hyperparams.get('n_head',1)
@@ -477,7 +516,11 @@ def reconstruct_data(
         # 5. Invertir transformaciones
         # Mover resultados a CPU y convertir a NumPy
         recon_num_processed_np = recon_num_processed.detach().cpu().numpy()
-        recon_cat_processed_list
+        if concat_label:
+            recon_cat_processed_list= [
+                                        cat_tensor[:, :-1] # Se elimina la etiqueta
+                                        for cat_tensor in recon_cat_processed_list
+                                    ]
         
     else:
         recon_num_processed_np = x
@@ -488,15 +531,7 @@ def reconstruct_data(
     for j, recon_cat_logits in enumerate(recon_cat_processed_list):
         # Obtener el índice de la categoría predicha (la de mayor logit)
         predicted_indices = torch.argmax(recon_cat_logits, dim=1)
-        # print("A",predicted_indices)
-        # # 2) Elimina el desplazamiento si tu training usó offsets globales
-        # idx = predicted_indices - categorical_offsets[j]
-        # print("B",idx)
-
         recon_cat_encoded_list.append(predicted_indices.cpu().numpy())
-        #recon_cat_encoded_list.append(predicted_indices.detach().cpu().numpy())
-    
-    #print("Categorias del encoder: ", cat_encoder.categories_)
 
     # Combinar las columnas categóricas predichas (aún codificadas)
     if recon_cat_encoded_list:
@@ -567,6 +602,7 @@ def reconstruct_data(
 
         # Reordenar las columnas del DataFrame
         df_reconstructed = df_reconstructed[ordered_columns]
+
 
         reconstructed_path = os.path.join(reconstructed_dir, f'method_{method}_seed_{seed}.csv')
         df_reconstructed.to_csv(reconstructed_path, index=False)

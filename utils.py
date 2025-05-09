@@ -88,33 +88,33 @@ MODELS = {
             "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
         },
     },
-    # "svc": {
-    #     "constructor": SVC,
-    #     "static_args": {"probability": True},
-    #     "search_space": {
-    #         "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
-    #         "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
-    #     },
-    # },
-    # "logreg": {
-    #     "constructor": LogisticRegression,
-    #     "static_args": {"max_iter": 200, "solver": "lbfgs"},
-    #     "search_space": {
-    #         "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
-    #         "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
-    #     },
-    # },
-    # "mlp": {
-    #         "constructor": MLPClassifier,
-    #         "static_args": {},
-    #         "search_space": {
-    #             "hidden_layer_sizes": lambda t: t.suggest_categorical(
-    #                 "hidden_layer_sizes", [(100,), (200,), (100, 100)]
-    #             ),
-    #             "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
-    #             "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
-    #         },
-    #     },
+    "svc": {
+        "constructor": SVC,
+        "static_args": {"probability": True},
+        "search_space": {
+            "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
+            "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
+        },
+    },
+    "logreg": {
+        "constructor": LogisticRegression,
+        "static_args": {"max_iter": 200, "solver": "lbfgs"},
+        "search_space": {
+            "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
+            "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
+        },
+    },
+    "mlp": {
+            "constructor": MLPClassifier,
+            "static_args": {},
+            "search_space": {
+                "hidden_layer_sizes": lambda t: t.suggest_categorical(
+                    "hidden_layer_sizes", [(100,), (200,), (100, 100)]
+                ),
+                "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
+                "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
+            },
+        },
 
 }
 
@@ -369,22 +369,22 @@ def load_reconstructed_data(
     y_train_pre = label_encoder.transform(y_train_raw)
 
     # 7) Haz lo mismo con el test “crudo” guardado
-    base_dir = os.path.dirname(json_config_path)
-    X_test_raw = np.load(os.path.join(base_dir, 'X_test.npy'), allow_pickle=True)
-    y_test_raw = np.load(os.path.join(base_dir, 'y_test.npy'), allow_pickle=True)
+    #base_dir = os.path.dirname(json_config_path)
+    #X_test_raw = np.load(os.path.join(base_dir, 'X_test.npy'), allow_pickle=True)
+    #y_test_raw = np.load(os.path.join(base_dir, 'y_test.npy'), allow_pickle=True)
 
-    X_num_test = X_test_raw[:, num_idx]
-    if num_scaler:
-        X_num_test = num_scaler.transform(X_num_test)
+    #X_num_test = X_test_raw[:, num_idx]
+    #if num_scaler:
+    #    X_num_test = num_scaler.transform(X_num_test)
 
-    X_cat_test = X_test_raw[:, cat_idx]
-    if cat_encoder:
-        X_cat_test = cat_encoder.transform(X_cat_test)
+    #X_cat_test = X_test_raw[:, cat_idx]
+    #if cat_encoder:
+    #    X_cat_test = cat_encoder.transform(X_cat_test)
 
-    X_test_pre = np.concatenate([X_num_test, X_cat_test], axis=1)
-    y_test_pre = label_encoder.transform(y_test_raw)
+    #X_test_pre = np.concatenate([X_num_test, X_cat_test], axis=1)
+    #y_test_pre = label_encoder.transform(y_test_raw)
 
-    return X_train_pre, y_train_pre, X_test_pre, y_test_pre
+    return X_train_pre, y_train_pre
 
 def reconstruct_data(
     x: str,

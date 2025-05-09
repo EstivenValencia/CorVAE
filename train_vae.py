@@ -211,14 +211,14 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     n_head = hyperparams.get('n_head',1)
     factor = hyperparams.get('factor',32)
     num_layers =hyperparams.get('num_layers',2)
-    early_stop_counter_pretrain = hyperparams.get('early_stop_counter_pretrain',20)
+    early_stop_counter_pretrain = hyperparams.get('early_stop_counter_pretrain',30)
 
     # Hiperparametros de la cabeza clasificadora
     dropout_ft = hyperparams.get('dropout_ft',0.3)
     alpha_ft = hyperparams.get("alpha_ft",1e-5)
     lr_ft = hyperparams.get("lr_ft",1e-4)
     wd_ft = hyperparams.get('wd_ft',0)
-    early_stop_counter_ft = hyperparams.get("early_stop_counter_ft",20)
+    early_stop_counter_ft = hyperparams.get("early_stop_counter_ft",30)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -304,7 +304,7 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         else:
             early_stop_counter += 1
             patience += 1
-            if patience == 10:
+            if patience == 15:
                 if beta > min_beta:
                     beta = beta * lambda_
 
@@ -376,7 +376,7 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
             else:
                 early_stop_counter += 1
                 patience += 1
-                if patience == 10:
+                if patience == 15:
                     if beta > min_beta:
                         beta = beta * lambda_
 

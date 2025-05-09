@@ -1,6 +1,5 @@
 import argparse
 from train_vae import main as main_vae
-from train_ft_vae import main as main_ft_vae
 from distill import distill_with_kmeans, distill_random, distill_with_agglomerative, distill_with_kcenters, distill_least_confidence, distill_with_craig
 from utils import preprocessing
 import os
@@ -60,13 +59,6 @@ def parse_args():
 
     args = parser.parse_args()
 
-    # Convert fine_tuning string to boolean
-    args.fine_tuning = args.fine_tuning.lower() == 'true'
-
-    # If fine_tuning is true, alpha must be set
-    if args.fine_tuning and args.alpha is None:
-        parser.error("--alpha must be set when fine_tuning is true")
-
     return args
 
 META_COLS = [
@@ -118,7 +110,7 @@ def flatten_vectors(x: np.ndarray) -> np.ndarray:
     n, t, d = x.shape
     return x.reshape(n, t * d)
 
-def recontructed_distillation(distill_z, distill_y, test_z, test_y, method, 
+def recontructed_distillation(distill_z, distill_y, test_z, test_y, X_test_pre, y_test_pre,method, 
                               metadata_path, hyperparams_vae, checkpoint_path, 
                               vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
                               pretrain_time, finetune_time, encoder_inference_time, concat_label,
@@ -128,8 +120,8 @@ def recontructed_distillation(distill_z, distill_y, test_z, test_y, method,
                                                                 json_config_path=metadata_path, latent_space=True, 
                                                                 hyperparams=hyperparams_vae, method=method, ipc=ipc, concat_label=concat_label, seed=seed)
 
-    x_train_disti, y_train_disti, x_test_disti, y_test_disti = load_reconstructed_data(df_reconstruct, metadata_path, checkpoint_path, 
-                                                                                        random_state=seed, num_scaler=num_scaler,
+    x_train_disti, y_train_disti = load_reconstructed_data(df_reconstruct, metadata_path, 
+                                                                                        num_scaler=num_scaler,
                                                                                         cat_encoder=cat_encoder,label_encoder=label_encoder)
     
     # Evaluacion con espacio latente
@@ -148,7 +140,7 @@ def recontructed_distillation(distill_z, distill_y, test_z, test_y, method,
                         decoder_time=decoder_inference_time)
     
     # # Evaluacion con reconstrucción
-    original_df, original_test_metrics, _ = evaluate_models(x_train_disti, y_train_disti, x_test_disti, y_test_disti, ckpt_dir=checkpoint_path, method=method, random_state=seed, ipc=ipc)
+    original_df, original_test_metrics, _ = evaluate_models(x_train_disti, y_train_disti, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method=method, random_state=seed, ipc=ipc)
 
     original_df = add_meta(original_df,
                         ipc=ipc,
@@ -210,10 +202,6 @@ def main(args):
         vae_dir = os.path.join(checkpoint_path, 'vae') 
         os.makedirs(vae_dir, exist_ok=True)
 
-        pretrain_time=0
-        finetune_time=0
-        encoder_inference_time=0
-
         for seed in RANDOM_SEED_EVALUATE:
             _, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
                                         batch_size=batch_size, pretrain_epochs=epochs_latent, 
@@ -242,7 +230,7 @@ def main(args):
                 if kmeans_type == 'centroid':
                     distill_z, distill_y = distill_with_kmeans(train_z, train_y, num_centroids=ipc, get_closest=False, seed=seed)
 
-                    k_means_df, k_means_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, 'k-means', 
+                    k_means_df, k_means_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, X_test_pre, y_test_pre, 'k-means', 
                                                                                                                     metadata_path, hyperparams_vae, checkpoint_path, 
                                                                                                                     vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
                                                                                                                     pretrain_time, finetune_time, encoder_inference_time,concat_label,
@@ -250,7 +238,7 @@ def main(args):
 
                 # Destilación con K-centers y recontruyendo
                 distill_z, distill_y = distill_with_kcenters(train_z, train_y, num_centroids=ipc, seed=seed)
-                k_center_df, k_center_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, 'k-center', 
+                k_center_df, k_center_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y,X_test_pre, y_test_pre, 'k-center', 
                                                                                                                 metadata_path, hyperparams_vae, checkpoint_path, 
                                                                                                                 vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
                                                                                                                 pretrain_time, finetune_time, encoder_inference_time,concat_label,
@@ -259,7 +247,7 @@ def main(args):
                 # Destilacion con AG y reconstruyendo
 
                 distill_z, distill_y = distill_with_agglomerative(train_z, train_y, num_clusters=ipc, get_closest=False, seed=seed)
-                ag_df, ag_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, 'ag', 
+                ag_df, ag_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, X_test_pre, y_test_pre,'ag', 
                                                                                                                 metadata_path, hyperparams_vae, checkpoint_path, 
                                                                                                                 vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
                                                                                                                 pretrain_time, finetune_time, encoder_inference_time,concat_label,
@@ -268,14 +256,14 @@ def main(args):
                 # Destilación con Least Confidence y recontruyendo
 
                 distill_z, distill_y = distill_least_confidence(train_z, train_y, num_samples=ipc, seed=seed)
-                lc_df, lc_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, 'lc', 
+                lc_df, lc_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, X_test_pre, y_test_pre,'lc', 
                                                                                                                 metadata_path, hyperparams_vae, checkpoint_path, 
                                                                                                                 vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
                                                                                                                 pretrain_time, finetune_time, encoder_inference_time,concat_label,
                                                                                                                 seed)
                 # # Destilación con craig y recontruyendo
                 distill_z, distill_y = distill_with_craig(train_z, train_y, num_samples=ipc, seed=seed)
-                craig_df, craig_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, 'craig', 
+                craig_df, craig_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y,X_test_pre, y_test_pre, 'craig', 
                                                                                                                 metadata_path, hyperparams_vae, checkpoint_path, 
                                                                                                                 vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
                                                                                                                 pretrain_time, finetune_time, encoder_inference_time,concat_label,
