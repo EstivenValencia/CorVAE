@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+33.973087,Self-emp-not-inc,276419.03,10th,6.0085096,Married-civ-spouse,Farming-fishing,Husband,White,Male,7.2900214,-0.58404344,39.931404,United-States,<=50K
+38.955956,Private,1456235.9,Assoc-acdm,12.01825,Separated,Craft-repair,Not-in-family,White,Male,3.0833564,5.514902,40.035213,United-States,<=50K
+64.98772,Private,445137.06,Prof-school,15.009023,Married-spouse-absent,Craft-repair,Not-in-family,White,Male,5.7311835,-0.37819472,47.965996,Hungary,>50K
+52.986866,Private,591645.5,Doctorate,16.01648,Never-married,Prof-specialty,Unmarried,White,Female,-5.8000665,1406.1653,40.057518,United-States,<=50K
+66.12549,?,184973.16,Some-college,9.983919,Widowed,?,Unmarried,Black,Female,2.2591376,4313.996,40.0329,United-States,<=50K
+37.041016,Local-gov,130670.75,Assoc-acdm,11.980578,Married-civ-spouse,Protective-serv,Husband,White,Male,2.8757148,-0.44169417,98.94699,United-States,>50K
+30.935698,Private,182534.0,Bachelors,12.999277,Married-civ-spouse,Other-service,Husband,White,Male,4.7482734,-0.5298061,39.975834,Yugoslavia,<=50K
+43.025,Self-emp-not-inc,155357.84,Bachelors,12.99364,Married-civ-spouse,Machine-op-inspct,Wife,Asian-Pac-Islander,Female,3.9572577,-0.5709972,79.81145,Thailand,<=50K
+27.015972,Private,298658.84,Masters,13.996114,Married-civ-spouse,Prof-specialty,Husband,Asian-Pac-Islander,Male,2.9123359,-0.51762193,39.98435,Hong,>50K
+48.950146,Self-emp-not-inc,44425.516,Doctorate,15.975539,Divorced,Prof-specialty,Unmarried,White,Male,5.035627,-0.47091475,62.949085,Canada,>50K

@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+34.016834,Self-emp-not-inc,276309.4,10th,5.9713697,Married-civ-spouse,Farming-fishing,Husband,White,Male,-10.537737,-1.8711146,39.993584,United-States,<=50K
+73.04415,Self-emp-not-inc,102540.305,7th-8th,3.9673536,Married-civ-spouse,Farming-fishing,Husband,White,Male,6473.689,-1.8261088,98.6572,United-States,>50K
+52.04556,?,116370.6,Prof-school,15.012603,Married-spouse-absent,?,Unmarried,Asian-Pac-Islander,Female,-10.801531,-1.4828852,39.974857,Vietnam,<=50K
+30.099533,?,32900.484,Bachelors,13.094598,Married-civ-spouse,?,Wife,Other,Female,-17.577166,-0.38115492,39.917793,Taiwan,>50K
+53.040985,Self-emp-inc,251485.31,Some-college,10.001109,Divorced,Sales,Not-in-family,White,Male,8631.823,-1.800352,50.01581,Cuba,>50K
+39.97197,Private,148172.73,HS-grad,9.002493,Married-spouse-absent,Handlers-cleaners,Not-in-family,White,Male,2246.0745,-1.6786937,60.002987,Poland,<=50K
+35.05703,Private,267744.75,HS-grad,9.003017,Married-civ-spouse,Sales,Husband,Asian-Pac-Islander,Male,-6.5921807,1890.9447,50.014366,Iran,>50K
+42.007076,Self-emp-inc,95586.97,Some-college,9.997287,Married-civ-spouse,Exec-managerial,Husband,Asian-Pac-Islander,Male,-7.091204,-1.9925822,60.10513,Taiwan,<=50K
+34.098965,Federal-gov,344612.88,Doctorate,16.021769,Never-married,Prof-specialty,Not-in-family,White,Female,-13.196672,-1.0899638,98.65052,United-States,<=50K
+56.049202,Federal-gov,60846.883,Bachelors,13.03415,Never-married,Transport-moving,Not-in-family,Black,Male,-7.750506,2003.5363,65.03328,United-States,<=50K

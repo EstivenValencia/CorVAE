@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+34.9514,Private,249781.48,Bachelors,12.978352,Never-married,Adm-clerical,Own-child,Black,Female,13.213728,-1.2167491,39.984512,United-States,<=50K
+67.92134,Federal-gov,422391.8,HS-grad,8.98351,Divorced,Prof-specialty,Not-in-family,White,Female,-2.4548516,3758.9658,39.970116,United-States,<=50K
+73.98951,State-gov,89863.3,Doctorate,16.065985,Never-married,Prof-specialty,Other-relative,White,Female,1.0672432,3768.233,20.130573,United-States,>50K
+29.886234,Private,285420.78,Bachelors,13.008135,Married-civ-spouse,Other-service,Wife,Asian-Pac-Islander,Female,32.196636,-2.9303112,40.060062,Philippines,<=50K
+20.113798,?,274226.94,Some-college,9.992974,Never-married,?,Other-relative,Black,Male,33831.707,-0.56577104,9.927636,United-States,<=50K
+40.166416,Private,287429.66,Bachelors,13.008489,Never-married,Tech-support,Not-in-family,Asian-Pac-Islander,Female,30.655134,2244.5095,48.18497,Philippines,<=50K
+36.902317,Private,119209.414,5th-6th,3.0622537,Married-civ-spouse,Craft-repair,Husband,White,Male,28.956892,2625.0278,60.249443,United-States,<=50K
+40.031857,Private,310031.8,HS-grad,8.985721,Separated,Adm-clerical,Not-in-family,White,Female,8441.96,-1.6838893,59.95922,United-States,>50K
+46.935932,State-gov,147388.75,Doctorate,15.996306,Divorced,Prof-specialty,Unmarried,White,Male,-7.6369805,-1.71459,50.132454,France,>50K
+40.069836,Self-emp-not-inc,33355.78,Prof-school,14.99542,Divorced,Other-service,Not-in-family,White,Female,68.00975,2306.2021,35.035866,United-States,<=50K

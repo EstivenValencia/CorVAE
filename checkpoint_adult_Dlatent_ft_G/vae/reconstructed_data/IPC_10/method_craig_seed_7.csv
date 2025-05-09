@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+41.96677,Private,176025.02,Assoc-acdm,11.986189,Married-civ-spouse,Exec-managerial,Husband,White,Male,0.511335,0.1824437,39.94235,United-States,>50K
+62.97355,Private,136898.95,Bachelors,12.983574,Married-civ-spouse,Craft-repair,Husband,Asian-Pac-Islander,Male,1.9459053,0.17623337,39.888454,South,<=50K
+19.339327,Private,249668.69,10th,5.942564,Never-married,Other-service,Other-relative,White,Female,34341.02,1.0127202,23.978601,United-States,<=50K
+43.040195,Private,143168.03,5th-6th,3.021437,Married-civ-spouse,Machine-op-inspct,Wife,Asian-Pac-Islander,Female,-31.8893,2108.0325,71.9524,?,<=50K
+38.87152,Self-emp-inc,141322.34,Assoc-acdm,12.008473,Married-civ-spouse,Exec-managerial,Wife,White,Female,-10.954851,0.2506276,19.966196,United-States,>50K
+43.849373,Federal-gov,295144.22,Masters,13.989184,Married-civ-spouse,Armed-Forces,Husband,White,Male,-21.387346,0.31031236,39.924576,United-States,>50K
+29.946499,Private,18969.312,Bachelors,12.997327,Married-AF-spouse,Sales,Wife,Asian-Pac-Islander,Female,-35.91506,-0.6623592,59.92404,Philippines,>50K
+62.93823,Self-emp-not-inc,29294.484,7th-8th,4.0195026,Married-civ-spouse,Farming-fishing,Husband,White,Male,7820.5796,0.33320054,60.08464,United-States,>50K
+32.180035,Private,235462.7,Some-college,9.982916,Married-civ-spouse,Protective-serv,Husband,White,Male,31.819563,0.3467656,46.037262,Dominican-Republic,<=50K
+32.019993,Private,200164.1,Some-college,9.993089,Married-civ-spouse,Adm-clerical,Wife,Other,Female,8.894392,1732.0242,40.015144,?,<=50K

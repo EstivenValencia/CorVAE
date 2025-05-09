@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+45.05201,Federal-gov,360094.47,Assoc-acdm,12.00682,Never-married,Exec-managerial,Not-in-family,White,Male,7.6896796,-0.04067795,40.0104,United-States,<=50K
+66.92464,Self-emp-inc,411584.47,HS-grad,8.99737,Widowed,Exec-managerial,Not-in-family,White,Female,15581.053,-0.20514481,39.953712,United-States,>50K
+55.98749,Federal-gov,62405.844,Bachelors,13.005022,Never-married,Transport-moving,Not-in-family,Black,Male,8.630598,2001.9121,65.18823,United-States,<=50K
+66.993706,State-gov,241291.6,Doctorate,15.988377,Married-civ-spouse,Prof-specialty,Husband,Black,Male,2.6142402,-0.012250825,12.102771,?,<=50K
+27.793144,Private,1463449.6,Some-college,9.931013,Married-civ-spouse,Exec-managerial,Husband,White,Male,-6.7953057,-0.9261913,40.079834,United-States,<=50K
+61.148712,Private,90133.8,7th-8th,3.9874537,Married-civ-spouse,Machine-op-inspct,Wife,White,Female,3395.7473,-0.5969905,43.85007,Canada,<=50K
+28.148487,Local-gov,175382.44,Assoc-acdm,11.993087,Married-civ-spouse,Protective-serv,Husband,White,Male,1.9583565,1999.4764,40.02247,England,<=50K
+72.966255,Self-emp-not-inc,100897.77,7th-8th,3.990227,Married-civ-spouse,Farming-fishing,Husband,White,Male,6605.401,-0.65482897,99.06708,United-States,>50K
+26.945576,Private,129285.83,Assoc-voc,11.011841,Never-married,Exec-managerial,Not-in-family,White,Male,10535.663,0.92140394,65.023796,Greece,>50K
+75.081566,?,111023.37,Bachelors,13.006005,Widowed,?,Not-in-family,White,Female,24648.285,1.1230718,16.055164,United-States,>50K

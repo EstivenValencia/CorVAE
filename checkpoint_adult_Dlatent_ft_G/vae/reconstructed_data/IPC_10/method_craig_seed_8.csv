@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+48.011963,Private,283476.72,Masters,14.003398,Divorced,Exec-managerial,Not-in-family,White,Male,4.6512275,-0.14509384,40.011597,United-States,<=50K
+34.979477,?,98198.39,Prof-school,14.990229,Never-married,?,Not-in-family,Asian-Pac-Islander,Male,4829.178,-0.2944316,45.075115,Japan,>50K
+44.02474,Federal-gov,296140.25,Masters,14.002234,Married-civ-spouse,Armed-Forces,Husband,White,Male,-7.0153985,-0.10532944,40.02677,United-States,>50K
+59.975525,?,141375.02,Bachelors,13.002225,Married-civ-spouse,?,Husband,Asian-Pac-Islander,Male,13.910139,2163.1045,25.161816,South,<=50K
+42.960236,Self-emp-not-inc,155082.95,Bachelors,13.003884,Married-civ-spouse,Machine-op-inspct,Wife,Asian-Pac-Islander,Female,3.983747,-0.11070053,79.915825,Thailand,<=50K
+60.89488,Private,81519.875,5th-6th,3.0178773,Married-civ-spouse,Handlers-cleaners,Husband,Asian-Pac-Islander,Male,7266.118,0.07904251,40.02305,Philippines,>50K
+46.94451,State-gov,148305.33,Doctorate,15.986209,Divorced,Prof-specialty,Unmarried,White,Male,0.68150103,-0.09955399,50.019222,France,>50K
+25.952415,Private,297308.53,Bachelors,13.010126,Married-civ-spouse,Sales,Not-in-family,Asian-Pac-Islander,Female,-0.03395309,1981.9828,74.88144,Cambodia,>50K
+48.953995,Self-emp-not-inc,208893.48,HS-grad,8.99532,Married-civ-spouse,Farming-fishing,Husband,White,Male,-7.009173,1668.2517,98.0102,United-States,<=50K
+40.96148,Self-emp-inc,153113.6,HS-grad,8.993743,Married-civ-spouse,Exec-managerial,Husband,Asian-Pac-Islander,Male,12.778547,1886.9875,69.96378,South,>50K
