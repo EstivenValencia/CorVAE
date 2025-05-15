@@ -203,9 +203,10 @@ def main(args):
         os.makedirs(vae_dir, exist_ok=True)
 
         for seed in RANDOM_SEED_EVALUATE:
-            _, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
-                                        batch_size=batch_size, pretrain_epochs=epochs_latent, 
-                                        finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae, concat_label=concat_label)
+            pass
+            #_, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
+                                        # batch_size=batch_size, pretrain_epochs=epochs_latent, 
+                                        # finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae, concat_label=concat_label)
 
     for ipc in IPC_LIST:
 
