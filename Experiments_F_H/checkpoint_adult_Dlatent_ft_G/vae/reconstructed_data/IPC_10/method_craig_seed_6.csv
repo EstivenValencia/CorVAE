@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+45.007183,Federal-gov,360123.72,Assoc-acdm,12.01194,Never-married,Exec-managerial,Not-in-family,White,Male,-5.344744,0.2396489,40.00167,United-States,<=50K
+73.71925,State-gov,85483.484,Doctorate,15.828544,Never-married,Prof-specialty,Other-relative,White,Female,103.37059,3679.576,17.795345,United-States,>50K
+25.984463,Private,298588.25,Bachelors,13.033082,Married-civ-spouse,Sales,Not-in-family,Asian-Pac-Islander,Female,-4.228167,1971.0521,75.01364,Cambodia,>50K
+32.94463,Federal-gov,615779.7,Masters,14.018465,Married-civ-spouse,Transport-moving,Husband,Black,Male,-4.839495,0.010934905,40.050568,Nicaragua,<=50K
+38.664192,Private,152579.84,10th,5.9707494,Separated,Adm-clerical,Unmarried,White,Male,41.42161,3767.5593,39.717613,United-States,<=50K
+59.80481,Self-emp-inc,122935.33,7th-8th,3.9658391,Married-civ-spouse,Exec-managerial,Husband,White,Male,-0.2683281,0.20613296,54.899967,Ireland,<=50K
+53.944027,Self-emp-not-inc,99444.6,Some-college,10.013287,Married-civ-spouse,Craft-repair,Husband,White,Male,0.3990303,-0.20930283,39.97267,Ireland,>50K
+37.357666,Private,121130.19,5th-6th,3.028301,Married-civ-spouse,Craft-repair,Husband,White,Male,12.894392,2594.1907,59.98555,United-States,<=50K
+55.939873,Local-gov,238297.14,Some-college,10.000819,Married-civ-spouse,Exec-managerial,Husband,White,Male,9.009382,0.021104887,99.02139,United-States,<=50K
+58.11883,Private,156929.56,Assoc-acdm,12.018773,Married-civ-spouse,Machine-op-inspct,Husband,Black,Male,0.19236527,1850.3528,40.036747,United-States,>50K

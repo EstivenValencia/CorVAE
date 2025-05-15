@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+23.041855,Private,345715.56,Some-college,10.007047,Divorced,Exec-managerial,Unmarried,White,Female,-0.6452812,-0.97376055,24.887629,United-States,<=50K
+42.050705,Self-emp-inc,23845.188,Masters,13.993403,Divorced,Exec-managerial,Unmarried,Asian-Pac-Islander,Male,-8.611345,2197.999,60.07762,India,>50K
+53.065125,Private,588797.06,Doctorate,15.941125,Never-married,Prof-specialty,Unmarried,White,Female,-6.752093,1403.5139,39.92973,United-States,<=50K
+65.03949,Local-gov,146473.83,Masters,14.001127,Married-civ-spouse,Prof-specialty,Husband,White,Male,-11.375872,1651.0321,4.125993,Greece,<=50K
+30.790537,Private,173574.5,Prof-school,14.994635,Married-civ-spouse,Tech-support,Husband,Asian-Pac-Islander,Male,-9.233782,-0.25842848,40.02597,India,<=50K
+64.019516,Private,101713.04,Prof-school,14.97003,Widowed,Prof-specialty,Not-in-family,White,Female,-13.675676,2435.144,40.00153,United-States,>50K
+56.082287,Local-gov,53277.33,Doctorate,15.9847765,Divorced,Prof-specialty,Not-in-family,White,Female,-10.160906,1664.8213,37.98045,United-States,<=50K
+34.73858,Private,1230431.6,Bachelors,13.033025,Married-civ-spouse,Sales,Husband,White,Male,-8.210833,0.2344075,52.124043,United-States,>50K
+37.028862,Private,517973.25,Masters,14.009137,Never-married,Exec-managerial,Not-in-family,Black,Male,-10.987322,1553.7064,50.00512,United-States,>50K
+51.129433,Self-emp-not-inc,110974.1,HS-grad,8.98007,Divorced,Exec-managerial,Not-in-family,White,Female,99927.305,-0.76308244,35.025555,United-States,>50K

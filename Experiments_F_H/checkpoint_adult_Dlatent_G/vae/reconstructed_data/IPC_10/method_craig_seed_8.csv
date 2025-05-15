@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+47.908813,Private,283451.62,Masters,14.000273,Divorced,Exec-managerial,Not-in-family,White,Male,-15.723284,-1.0293254,39.992916,United-States,<=50K
+46.874535,Self-emp-not-inc,162987.83,Bachelors,13.001793,Divorced,Exec-managerial,Not-in-family,Asian-Pac-Islander,Male,-47.637836,-0.50314134,59.946865,Japan,<=50K
+78.47203,Self-emp-inc,97061.125,12th,8.01466,Widowed,Sales,Not-in-family,White,Male,18387.37,0.08535202,44.977943,United-States,>50K
+48.978394,Private,121536.13,5th-6th,2.9926136,Married-civ-spouse,Other-service,Husband,White,Male,-4.0882745,2620.4692,39.9943,Greece,<=50K
+42.837173,Private,125073.78,HS-grad,9.011173,Married-civ-spouse,Other-service,Husband,Asian-Pac-Islander,Male,-7.899798,-1.3328456,60.013752,Japan,<=50K
+45.947395,Federal-gov,307819.25,Prof-school,15.049855,Separated,Prof-specialty,Unmarried,White,Female,-26.836077,-0.9717998,40.004875,Germany,>50K
+43.885887,Local-gov,212961.5,Some-college,10.009494,Married-civ-spouse,Protective-serv,Husband,Black,Male,-49.45522,0.029916838,99.0346,United-States,<=50K
+40.872753,Local-gov,32558.484,Masters,14.006812,Divorced,Prof-specialty,Not-in-family,White,Male,-8.433977,1961.2433,40.09846,United-States,<=50K
+20.025995,?,273506.72,Some-college,10.007325,Never-married,?,Other-relative,Black,Male,34420.492,-0.7598323,9.619182,United-States,<=50K
+74.55047,Local-gov,73488.305,HS-grad,9.000501,Married-civ-spouse,Other-service,Husband,White,Male,-31.600603,2456.6084,40.00621,Canada,<=50K
