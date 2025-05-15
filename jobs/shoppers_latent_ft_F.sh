@@ -1,4 +1,4 @@
-export export CUDA_VISIBLE_DEVICES=3;cd ..;python3.12 main_percentages \
+export export CUDA_VISIBLE_DEVICES=3;cd ..;python3.12 main_percentages.py \
     --metadata_path data/shoppers/metadata.json \
     --distillation_space latent \
     --epochs_latent 3000 \
