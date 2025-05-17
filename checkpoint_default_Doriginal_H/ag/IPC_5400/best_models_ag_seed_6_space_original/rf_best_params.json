@@ -1,5 +1,5 @@
 {
-    "n_estimators": 401,
+    "n_estimators": 295,
     "max_depth": 20,
     "min_samples_split": 5,
     "min_samples_leaf": 1
