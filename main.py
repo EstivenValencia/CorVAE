@@ -202,16 +202,20 @@ def main(args):
         vae_dir = os.path.join(checkpoint_path, 'vae') 
         os.makedirs(vae_dir, exist_ok=True)
 
+        times = {}
+        pretrain_time, finetune_time, encoder_inference_time = 0,0,0
         for seed in RANDOM_SEED_EVALUATE:
-            pass
-            #_, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
-                                        # batch_size=batch_size, pretrain_epochs=epochs_latent, 
-                                        # finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae, concat_label=concat_label)
+            _, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
+                                        batch_size=batch_size, pretrain_epochs=epochs_latent, 
+                                        finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae, concat_label=concat_label)
+            times[seed] = (pretrain_time, finetune_time, encoder_inference_time)
 
     for ipc in IPC_LIST:
 
         # Destilación con sample random class
         for seed in RANDOM_SEED_EVALUATE:
+            pretrain_time, finetune_time, encoder_inference_time,concat_label = times[seed]
+
             X_random, y_random = distill_random(X_train_pre, y_train_pre, n_per_class=ipc, random_state=seed)
 
             random_df, _, _ = evaluate_models(X_random, y_random, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='random', random_state=seed, ipc=ipc)
