@@ -5,6 +5,7 @@ from utils import preprocessing
 import os
 import numpy as np
 from utils import evaluate_models, reconstruct_data, load_reconstructed_data, split_train_test_custom, compute_relative_regret
+from utils import split_train_test_custom_undersampling
 import torch
 from utils import read_json_config
 import pandas as pd
@@ -176,7 +177,7 @@ def main(args):
     SEED = 0
 
     # Se utiliza un test de 0.1 porque luego se aplicar validacion cruzada que ya incluye validacion
-    X_train_init, y_train_init, X_test_init, y_test_init = split_train_test_custom(config, base_dir, test_size=0.1, random_state=STATIC_SEED)
+    X_train_init, y_train_init, X_test_init, y_test_init = split_train_test_custom_undersampling(config, base_dir, test_size=0.1, random_state=STATIC_SEED)
 
     set_data = (X_train_init, y_train_init, X_test_init, y_test_init)
 
@@ -212,12 +213,12 @@ def main(args):
     pretrain_time, finetune_time, encoder_inference_time = 0,0,0
     
     size = X_train_pre.shape[0]
-    percentages = np.array([0.002,0.004,0.006,0.008,0.01,0.1,0.2,0.4,0.6,0.7,0.9,1])
+    percentages = np.array([0.01,0.05,0.1,0.2,0.5,0.7,1])
     for per in percentages:
         ipc = int(per*size/2)
         
         # Destilación con sample random class
-        for seed in RANDOM_SEED_EVALUATE:
+        for seed in [7,8]: #RANDOM_SEED_EVALUATE:
             X_random, y_random = distill_random(X_train_pre, y_train_pre, n_per_class=ipc, random_state=seed)
 
             random_df, _, _ = evaluate_models(X_random, y_random, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='random', random_state=seed, ipc=ipc)
