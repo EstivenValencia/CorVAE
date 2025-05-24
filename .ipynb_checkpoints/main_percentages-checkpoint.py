@@ -194,6 +194,9 @@ def main(args):
 
     full_df = pd.DataFrame()
 
+    times = {}
+    pretrain_time, finetune_time, encoder_inference_time = 0,0,0
+    
     # Se realiza entrenamiento del VAE sobre las diferentes semillas
     if distillation_space == 'latent':
 
@@ -205,20 +208,22 @@ def main(args):
         vae_dir = os.path.join(checkpoint_path, 'vae') 
         os.makedirs(vae_dir, exist_ok=True)
 
+
         for seed in RANDOM_SEED_EVALUATE:
-            pass
-            #_, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
-                                        # batch_size=batch_size, pretrain_epochs=epochs_latent, 
-                                        # finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae, concat_label=concat_label)
-    pretrain_time, finetune_time, encoder_inference_time = 0,0,0
-    
+            #pass
+            # _, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
+            #                             batch_size=batch_size, pretrain_epochs=epochs_latent, 
+            #                             finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae, concat_label=concat_label)
+            times[seed] = (pretrain_time, finetune_time, encoder_inference_time)
+
     size = X_train_pre.shape[0]
     percentages = np.array([0.01,0.05,0.1,0.2,0.5,0.7,1])
     for per in percentages:
         ipc = int(per*size/2)
         
         # Destilación con sample random class
-        for seed in [7,8]: #RANDOM_SEED_EVALUATE:
+        for seed in RANDOM_SEED_EVALUATE:
+            
             X_random, y_random = distill_random(X_train_pre, y_train_pre, n_per_class=ipc, random_state=seed)
 
             random_df, _, _ = evaluate_models(X_random, y_random, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='random', random_state=seed, ipc=ipc)
@@ -227,6 +232,7 @@ def main(args):
             full_df = pd.concat([full_df, random_df], axis=0, ignore_index=True)
 
             if distillation_space == 'latent':
+                pretrain_time, finetune_time, encoder_inference_time = times[seed]
                 # Se cargan los datos de destilacion
                 train_z_path, train_y_path= os.path.join(vae_dir,f'train_z_seed_{seed}.npy'), os.path.join(vae_dir,f'train_y_seed_{seed}.npy')
                 test_z_path, test_y_path= os.path.join(vae_dir,f'test_z_seed_{seed}.npy'), os.path.join(vae_dir,f'test_y_seed_{seed}.npy')
