@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+44.922146,Federal-gov,360020.47,Assoc-acdm,11.984074,Never-married,Exec-managerial,Not-in-family,Black,Female,6.886823,-0.39453688,39.977478,United-States,<=50K
+42.82044,Federal-gov,411340.47,Doctorate,15.989709,Never-married,Prof-specialty,Not-in-family,Black,Female,3.1551337,-0.19661514,49.940956,United-States,>50K
+62.961357,Self-emp-not-inc,35500.766,Bachelors,12.981746,Married-civ-spouse,Prof-specialty,Husband,Asian-Pac-Islander,Female,-6.0655694,1973.0038,32.227413,China,>50K
+61.15267,Private,192587.55,Preschool,0.9428242,Separated,Craft-repair,Not-in-family,Black,Female,14224.661,-0.5243129,39.827114,United-States,>50K
+32.64713,Self-emp-inc,139017.42,HS-grad,8.967912,Married-civ-spouse,Exec-managerial,Husband,Asian-Pac-Islander,Female,-5.2494073,0.24408157,84.352486,Taiwan,>50K
+60.009678,?,140491.83,Bachelors,13.005302,Married-civ-spouse,?,Husband,Asian-Pac-Islander,Female,-10.388933,2162.443,24.90465,South,<=50K
+34.443222,?,166631.53,HS-grad,10.01841,Married-civ-spouse,?,Not-in-family,Black,Female,7686.693,-0.7232341,5.7417955,United-States,>50K
+53.143337,Private,152311.44,5th-6th,2.908736,Married-civ-spouse,Exec-managerial,Husband,Black,Female,7663.2773,-0.5000362,9.799855,Hungary,>50K
+30.0789,Private,164354.56,Bachelors,13.0334015,Never-married,Exec-managerial,Not-in-family,Other,Female,8644.446,-1.3089503,39.9315,India,>50K
+43.73818,Private,356011.38,HS-grad,10.02185,Separated,Exec-managerial,Not-in-family,Black,Female,0.49168167,1987.7987,45.124126,England,<=50K

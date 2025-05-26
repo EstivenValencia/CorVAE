@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+35.009315,Private,249962.17,Bachelors,13.001921,Never-married,Adm-clerical,Own-child,Black,Female,-3.2221856,0.9507924,39.983482,United-States,<=50K
+48.990246,Private,247478.27,HS-grad,8.974321,Married-civ-spouse,Craft-repair,Other-relative,Other,Female,-43.756367,-4.7992,39.965702,Nicaragua,<=50K
+91.131256,Federal-gov,310510.66,Masters,14.004311,Divorced,Prof-specialty,Not-in-family,Other,Female,25.674788,-2.6473522,100.30292,United-States,<=50K
+52.92151,Private,549374.4,HS-grad,9.981474,Married-civ-spouse,Craft-repair,Husband,Other,Female,-37.49587,-1.4579371,40.00662,Guatemala,<=50K
+49.00468,Private,120851.78,5th-6th,2.9319713,Married-civ-spouse,Other-service,Husband,Other,Female,-136.24818,2600.857,40.06248,Greece,<=50K
+38.88215,Private,1432371.1,Assoc-acdm,11.959318,Separated,Craft-repair,Not-in-family,Other,Female,-7.155291,-1.4145564,39.98373,United-States,<=50K
+32.023643,Self-emp-inc,168666.11,Assoc-voc,10.99856,Divorced,Exec-managerial,Not-in-family,Other,Female,10387.701,-2.4160824,79.88789,Greece,>50K
+36.9523,Private,757823.94,9th,4.9624496,Married-civ-spouse,Handlers-cleaners,Husband,Other,Female,3628.2998,0.42450914,49.977127,Mexico,<=50K
+20.079645,?,273511.0,HS-grad,10.003753,Never-married,?,Other-relative,Black,Female,34287.76,-0.66866106,10.163043,United-States,<=50K
+33.10077,Federal-gov,620816.44,Masters,13.995855,Married-civ-spouse,Adm-clerical,Husband,Black,Female,-27.188128,-4.6510754,39.934235,Nicaragua,<=50K

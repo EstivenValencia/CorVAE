@@ -52,6 +52,9 @@ from sklearn.svm import SVC
 import optuna
 from sklearn.neural_network import MLPClassifier
 
+from sklearn.naive_bayes import GaussianNB
+from sklearn.neighbors   import KNeighborsClassifier
+
 import warnings
 warnings.filterwarnings("ignore")
 
@@ -115,7 +118,34 @@ MODELS = {
                 "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
             },
         },
-
+    "naive_bayes": {
+        "constructor": GaussianNB,
+        "static_args": {},
+        "search_space": {
+            # var_smoothing alrededor de 1e-9
+            "var_smoothing": lambda t: t.suggest_float(
+                "var_smoothing", 1e-10, 1e-8, log=True
+            ),
+        },
+    },
+    "knn": {
+        "constructor": KNeighborsClassifier,
+        "static_args": {},
+        "search_space": {
+            # n_neighbors de 3 a 10
+            "n_neighbors": lambda t: t.suggest_int(
+                "n_neighbors", 3, 10
+            ),
+            # leaf_size de 20 a 40
+            "leaf_size": lambda t: t.suggest_int(
+                "leaf_size", 20, 40
+            ),
+            # p = 1 o 2
+            "p": lambda t: t.suggest_categorical(
+                "p", [1, 2]
+            ),
+        },
+    },
 }
 
 MODEL_XGB = {
@@ -226,7 +256,66 @@ def split_train_test_custom(config, base_dir, test_size=0.1, random_state=0):
 
     return X_train, y_train, X_test, y_test
 
-def concat_label(X, y):
+def split_train_test_custom_undersampling(config, base_dir, test_size=0.1, random_state=0):
+    target_col = config['target_col_name']
+
+    data_file = os.path.join(base_dir, config['file'])
+    
+    try:
+        df = pd.read_csv(data_file)
+    except FileNotFoundError:
+        raise FileNotFoundError(f"Archivo de datos no encontrado: {data_file}")
+    
+    # Eliminacion de posibles caracteres especiales
+    try:
+        df[target_col] = df[target_col].str.replace('.', '', regex=False)
+    except:
+        print("No se encontraron caracteres extranos en la columna target")
+    
+    y = df[target_col].to_numpy()  
+    X = df.drop(columns=[target_col]).to_numpy()
+
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y,
+        test_size=test_size,
+        random_state=random_state,
+        stratify=y
+    )
+
+    # --- UNDERSAMPLING de la clase mayoritaria en TRAIN ---
+    # contar muestras por clase
+    classes, counts = np.unique(y_train, return_counts=True)
+    min_count = counts.min()
+    rng = np.random.RandomState(random_state)
+
+    idx_resampled = []
+    for cls in classes:
+        idx_cls = np.where(y_train == cls)[0]
+        if len(idx_cls) > min_count:
+            # muestreo aleatorio sin reemplazo
+            idx_sel = rng.choice(idx_cls, size=min_count, replace=False)
+        else:
+            idx_sel = idx_cls
+        idx_resampled.append(idx_sel)
+
+    idx_resampled = np.concatenate(idx_resampled)
+    rng.shuffle(idx_resampled)  # barajar
+
+    # reconstruir X_train/y_train balanceados
+    X_train = X_train[idx_resampled]
+    y_train = y_train[idx_resampled]
+    # -------------------------------------------------------
+
+    # Guardar en .npy
+    np.save(f'{base_dir}/X_train.npy', X_train)
+    np.save(f'{base_dir}/X_test.npy', X_test)
+    np.save(f'{base_dir}/y_train.npy', y_train)
+    np.save(f'{base_dir}/y_test.npy', y_test)
+    print(f"Datos de train y test (train undersampleado) guardados en {base_dir}")
+
+    return X_train, y_train, X_test, y_test
+
+def concat_l(X, y):
     if X is None:
         return y.reshape(-1, 1)
     return np.concatenate([X, y.reshape(-1, 1)], axis=1)
@@ -302,7 +391,7 @@ def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', 
 
 
     if concat_label:
-        X_train = concat_label(X_train, y_train)
+        X_train = concat_l(X_train, y_train)
 
     # 10. Codificación de datos categóricos
     if encoding == 'one-hot':
@@ -733,7 +822,7 @@ def evaluate_models(
     X_test,
     y_test,
     cv_folds=5,
-    n_trials=30,
+    n_trials=20,
     ckpt_dir=None,
     method='k-means',
     random_state=0,

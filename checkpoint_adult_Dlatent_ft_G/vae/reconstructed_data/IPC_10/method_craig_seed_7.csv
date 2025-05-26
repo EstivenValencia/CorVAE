@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+42.02662,Private,175908.86,Assoc-acdm,12.001491,Married-civ-spouse,Exec-managerial,Husband,Black,Female,0.1696602,0.27249345,40.04353,United-States,>50K
+53.006626,Private,166152.05,Bachelors,13.007138,Married-civ-spouse,Machine-op-inspct,Own-child,Asian-Pac-Islander,Female,14.046003,0.3572789,40.008938,China,<=50K
+32.975136,Private,194665.73,Assoc-voc,11.0062275,Separated,Craft-repair,Not-in-family,Black,Female,2.9528632,2439.6917,42.042927,United-States,>50K
+67.03892,Private,224451.28,HS-grad,8.988065,Married-civ-spouse,Adm-clerical,Not-in-family,Black,Female,15423.462,0.21390732,16.170044,Germany,>50K
+42.00233,Local-gov,719478.6,1st-4th,9.9994335,Married-civ-spouse,Protective-serv,Husband,Black,Female,-43.214252,0.34342393,39.972168,United-States,>50K
+65.995804,Self-emp-not-inc,53965.47,Assoc-voc,11.002961,Married-civ-spouse,Farming-fishing,Husband,Black,Female,4740.8145,0.23641403,98.08746,United-States,<=50K
+22.951876,Private,151513.98,Bachelors,12.970138,Never-married,Prof-specialty,Own-child,Black,Female,13801.948,-0.38774672,50.02693,United-States,>50K
+51.1418,Federal-gov,255801.78,Masters,14.021617,Married-civ-spouse,Sales,Unmarried,Black,Female,26.208113,0.22248276,50.034225,El-Salvador,>50K
+43.87095,Private,172212.67,1st-4th,2.0377538,Married-civ-spouse,Handlers-cleaners,Own-child,Black,Female,3906.752,0.29912767,60.145256,United-States,<=50K
+70.90035,?,101624.81,HS-grad,9.014558,Married-civ-spouse,?,Husband,Black,Female,-26.850847,2483.273,14.860629,United-States,<=50K

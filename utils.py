@@ -315,7 +315,7 @@ def split_train_test_custom_undersampling(config, base_dir, test_size=0.1, rando
 
     return X_train, y_train, X_test, y_test
 
-def concat_label(X, y):
+def concat_l(X, y):
     if X is None:
         return y.reshape(-1, 1)
     return np.concatenate([X, y.reshape(-1, 1)], axis=1)
@@ -391,7 +391,7 @@ def preprocessing(config, X_train, y_train, X_test, y_test, encoding='ordinal', 
 
 
     if concat_label:
-        X_train = concat_label(X_train, y_train)
+        X_train = concat_l(X_train, y_train)
 
     # 10. Codificación de datos categóricos
     if encoding == 'one-hot':
@@ -822,7 +822,7 @@ def evaluate_models(
     X_test,
     y_test,
     cv_folds=5,
-    n_trials=10,
+    n_trials=20,
     ckpt_dir=None,
     method='k-means',
     random_state=0,

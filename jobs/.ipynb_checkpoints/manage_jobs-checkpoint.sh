@@ -14,7 +14,7 @@ SELF_SCRIPT="$(basename "${BASH_SOURCE[0]}")"
 
 run_jobs() {
   echo "=== Lanzando jobs desde $JOB_DIR ==="
-  for scriptpath in "$JOB_DIR"/*_full_*.sh; do
+  for scriptpath in "$JOB_DIR"/*_latent_*.sh; do
     scriptname="$(basename "$scriptpath")"
     # Saltarse a sí mismo
     [[ "$scriptname" == "$SELF_SCRIPT" ]] && continue
