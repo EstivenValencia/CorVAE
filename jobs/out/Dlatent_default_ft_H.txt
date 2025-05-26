@@ -72675,3 +72675,495 @@ Parámetros guardados en checkpoint_default_Dlatent_ft_H/lc/IPC_30/best_models_l
 [I 2025-05-26 06:15:53,987] Trial 14 finished with value: 1.0 and parameters: {'n_estimators': 339, 'max_depth': 12, 'min_samples_split': 4, 'min_samples_leaf': 1}. Best is trial 0 with value: 1.0.
 [I 2025-05-26 06:15:54,324] Trial 15 finished with value: 1.0 and parameters: {'n_estimators': 161, 'max_depth': 6, 'min_samples_split': 5, 'min_samples_leaf': 4}. Best is trial 0 with value: 1.0.
 [I 2025-05-26 06:15:54,524] Trial 16 finished with value: 1.0 and parameters: {'n_estimators': 104, 'max_depth': 9, 'min_samples_split': 7, 'min_samples_leaf': 7}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:15:55,109] Trial 17 finished with value: 1.0 and parameters: {'n_estimators': 359, 'max_depth': 5, 'min_samples_split': 2, 'min_samples_leaf': 2}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:15:55,471] Trial 18 finished with value: 1.0 and parameters: {'n_estimators': 222, 'max_depth': 10, 'min_samples_split': 4, 'min_samples_leaf': 4}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:15:55,987] Trial 19 finished with value: 1.0 and parameters: {'n_estimators': 405, 'max_depth': 13, 'min_samples_split': 6, 'min_samples_leaf': 2}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:15:58,147] A new study created in memory with name: svc
+[I 2025-05-26 06:15:58,165] Trial 0 finished with value: 0.9333333333333333 and parameters: {'C': 0.011002632709098882, 'gamma': 0.010174155443038872}. Best is trial 0 with value: 0.9333333333333333.
+[I 2025-05-26 06:15:58,192] Trial 1 finished with value: 0.9166666666666667 and parameters: {'C': 0.9618186025955839, 'gamma': 0.00034301895208247704}. Best is trial 0 with value: 0.9333333333333333.
+[I 2025-05-26 06:15:58,218] Trial 2 finished with value: 0.9166666666666667 and parameters: {'C': 0.03702067575132929, 'gamma': 0.0007485739374074099}. Best is trial 0 with value: 0.9333333333333333.
+Parámetros guardados en checkpoint_default_Dlatent_ft_H/lc/IPC_30/best_models_lc_seed_9_space_original/rf_best_params.json
+
+
+>>> Optuna tuning svc metodo lc IPC 30 seed 9
+
+
+[I 2025-05-26 06:15:58,870] Trial 3 finished with value: 0.9333333333333333 and parameters: {'C': 0.47209861032825945, 'gamma': 0.0009826631576890102}. Best is trial 0 with value: 0.9333333333333333.
+[I 2025-05-26 06:15:58,898] Trial 4 finished with value: 0.9333333333333333 and parameters: {'C': 0.021688953850108893, 'gamma': 0.0024098752433673273}. Best is trial 0 with value: 0.9333333333333333.
+[I 2025-05-26 06:15:58,916] Trial 5 finished with value: 0.8166666666666667 and parameters: {'C': 0.04646280084231645, 'gamma': 0.3267656089424253}. Best is trial 0 with value: 0.9333333333333333.
+[I 2025-05-26 06:15:58,934] Trial 6 finished with value: 1.0 and parameters: {'C': 63.65845976154302, 'gamma': 0.00014288725836502733}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:58,953] Trial 7 finished with value: 1.0 and parameters: {'C': 6.257913640897913, 'gamma': 0.01954516145303057}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:58,972] Trial 8 finished with value: 1.0 and parameters: {'C': 39.08665206604184, 'gamma': 0.04651530700450706}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:59,001] Trial 9 finished with value: 1.0 and parameters: {'C': 1.553642640603634, 'gamma': 0.06452227863024562}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:59,030] Trial 10 finished with value: 1.0 and parameters: {'C': 91.25285062968727, 'gamma': 0.0001231922846634462}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:59,056] Trial 11 finished with value: 1.0 and parameters: {'C': 12.770086590997437, 'gamma': 0.007915996316799956}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:59,091] Trial 12 finished with value: 1.0 and parameters: {'C': 5.4924362393492565, 'gamma': 0.02416796659934235}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:59,117] Trial 13 finished with value: 0.8333333333333334 and parameters: {'C': 11.783565334041665, 'gamma': 0.8016460629498309}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:59,143] Trial 14 finished with value: 1.0 and parameters: {'C': 38.32633746384875, 'gamma': 0.003963624015592357}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:59,810] Trial 15 finished with value: 0.9166666666666667 and parameters: {'C': 5.126290357806501, 'gamma': 0.00011209454623501851}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:59,836] Trial 16 finished with value: 0.9 and parameters: {'C': 0.17714418576536411, 'gamma': 0.14779328506096528}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:59,860] Trial 17 finished with value: 1.0 and parameters: {'C': 59.27142352324486, 'gamma': 0.021199766339550553}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:59,886] Trial 18 finished with value: 1.0 and parameters: {'C': 14.643615399322497, 'gamma': 0.0017981213217456737}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:15:59,918] Trial 19 finished with value: 0.9333333333333333 and parameters: {'C': 5.189392902098398, 'gamma': 0.00037234350355775254}. Best is trial 6 with value: 1.0.
+[I 2025-05-26 06:16:02,020] A new study created in memory with name: logreg
+[I 2025-05-26 06:16:02,038] Trial 0 finished with value: 0.95 and parameters: {'C': 0.0011268620922535318, 'penalty': 'l2'}. Best is trial 0 with value: 0.95.
+[I 2025-05-26 06:16:02,058] Trial 1 finished with value: 1.0 and parameters: {'C': 0.32312678588710475, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:02,086] Trial 2 finished with value: 1.0 and parameters: {'C': 0.3012079745112611, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+Parámetros guardados en checkpoint_default_Dlatent_ft_H/lc/IPC_30/best_models_lc_seed_9_space_original/svc_best_params.json
+
+
+>>> Optuna tuning logreg metodo lc IPC 30 seed 9
+
+
+[I 2025-05-26 06:16:02,672] Trial 3 finished with value: 0.95 and parameters: {'C': 0.004668180550042529, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:02,688] Trial 4 finished with value: 0.95 and parameters: {'C': 0.005135177115384908, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:02,717] Trial 5 finished with value: 0.9666666666666668 and parameters: {'C': 0.01238207351349697, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:02,745] Trial 6 finished with value: 1.0 and parameters: {'C': 0.12374877330306278, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:02,760] Trial 7 finished with value: 0.9666666666666668 and parameters: {'C': 0.017398261017749217, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:02,776] Trial 8 finished with value: 0.95 and parameters: {'C': 0.002632074973627294, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:02,792] Trial 9 finished with value: 1.0 and parameters: {'C': 0.053394091359671186, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:02,812] Trial 10 finished with value: 1.0 and parameters: {'C': 9.528231497855979, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:02,851] Trial 11 finished with value: 1.0 and parameters: {'C': 1.6062566172635413, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:02,874] Trial 12 finished with value: 1.0 and parameters: {'C': 1.2874726910568237, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:02,894] Trial 13 finished with value: 1.0 and parameters: {'C': 0.5733701729424704, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:02,917] Trial 14 finished with value: 1.0 and parameters: {'C': 15.120040276017736, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:03,636] Trial 15 finished with value: 1.0 and parameters: {'C': 0.2522645130130629, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:03,659] Trial 16 finished with value: 1.0 and parameters: {'C': 3.7693006462440435, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:03,679] Trial 17 finished with value: 1.0 and parameters: {'C': 63.26611529542456, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:03,710] Trial 18 finished with value: 1.0 and parameters: {'C': 0.06992661290805088, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:03,744] Trial 19 finished with value: 1.0 and parameters: {'C': 0.3569380717309879, 'penalty': 'l2'}. Best is trial 1 with value: 1.0.
+[I 2025-05-26 06:16:06,962] A new study created in memory with name: mlp
+Parámetros guardados en checkpoint_default_Dlatent_ft_H/lc/IPC_30/best_models_lc_seed_9_space_original/logreg_best_params.json
+
+
+>>> Optuna tuning mlp metodo lc IPC 30 seed 9
+
+
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:09,042] Trial 0 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 100, 'alpha': 0.001}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:09,284] Trial 1 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:09,403] Trial 2 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 50, 'alpha': 0.0001}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:09,459] Trial 3 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.0001}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:09,556] Trial 4 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 100, 'alpha': 0.001}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:09,654] Trial 5 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:09,753] Trial 6 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 100, 'alpha': 0.001}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:09,819] Trial 7 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:09,887] Trial 8 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 100, 'alpha': 0.001}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:09,966] Trial 9 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:10,046] Trial 10 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 100, 'alpha': 0.001}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:10,782] Trial 11 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:11,589] Trial 12 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:11,678] Trial 13 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:12,381] Trial 14 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 100, 'alpha': 0.001}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:13,157] Trial 15 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:13,252] Trial 16 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 100, 'alpha': 0.001}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:13,358] Trial 17 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:13,434] Trial 18 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 50, 'alpha': 0.0001}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:16:13,522] Trial 19 finished with value: 1.0 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 100, 'alpha': 0.001}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:19,573] A new study created in memory with name: naive_bayes
+[I 2025-05-26 06:16:19,595] Trial 0 finished with value: 1.0 and parameters: {'var_smoothing': 1.0489343501429862e-10}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:19,609] Trial 1 finished with value: 1.0 and parameters: {'var_smoothing': 1.0086701860885373e-09}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:19,626] Trial 2 finished with value: 1.0 and parameters: {'var_smoothing': 9.807235097598006e-10}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:19,643] Trial 3 finished with value: 1.0 and parameters: {'var_smoothing': 1.8520770828517824e-10}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:19,660] Trial 4 finished with value: 1.0 and parameters: {'var_smoothing': 1.9240757716714087e-10}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:19,678] Trial 5 finished with value: 1.0 and parameters: {'var_smoothing': 2.736007926537145e-10}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:19,695] Trial 6 finished with value: 1.0 and parameters: {'var_smoothing': 6.87094324185739e-10}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:19,713] Trial 7 finished with value: 1.0 and parameters: {'var_smoothing': 3.134745855231349e-10}. Best is trial 0 with value: 1.0.
+Parámetros guardados en checkpoint_default_Dlatent_ft_H/lc/IPC_30/best_models_lc_seed_9_space_original/mlp_best_params.json
+
+
+>>> Optuna tuning naive_bayes metodo lc IPC 30 seed 9
+
+
+[I 2025-05-26 06:16:20,370] Trial 8 finished with value: 1.0 and parameters: {'var_smoothing': 1.4727170077821783e-10}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:20,396] Trial 9 finished with value: 1.0 and parameters: {'var_smoothing': 4.909048017047017e-10}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:20,427] Trial 10 finished with value: 1.0 and parameters: {'var_smoothing': 4.226228455594519e-09}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:20,447] Trial 11 finished with value: 1.0 and parameters: {'var_smoothing': 2.8481546791169343e-09}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:20,466] Trial 12 finished with value: 1.0 and parameters: {'var_smoothing': 1.9032336526904254e-09}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:20,485] Trial 13 finished with value: 1.0 and parameters: {'var_smoothing': 1.6192707465333408e-09}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:20,504] Trial 14 finished with value: 1.0 and parameters: {'var_smoothing': 1.0137193502251743e-10}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:20,522] Trial 15 finished with value: 1.0 and parameters: {'var_smoothing': 7.233291262560306e-09}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:20,540] Trial 16 finished with value: 1.0 and parameters: {'var_smoothing': 5.636880428096003e-10}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:20,559] Trial 17 finished with value: 1.0 and parameters: {'var_smoothing': 1.2682382630515742e-09}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:20,579] Trial 18 finished with value: 1.0 and parameters: {'var_smoothing': 3.934685686653308e-10}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:20,599] Trial 19 finished with value: 1.0 and parameters: {'var_smoothing': 8.419551297505738e-10}. Best is trial 0 with value: 1.0.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-26 06:16:23,618] A new study created in memory with name: knn
+Parámetros guardados en checkpoint_default_Dlatent_ft_H/lc/IPC_30/best_models_lc_seed_9_space_original/naive_bayes_best_params.json
+
+
+>>> Optuna tuning knn metodo lc IPC 30 seed 9
+
+
+[I 2025-05-26 06:16:23,737] Trial 0 finished with value: 1.0 and parameters: {'n_neighbors': 3, 'leaf_size': 30, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:23,759] Trial 1 finished with value: 1.0 and parameters: {'n_neighbors': 4, 'leaf_size': 24, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:23,796] Trial 2 finished with value: 0.9833333333333334 and parameters: {'n_neighbors': 3, 'leaf_size': 27, 'p': 2}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:23,832] Trial 3 finished with value: 0.9833333333333334 and parameters: {'n_neighbors': 10, 'leaf_size': 20, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:23,848] Trial 4 finished with value: 0.95 and parameters: {'n_neighbors': 10, 'leaf_size': 34, 'p': 2}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:23,862] Trial 5 finished with value: 0.9833333333333334 and parameters: {'n_neighbors': 6, 'leaf_size': 34, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:23,918] Trial 6 finished with value: 0.9833333333333334 and parameters: {'n_neighbors': 10, 'leaf_size': 36, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:23,934] Trial 7 finished with value: 0.95 and parameters: {'n_neighbors': 7, 'leaf_size': 39, 'p': 2}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:24,021] Trial 8 finished with value: 0.95 and parameters: {'n_neighbors': 10, 'leaf_size': 23, 'p': 2}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:24,107] Trial 9 finished with value: 0.95 and parameters: {'n_neighbors': 10, 'leaf_size': 35, 'p': 2}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:24,136] Trial 10 finished with value: 1.0 and parameters: {'n_neighbors': 5, 'leaf_size': 30, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:24,232] Trial 11 finished with value: 1.0 and parameters: {'n_neighbors': 3, 'leaf_size': 26, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:24,279] Trial 12 finished with value: 1.0 and parameters: {'n_neighbors': 4, 'leaf_size': 29, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:24,305] Trial 13 finished with value: 1.0 and parameters: {'n_neighbors': 5, 'leaf_size': 24, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:24,328] Trial 14 finished with value: 0.9833333333333334 and parameters: {'n_neighbors': 8, 'leaf_size': 20, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:24,353] Trial 15 finished with value: 1.0 and parameters: {'n_neighbors': 4, 'leaf_size': 32, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:24,378] Trial 16 finished with value: 1.0 and parameters: {'n_neighbors': 4, 'leaf_size': 27, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:24,403] Trial 17 finished with value: 1.0 and parameters: {'n_neighbors': 3, 'leaf_size': 23, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:24,430] Trial 18 finished with value: 1.0 and parameters: {'n_neighbors': 5, 'leaf_size': 31, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:25,162] Trial 19 finished with value: 0.9833333333333334 and parameters: {'n_neighbors': 6, 'leaf_size': 40, 'p': 1}. Best is trial 0 with value: 1.0.
+[I 2025-05-26 06:16:45,818] A new study created in memory with name: xgb
+Parámetros guardados en checkpoint_default_Dlatent_ft_H/lc/IPC_30/best_models_lc_seed_9_space_original/knn_best_params.json
+--- Iniciando reconstrucción de datos ---
+Objetos de preprocesamiento cargados.
+Pasando datos latentes a través del decoder...
+Detectado token CLS en el espacio latente, eliminándolo para el decoder.
+Reconstrucción completada. Invirtiendo transformaciones...
+Normalización numérica invertida.
+Codificación de la variable objetivo invertida.
+Codificación categórica invertida.
+--- Reconstrucción finalizada ---
+Combinando en un DataFrame de Pandas.
+
+
+>>> Optuna tuning xgb metodo craig IPC 30 seed 9
+
+
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-26 06:16:46,017] Trial 0 finished with value: 0.5083333333333333 and parameters: {'n_estimators': 40, 'max_depth': 30, 'gamma': 0.47665736245940726, 'subsample': 0.6240505842067796, 'colsample_bytree': 0.542029825582675}. Best is trial 0 with value: 0.5083333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-26 06:16:46,088] Trial 1 finished with value: 0.4833333333333333 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.6154838340124683, 'subsample': 0.9490035591125747, 'colsample_bytree': 0.8334494864598183}. Best is trial 0 with value: 0.5083333333333333.
+[I 2025-05-26 06:16:46,128] Trial 2 finished with value: 0.4583333333333333 and parameters: {'n_estimators': 40, 'max_depth': 20, 'gamma': 0.9464719685739904, 'subsample': 0.9018698850061588, 'colsample_bytree': 0.9916796241121663}. Best is trial 0 with value: 0.5083333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-26 06:16:46,178] Trial 3 finished with value: 0.5083333333333333 and parameters: {'n_estimators': 100, 'max_depth': 30, 'gamma': 0.26698751824101463, 'subsample': 0.6215578376567042, 'colsample_bytree': 0.9367004215505623}. Best is trial 0 with value: 0.5083333333333333.
+[I 2025-05-26 06:16:46,205] Trial 4 finished with value: 0.4583333333333333 and parameters: {'n_estimators': 10, 'max_depth': 20, 'gamma': 0.5301766121845122, 'subsample': 0.7177777323831729, 'colsample_bytree': 0.9352041482132656}. Best is trial 0 with value: 0.5083333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-26 06:16:46,263] Trial 5 finished with value: 0.4083333333333333 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.6742485862456464, 'subsample': 0.7308488312353485, 'colsample_bytree': 0.5265297122426965}. Best is trial 0 with value: 0.5083333333333333.
+[I 2025-05-26 06:16:46,359] Trial 6 finished with value: 0.4833333333333333 and parameters: {'n_estimators': 100, 'max_depth': 30, 'gamma': 0.5360486096375219, 'subsample': 0.8488681925618888, 'colsample_bytree': 0.900578215847843}. Best is trial 0 with value: 0.5083333333333333.
+[I 2025-05-26 06:16:46,385] Trial 7 finished with value: 0.4583333333333333 and parameters: {'n_estimators': 40, 'max_depth': 5, 'gamma': 0.4997010655396419, 'subsample': 0.7490698051808964, 'colsample_bytree': 0.7071731623998108}. Best is trial 0 with value: 0.5083333333333333.
+[I 2025-05-26 06:16:46,424] Trial 8 finished with value: 0.5083333333333333 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.5449029446194361, 'subsample': 0.7150234071055932, 'colsample_bytree': 0.8673829085180849}. Best is trial 0 with value: 0.5083333333333333.
+[I 2025-05-26 06:16:46,471] Trial 9 finished with value: 0.5333333333333333 and parameters: {'n_estimators': 100, 'max_depth': 30, 'gamma': 0.5427360453562716, 'subsample': 0.5915763668266103, 'colsample_bytree': 0.5546552575823498}. Best is trial 9 with value: 0.5333333333333333.
+[I 2025-05-26 06:16:46,522] Trial 10 finished with value: 0.6083333333333333 and parameters: {'n_estimators': 10, 'max_depth': 30, 'gamma': 0.16095138250336488, 'subsample': 0.5151349927917164, 'colsample_bytree': 0.6399757283243361}. Best is trial 10 with value: 0.6083333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-26 06:16:46,570] Trial 11 finished with value: 0.6083333333333333 and parameters: {'n_estimators': 10, 'max_depth': 30, 'gamma': 0.1099602556973375, 'subsample': 0.5172018672017166, 'colsample_bytree': 0.6426288923181812}. Best is trial 10 with value: 0.6083333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-26 06:16:46,632] Trial 12 finished with value: 0.6333333333333333 and parameters: {'n_estimators': 10, 'max_depth': 30, 'gamma': 0.10328801908058216, 'subsample': 0.503582873876556, 'colsample_bytree': 0.6626479416402017}. Best is trial 12 with value: 0.6333333333333333.
+[I 2025-05-26 06:16:46,671] Trial 13 finished with value: 0.6 and parameters: {'n_estimators': 10, 'max_depth': 30, 'gamma': 0.11596645481662088, 'subsample': 0.5441761506656021, 'colsample_bytree': 0.6676297274334028}. Best is trial 12 with value: 0.6333333333333333.
+[I 2025-05-26 06:16:46,712] Trial 14 finished with value: 0.6333333333333333 and parameters: {'n_estimators': 10, 'max_depth': 30, 'gamma': 0.29657724422856124, 'subsample': 0.5053956423383315, 'colsample_bytree': 0.7665564655075792}. Best is trial 12 with value: 0.6333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-26 06:16:47,399] Trial 15 finished with value: 0.4333333333333333 and parameters: {'n_estimators': 10, 'max_depth': 30, 'gamma': 0.3499884922353368, 'subsample': 0.6620795803580496, 'colsample_bytree': 0.7861222417351882}. Best is trial 12 with value: 0.6333333333333333.
+[I 2025-05-26 06:16:47,453] Trial 16 finished with value: 0.475 and parameters: {'n_estimators': 10, 'max_depth': 20, 'gamma': 0.31369235425863823, 'subsample': 0.5752400565713176, 'colsample_bytree': 0.7579881073580359}. Best is trial 12 with value: 0.6333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-26 06:16:48,193] Trial 17 finished with value: 0.4583333333333333 and parameters: {'n_estimators': 10, 'max_depth': 30, 'gamma': 0.248242928704324, 'subsample': 0.8238459271139825, 'colsample_bytree': 0.7094290917798651}. Best is trial 12 with value: 0.6333333333333333.
+[I 2025-05-26 06:16:48,244] Trial 18 finished with value: 0.4833333333333333 and parameters: {'n_estimators': 10, 'max_depth': 30, 'gamma': 0.40468587944168355, 'subsample': 0.6761901776358588, 'colsample_bytree': 0.8109014318663552}. Best is trial 12 with value: 0.6333333333333333.
+[I 2025-05-26 06:16:48,297] Trial 19 finished with value: 0.5833333333333333 and parameters: {'n_estimators': 10, 'max_depth': 20, 'gamma': 0.21081950930484283, 'subsample': 0.5008586788310129, 'colsample_bytree': 0.5936912329871428}. Best is trial 12 with value: 0.6333333333333333.
+[I 2025-05-26 06:16:50,259] A new study created in memory with name: rf
+[I 2025-05-26 06:16:50,980] Trial 0 finished with value: 0.5083333333333333 and parameters: {'n_estimators': 104, 'max_depth': 12, 'min_samples_split': 6, 'min_samples_leaf': 2}. Best is trial 0 with value: 0.5083333333333333.
+Parámetros guardados en checkpoint_default_Dlatent_ft_H/craig/IPC_30/best_models_craig_seed_9_space_latent/xgb_best_params.json
+
+
+>>> Optuna tuning rf metodo craig IPC 30 seed 9
+
+
+[I 2025-05-26 06:16:51,302] Trial 1 finished with value: 0.4333333333333333 and parameters: {'n_estimators': 156, 'max_depth': 6, 'min_samples_split': 5, 'min_samples_leaf': 3}. Best is trial 0 with value: 0.5083333333333333.
+[I 2025-05-26 06:16:51,542] Trial 2 finished with value: 0.55 and parameters: {'n_estimators': 133, 'max_depth': 9, 'min_samples_split': 3, 'min_samples_leaf': 9}. Best is trial 2 with value: 0.55.
+[I 2025-05-26 06:16:52,177] Trial 3 finished with value: 0.5833333333333333 and parameters: {'n_estimators': 481, 'max_depth': 3, 'min_samples_split': 8, 'min_samples_leaf': 6}. Best is trial 3 with value: 0.5833333333333333.
+[I 2025-05-26 06:16:52,721] Trial 4 finished with value: 0.5833333333333333 and parameters: {'n_estimators': 460, 'max_depth': 15, 'min_samples_split': 6, 'min_samples_leaf': 8}. Best is trial 3 with value: 0.5833333333333333.
+[I 2025-05-26 06:16:53,049] Trial 5 finished with value: 0.5333333333333333 and parameters: {'n_estimators': 254, 'max_depth': 15, 'min_samples_split': 9, 'min_samples_leaf': 5}. Best is trial 3 with value: 0.5833333333333333.
+[I 2025-05-26 06:16:53,580] Trial 6 finished with value: 0.6083333333333333 and parameters: {'n_estimators': 477, 'max_depth': 17, 'min_samples_split': 10, 'min_samples_leaf': 2}. Best is trial 6 with value: 0.6083333333333333.
+[I 2025-05-26 06:16:53,966] Trial 7 finished with value: 0.475 and parameters: {'n_estimators': 308, 'max_depth': 20, 'min_samples_split': 7, 'min_samples_leaf': 9}. Best is trial 6 with value: 0.6083333333333333.
+[I 2025-05-26 06:16:54,531] Trial 8 finished with value: 0.525 and parameters: {'n_estimators': 489, 'max_depth': 6, 'min_samples_split': 4, 'min_samples_leaf': 9}. Best is trial 6 with value: 0.6083333333333333.
+[I 2025-05-26 06:16:55,077] Trial 9 finished with value: 0.6333333333333333 and parameters: {'n_estimators': 463, 'max_depth': 16, 'min_samples_split': 5, 'min_samples_leaf': 5}. Best is trial 9 with value: 0.6333333333333333.
+[I 2025-05-26 06:16:55,546] Trial 10 finished with value: 0.5833333333333333 and parameters: {'n_estimators': 373, 'max_depth': 20, 'min_samples_split': 2, 'min_samples_leaf': 5}. Best is trial 9 with value: 0.6333333333333333.
+[I 2025-05-26 06:16:56,135] Trial 11 finished with value: 0.5333333333333333 and parameters: {'n_estimators': 408, 'max_depth': 16, 'min_samples_split': 10, 'min_samples_leaf': 1}. Best is trial 9 with value: 0.6333333333333333.
+[I 2025-05-26 06:16:56,633] Trial 12 finished with value: 0.6333333333333333 and parameters: {'n_estimators': 403, 'max_depth': 17, 'min_samples_split': 10, 'min_samples_leaf': 4}. Best is trial 9 with value: 0.6333333333333333.
+[I 2025-05-26 06:16:57,132] Trial 13 finished with value: 0.5833333333333333 and parameters: {'n_estimators': 382, 'max_depth': 12, 'min_samples_split': 8, 'min_samples_leaf': 4}. Best is trial 9 with value: 0.6333333333333333.
+[I 2025-05-26 06:16:58,181] Trial 14 finished with value: 0.6833333333333333 and parameters: {'n_estimators': 318, 'max_depth': 18, 'min_samples_split': 4, 'min_samples_leaf': 7}. Best is trial 14 with value: 0.6833333333333333.
+[I 2025-05-26 06:16:58,519] Trial 15 finished with value: 0.7083333333333333 and parameters: {'n_estimators': 244, 'max_depth': 18, 'min_samples_split': 4, 'min_samples_leaf': 7}. Best is trial 15 with value: 0.7083333333333333.
+[I 2025-05-26 06:16:58,810] Trial 16 finished with value: 0.6833333333333333 and parameters: {'n_estimators': 229, 'max_depth': 19, 'min_samples_split': 3, 'min_samples_leaf': 7}. Best is trial 15 with value: 0.7083333333333333.
+[I 2025-05-26 06:16:59,224] Trial 17 finished with value: 0.6833333333333333 and parameters: {'n_estimators': 299, 'max_depth': 13, 'min_samples_split': 4, 'min_samples_leaf': 7}. Best is trial 15 with value: 0.7083333333333333.
+[I 2025-05-26 06:16:59,563] Trial 18 finished with value: 0.5 and parameters: {'n_estimators': 204, 'max_depth': 18, 'min_samples_split': 2, 'min_samples_leaf': 10}. Best is trial 15 with value: 0.7083333333333333.
+[I 2025-05-26 06:16:59,996] Trial 19 finished with value: 0.6833333333333333 and parameters: {'n_estimators': 326, 'max_depth': 10, 'min_samples_split': 4, 'min_samples_leaf': 7}. Best is trial 15 with value: 0.7083333333333333.
+[I 2025-05-26 06:17:02,349] A new study created in memory with name: svc
+[I 2025-05-26 06:17:02,375] Trial 0 finished with value: 0.5 and parameters: {'C': 0.011002632709098882, 'gamma': 0.010174155443038872}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,027] Trial 1 finished with value: 0.5 and parameters: {'C': 0.9618186025955839, 'gamma': 0.00034301895208247704}. Best is trial 0 with value: 0.5.
+Parámetros guardados en checkpoint_default_Dlatent_ft_H/craig/IPC_30/best_models_craig_seed_9_space_latent/rf_best_params.json
+
+
+>>> Optuna tuning svc metodo craig IPC 30 seed 9
+
+
+[I 2025-05-26 06:17:03,130] Trial 2 finished with value: 0.5 and parameters: {'C': 0.03702067575132929, 'gamma': 0.0007485739374074099}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,150] Trial 3 finished with value: 0.5 and parameters: {'C': 0.47209861032825945, 'gamma': 0.0009826631576890102}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,165] Trial 4 finished with value: 0.5 and parameters: {'C': 0.021688953850108893, 'gamma': 0.0024098752433673273}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,180] Trial 5 finished with value: 0.5 and parameters: {'C': 0.04646280084231645, 'gamma': 0.3267656089424253}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,197] Trial 6 finished with value: 0.3833333333333333 and parameters: {'C': 63.65845976154302, 'gamma': 0.00014288725836502733}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,215] Trial 7 finished with value: 0.475 and parameters: {'C': 6.257913640897913, 'gamma': 0.01954516145303057}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,230] Trial 8 finished with value: 0.475 and parameters: {'C': 39.08665206604184, 'gamma': 0.04651530700450706}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,246] Trial 9 finished with value: 0.5 and parameters: {'C': 1.553642640603634, 'gamma': 0.06452227863024562}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,272] Trial 10 finished with value: 0.5 and parameters: {'C': 0.21537489794913275, 'gamma': 0.005756894687116981}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,301] Trial 11 finished with value: 0.5 and parameters: {'C': 4.9021578746453915, 'gamma': 0.000129307049749095}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,326] Trial 12 finished with value: 0.5 and parameters: {'C': 0.010274404870084426, 'gamma': 0.008346125844397057}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,350] Trial 13 finished with value: 0.5 and parameters: {'C': 0.14929420159188483, 'gamma': 0.5278463851707256}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,375] Trial 14 finished with value: 0.5 and parameters: {'C': 1.3695514557709094, 'gamma': 0.0004891090518508696}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,401] Trial 15 finished with value: 0.4333333333333333 and parameters: {'C': 14.550767593380375, 'gamma': 0.0028596879491831154}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,425] Trial 16 finished with value: 0.5 and parameters: {'C': 0.10968264790171783, 'gamma': 0.10199753487734134}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,449] Trial 17 finished with value: 0.5 and parameters: {'C': 0.596190919537946, 'gamma': 0.021199766339550553}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,474] Trial 18 finished with value: 0.5 and parameters: {'C': 2.6521744313462667, 'gamma': 0.00034799759197743507}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:03,499] Trial 19 finished with value: 0.3833333333333333 and parameters: {'C': 17.874203794715616, 'gamma': 0.0017359031439974117}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:05,447] A new study created in memory with name: logreg
+[I 2025-05-26 06:17:05,473] Trial 0 finished with value: 0.5 and parameters: {'C': 0.0011268620922535318, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+Parámetros guardados en checkpoint_default_Dlatent_ft_H/craig/IPC_30/best_models_craig_seed_9_space_latent/svc_best_params.json
+
+
+>>> Optuna tuning logreg metodo craig IPC 30 seed 9
+
+
+[I 2025-05-26 06:17:06,057] Trial 1 finished with value: 0.3083333333333333 and parameters: {'C': 0.32312678588710475, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:06,096] Trial 2 finished with value: 0.3083333333333333 and parameters: {'C': 0.3012079745112611, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:06,843] Trial 3 finished with value: 0.425 and parameters: {'C': 0.004668180550042529, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:06,871] Trial 4 finished with value: 0.425 and parameters: {'C': 0.005135177115384908, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:06,887] Trial 5 finished with value: 0.4 and parameters: {'C': 0.01238207351349697, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:06,914] Trial 6 finished with value: 0.3333333333333333 and parameters: {'C': 0.12374877330306278, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:06,943] Trial 7 finished with value: 0.4 and parameters: {'C': 0.017398261017749217, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:06,969] Trial 8 finished with value: 0.475 and parameters: {'C': 0.002632074973627294, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:06,998] Trial 9 finished with value: 0.4083333333333333 and parameters: {'C': 0.053394091359671186, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:07,041] Trial 10 finished with value: 0.3333333333333333 and parameters: {'C': 11.611342204749677, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:07,065] Trial 11 finished with value: 0.5 and parameters: {'C': 0.001299626326448483, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:07,089] Trial 12 finished with value: 0.5 and parameters: {'C': 0.0011455311609071559, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:07,896] Trial 13 finished with value: 0.3333333333333333 and parameters: {'C': 2.750276275677666, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:07,920] Trial 14 finished with value: 0.5 and parameters: {'C': 0.001018636313521546, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:07,954] Trial 15 finished with value: 0.3333333333333333 and parameters: {'C': 37.094812831881214, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:07,975] Trial 16 finished with value: 0.4333333333333333 and parameters: {'C': 0.029346321812710657, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:08,014] Trial 17 finished with value: 0.3333333333333333 and parameters: {'C': 0.8198907153252439, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:08,031] Trial 18 finished with value: 0.4 and parameters: {'C': 0.008026084587456236, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+[I 2025-05-26 06:17:08,059] Trial 19 finished with value: 0.4083333333333333 and parameters: {'C': 0.06133039846138946, 'penalty': 'l2'}. Best is trial 0 with value: 0.5.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-26 06:17:11,127] A new study created in memory with name: mlp
+Parámetros guardados en checkpoint_default_Dlatent_ft_H/craig/IPC_30/best_models_craig_seed_9_space_latent/logreg_best_params.json
+
+
+>>> Optuna tuning mlp metodo craig IPC 30 seed 9
+
+
+[I 2025-05-26 06:17:13,001] Trial 0 finished with value: 0.4083333333333333 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 100, 'alpha': 0.001}. Best is trial 0 with value: 0.4083333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:13,232] Trial 1 finished with value: 0.4083333333333333 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 0 with value: 0.4083333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:13,301] Trial 2 finished with value: 0.4083333333333333 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 50, 'alpha': 0.0001}. Best is trial 0 with value: 0.4083333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:13,371] Trial 3 finished with value: 0.4333333333333333 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.0001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:13,474] Trial 4 finished with value: 0.4333333333333333 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 100, 'alpha': 0.001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:13,594] Trial 5 finished with value: 0.4333333333333333 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 3 with value: 0.4333333333333333.
+[I 2025-05-26 06:17:13,682] Trial 6 finished with value: 0.4083333333333333 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 100, 'alpha': 0.001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:13,739] Trial 7 finished with value: 0.4083333333333333 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 3 with value: 0.4333333333333333.
+[I 2025-05-26 06:17:13,816] Trial 8 finished with value: 0.4083333333333333 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 100, 'alpha': 0.001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:13,884] Trial 9 finished with value: 0.4083333333333333 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:13,934] Trial 10 finished with value: 0.4333333333333333 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 50, 'alpha': 0.0001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:13,993] Trial 11 finished with value: 0.4083333333333333 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.0001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:14,750] Trial 12 finished with value: 0.4083333333333333 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:14,861] Trial 13 finished with value: 0.4333333333333333 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:14,966] Trial 14 finished with value: 0.3833333333333333 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:15,692] Trial 15 finished with value: 0.3833333333333333 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:16,481] Trial 16 finished with value: 0.3833333333333333 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:16,543] Trial 17 finished with value: 0.3833333333333333 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 3 with value: 0.4333333333333333.
+[I 2025-05-26 06:17:16,635] Trial 18 finished with value: 0.4083333333333333 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 100, 'alpha': 0.0001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
+  warnings.warn(
+[I 2025-05-26 06:17:16,686] Trial 19 finished with value: 0.4083333333333333 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 3 with value: 0.4333333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-26 06:17:19,857] A new study created in memory with name: naive_bayes
+Parámetros guardados en checkpoint_default_Dlatent_ft_H/craig/IPC_30/best_models_craig_seed_9_space_latent/mlp_best_params.json
+
+
+>>> Optuna tuning naive_bayes metodo craig IPC 30 seed 9
+
+
+[I 2025-05-26 06:17:21,190] Trial 0 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 1.0489343501429862e-10}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:21,296] Trial 1 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 1.0086701860885373e-09}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:21,318] Trial 2 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 9.807235097598006e-10}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:21,335] Trial 3 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 1.8520770828517824e-10}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:21,360] Trial 4 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 1.9240757716714087e-10}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:21,375] Trial 5 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 2.736007926537145e-10}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:21,389] Trial 6 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 6.87094324185739e-10}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:21,404] Trial 7 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 3.134745855231349e-10}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:21,419] Trial 8 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 1.4727170077821783e-10}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:21,434] Trial 9 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 4.909048017047017e-10}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:21,457] Trial 10 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 4.226228455594519e-09}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:21,477] Trial 11 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 2.8481546791169343e-09}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:22,287] Trial 12 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 1.9032336526904254e-09}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:22,315] Trial 13 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 1.6192707465333408e-09}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:22,334] Trial 14 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 1.0137193502251743e-10}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:22,353] Trial 15 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 7.233291262560306e-09}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:22,372] Trial 16 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 5.636880428096003e-10}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:22,392] Trial 17 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 1.2682382630515742e-09}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:22,422] Trial 18 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 3.934685686653308e-10}. Best is trial 0 with value: 0.5833333333333333.
+[I 2025-05-26 06:17:22,448] Trial 19 finished with value: 0.5833333333333333 and parameters: {'var_smoothing': 8.419551297505738e-10}. Best is trial 0 with value: 0.5833333333333333.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-26 06:17:27,188] A new study created in memory with name: knn
+Parámetros guardados en checkpoint_default_Dlatent_ft_H/craig/IPC_30/best_models_craig_seed_9_space_latent/naive_bayes_best_params.json
+
+
+>>> Optuna tuning knn metodo craig IPC 30 seed 9
+
+
+[I 2025-05-26 06:17:28,522] Trial 0 finished with value: 0.6666666666666666 and parameters: {'n_neighbors': 3, 'leaf_size': 30, 'p': 1}. Best is trial 0 with value: 0.6666666666666666.
+[I 2025-05-26 06:17:28,669] Trial 1 finished with value: 0.6666666666666666 and parameters: {'n_neighbors': 4, 'leaf_size': 24, 'p': 1}. Best is trial 0 with value: 0.6666666666666666.
+[I 2025-05-26 06:17:28,690] Trial 2 finished with value: 0.6916666666666667 and parameters: {'n_neighbors': 3, 'leaf_size': 27, 'p': 2}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:28,719] Trial 3 finished with value: 0.6083333333333333 and parameters: {'n_neighbors': 10, 'leaf_size': 20, 'p': 1}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:29,412] Trial 4 finished with value: 0.6083333333333333 and parameters: {'n_neighbors': 10, 'leaf_size': 34, 'p': 2}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:29,450] Trial 5 finished with value: 0.5833333333333333 and parameters: {'n_neighbors': 6, 'leaf_size': 34, 'p': 1}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:29,478] Trial 6 finished with value: 0.6083333333333333 and parameters: {'n_neighbors': 10, 'leaf_size': 36, 'p': 1}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:29,496] Trial 7 finished with value: 0.5333333333333333 and parameters: {'n_neighbors': 7, 'leaf_size': 39, 'p': 2}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:29,573] Trial 8 finished with value: 0.6083333333333333 and parameters: {'n_neighbors': 10, 'leaf_size': 23, 'p': 2}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:29,590] Trial 9 finished with value: 0.6083333333333333 and parameters: {'n_neighbors': 10, 'leaf_size': 35, 'p': 2}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:29,617] Trial 10 finished with value: 0.5333333333333333 and parameters: {'n_neighbors': 5, 'leaf_size': 28, 'p': 2}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:29,715] Trial 11 finished with value: 0.6666666666666666 and parameters: {'n_neighbors': 3, 'leaf_size': 29, 'p': 1}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:30,451] Trial 12 finished with value: 0.6916666666666667 and parameters: {'n_neighbors': 3, 'leaf_size': 26, 'p': 2}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:30,480] Trial 13 finished with value: 0.5833333333333333 and parameters: {'n_neighbors': 4, 'leaf_size': 25, 'p': 2}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:30,504] Trial 14 finished with value: 0.6083333333333333 and parameters: {'n_neighbors': 8, 'leaf_size': 27, 'p': 2}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:30,540] Trial 15 finished with value: 0.5333333333333333 and parameters: {'n_neighbors': 5, 'leaf_size': 20, 'p': 2}. Best is trial 2 with value: 0.6916666666666667.
+[I 2025-05-26 06:17:30,566] Trial 16 finished with value: 0.6916666666666667 and parameters: {'n_neighbors': 3, 'leaf_size': 32, 'p': 2}. Best is trial 2 with value: 0.6916666666666667.
