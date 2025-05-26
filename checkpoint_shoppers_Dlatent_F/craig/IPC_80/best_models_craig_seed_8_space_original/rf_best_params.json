@@ -1,6 +1,6 @@
 {
-    "n_estimators": 486,
-    "max_depth": 14,
-    "min_samples_split": 4,
-    "min_samples_leaf": 10
+    "n_estimators": 474,
+    "max_depth": 12,
+    "min_samples_split": 5,
+    "min_samples_leaf": 2
 }
