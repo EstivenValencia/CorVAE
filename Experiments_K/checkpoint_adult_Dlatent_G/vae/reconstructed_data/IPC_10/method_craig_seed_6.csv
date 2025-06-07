@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+44.99364,Federal-gov,359472.25,Assoc-acdm,12.008986,Never-married,Exec-managerial,Not-in-family,Amer-Indian-Eskimo,Female,12.823103,-0.66808885,39.971302,United-States,<=50K
+39.106518,Private,1417459.2,Assoc-acdm,11.960399,Separated,Craft-repair,Not-in-family,Amer-Indian-Eskimo,Female,-105.53029,-0.57256883,40.70466,United-States,<=50K
+27.057531,Private,1446527.5,Assoc-acdm,9.844817,Married-civ-spouse,Exec-managerial,Husband,Amer-Indian-Eskimo,Female,-138.59474,-0.5367107,40.835705,United-States,<=50K
+70.75979,?,285973.9,Doctorate,15.946003,Married-civ-spouse,?,Husband,Amer-Indian-Eskimo,Female,-1.2415947,-0.30164137,10.089606,United-States,>50K
+37.0864,Self-emp-not-inc,30938.766,HS-grad,9.016397,Divorced,Farming-fishing,Not-in-family,Amer-Indian-Eskimo,Female,27449.234,-0.8834438,39.996315,United-States,>50K
+51.94129,Private,593754.06,5th-6th,3.0362294,Married-civ-spouse,Craft-repair,Husband,Amer-Indian-Eskimo,Female,6.221418,2001.6367,45.060154,United-States,<=50K
+27.022823,Private,209636.25,Preschool,1.0549248,Married-civ-spouse,Farming-fishing,Other-relative,Amer-Indian-Eskimo,Female,44026.664,0.24317367,24.490627,Mexico,<=50K
+33.049316,Private,180373.9,Bachelors,12.990256,Married-civ-spouse,Adm-clerical,Husband,Amer-Indian-Eskimo,Female,16.349226,-0.47452345,60.08751,Iran,>50K
+36.874756,Self-emp-inc,252667.86,Assoc-acdm,9.962799,Married-civ-spouse,Exec-managerial,Husband,Asian-Pac-Islander,Female,-15.27199,1.4971868,74.290955,Thailand,>50K
+30.10407,Private,340033.66,Prof-school,15.003326,Never-married,Prof-specialty,Not-in-family,Amer-Indian-Eskimo,Female,42.555035,1585.9365,80.16836,United-States,<=50K

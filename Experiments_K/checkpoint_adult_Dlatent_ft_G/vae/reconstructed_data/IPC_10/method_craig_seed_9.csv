@@ -1,0 +1,11 @@
+age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+34.9449,Private,250025.81,Bachelors,12.99787,Never-married,Adm-clerical,Own-child,Black,Female,37.319195,-0.06688492,40.05678,United-States,<=50K
+33.01978,Federal-gov,613493.94,Masters,13.991507,Married-civ-spouse,Protective-serv,Husband,Black,Female,-1.2815117,-1.1724833,39.89853,Nicaragua,<=50K
+65.04984,Local-gov,147676.34,Masters,13.989371,Married-civ-spouse,Prof-specialty,Husband,Black,Female,-38.706806,1647.5447,4.120755,Greece,<=50K
+39.01783,Self-emp-inc,124451.19,Masters,13.994438,Divorced,Exec-managerial,Not-in-family,Asian-Pac-Islander,Female,94.25951,-0.12078659,99.06778,Japan,>50K
+26.032646,Private,297196.53,Bachelors,12.99512,Married-civ-spouse,Sales,Not-in-family,Asian-Pac-Islander,Female,14.992781,1962.8368,75.06633,Cambodia,>50K
+37.0558,Self-emp-inc,256598.12,HS-grad,10.000793,Married-civ-spouse,Exec-managerial,Husband,Asian-Pac-Islander,Female,43.442486,-0.041273043,74.91862,Thailand,>50K
+72.99048,Local-gov,249385.39,Masters,13.980612,Married-civ-spouse,Exec-managerial,Husband,Black,Female,54.39976,-0.107786104,19.9604,Cuba,<=50K
+63.89184,Private,45027.11,Doctorate,15.988178,Never-married,Prof-specialty,Not-in-family,Black,Female,8.159285,-0.008207246,80.1265,United-States,>50K
+36.050667,Local-gov,380531.8,Bachelors,13.013372,Married-civ-spouse,Adm-clerical,Not-in-family,Black,Female,32.44151,-0.096319124,35.002144,Germany,>50K
+31.984026,Local-gov,18246.219,Assoc-acdm,12.014841,Married-civ-spouse,Protective-serv,Husband,Black,Female,52.52769,0.05018051,55.80361,England,>50K

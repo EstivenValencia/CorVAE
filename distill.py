@@ -64,13 +64,14 @@ def distill_random(X, y, n_per_class=10, random_state=None):
     y_sample : np.ndarray, shape (n_classes * n_per_class,)
         Etiquetas correspondientes a X_sample.
     """
+    
     X = np.asarray(X)
     y = np.asarray(y)
     rng = np.random.RandomState(random_state)
 
     classes = np.unique(y)
     sampled_indices = []
-
+    
     for cls in classes:
         # índices de la clase cls
         idx = np.where(y == cls)[0]
@@ -83,10 +84,11 @@ def distill_random(X, y, n_per_class=10, random_state=None):
     # opcional: barajar las filas resultantes
     sampled_indices = np.array(sampled_indices)
     rng.shuffle(sampled_indices)
-
+    
     X_sample = X[sampled_indices]
     y_sample = y[sampled_indices]
-    return X_sample, y_sample
+
+    return X_sample, y_sample, 
 
 def distill_with_kmeans(
     data: np.ndarray,

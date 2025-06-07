@@ -1,0 +1,15 @@
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-05-17 17:48:37,115] A new study created in memory with name: xgb
+Running distillation pipeline with the following configuration:
+No se encontraron caracteres extranos en la columna target
+Datos de train y test (train undersampleado) guardados en data/shoppers
+Categoricas entrenamiento:  7
+Datos unicos de y_train:  [False  True]
+Datos unicos de y_train luego:  [0 1]
+
+
+>>> Optuna tuning xgb metodo random IPC 8 seed 5
+
+

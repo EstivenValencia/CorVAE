@@ -9,6 +9,7 @@ import torch
 from utils import read_json_config
 import pandas as pd
 import json
+import time
 
 IPC_LIST = list(range(10,110,10))
 
@@ -69,11 +70,12 @@ META_COLS = [
     "vae_fine_tunning_time",
     "encoder_inference_time",
     "decoder_inference_time",
+    "destillation_time",
 ]
 
 def add_meta(df, mle_space='original',ipc=None, seed=None,
              pretrain_time=None, finetune_time=None,
-             encoder_time=None, decoder_time=None):
+             encoder_time=None, decoder_time=None, destillation_time=None):
     """
     Añade de un tirón las columnas META_COLS al df, con los valores
     pasados o None por defecto.
@@ -86,6 +88,7 @@ def add_meta(df, mle_space='original',ipc=None, seed=None,
         vae_fine_tunning_time=finetune_time,
         encoder_inference_time=encoder_time,
         decoder_inference_time=decoder_time,
+        destillation_time = destillation_time,
     )
 
 def flatten_vectors(x: np.ndarray) -> np.ndarray:
@@ -114,7 +117,7 @@ def recontructed_distillation(distill_z, distill_y, test_z, test_y, X_test_pre, 
                               metadata_path, hyperparams_vae, checkpoint_path, 
                               vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
                               pretrain_time, finetune_time, encoder_inference_time, concat_label,
-                              seed, ):
+                              seed,destillation_time):
     
     df_reconstruct, decoder_inference_time = reconstruct_data(distill_z, distill_y, models_paths=vae_dir,device=device,
                                                                 json_config_path=metadata_path, latent_space=True, 
@@ -137,7 +140,8 @@ def recontructed_distillation(distill_z, distill_y, test_z, test_y, X_test_pre, 
                         pretrain_time=pretrain_time,
                         finetune_time=finetune_time,
                         encoder_time=encoder_inference_time,
-                        decoder_time=decoder_inference_time)
+                        decoder_time=decoder_inference_time,
+                        destillation_time=destillation_time)
     
     # # Evaluacion con reconstrucción
     original_df, original_test_metrics, _ = evaluate_models(x_train_disti, y_train_disti, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method=method, random_state=seed, ipc=ipc)
@@ -148,7 +152,8 @@ def recontructed_distillation(distill_z, distill_y, test_z, test_y, X_test_pre, 
                         pretrain_time=pretrain_time,
                         finetune_time=finetune_time,
                         encoder_time=encoder_inference_time,
-                        decoder_time=decoder_inference_time)
+                        decoder_time=decoder_inference_time,
+                        destillation_time=destillation_time)
     
     return original_df, latent_df, latent_test_metrics, original_test_metrics
 
@@ -190,7 +195,7 @@ def main(args):
     # Entrenamiento con todos los datos
     full_df, _, _ = evaluate_models(X_train_pre, y_train_pre, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='Full-data', random_state=SEED)
     full_df = add_meta(full_df)
-
+    #full_df = pd.DataFrame()
     # Se realiza entrenamiento del VAE sobre las diferentes semillas
     if distillation_space == 'latent':
 
@@ -202,16 +207,28 @@ def main(args):
         vae_dir = os.path.join(checkpoint_path, 'vae') 
         os.makedirs(vae_dir, exist_ok=True)
 
+        times = {}
+        pretrain_time, finetune_time, encoder_inference_time = 0,0,0
         for seed in RANDOM_SEED_EVALUATE:
+<<<<<<< HEAD
             pass
             #_, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
                                         # batch_size=batch_size, pretrain_epochs=epochs_latent, 
                                         # finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae, concat_label=concat_label)
 
+=======
+            _, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
+                                        batch_size=batch_size, pretrain_epochs=epochs_latent, 
+                                        finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae, concat_label=concat_label)
+            times[seed] = (pretrain_time, finetune_time, encoder_inference_time)
+    print(times)
+>>>>>>> 500c31b3c96244a93d5af5329b5536191d23f1e5
     for ipc in IPC_LIST:
 
         # Destilación con sample random class
         for seed in RANDOM_SEED_EVALUATE:
+            pretrain_time, finetune_time, encoder_inference_time = times[seed]
+
             X_random, y_random = distill_random(X_train_pre, y_train_pre, n_per_class=ipc, random_state=seed)
 
             random_df, _, _ = evaluate_models(X_random, y_random, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='random', random_state=seed, ipc=ipc)
@@ -229,97 +246,123 @@ def main(args):
 
                 # Destilación con K-means en el espacio latente y reconstruyendo
                 if kmeans_type == 'centroid':
+                    begin = time.time()
                     distill_z, distill_y = distill_with_kmeans(train_z, train_y, num_centroids=ipc, get_closest=False, seed=seed)
+                    end = time.time()
+                    destillation_time = end - begin
 
                     k_means_df, k_means_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, X_test_pre, y_test_pre, 'k-means', 
                                                                                                                     metadata_path, hyperparams_vae, checkpoint_path, 
                                                                                                                     vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
                                                                                                                     pretrain_time, finetune_time, encoder_inference_time,concat_label,
-                                                                                                                    seed)
+                                                                                                                    seed, destillation_time)
 
                 # Destilación con K-centers y recontruyendo
+                begin = time.time()
                 distill_z, distill_y = distill_with_kcenters(train_z, train_y, num_centroids=ipc, seed=seed)
+                end = time.time()
+                destillation_time = end - begin
                 k_center_df, k_center_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y,X_test_pre, y_test_pre, 'k-center', 
                                                                                                                 metadata_path, hyperparams_vae, checkpoint_path, 
                                                                                                                 vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
                                                                                                                 pretrain_time, finetune_time, encoder_inference_time,concat_label,
-                                                                                                                seed)
+                                                                                                                seed, destillation_time)
 
                 # Destilacion con AG y reconstruyendo
-
+                begin = time.time()
                 distill_z, distill_y = distill_with_agglomerative(train_z, train_y, num_clusters=ipc, get_closest=False, seed=seed)
+                end = time.time()
+                destillation_time = end - begin
                 ag_df, ag_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, X_test_pre, y_test_pre,'ag', 
                                                                                                                 metadata_path, hyperparams_vae, checkpoint_path, 
                                                                                                                 vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
                                                                                                                 pretrain_time, finetune_time, encoder_inference_time,concat_label,
-                                                                                                                seed)
+                                                                                                                seed, destillation_time)
                 
                 # Destilación con Least Confidence y recontruyendo
-
+                begin = time.time()
                 distill_z, distill_y = distill_least_confidence(train_z, train_y, num_samples=ipc, seed=seed)
+                end = time.time()
+                destillation_time = end - begin
                 lc_df, lc_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, X_test_pre, y_test_pre,'lc', 
                                                                                                                 metadata_path, hyperparams_vae, checkpoint_path, 
                                                                                                                 vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
                                                                                                                 pretrain_time, finetune_time, encoder_inference_time,concat_label,
-                                                                                                                seed)
-                # # Destilación con craig y recontruyendo
-                distill_z, distill_y = distill_with_craig(train_z, train_y, num_samples=ipc, seed=seed)
-                craig_df, craig_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y,X_test_pre, y_test_pre, 'craig', 
-                                                                                                                metadata_path, hyperparams_vae, checkpoint_path, 
-                                                                                                                vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
-                                                                                                                pretrain_time, finetune_time, encoder_inference_time,concat_label,
-                                                                                                                seed)
+                                                                                                                seed, destillation_time)
+                # # # Destilación con craig y recontruyendo
+                # distill_z, distill_y = distill_with_craig(train_z, train_y, num_samples=ipc, seed=seed)
+                # craig_df, craig_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y,X_test_pre, y_test_pre, 'craig', 
+                #                                                                                                 metadata_path, hyperparams_vae, checkpoint_path, 
+                #                                                                                                 vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
+                #                                                                                                 pretrain_time, finetune_time, encoder_inference_time,concat_label,
+                #                                                                                                 seed)
 
                 full_df = pd.concat([full_df, k_means_df, k_means_latent_df, 
                                      k_center_df, k_center_latent_df, 
                                      ag_df, ag_latent_df, 
                                      lc_df, lc_latent_df, 
-                                     craig_df, craig_latent_df], axis=0, ignore_index=True)
+                                     #craig_df, craig_latent_df
+                                    ], axis=0, ignore_index=True)
                 
             elif distillation_space == 'original':
 
                 # Destilación con K-means en el espacio original
-
+                begin = time.time()
                 distill_z, distill_y = distill_with_kmeans(X_train_pre, y_train_pre, num_centroids=ipc, get_closest=False, seed=seed)
+                end = time.time()
+                destillation_time = end - begin
                 k_means_df, _, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='k-means', random_state=seed, ipc=ipc)
 
                 k_means_df = add_meta(k_means_df,
                                     ipc=ipc,
-                                    seed=seed)
+                                    seed=seed,
+                                     destillation_time=destillation_time)
 
                 # Destilación con AG
+                begin = time.time()
                 distill_z, distill_y = distill_with_agglomerative(X_train_pre, y_train_pre, num_clusters=ipc, get_closest=False, seed=seed)
+                end = time.time()
+                destillation_time = end - begin
                 ag_df, _, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='ag', random_state=seed, ipc=ipc)
                 
                 ag_df = add_meta(ag_df,
                                     ipc=ipc,
-                                    seed=seed)
+                                    seed=seed,
+                                     destillation_time=destillation_time)
                 
                 # Destilación con k-centers
+                begin = time.time()
                 distill_z, distill_y = distill_with_kcenters(X_train_pre, y_train_pre, num_centroids=ipc, seed=seed)
+                end = time.time()
+                destillation_time = end - begin
                 k_center_df, _, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='k_center', random_state=seed, ipc=ipc)
             
                 k_center_df = add_meta(k_center_df,
                                     ipc=ipc,
-                                    seed=seed)
+                                    seed=seed,
+                                     destillation_time=destillation_time)
 
                 # Destilación con LC
+                begin = time.time()
                 distill_z, distill_y = distill_least_confidence(X_train_pre, y_train_pre, num_samples=ipc, seed=seed)
+                end = time.time()
+                destillation_time = end - begin
                 lc_df, _, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='lc', random_state=seed, ipc=ipc)
                             
                 lc_df = add_meta(lc_df,
                                     ipc=ipc,
-                                    seed=seed)
+                                    seed=seed,
+                                     destillation_time=destillation_time)
 
-                # Destilación CRAIG
-                distill_z, distill_y = distill_with_craig(X_train_pre, y_train_pre, num_samples=ipc, seed=seed)
-                craig_df, _, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='craig', random_state=seed, ipc=ipc)
+                # # Destilación CRAIG
+                # distill_z, distill_y = distill_with_craig(X_train_pre, y_train_pre, num_samples=ipc, seed=seed)
+                # craig_df, _, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='craig', random_state=seed, ipc=ipc)
             
-                craig_df = add_meta(craig_df,
-                                    ipc=ipc,
-                                    seed=seed)
+                # craig_df = add_meta(craig_df,
+                #                     ipc=ipc,
+                #                     seed=seed)
                 
-                full_df = pd.concat([full_df, k_means_df, ag_df, k_center_df, craig_df, lc_df], axis=0, ignore_index=True)
+                full_df = pd.concat([full_df, k_means_df, ag_df, k_center_df, lc_df], axis=0, ignore_index=True)
             
             # Se guarda constantemente para un analisis previo de los resultados
             full_df.to_csv(os.path.join(checkpoint_path, "metrics.csv"), index=False)
