@@ -1,5 +1,6 @@
 {
     "hidden_layer_sizes": [
+        100,
         100
     ],
     "max_iter": 50,

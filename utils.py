@@ -822,7 +822,7 @@ def evaluate_models(
     X_test,
     y_test,
     cv_folds=5,
-    n_trials=20,
+    n_trials=30,
     ckpt_dir=None,
     method='k-means',
     random_state=0,

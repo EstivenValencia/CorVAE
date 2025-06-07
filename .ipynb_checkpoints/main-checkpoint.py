@@ -205,9 +205,9 @@ def main(args):
         times = {}
         pretrain_time, finetune_time, encoder_inference_time = 0,0,0
         for seed in RANDOM_SEED_EVALUATE:
-            # _, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
-            #                             batch_size=batch_size, pretrain_epochs=epochs_latent, 
-            #                             finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae, concat_label=concat_label)
+            _, _,  pretrain_time, finetune_time, encoder_inference_time = main_vae(config, base_dir, set_data, encoding='ordinal', random_state=seed, 
+                                        batch_size=batch_size, pretrain_epochs=epochs_latent, 
+                                        finetune_epochs=epochs_fine_tuning_latent, ckpt_dir=vae_dir, hyperparams=hyperparams_vae, concat_label=concat_label)
             times[seed] = (pretrain_time, finetune_time, encoder_inference_time)
     print(times)
     for ipc in IPC_LIST:
@@ -258,27 +258,28 @@ def main(args):
                                                                                                                 pretrain_time, finetune_time, encoder_inference_time,concat_label,
                                                                                                                 seed)
                 
-                # Destilación con Least Confidence y recontruyendo
+                # # Destilación con Least Confidence y recontruyendo
 
-                distill_z, distill_y = distill_least_confidence(train_z, train_y, num_samples=ipc, seed=seed)
-                lc_df, lc_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, X_test_pre, y_test_pre,'lc', 
-                                                                                                                metadata_path, hyperparams_vae, checkpoint_path, 
-                                                                                                                vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
-                                                                                                                pretrain_time, finetune_time, encoder_inference_time,concat_label,
-                                                                                                                seed)
-                # # Destilación con craig y recontruyendo
-                distill_z, distill_y = distill_with_craig(train_z, train_y, num_samples=ipc, seed=seed)
-                craig_df, craig_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y,X_test_pre, y_test_pre, 'craig', 
-                                                                                                                metadata_path, hyperparams_vae, checkpoint_path, 
-                                                                                                                vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
-                                                                                                                pretrain_time, finetune_time, encoder_inference_time,concat_label,
-                                                                                                                seed)
+                # distill_z, distill_y = distill_least_confidence(train_z, train_y, num_samples=ipc, seed=seed)
+                # lc_df, lc_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y, X_test_pre, y_test_pre,'lc', 
+                #                                                                                                 metadata_path, hyperparams_vae, checkpoint_path, 
+                #                                                                                                 vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
+                #                                                                                                 pretrain_time, finetune_time, encoder_inference_time,concat_label,
+                #                                                                                                 seed)
+                # # # Destilación con craig y recontruyendo
+                # distill_z, distill_y = distill_with_craig(train_z, train_y, num_samples=ipc, seed=seed)
+                # craig_df, craig_latent_df, _, _ = recontructed_distillation(distill_z, distill_y, test_z, test_y,X_test_pre, y_test_pre, 'craig', 
+                #                                                                                                 metadata_path, hyperparams_vae, checkpoint_path, 
+                #                                                                                                 vae_dir, device, ipc, num_scaler, cat_encoder, label_encoder, 
+                #                                                                                                 pretrain_time, finetune_time, encoder_inference_time,concat_label,
+                #                                                                                                 seed)
 
                 full_df = pd.concat([full_df, k_means_df, k_means_latent_df, 
                                      k_center_df, k_center_latent_df, 
                                      ag_df, ag_latent_df, 
-                                     lc_df, lc_latent_df, 
-                                     craig_df, craig_latent_df], axis=0, ignore_index=True)
+                                     #lc_df, lc_latent_df, 
+                                     #craig_df, craig_latent_df
+                                    ], axis=0, ignore_index=True)
                 
             elif distillation_space == 'original':
 
@@ -307,23 +308,23 @@ def main(args):
                                     ipc=ipc,
                                     seed=seed)
 
-                # Destilación con LC
-                distill_z, distill_y = distill_least_confidence(X_train_pre, y_train_pre, num_samples=ipc, seed=seed)
-                lc_df, _, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='lc', random_state=seed, ipc=ipc)
+                # # Destilación con LC
+                # distill_z, distill_y = distill_least_confidence(X_train_pre, y_train_pre, num_samples=ipc, seed=seed)
+                # lc_df, _, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='lc', random_state=seed, ipc=ipc)
                             
-                lc_df = add_meta(lc_df,
-                                    ipc=ipc,
-                                    seed=seed)
+                # lc_df = add_meta(lc_df,
+                #                     ipc=ipc,
+                #                     seed=seed)
 
-                # Destilación CRAIG
-                distill_z, distill_y = distill_with_craig(X_train_pre, y_train_pre, num_samples=ipc, seed=seed)
-                craig_df, _, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='craig', random_state=seed, ipc=ipc)
+                # # Destilación CRAIG
+                # distill_z, distill_y = distill_with_craig(X_train_pre, y_train_pre, num_samples=ipc, seed=seed)
+                # craig_df, _, _ = evaluate_models(distill_z, distill_y, X_test_pre, y_test_pre, ckpt_dir=checkpoint_path, method='craig', random_state=seed, ipc=ipc)
             
-                craig_df = add_meta(craig_df,
-                                    ipc=ipc,
-                                    seed=seed)
+                # craig_df = add_meta(craig_df,
+                #                     ipc=ipc,
+                #                     seed=seed)
                 
-                full_df = pd.concat([full_df, k_means_df, ag_df, k_center_df, craig_df, lc_df], axis=0, ignore_index=True)
+                full_df = pd.concat([full_df, k_means_df, ag_df, k_center_df], axis=0, ignore_index=True)
             
             # Se guarda constantemente para un analisis previo de los resultados
             full_df.to_csv(os.path.join(checkpoint_path, "metrics.csv"), index=False)

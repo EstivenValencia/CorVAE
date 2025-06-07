@@ -1,5 +1,5 @@
 {
-    "n_neighbors": 7,
-    "leaf_size": 20,
+    "n_neighbors": 9,
+    "leaf_size": 39,
     "p": 2
 }

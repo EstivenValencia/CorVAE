@@ -1,6 +1,7 @@
 {
     "hidden_layer_sizes": [
-        200
+        100,
+        100
     ],
     "max_iter": 50,
     "alpha": 0.001
