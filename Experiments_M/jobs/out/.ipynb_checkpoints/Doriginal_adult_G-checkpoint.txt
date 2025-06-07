@@ -1,0 +1,15 @@
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+Running distillation pipeline with the following configuration:
+Datos de train y test (train undersampleado) guardados en data/adult
+Categoricas entrenamiento:  8
+Datos unicos de y_train:  ['<=50K' '>50K']
+Datos unicos de y_train luego:  [0 1]
+Traceback (most recent call last):
+  File "/data/home/rtabares/.juan/CorVAE/main_percentages.py", line 341, in <module>
+    main(args)
+  File "/data/home/rtabares/.juan/CorVAE/main_percentages.py", line 224, in main
+    pretrain_time, finetune_time, encoder_inference_time,concat_label = times[seed]
+                                                                        ^^^^^
+UnboundLocalError: cannot access local variable 'times' where it is not associated with a value
