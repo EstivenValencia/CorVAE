@@ -1,4 +1,4 @@
-export export CUDA_VISIBLE_DEVICES=5;cd ..;python3.12 main.py \
+export CUDA_VISIBLE_DEVICES=7;cd ..;python3.12 main.py \
     --metadata_path data/default/metadata.json \
     --distillation_space latent \
     --epochs_latent 3000 \
