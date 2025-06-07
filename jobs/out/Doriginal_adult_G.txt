@@ -1,9 +1,9 @@
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-24 09:49:07,267] A new study created in memory with name: xgb
+[I 2025-06-07 13:04:41,428] A new study created in memory with name: xgb
 Running distillation pipeline with the following configuration:
-Datos de train y test (train undersampleado) guardados en data/adult
+Datos de train y test guardados en data/adult
 Categoricas entrenamiento:  8
 Datos unicos de y_train:  ['<=50K' '>50K']
 Datos unicos de y_train luego:  [0 1]
@@ -27,7 +27,7 @@ Note: You have installed the 'manylinux2014' variant of XGBoost. Certain feature
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-24 09:49:09,853] Trial 0 finished with value: 0.8316705810457268 and parameters: {'n_estimators': 40, 'max_depth': 30, 'gamma': 0.49382849013642327, 'subsample': 0.9458865003910399, 'colsample_bytree': 0.9818313802505146}. Best is trial 0 with value: 0.8316705810457268.
+[I 2025-06-07 13:04:46,859] Trial 0 finished with value: 0.7867012066985334 and parameters: {'n_estimators': 40, 'max_depth': 30, 'gamma': 0.49382849013642327, 'subsample': 0.9458865003910399, 'colsample_bytree': 0.9818313802505146}. Best is trial 0 with value: 0.7867012066985334.
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
@@ -43,7 +43,7 @@ Note: You have installed the 'manylinux2014' variant of XGBoost. Certain feature
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-24 09:49:11,192] Trial 1 finished with value: 0.8203563079359741 and parameters: {'n_estimators': 40, 'max_depth': 20, 'gamma': 0.17841636973138664, 'subsample': 0.5101091987201629, 'colsample_bytree': 0.916309922773969}. Best is trial 0 with value: 0.8316705810457268.
+[I 2025-06-07 13:04:50,039] Trial 1 finished with value: 0.7836134423793594 and parameters: {'n_estimators': 40, 'max_depth': 20, 'gamma': 0.17841636973138664, 'subsample': 0.5101091987201629, 'colsample_bytree': 0.916309922773969}. Best is trial 0 with value: 0.7867012066985334.
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
@@ -59,7 +59,7 @@ Note: You have installed the 'manylinux2014' variant of XGBoost. Certain feature
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-24 09:49:12,729] Trial 2 finished with value: 0.8445056311009619 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.20644698328203992, 'subsample': 0.819960510663762, 'colsample_bytree': 0.5716766437045232}. Best is trial 2 with value: 0.8445056311009619.
+[I 2025-06-07 13:04:52,647] Trial 2 finished with value: 0.7971076415953927 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.20644698328203992, 'subsample': 0.819960510663762, 'colsample_bytree': 0.5716766437045232}. Best is trial 2 with value: 0.7971076415953927.
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
@@ -75,7 +75,7 @@ Note: You have installed the 'manylinux2014' variant of XGBoost. Certain feature
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-24 09:49:13,727] Trial 3 finished with value: 0.8291985783481503 and parameters: {'n_estimators': 10, 'max_depth': 20, 'gamma': 0.6115905539817836, 'subsample': 0.5093949002181776, 'colsample_bytree': 0.8088177485379385}. Best is trial 2 with value: 0.8445056311009619.
+[I 2025-06-07 13:04:54,742] Trial 3 finished with value: 0.7817919635576537 and parameters: {'n_estimators': 10, 'max_depth': 20, 'gamma': 0.6115905539817836, 'subsample': 0.5093949002181776, 'colsample_bytree': 0.8088177485379385}. Best is trial 2 with value: 0.7971076415953927.
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
@@ -91,7 +91,7 @@ Note: You have installed the 'manylinux2014' variant of XGBoost. Certain feature
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-24 09:49:14,961] Trial 4 finished with value: 0.8396094028266698 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.7278680763345383, 'subsample': 0.5301127358146349, 'colsample_bytree': 0.8333833577228338}. Best is trial 2 with value: 0.8445056311009619.
+[I 2025-06-07 13:04:57,357] Trial 4 finished with value: 0.7933872988622477 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.7278680763345383, 'subsample': 0.5301127358146349, 'colsample_bytree': 0.8333833577228338}. Best is trial 2 with value: 0.7971076415953927.
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
@@ -107,7 +107,7 @@ Note: You have installed the 'manylinux2014' variant of XGBoost. Certain feature
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-24 09:49:15,940] Trial 5 finished with value: 0.8337617679975555 and parameters: {'n_estimators': 10, 'max_depth': 30, 'gamma': 0.4947413621160883, 'subsample': 0.9941869190296131, 'colsample_bytree': 0.551022405374014}. Best is trial 2 with value: 0.8445056311009619.
+[I 2025-06-07 13:04:59,155] Trial 5 finished with value: 0.7844870675801006 and parameters: {'n_estimators': 10, 'max_depth': 30, 'gamma': 0.4947413621160883, 'subsample': 0.9941869190296131, 'colsample_bytree': 0.551022405374014}. Best is trial 2 with value: 0.7971076415953927.
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
@@ -123,7 +123,7 @@ Note: You have installed the 'manylinux2014' variant of XGBoost. Certain feature
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-24 09:49:17,708] Trial 6 finished with value: 0.8185028991717427 and parameters: {'n_estimators': 100, 'max_depth': 20, 'gamma': 0.24307262528096776, 'subsample': 0.5551875705821525, 'colsample_bytree': 0.8281647947326367}. Best is trial 2 with value: 0.8445056311009619.
+[I 2025-06-07 13:05:03,758] Trial 6 finished with value: 0.7809587294868778 and parameters: {'n_estimators': 100, 'max_depth': 20, 'gamma': 0.24307262528096776, 'subsample': 0.5551875705821525, 'colsample_bytree': 0.8281647947326367}. Best is trial 2 with value: 0.7971076415953927.
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
@@ -139,7 +139,7 @@ Note: You have installed the 'manylinux2014' variant of XGBoost. Certain feature
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-24 09:49:19,230] Trial 7 finished with value: 0.8322882935657734 and parameters: {'n_estimators': 100, 'max_depth': 30, 'gamma': 0.18648856710456677, 'subsample': 0.9882297325066979, 'colsample_bytree': 0.7343256008238508}. Best is trial 2 with value: 0.8445056311009619.
+[I 2025-06-07 13:05:07,462] Trial 7 finished with value: 0.7866600132780753 and parameters: {'n_estimators': 100, 'max_depth': 30, 'gamma': 0.18648856710456677, 'subsample': 0.9882297325066979, 'colsample_bytree': 0.7343256008238508}. Best is trial 2 with value: 0.7971076415953927.
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
@@ -155,7 +155,7 @@ Note: You have installed the 'manylinux2014' variant of XGBoost. Certain feature
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-24 09:49:20,204] Trial 8 finished with value: 0.8291505978242201 and parameters: {'n_estimators': 10, 'max_depth': 20, 'gamma': 0.36652617776993046, 'subsample': 0.559363859477122, 'colsample_bytree': 0.658991589696988}. Best is trial 2 with value: 0.8445056311009619.
+[I 2025-06-07 13:05:09,701] Trial 8 finished with value: 0.783949518561504 and parameters: {'n_estimators': 10, 'max_depth': 20, 'gamma': 0.36652617776993046, 'subsample': 0.559363859477122, 'colsample_bytree': 0.658991589696988}. Best is trial 2 with value: 0.7971076415953927.
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
@@ -171,7 +171,7 @@ Note: You have installed the 'manylinux2014' variant of XGBoost. Certain feature
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-24 09:49:21,396] Trial 9 finished with value: 0.8424138791406085 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.18454645968259753, 'subsample': 0.7879732477780896, 'colsample_bytree': 0.964648098788107}. Best is trial 2 with value: 0.8445056311009619.
+[I 2025-06-07 13:05:12,323] Trial 9 finished with value: 0.7977785555254231 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.18454645968259753, 'subsample': 0.7879732477780896, 'colsample_bytree': 0.964648098788107}. Best is trial 9 with value: 0.7977785555254231.
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
@@ -187,281 +187,114 @@ Note: You have installed the 'manylinux2014' variant of XGBoost. Certain feature
 /data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
 Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
   warnings.warn(
-[I 2025-05-24 09:49:24,870] A new study created in memory with name: rf
-[I 2025-05-24 09:49:29,070] Trial 0 finished with value: 0.8308618956442816 and parameters: {'n_estimators': 320, 'max_depth': 15, 'min_samples_split': 7, 'min_samples_leaf': 6}. Best is trial 0 with value: 0.8308618956442816.
-[I 2025-05-24 09:49:32,550] Trial 1 finished with value: 0.8285800070151458 and parameters: {'n_estimators': 269, 'max_depth': 14, 'min_samples_split': 5, 'min_samples_leaf': 9}. Best is trial 0 with value: 0.8308618956442816.
-[I 2025-05-24 09:49:36,797] Trial 2 finished with value: 0.8178842600377155 and parameters: {'n_estimators': 486, 'max_depth': 9, 'min_samples_split': 9, 'min_samples_leaf': 6}. Best is trial 0 with value: 0.8308618956442816.
-[I 2025-05-24 09:49:41,931] Trial 3 finished with value: 0.8320507865822678 and parameters: {'n_estimators': 327, 'max_depth': 19, 'min_samples_split': 2, 'min_samples_leaf': 1}. Best is trial 3 with value: 0.8320507865822678.
-[I 2025-05-24 09:49:43,313] Trial 4 finished with value: 0.8309565684727052 and parameters: {'n_estimators': 108, 'max_depth': 17, 'min_samples_split': 9, 'min_samples_leaf': 9}. Best is trial 3 with value: 0.8320507865822678.
-[I 2025-05-24 09:49:48,771] Trial 5 finished with value: 0.8306718267765223 and parameters: {'n_estimators': 492, 'max_depth': 17, 'min_samples_split': 6, 'min_samples_leaf': 8}. Best is trial 3 with value: 0.8320507865822678.
-[I 2025-05-24 09:49:50,505] Trial 6 finished with value: 0.8281521825601305 and parameters: {'n_estimators': 147, 'max_depth': 14, 'min_samples_split': 3, 'min_samples_leaf': 10}. Best is trial 3 with value: 0.8320507865822678.
-[I 2025-05-24 09:49:53,367] Trial 7 finished with value: 0.8217822086499641 and parameters: {'n_estimators': 309, 'max_depth': 10, 'min_samples_split': 4, 'min_samples_leaf': 8}. Best is trial 3 with value: 0.8320507865822678.
-[I 2025-05-24 09:49:56,453] Trial 8 finished with value: 0.8272489825326484 and parameters: {'n_estimators': 282, 'max_depth': 13, 'min_samples_split': 2, 'min_samples_leaf': 7}. Best is trial 3 with value: 0.8320507865822678.
-[I 2025-05-24 09:50:00,226] Trial 9 finished with value: 0.8287228185698865 and parameters: {'n_estimators': 345, 'max_depth': 14, 'min_samples_split': 10, 'min_samples_leaf': 7}. Best is trial 3 with value: 0.8320507865822678.
-[I 2025-05-24 09:50:13,804] A new study created in memory with name: svc
+[I 2025-06-07 13:05:15,042] Trial 10 finished with value: 0.7973502939088013 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.9575004347741041, 'subsample': 0.7182022280232461, 'colsample_bytree': 0.9842881535383724}. Best is trial 9 with value: 0.7977785555254231.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-06-07 13:05:17,737] Trial 11 finished with value: 0.7982562616742424 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.9780821597952087, 'subsample': 0.6991327138554846, 'colsample_bytree': 0.9969596088199149}. Best is trial 11 with value: 0.7982562616742424.
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
+Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
+  warnings.warn(
+[I 2025-06-07 13:05:20,448] Trial 12 finished with value: 0.7972132904632651 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.9992933757507363, 'subsample': 0.7037618908833935, 'colsample_bytree': 0.9200775924124897}. Best is trial 11 with value: 0.7982562616742424.
+[I 2025-06-07 13:05:21,879] Trial 13 finished with value: 0.797511142325884 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.7614692109626992, 'subsample': 0.8111118200397299, 'colsample_bytree': 0.9122041437736855}. Best is trial 11 with value: 0.7982562616742424.
+[I 2025-06-07 13:05:23,440] Trial 14 finished with value: 0.7971957047450474 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.8619792491491385, 'subsample': 0.6419740102674932, 'colsample_bytree': 0.98584436173956}. Best is trial 11 with value: 0.7982562616742424.
+[I 2025-06-07 13:05:24,407] Trial 15 finished with value: 0.7947270525365739 and parameters: {'n_estimators': 40, 'max_depth': 5, 'gamma': 0.3508253335562579, 'subsample': 0.8262595028177575, 'colsample_bytree': 0.7235503958995013}. Best is trial 11 with value: 0.7982562616742424.
+[I 2025-06-07 13:05:25,917] Trial 16 finished with value: 0.7949107545735199 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.6286484370183922, 'subsample': 0.6487804658026871, 'colsample_bytree': 0.8838031788621593}. Best is trial 11 with value: 0.7982562616742424.
+[I 2025-06-07 13:05:27,317] Trial 17 finished with value: 0.7981990451863293 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.36655148498992607, 'subsample': 0.8707044594862765, 'colsample_bytree': 0.617293780839153}. Best is trial 11 with value: 0.7982562616742424.
+[I 2025-06-07 13:05:28,188] Trial 18 finished with value: 0.7934045670780715 and parameters: {'n_estimators': 40, 'max_depth': 5, 'gamma': 0.3544418085409456, 'subsample': 0.869455901249342, 'colsample_bytree': 0.6289769971575503}. Best is trial 11 with value: 0.7982562616742424.
+[I 2025-06-07 13:05:29,159] Trial 19 finished with value: 0.7825445819844927 and parameters: {'n_estimators': 10, 'max_depth': 30, 'gamma': 0.42352659963854444, 'subsample': 0.8850649602054159, 'colsample_bytree': 0.666741753669585}. Best is trial 11 with value: 0.7982562616742424.
+[I 2025-06-07 13:05:30,674] Trial 20 finished with value: 0.7984637793797692 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.8436000526263521, 'subsample': 0.7536644872815214, 'colsample_bytree': 0.5280460435729333}. Best is trial 20 with value: 0.7984637793797692.
+[I 2025-06-07 13:05:32,128] Trial 21 finished with value: 0.7979720649484363 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.8819557169155927, 'subsample': 0.7525416662702719, 'colsample_bytree': 0.514085625026814}. Best is trial 20 with value: 0.7984637793797692.
+[I 2025-06-07 13:05:33,758] Trial 22 finished with value: 0.7976946388150232 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.8083472250546828, 'subsample': 0.6396221722078966, 'colsample_bytree': 0.594348905853391}. Best is trial 20 with value: 0.7984637793797692.
+[I 2025-06-07 13:05:35,161] Trial 23 finished with value: 0.7983679474626163 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.9328275059083723, 'subsample': 0.8975742584016496, 'colsample_bytree': 0.5013006813764311}. Best is trial 20 with value: 0.7984637793797692.
+[I 2025-06-07 13:05:37,124] Trial 24 finished with value: 0.7973073945284475 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.9167803245969495, 'subsample': 0.6931883563487821, 'colsample_bytree': 0.5021894713621671}. Best is trial 20 with value: 0.7984637793797692.
+[I 2025-06-07 13:05:38,546] Trial 25 finished with value: 0.7973798766263365 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.7075865544587456, 'subsample': 0.764466618113154, 'colsample_bytree': 0.5559285504540625}. Best is trial 20 with value: 0.7984637793797692.
+[I 2025-06-07 13:05:39,985] Trial 26 finished with value: 0.7983486389904589 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.8257425388718184, 'subsample': 0.9451005701803997, 'colsample_bytree': 0.7790575351711161}. Best is trial 20 with value: 0.7984637793797692.
+[I 2025-06-07 13:05:41,407] Trial 27 finished with value: 0.7977930636635115 and parameters: {'n_estimators': 100, 'max_depth': 5, 'gamma': 0.8304814722610263, 'subsample': 0.9201949349190054, 'colsample_bytree': 0.77103113241339}. Best is trial 20 with value: 0.7984637793797692.
+[I 2025-06-07 13:05:42,759] Trial 28 finished with value: 0.7918133529979643 and parameters: {'n_estimators': 40, 'max_depth': 20, 'gamma': 0.6472595912557465, 'subsample': 0.9536926151563576, 'colsample_bytree': 0.6901059360959295}. Best is trial 20 with value: 0.7984637793797692.
+[I 2025-06-07 13:05:43,651] Trial 29 finished with value: 0.7833870101131761 and parameters: {'n_estimators': 10, 'max_depth': 30, 'gamma': 0.7871150212749687, 'subsample': 0.9243411044912965, 'colsample_bytree': 0.772075893878384}. Best is trial 20 with value: 0.7984637793797692.
+[I 2025-06-07 13:06:42,616] A new study created in memory with name: rf
 Parámetros guardados en checkpoint_adult_Doriginal_G/Full-data/IPC_0/best_models_Full-data_seed_0_space_original/xgb_best_params.json
 
 
 >>> Optuna tuning rf metodo Full-data IPC 0 seed 0
 
 
+[I 2025-06-07 13:07:02,711] Trial 0 finished with value: 0.8284158284533831 and parameters: {'n_estimators': 320, 'max_depth': 15, 'min_samples_split': 7, 'min_samples_leaf': 6}. Best is trial 0 with value: 0.8284158284533831.
+[I 2025-06-07 13:07:14,879] Trial 1 finished with value: 0.8272803834428404 and parameters: {'n_estimators': 269, 'max_depth': 14, 'min_samples_split': 5, 'min_samples_leaf': 9}. Best is trial 0 with value: 0.8284158284533831.
+[I 2025-06-07 13:07:32,084] Trial 2 finished with value: 0.8186605032385519 and parameters: {'n_estimators': 486, 'max_depth': 9, 'min_samples_split': 9, 'min_samples_leaf': 6}. Best is trial 0 with value: 0.8284158284533831.
+[I 2025-06-07 13:07:50,240] Trial 3 finished with value: 0.8267188657728806 and parameters: {'n_estimators': 327, 'max_depth': 19, 'min_samples_split': 2, 'min_samples_leaf': 1}. Best is trial 0 with value: 0.8284158284533831.
+[I 2025-06-07 13:07:55,590] Trial 4 finished with value: 0.828452819044865 and parameters: {'n_estimators': 108, 'max_depth': 17, 'min_samples_split': 9, 'min_samples_leaf': 9}. Best is trial 4 with value: 0.828452819044865.
+[I 2025-06-07 13:08:19,056] Trial 5 finished with value: 0.8287579252877215 and parameters: {'n_estimators': 492, 'max_depth': 17, 'min_samples_split': 6, 'min_samples_leaf': 8}. Best is trial 5 with value: 0.8287579252877215.
+[I 2025-06-07 13:08:26,185] Trial 6 finished with value: 0.8274922102620152 and parameters: {'n_estimators': 147, 'max_depth': 14, 'min_samples_split': 3, 'min_samples_leaf': 10}. Best is trial 5 with value: 0.8287579252877215.
+[I 2025-06-07 13:08:38,638] Trial 7 finished with value: 0.8224784525009786 and parameters: {'n_estimators': 309, 'max_depth': 10, 'min_samples_split': 4, 'min_samples_leaf': 8}. Best is trial 5 with value: 0.8287579252877215.
+[I 2025-06-07 13:08:51,733] Trial 8 finished with value: 0.826965595842287 and parameters: {'n_estimators': 282, 'max_depth': 13, 'min_samples_split': 2, 'min_samples_leaf': 7}. Best is trial 5 with value: 0.8287579252877215.
+[I 2025-06-07 13:09:08,449] Trial 9 finished with value: 0.8283764386813554 and parameters: {'n_estimators': 345, 'max_depth': 14, 'min_samples_split': 10, 'min_samples_leaf': 7}. Best is trial 5 with value: 0.8287579252877215.
+[I 2025-06-07 13:09:22,980] Trial 10 finished with value: 0.7910909709798526 and parameters: {'n_estimators': 487, 'max_depth': 5, 'min_samples_split': 7, 'min_samples_leaf': 3}. Best is trial 5 with value: 0.8287579252877215.
+[I 2025-06-07 13:09:28,489] Trial 11 finished with value: 0.8289102024245508 and parameters: {'n_estimators': 111, 'max_depth': 20, 'min_samples_split': 8, 'min_samples_leaf': 10}. Best is trial 11 with value: 0.8289102024245508.
+[I 2025-06-07 13:09:49,236] Trial 12 finished with value: 0.8293193041064612 and parameters: {'n_estimators': 410, 'max_depth': 20, 'min_samples_split': 7, 'min_samples_leaf': 10}. Best is trial 12 with value: 0.8293193041064612.
+[I 2025-06-07 13:10:09,083] Trial 13 finished with value: 0.8288060939837918 and parameters: {'n_estimators': 412, 'max_depth': 20, 'min_samples_split': 8, 'min_samples_leaf': 10}. Best is trial 12 with value: 0.8293193041064612.
+[I 2025-06-07 13:10:20,472] Trial 14 finished with value: 0.8301230649416149 and parameters: {'n_estimators': 203, 'max_depth': 20, 'min_samples_split': 6, 'min_samples_leaf': 4}. Best is trial 14 with value: 0.8301230649416149.
+[I 2025-06-07 13:10:32,693] Trial 15 finished with value: 0.8290291782274453 and parameters: {'n_estimators': 220, 'max_depth': 17, 'min_samples_split': 5, 'min_samples_leaf': 3}. Best is trial 14 with value: 0.8301230649416149.
+[I 2025-06-07 13:10:37,405] Trial 16 finished with value: 0.7781556469993689 and parameters: {'n_estimators': 205, 'max_depth': 3, 'min_samples_split': 6, 'min_samples_leaf': 3}. Best is trial 14 with value: 0.8301230649416149.
+[I 2025-06-07 13:10:57,842] Trial 17 finished with value: 0.8296593700141939 and parameters: {'n_estimators': 394, 'max_depth': 18, 'min_samples_split': 5, 'min_samples_leaf': 4}. Best is trial 14 with value: 0.8301230649416149.
+[I 2025-06-07 13:11:18,715] Trial 18 finished with value: 0.8296621009289844 and parameters: {'n_estimators': 386, 'max_depth': 18, 'min_samples_split': 4, 'min_samples_leaf': 4}. Best is trial 14 with value: 0.8301230649416149.
+[I 2025-06-07 13:11:26,622] Trial 19 finished with value: 0.8044442395974716 and parameters: {'n_estimators': 228, 'max_depth': 7, 'min_samples_split': 4, 'min_samples_leaf': 1}. Best is trial 14 with value: 0.8301230649416149.
+[I 2025-06-07 13:11:33,959] Trial 20 finished with value: 0.8242071029511466 and parameters: {'n_estimators': 168, 'max_depth': 11, 'min_samples_split': 3, 'min_samples_leaf': 4}. Best is trial 14 with value: 0.8301230649416149.
+[I 2025-06-07 13:11:54,077] Trial 21 finished with value: 0.8292696466011573 and parameters: {'n_estimators': 378, 'max_depth': 18, 'min_samples_split': 5, 'min_samples_leaf': 4}. Best is trial 14 with value: 0.8301230649416149.
+[I 2025-06-07 13:12:15,824] Trial 22 finished with value: 0.8287883792766341 and parameters: {'n_estimators': 423, 'max_depth': 16, 'min_samples_split': 4, 'min_samples_leaf': 5}. Best is trial 14 with value: 0.8301230649416149.
+[I 2025-06-07 13:12:35,281] Trial 23 finished with value: 0.8302369057470503 and parameters: {'n_estimators': 380, 'max_depth': 18, 'min_samples_split': 6, 'min_samples_leaf': 4}. Best is trial 23 with value: 0.8302369057470503.
+[I 2025-06-07 13:12:54,985] Trial 24 finished with value: 0.830203563307748 and parameters: {'n_estimators': 364, 'max_depth': 18, 'min_samples_split': 6, 'min_samples_leaf': 2}. Best is trial 23 with value: 0.8302369057470503.
+[I 2025-06-07 13:13:17,896] Trial 25 finished with value: 0.8291958987087739 and parameters: {'n_estimators': 440, 'max_depth': 16, 'min_samples_split': 6, 'min_samples_leaf': 2}. Best is trial 23 with value: 0.8302369057470503.
+[I 2025-06-07 13:13:32,550] Trial 26 finished with value: 0.8304044538675741 and parameters: {'n_estimators': 261, 'max_depth': 19, 'min_samples_split': 7, 'min_samples_leaf': 2}. Best is trial 26 with value: 0.8304044538675741.
+[I 2025-06-07 13:13:48,374] Trial 27 finished with value: 0.8265991040628983 and parameters: {'n_estimators': 359, 'max_depth': 12, 'min_samples_split': 8, 'min_samples_leaf': 2}. Best is trial 26 with value: 0.8304044538675741.
+[I 2025-06-07 13:14:00,910] Trial 28 finished with value: 0.8287516884388259 and parameters: {'n_estimators': 253, 'max_depth': 16, 'min_samples_split': 7, 'min_samples_leaf': 2}. Best is trial 26 with value: 0.8304044538675741.
+[I 2025-06-07 13:14:15,520] Trial 29 finished with value: 0.8288480320680961 and parameters: {'n_estimators': 298, 'max_depth': 15, 'min_samples_split': 7, 'min_samples_leaf': 5}. Best is trial 26 with value: 0.8304044538675741.
+[I 2025-06-07 13:14:45,233] A new study created in memory with name: svc
 Parámetros guardados en checkpoint_adult_Doriginal_G/Full-data/IPC_0/best_models_Full-data_seed_0_space_original/rf_best_params.json
 
 
 >>> Optuna tuning svc metodo Full-data IPC 0 seed 0
 
 
-[I 2025-05-24 09:51:30,482] Trial 0 finished with value: 0.8302916438403223 and parameters: {'C': 1.5676677195506077, 'gamma': 0.07257005721594278}. Best is trial 0 with value: 0.8302916438403223.
-[I 2025-05-24 09:52:29,848] Trial 1 finished with value: 0.8257281377861428 and parameters: {'C': 2.57663857461359, 'gamma': 0.01511933646764101}. Best is trial 0 with value: 0.8302916438403223.
-[I 2025-05-24 09:53:32,369] Trial 2 finished with value: 0.8267738103632507 and parameters: {'C': 0.49501595537331966, 'gamma': 0.03833332156156663}. Best is trial 0 with value: 0.8302916438403223.
-[I 2025-05-24 09:55:09,073] Trial 3 finished with value: 0.8242542339478817 and parameters: {'C': 0.5627932047415171, 'gamma': 0.36905577292137587}. Best is trial 0 with value: 0.8302916438403223.
-[I 2025-05-24 09:56:25,137] Trial 4 finished with value: 0.8258704747337229 and parameters: {'C': 71.55682161754872, 'gamma': 0.0034179529120610124}. Best is trial 0 with value: 0.8302916438403223.
-[I 2025-05-24 09:57:34,190] Trial 5 finished with value: 0.8283425452323223 and parameters: {'C': 14.68588598920087, 'gamma': 0.013049073550362394}. Best is trial 0 with value: 0.8302916438403223.
-[I 2025-05-24 10:01:12,102] Trial 6 finished with value: 0.8151743887511774 and parameters: {'C': 1.871450068624068, 'gamma': 0.503948959867121}. Best is trial 0 with value: 0.8302916438403223.
-[I 2025-05-24 10:03:56,034] Trial 7 finished with value: 0.5361216730038023 and parameters: {'C': 0.0192373050965465, 'gamma': 0.00022310905607443037}. Best is trial 0 with value: 0.8302916438403223.
-[I 2025-05-24 10:05:57,647] Trial 8 finished with value: 0.7968724518115529 and parameters: {'C': 0.012046852412030323, 'gamma': 0.2140323314098606}. Best is trial 0 with value: 0.8302916438403223.
-[I 2025-05-24 10:08:49,708] Trial 9 finished with value: 0.8083770197924747 and parameters: {'C': 12.960656597279739, 'gamma': 0.3020289640158664}. Best is trial 0 with value: 0.8302916438403223.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-[I 2025-05-24 10:12:19,989] A new study created in memory with name: logreg
-Parámetros guardados en checkpoint_adult_Doriginal_G/Full-data/IPC_0/best_models_Full-data_seed_0_space_original/svc_best_params.json
-
-
->>> Optuna tuning logreg metodo Full-data IPC 0 seed 0
-
-
-[I 2025-05-24 10:12:21,077] Trial 0 finished with value: 0.8249200625939043 and parameters: {'C': 0.5547119471592125, 'penalty': 'l2'}. Best is trial 0 with value: 0.8249200625939043.
-[I 2025-05-24 10:12:22,045] Trial 1 finished with value: 0.8243970455026226 and parameters: {'C': 3.7665768415992953, 'penalty': 'l2'}. Best is trial 0 with value: 0.8249200625939043.
-[I 2025-05-24 10:12:23,006] Trial 2 finished with value: 0.8248248925579789 and parameters: {'C': 1.032326035197657, 'penalty': 'l2'}. Best is trial 0 with value: 0.8249200625939043.
-[I 2025-05-24 10:12:23,954] Trial 3 finished with value: 0.8248250055596837 and parameters: {'C': 0.530170934757683, 'penalty': 'l2'}. Best is trial 0 with value: 0.8249200625939043.
-[I 2025-05-24 10:12:24,862] Trial 4 finished with value: 0.8237316236627377 and parameters: {'C': 0.13130280280658593, 'penalty': 'l2'}. Best is trial 0 with value: 0.8249200625939043.
-[I 2025-05-24 10:12:25,830] Trial 5 finished with value: 0.8244445966200737 and parameters: {'C': 1.6961746387290997, 'penalty': 'l2'}. Best is trial 0 with value: 0.8249200625939043.
-[I 2025-05-24 10:12:26,779] Trial 6 finished with value: 0.8240168399660813 and parameters: {'C': 0.15414734761917095, 'penalty': 'l2'}. Best is trial 0 with value: 0.8249200625939043.
-[I 2025-05-24 10:12:27,870] Trial 7 finished with value: 0.8242544373509506 and parameters: {'C': 28.765041432546976, 'penalty': 'l2'}. Best is trial 0 with value: 0.8249200625939043.
-[I 2025-05-24 10:12:28,909] Trial 8 finished with value: 0.8236840273446046 and parameters: {'C': 65.81332043291806, 'penalty': 'l2'}. Best is trial 0 with value: 0.8249200625939043.
-[I 2025-05-24 10:12:29,828] Trial 9 finished with value: 0.822875974752707 and parameters: {'C': 0.08264328927007726, 'penalty': 'l2'}. Best is trial 0 with value: 0.8249200625939043.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-[I 2025-05-24 10:12:35,144] A new study created in memory with name: mlp
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-[I 2025-05-24 10:12:40,708] Trial 0 finished with value: 0.8251113744804182 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.0001}. Best is trial 0 with value: 0.8251113744804182.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-[I 2025-05-24 10:12:46,281] Trial 1 finished with value: 0.8251049107828938 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 0 with value: 0.8251113744804182.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-[I 2025-05-24 10:12:51,244] Trial 2 finished with value: 0.8253467118311881 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 2 with value: 0.8253467118311881.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (100) reached and the optimization hasn't converged yet.
-  warnings.warn(
-[I 2025-05-24 10:12:57,160] Trial 3 finished with value: 0.8228306158683323 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 100, 'alpha': 0.001}. Best is trial 2 with value: 0.8253467118311881.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-[I 2025-05-24 10:13:00,176] Trial 4 finished with value: 0.8267284740792169 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 50, 'alpha': 0.0001}. Best is trial 4 with value: 0.8267284740792169.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-[I 2025-05-24 10:13:03,215] Trial 5 finished with value: 0.8282466293851443 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 5 with value: 0.8282466293851443.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-[I 2025-05-24 10:13:06,255] Trial 6 finished with value: 0.8266809455621067 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 5 with value: 0.8282466293851443.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-[I 2025-05-24 10:13:11,187] Trial 7 finished with value: 0.8277714572157466 and parameters: {'hidden_layer_sizes': (200,), 'max_iter': 50, 'alpha': 0.0001}. Best is trial 5 with value: 0.8282466293851443.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-[I 2025-05-24 10:13:14,287] Trial 8 finished with value: 0.8273909804751135 and parameters: {'hidden_layer_sizes': (100,), 'max_iter': 50, 'alpha': 0.001}. Best is trial 5 with value: 0.8282466293851443.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/sklearn/neural_network/_multilayer_perceptron.py:691: ConvergenceWarning: Stochastic Optimizer: Maximum iterations (50) reached and the optimization hasn't converged yet.
-  warnings.warn(
-[I 2025-05-24 10:13:19,798] Trial 9 finished with value: 0.8137514938825398 and parameters: {'hidden_layer_sizes': (100, 100), 'max_iter': 50, 'alpha': 0.0001}. Best is trial 5 with value: 0.8282466293851443.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-[I 2025-05-24 10:13:32,820] A new study created in memory with name: naive_bayes
-Parámetros guardados en checkpoint_adult_Doriginal_G/Full-data/IPC_0/best_models_Full-data_seed_0_space_original/logreg_best_params.json
-
-
->>> Optuna tuning mlp metodo Full-data IPC 0 seed 0
-
-
-Parámetros guardados en checkpoint_adult_Doriginal_G/Full-data/IPC_0/best_models_Full-data_seed_0_space_original/mlp_best_params.json
-
-
->>> Optuna tuning naive_bayes metodo Full-data IPC 0 seed 0
-
-
-[I 2025-05-24 10:13:33,921] Trial 0 finished with value: 0.7290863676551151 and parameters: {'var_smoothing': 1.2520653814999457e-09}. Best is trial 0 with value: 0.7290863676551151.
-[I 2025-05-24 10:13:34,026] Trial 1 finished with value: 0.730132108033246 and parameters: {'var_smoothing': 2.693883019285408e-09}. Best is trial 1 with value: 0.730132108033246.
-[I 2025-05-24 10:13:34,215] Trial 2 finished with value: 0.7294667087937023 and parameters: {'var_smoothing': 1.6051911333587584e-09}. Best is trial 1 with value: 0.730132108033246.
-[I 2025-05-24 10:13:34,406] Trial 3 finished with value: 0.7290863676551151 and parameters: {'var_smoothing': 1.2296071107325683e-09}. Best is trial 1 with value: 0.730132108033246.
-[I 2025-05-24 10:13:34,586] Trial 4 finished with value: 0.7282307865461073 and parameters: {'var_smoothing': 7.035737028722139e-10}. Best is trial 1 with value: 0.730132108033246.
-[I 2025-05-24 10:13:34,757] Trial 5 finished with value: 0.7299419939648049 and parameters: {'var_smoothing': 1.957889720121294e-09}. Best is trial 1 with value: 0.730132108033246.
-[I 2025-05-24 10:13:34,928] Trial 6 finished with value: 0.7284684743323407 and parameters: {'var_smoothing': 7.501954443620119e-10}. Best is trial 1 with value: 0.730132108033246.
-[I 2025-05-24 10:13:35,099] Trial 7 finished with value: 0.7307023372368642 and parameters: {'var_smoothing': 6.074996073425682e-09}. Best is trial 7 with value: 0.7307023372368642.
-[I 2025-05-24 10:13:35,269] Trial 8 finished with value: 0.7311301164911976 and parameters: {'var_smoothing': 8.459126528049351e-09}. Best is trial 8 with value: 0.7311301164911976.
-[I 2025-05-24 10:13:35,439] Trial 9 finished with value: 0.727993143960556 and parameters: {'var_smoothing': 5.846326121643404e-10}. Best is trial 8 with value: 0.7311301164911976.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-[I 2025-05-24 10:13:37,502] A new study created in memory with name: knn
-Parámetros guardados en checkpoint_adult_Doriginal_G/Full-data/IPC_0/best_models_Full-data_seed_0_space_original/naive_bayes_best_params.json
-
-
->>> Optuna tuning knn metodo Full-data IPC 0 seed 0
-
-
-[I 2025-05-24 10:13:44,341] Trial 0 finished with value: 0.8021960751343817 and parameters: {'n_neighbors': 7, 'leaf_size': 35, 'p': 1}. Best is trial 0 with value: 0.8021960751343817.
-[I 2025-05-24 10:13:45,813] Trial 1 finished with value: 0.7955886620417328 and parameters: {'n_neighbors': 6, 'leaf_size': 33, 'p': 2}. Best is trial 0 with value: 0.8021960751343817.
-[I 2025-05-24 10:13:51,557] Trial 2 finished with value: 0.8012928751068996 and parameters: {'n_neighbors': 10, 'leaf_size': 28, 'p': 1}. Best is trial 0 with value: 0.8021960751343817.
-[I 2025-05-24 10:13:52,345] Trial 3 finished with value: 0.8032897960364427 and parameters: {'n_neighbors': 7, 'leaf_size': 39, 'p': 2}. Best is trial 3 with value: 0.8032897960364427.
-[I 2025-05-24 10:13:53,727] Trial 4 finished with value: 0.7894559691116618 and parameters: {'n_neighbors': 3, 'leaf_size': 37, 'p': 2}. Best is trial 3 with value: 0.8032897960364427.
-[I 2025-05-24 10:13:54,514] Trial 5 finished with value: 0.8037655106140242 and parameters: {'n_neighbors': 10, 'leaf_size': 36, 'p': 2}. Best is trial 5 with value: 0.8037655106140242.
-[I 2025-05-24 10:13:55,262] Trial 6 finished with value: 0.7894559691116618 and parameters: {'n_neighbors': 3, 'leaf_size': 33, 'p': 2}. Best is trial 5 with value: 0.8037655106140242.
-[I 2025-05-24 10:13:56,009] Trial 7 finished with value: 0.8032897960364427 and parameters: {'n_neighbors': 7, 'leaf_size': 28, 'p': 2}. Best is trial 5 with value: 0.8037655106140242.
-[I 2025-05-24 10:13:56,766] Trial 8 finished with value: 0.7955886620417328 and parameters: {'n_neighbors': 6, 'leaf_size': 31, 'p': 2}. Best is trial 5 with value: 0.8037655106140242.
-[I 2025-05-24 10:14:02,480] Trial 9 finished with value: 0.8021960751343817 and parameters: {'n_neighbors': 7, 'leaf_size': 32, 'p': 1}. Best is trial 5 with value: 0.8037655106140242.
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-/data/home/rtabares/anaconda3/envs/pyth3.12/lib/python3.12/site-packages/xgboost/core.py:377: FutureWarning: Your system has an old version of glibc (< 2.28). We will stop supporting Linux distros with glibc older than 2.28 after **May 31, 2025**. Please upgrade to a recent Linux distro (with glibc >= 2.28) to use future versions of XGBoost.
-Note: You have installed the 'manylinux2014' variant of XGBoost. Certain features such as GPU algorithms or federated learning are not available. To use these features, please upgrade to a recent Linux distro with glibc 2.28+, and install the 'manylinux_2_28' variant.
-  warnings.warn(
-Parámetros guardados en checkpoint_adult_Doriginal_G/Full-data/IPC_0/best_models_Full-data_seed_0_space_original/knn_best_params.json
+[I 2025-06-07 13:29:14,502] Trial 0 finished with value: 0.7657001935149305 and parameters: {'C': 1.5676677195506077, 'gamma': 0.07257005721594278}. Best is trial 0 with value: 0.7657001935149305.
+[I 2025-06-07 13:43:22,413] Trial 1 finished with value: 0.7562946147933829 and parameters: {'C': 2.57663857461359, 'gamma': 0.01511933646764101}. Best is trial 0 with value: 0.7657001935149305.
+[I 2025-06-07 13:57:37,909] Trial 2 finished with value: 0.7551067394415465 and parameters: {'C': 0.49501595537331966, 'gamma': 0.03833332156156663}. Best is trial 0 with value: 0.7657001935149305.
+[I 2025-06-07 14:33:08,028] Trial 3 finished with value: 0.753217194996922 and parameters: {'C': 0.5627932047415171, 'gamma': 0.36905577292137587}. Best is trial 0 with value: 0.7657001935149305.
+[I 2025-06-07 14:49:00,936] Trial 4 finished with value: 0.7580765927360457 and parameters: {'C': 71.55682161754872, 'gamma': 0.0034179529120610124}. Best is trial 0 with value: 0.7657001935149305.
+[I 2025-06-07 15:04:24,914] Trial 5 finished with value: 0.7608783900438851 and parameters: {'C': 14.68588598920087, 'gamma': 0.013049073550362394}. Best is trial 0 with value: 0.7657001935149305.
+[I 2025-06-07 16:13:18,150] Trial 6 finished with value: 0.7473058075171808 and parameters: {'C': 1.871450068624068, 'gamma': 0.503948959867121}. Best is trial 0 with value: 0.7657001935149305.
+[I 2025-06-07 16:30:49,397] Trial 7 finished with value: 0.5 and parameters: {'C': 0.0192373050965465, 'gamma': 0.00022310905607443037}. Best is trial 0 with value: 0.7657001935149305.
+[I 2025-06-07 16:50:52,077] Trial 8 finished with value: 0.6405453106391124 and parameters: {'C': 0.012046852412030323, 'gamma': 0.2140323314098606}. Best is trial 0 with value: 0.7657001935149305.
+[I 2025-06-07 17:47:06,832] Trial 9 finished with value: 0.7578972508836066 and parameters: {'C': 12.960656597279739, 'gamma': 0.3020289640158664}. Best is trial 0 with value: 0.7657001935149305.
+[I 2025-06-07 18:00:37,147] Trial 10 finished with value: 0.6729736789778731 and parameters: {'C': 0.16426074441272132, 'gamma': 0.0011819854465057523}. Best is trial 0 with value: 0.7657001935149305.
+[I 2025-06-07 18:19:37,694] Trial 11 finished with value: 0.7708824782053053 and parameters: {'C': 14.12283302602045, 'gamma': 0.05617404484056215}. Best is trial 11 with value: 0.7708824782053053.
+ 2025-06-07 15:27:45,009] Trial 12 finished with value: 0.7714360451110842 and parameters: {'C': 8.674354399839386, 'gamma': 0.07806032419781148}. Best is trial 12 with value: 0.7714360451110842.
+[I 2025-06-07 15:56:33,614] Trial 13 finished with value: 0.7708043183214429 and parameters: {'C': 13.46291605529923, 'gamma': 0.06632415614199133}. Best is trial 12 with value: 0.7714360451110842.
+[I 2025-06-07 16:12:52,177] Trial 14 finished with value: 0.7584147787814332 and parameters: {'C': 93.29259909357991, 'gamma': 0.0032824303542765875}. Best is trial 12 with value: 0.7714360451110842.
+[I 2025-06-07 16:39:15,296] Trial 15 finished with value: 0.7708732933378204 and parameters: {'C': 6.679647823462157, 'gamma': 0.09645960346639854}. Best is trial 12 with value: 0.7714360451110842.
+[I 2025-06-07 17:55:08,563] Trial 16 finished with value: 0.6962717459644072 and parameters: {'C': 5.126018903973, 'gamma': 0.8190089323058629}. Best is trial 12 with value: 0.7714360451110842.
+[I 2025-06-07 18:10:02,460] Trial 17 finished with value: 0.7686731477967081 and parameters: {'C': 33.54557067843353, 'gamma': 0.02715596677509162}. Best is trial 12 with value: 0.7714360451110842.
+[I 2025-06-07 18:20:35,500] Trial 18 finished with value: 0.7515859528063761 and parameters: {'C': 0.13700257372403837, 'gamma': 0.1253650514531253}. Best is trial 12 with value: 0.7714360451110842.
+[I 2025-06-07 18:30:37,750] Trial 19 finished with value: 0.7569462709674237 and parameters: {'C': 29.96254289701181, 'gamma': 0.004550663900249977}. Best is trial 12 with value: 0.7714360451110842.
