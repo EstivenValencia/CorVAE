@@ -1,8 +1,15 @@
 {
     "hidden_layer_sizes": [
+<<<<<<< HEAD:Experiments_F_H/checkpoint_adult_Dlatent_ft_G/lc/IPC_10/best_models_lc_seed_6_space_original/mlp_best_params.json
         100,
         100
     ],
     "max_iter": 100,
     "alpha": 0.001
+=======
+        100
+    ],
+    "max_iter": 100,
+    "alpha": 0.0001
+>>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_adult_Dlatent_ft_G/lc/IPC_10/best_models_lc_seed_6_space_original/mlp_best_params.json
 }

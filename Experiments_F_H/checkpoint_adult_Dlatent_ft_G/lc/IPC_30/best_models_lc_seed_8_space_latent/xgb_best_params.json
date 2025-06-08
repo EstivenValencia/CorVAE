@@ -1,7 +1,15 @@
 {
+<<<<<<< HEAD:Experiments_F_H/checkpoint_adult_Dlatent_ft_G/lc/IPC_30/best_models_lc_seed_8_space_latent/xgb_best_params.json
     "n_estimators": 40,
     "max_depth": 5,
     "gamma": 0.483482593428573,
     "subsample": 0.6445375140090439,
     "colsample_bytree": 0.9869276206002231
+=======
+    "n_estimators": 100,
+    "max_depth": 20,
+    "gamma": 0.6361752212866232,
+    "subsample": 0.8309913561372338,
+    "colsample_bytree": 0.7552902276266351
+>>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_adult_Dlatent_ft_G/lc/IPC_30/best_models_lc_seed_8_space_latent/xgb_best_params.json
 }

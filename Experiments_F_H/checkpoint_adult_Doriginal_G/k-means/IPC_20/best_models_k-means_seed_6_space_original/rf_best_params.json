@@ -1,6 +1,13 @@
 {
+<<<<<<< HEAD:Experiments_F_H/checkpoint_adult_Doriginal_G/k-means/IPC_20/best_models_k-means_seed_6_space_original/rf_best_params.json
     "n_estimators": 458,
     "max_depth": 8,
     "min_samples_split": 9,
     "min_samples_leaf": 1
+=======
+    "n_estimators": 307,
+    "max_depth": 13,
+    "min_samples_split": 7,
+    "min_samples_leaf": 10
+>>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_adult_Doriginal_G/k-means/IPC_20/best_models_k-means_seed_6_space_original/rf_best_params.json
 }

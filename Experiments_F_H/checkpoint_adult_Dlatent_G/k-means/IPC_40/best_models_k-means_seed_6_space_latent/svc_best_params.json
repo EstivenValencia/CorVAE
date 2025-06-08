@@ -1,4 +1,9 @@
 {
+<<<<<<< HEAD:Experiments_F_H/checkpoint_adult_Dlatent_G/k-means/IPC_40/best_models_k-means_seed_6_space_latent/svc_best_params.json
     "C": 12.109554410355392,
     "gamma": 0.0003222877895772264
+=======
+    "C": 0.026172478305176654,
+    "gamma": 0.00628664717154984
+>>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_adult_Dlatent_G/k-means/IPC_40/best_models_k-means_seed_6_space_latent/svc_best_params.json
 }

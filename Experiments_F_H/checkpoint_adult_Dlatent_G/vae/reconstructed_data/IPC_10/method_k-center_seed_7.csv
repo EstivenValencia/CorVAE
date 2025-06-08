@@ -1,4 +1,5 @@
 age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+<<<<<<< HEAD:Experiments_F_H/checkpoint_adult_Dlatent_G/vae/reconstructed_data/IPC_10/method_k-center_seed_7.csv
 21.006273,Private,164380.89,Some-college,10.003223,Never-married,Sales,Own-child,White,Male,2.6909003,0.16390426,39.990532,United-States,<=50K
 89.67249,?,76480.02,HS-grad,8.991094,Widowed,?,Not-in-family,White,Female,3.7984443,4294.048,39.996834,United-States,<=50K
 37.858356,Private,403526.16,1st-4th,1.9523858,Divorced,Farming-fishing,Unmarried,White,Male,-6.575213,-5.9333706,39.89117,Thailand,<=50K
@@ -19,3 +20,25 @@ age,workclass,fnlwgt,education,education-num,marital-status,occupation,relations
 32.153385,Private,104487.28,5th-6th,2.8636897,Married-civ-spouse,Machine-op-inspct,Wife,Asian-Pac-Islander,Female,-14.248186,-2.6089306,39.927578,Laos,>50K
 43.99959,Private,764345.5,Masters,14.002313,Separated,Exec-managerial,Not-in-family,White,Male,-9.374895,2562.8928,39.973526,United-States,>50K
 72.83069,Self-emp-not-inc,103001.32,7th-8th,4.021914,Married-civ-spouse,Farming-fishing,Husband,White,Male,6402.379,-0.5318126,98.974945,United-States,>50K
+=======
+21.006115,Private,163873.36,Some-college,10.006288,Never-married,Sales,Own-child,White,Male,-3.5332208,-0.062414095,40.0216,United-States,<=50K
+89.901825,?,77365.41,HS-grad,9.003848,Widowed,?,Not-in-family,White,Female,6.4498115,4349.9653,40.00033,United-States,<=50K
+30.93733,Local-gov,377864.97,Prof-school,15.010171,Married-civ-spouse,Prof-specialty,Husband,White,Male,5.2626777,0.2508336,99.078316,Columbia,<=50K
+64.953445,Local-gov,146457.44,Masters,14.002912,Married-civ-spouse,Prof-specialty,Husband,White,Male,23.452986,1644.9141,3.981942,Greece,<=50K
+43.116047,Private,143463.7,5th-6th,2.997091,Married-civ-spouse,Machine-op-inspct,Wife,Asian-Pac-Islander,Female,-7.96242,2120.6853,72.136894,?,<=50K
+36.046875,Self-emp-not-inc,240091.4,HS-grad,9.007573,Married-civ-spouse,Exec-managerial,Husband,Asian-Pac-Islander,Male,41634.71,-0.022321627,89.99267,South,<=50K
+62.990337,Self-emp-not-inc,794649.9,1st-4th,2.1024673,Widowed,Other-service,Unmarried,White,Female,-7.899676,-0.34342757,30.041414,El-Salvador,<=50K
+71.98673,Private,268975.4,7th-8th,3.9898732,Widowed,Other-service,Not-in-family,White,Female,5.9704413,0.18354996,99.04267,?,<=50K
+72.00298,Private,99554.45,7th-8th,4.0005302,Married-civ-spouse,Handlers-cleaners,Wife,White,Female,-3.6015801,-0.18527023,9.98713,Poland,<=50K
+42.025158,State-gov,218739.66,Doctorate,16.006227,Divorced,Prof-specialty,Unmarried,Black,Female,-4.2933526,-0.11057846,36.054962,Jamaica,<=50K
+39.021004,Private,176191.53,Some-college,10.005467,Married-civ-spouse,Machine-op-inspct,Husband,White,Male,-3.0155206,-0.0803508,40.02199,United-States,>50K
+73.87748,State-gov,88790.48,Doctorate,16.003386,Never-married,Prof-specialty,Other-relative,White,Female,-0.085344695,3692.5886,19.996157,United-States,>50K
+50.956398,Self-emp-not-inc,120981.5,Prof-school,15.007268,Married-civ-spouse,Prof-specialty,Husband,Other,Male,99973.43,0.19436844,69.989914,India,>50K
+39.040977,Self-emp-inc,124661.41,Masters,14.001794,Divorced,Exec-managerial,Not-in-family,Asian-Pac-Islander,Male,-4.040179,0.031236723,99.062805,Japan,>50K
+55.031612,Private,408185.28,9th,4.984315,Divorced,Craft-repair,Unmarried,White,Female,99998.086,-0.3750972,37.093,United-States,>50K
+38.05055,Private,175403.16,10th,6.000313,Never-married,Prof-specialty,Not-in-family,White,Male,-3.3672051,2555.3994,90.2518,United-States,>50K
+58.978077,Self-emp-inc,76896.95,5th-6th,3.0456412,Married-civ-spouse,Exec-managerial,Husband,Asian-Pac-Islander,Male,99983.93,-0.25286666,40.027058,China,>50K
+73.95773,Self-emp-not-inc,198967.42,Bachelors,13.00697,Widowed,Craft-repair,Not-in-family,White,Male,15866.794,-0.10257523,8.039666,Germany,>50K
+64.99709,?,224325.72,Prof-school,15.005398,Never-married,?,Not-in-family,White,Male,25195.2,0.2112828,79.98455,United-States,>50K
+40.03684,Private,320223.94,Doctorate,16.008465,Married-civ-spouse,Prof-specialty,Husband,Asian-Pac-Islander,Male,-6.372454,1978.9338,45.030956,Hong,>50K
+>>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_adult_Dlatent_G/vae/reconstructed_data/IPC_10/method_k-center_seed_7.csv

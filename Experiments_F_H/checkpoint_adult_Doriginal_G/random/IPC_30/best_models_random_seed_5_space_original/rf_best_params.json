@@ -1,6 +1,12 @@
 {
+<<<<<<< HEAD:Experiments_F_H/checkpoint_adult_Doriginal_G/random/IPC_30/best_models_random_seed_5_space_original/rf_best_params.json
     "n_estimators": 431,
     "max_depth": 19,
     "min_samples_split": 6,
+=======
+    "n_estimators": 347,
+    "max_depth": 12,
+    "min_samples_split": 8,
+>>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_adult_Doriginal_G/random/IPC_30/best_models_random_seed_5_space_original/rf_best_params.json
     "min_samples_leaf": 1
 }

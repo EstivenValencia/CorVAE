@@ -1,4 +1,5 @@
 age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+<<<<<<< HEAD:Experiments_F_H/checkpoint_adult_Dlatent_G/vae/reconstructed_data/IPC_10/method_lc_seed_7.csv
 62.876762,Self-emp-not-inc,290483.6,Masters,14.006822,Married-civ-spouse,Farming-fishing,Husband,White,Male,42612.043,-0.79786485,49.954655,United-States,<=50K
 36.088795,Self-emp-not-inc,239015.11,HS-grad,9.012315,Married-civ-spouse,Exec-managerial,Husband,Asian-Pac-Islander,Male,42492.535,-0.8515758,91.23748,South,<=50K
 54.934483,Self-emp-not-inc,145366.88,HS-grad,9.008545,Divorced,Exec-managerial,Not-in-family,White,Male,33932.414,-0.16006272,59.948036,United-States,<=50K
@@ -19,3 +20,25 @@ age,workclass,fnlwgt,education,education-num,marital-status,occupation,relations
 26.960716,Local-gov,229573.23,Some-college,10.003834,Never-married,Protective-serv,Own-child,White,Female,4.68321,-0.3905696,39.985764,United-States,>50K
 60.96603,State-gov,160544.34,11th,7.0023336,Widowed,Other-service,Unmarried,White,Female,-2.4006524,-0.11094467,31.95901,United-States,>50K
 27.849083,Private,106719.85,HS-grad,9.0345545,Never-married,Transport-moving,Own-child,White,Male,-10.338152,-4.5147915,45.068058,Portugal,>50K
+=======
+62.989094,Self-emp-not-inc,289743.0,Masters,14.003934,Married-civ-spouse,Farming-fishing,Husband,White,Male,41399.36,-0.005620881,50.01372,United-States,<=50K
+36.046875,Self-emp-not-inc,240091.4,HS-grad,9.007573,Married-civ-spouse,Exec-managerial,Husband,Asian-Pac-Islander,Male,41634.71,-0.022321627,89.99267,South,<=50K
+55.006424,Self-emp-not-inc,145646.03,HS-grad,9.010128,Divorced,Exec-managerial,Not-in-family,White,Male,34183.86,-0.004537507,60.005074,United-States,<=50K
+63.96878,Private,292741.38,Some-college,10.009849,Married-civ-spouse,Exec-managerial,Wife,White,Female,10582.054,-0.3306636,35.029743,United-States,<=50K
+54.99528,Self-emp-inc,298640.4,Doctorate,16.005564,Married-civ-spouse,Prof-specialty,Husband,White,Male,-0.75929487,2178.4502,60.094368,United-States,<=50K
+70.051155,Self-emp-inc,378834.88,Some-college,10.009674,Married-civ-spouse,Sales,Husband,White,Male,10576.134,-0.19537918,40.024994,United-States,<=50K
+90.038475,Self-emp-not-inc,156106.14,Bachelors,12.99972,Married-civ-spouse,Prof-specialty,Husband,White,Male,10557.16,0.21203049,50.004654,United-States,<=50K
+41.063076,Private,177980.08,Doctorate,16.002306,Married-civ-spouse,Prof-specialty,Husband,White,Male,-0.08741989,2049.318,60.079033,United-States,<=50K
+44.016117,State-gov,107652.664,Doctorate,16.00327,Married-civ-spouse,Prof-specialty,Husband,White,Male,4996.5586,0.070520476,59.996113,United-States,<=50K
+55.04355,Local-gov,176048.81,Masters,14.004237,Married-civ-spouse,Prof-specialty,Wife,White,Female,-1.138079,2268.945,40.01727,United-States,<=50K
+19.973444,Private,325052.06,12th,7.9984574,Never-married,Other-service,Own-child,Black,Male,-5.700213,-0.08906357,34.995884,United-States,>50K
+21.982885,Private,52430.625,Some-college,10.005065,Never-married,Prof-specialty,Own-child,White,Male,-2.8070245,-0.02983658,15.006484,United-States,>50K
+77.033905,Self-emp-not-inc,72962.61,7th-8th,3.9987195,Married-spouse-absent,Adm-clerical,Not-in-family,White,Male,-3.9859796,-0.014768525,19.96382,Italy,>50K
+32.99671,Private,224163.81,7th-8th,3.9910057,Never-married,Farming-fishing,Not-in-family,White,Male,-5.1939874,0.024782255,40.013786,Mexico,>50K
+21.975525,Private,127725.32,Some-college,10.005743,Never-married,Other-service,Own-child,White,Male,-3.3121514,-0.06397049,31.964643,United-States,>50K
+19.001556,Private,323600.22,7th-8th,4.0055413,Never-married,Other-service,Not-in-family,White,Male,-4.908587,0.0017262258,59.989494,United-States,>50K
+26.967484,State-gov,23961.719,HS-grad,8.99389,Never-married,Transport-moving,Not-in-family,Amer-Indian-Eskimo,Male,-3.714129,0.027551726,37.98006,United-States,>50K
+27.014404,Local-gov,229187.64,Some-college,10.007457,Never-married,Protective-serv,Own-child,White,Female,-5.186663,-0.07005112,40.026127,United-States,>50K
+27.972912,Private,103318.516,HS-grad,8.99463,Never-married,Transport-moving,Own-child,White,Male,-0.17628707,0.15840347,44.97548,Portugal,>50K
+23.953388,Private,82839.34,HS-grad,8.994193,Separated,Other-service,Unmarried,White,Female,0.7400948,0.075182036,49.981956,Portugal,>50K
+>>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_adult_Dlatent_G/vae/reconstructed_data/IPC_10/method_lc_seed_7.csv

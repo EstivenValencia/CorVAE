@@ -1,6 +1,13 @@
 {
+<<<<<<< HEAD:Experiments_F_H/checkpoint_adult_Dlatent_ft_G/random/IPC_30/best_models_random_seed_6_space_original/rf_best_params.json
     "n_estimators": 375,
     "max_depth": 5,
     "min_samples_split": 4,
     "min_samples_leaf": 6
+=======
+    "n_estimators": 428,
+    "max_depth": 10,
+    "min_samples_split": 9,
+    "min_samples_leaf": 9
+>>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_adult_Dlatent_ft_G/random/IPC_30/best_models_random_seed_6_space_original/rf_best_params.json
 }

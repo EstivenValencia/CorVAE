@@ -1,4 +1,9 @@
 {
+<<<<<<< HEAD:Experiments_F_H/checkpoint_adult_Dlatent_ft_G/ag/IPC_10/best_models_ag_seed_7_space_original/svc_best_params.json
     "C": 0.31956930428763136,
     "gamma": 0.03366641829774833
+=======
+    "C": 81.65034948781698,
+    "gamma": 0.014255533717547383
+>>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_adult_Dlatent_ft_G/ag/IPC_10/best_models_ag_seed_7_space_original/svc_best_params.json
 }

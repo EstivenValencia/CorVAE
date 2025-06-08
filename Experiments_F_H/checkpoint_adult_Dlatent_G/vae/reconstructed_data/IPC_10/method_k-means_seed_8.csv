@@ -1,4 +1,5 @@
 age,workclass,fnlwgt,education,education-num,marital-status,occupation,relationship,race,sex,capital-gain,capital-loss,hours-per-week,native-country,income
+<<<<<<< HEAD:Experiments_F_H/checkpoint_adult_Dlatent_G/vae/reconstructed_data/IPC_10/method_k-means_seed_8.csv
 31.099268,Private,173082.0,Bachelors,12.889488,Never-married,Prof-specialty,Not-in-family,White,Male,-24.770647,-1.9196147,40.125343,United-States,<=50K
 41.17906,Private,169584.16,HS-grad,9.109427,Married-civ-spouse,Transport-moving,Husband,White,Male,-12.204119,-1.8670558,41.684437,United-States,<=50K
 29.946487,Private,177675.53,HS-grad,9.0254135,Never-married,Adm-clerical,Not-in-family,White,Female,-27.216204,-1.3290232,36.98928,United-States,<=50K
@@ -19,3 +20,25 @@ age,workclass,fnlwgt,education,education-num,marital-status,occupation,relations
 45.2888,Private,171245.78,HS-grad,9.42961,Married-civ-spouse,?,Husband,White,Male,470.85788,-1.2833384,45.790462,United-States,>50K
 42.962273,Private,174959.8,Bachelors,12.500154,Never-married,Prof-specialty,Not-in-family,White,Male,2054.253,-1.3330363,45.684116,United-States,>50K
 44.541622,Local-gov,171404.36,HS-grad,9.294406,Married-civ-spouse,Sales,Husband,White,Male,379.1832,-0.86973375,46.947838,United-States,>50K
+=======
+28.805384,Private,190223.86,Bachelors,12.973788,Never-married,Other-service,Own-child,White,Male,-7.0226007,0.11629684,38.25992,United-States,<=50K
+29.935251,Private,199436.27,11th,9.060282,Never-married,Other-service,Not-in-family,White,Male,-8.271868,0.19073685,39.894634,United-States,<=50K
+41.865086,Private,181496.89,Some-college,10.951411,Married-civ-spouse,Exec-managerial,Husband,White,Male,-9.959978,0.1657811,43.41143,United-States,<=50K
+25.288328,Private,199500.94,HS-grad,8.173429,Never-married,Craft-repair,Own-child,White,Male,-7.9893975,0.16582687,34.61322,United-States,<=50K
+39.353622,Private,176534.34,11th,9.505301,Married-civ-spouse,Other-service,Wife,White,Female,-11.333025,0.2135411,36.328392,United-States,<=50K
+37.28282,Private,185769.33,Bachelors,13.294547,Never-married,Prof-specialty,Not-in-family,White,Female,-7.6650567,0.29348955,41.256622,United-States,<=50K
+23.39923,Private,193208.03,Some-college,9.56099,Never-married,Other-service,Own-child,White,Male,-6.978045,0.07613571,30.563026,United-States,<=50K
+39.324677,?,188645.97,Some-college,9.014011,Never-married,?,Husband,White,Male,-8.362688,-0.057607576,30.708004,United-States,<=50K
+43.278942,Private,189157.12,HS-grad,7.917375,Married-civ-spouse,Craft-repair,Husband,White,Male,-10.218767,0.2978612,42.475025,United-States,<=50K
+45.78619,Private,184599.2,11th,8.916599,Divorced,Other-service,Unmarried,White,Female,-9.630632,0.18509872,38.944748,United-States,<=50K
+44.35985,Private,188767.62,Masters,12.0037775,Married-civ-spouse,Exec-managerial,Husband,White,Male,-7.5411553,1990.9185,46.315258,United-States,>50K
+46.65894,Federal-gov,192707.45,11th,10.293149,Married-civ-spouse,Craft-repair,Husband,White,Male,1.7066475,0.036134794,42.823086,United-States,>50K
+46.50124,Private,185072.23,Masters,13.055407,Married-civ-spouse,Exec-managerial,Husband,White,Male,100038.375,0.11956985,50.72009,United-States,>50K
+42.68323,Private,188569.81,Bachelors,13.105713,Married-civ-spouse,Exec-managerial,Husband,White,Male,-9.16469,0.085512236,46.718327,United-States,>50K
+47.87074,Self-emp-not-inc,178465.28,11th,9.551848,Married-civ-spouse,Exec-managerial,Husband,White,Male,-3.0894952,-0.03740494,51.07096,United-States,>50K
+43.029858,Private,194237.67,Some-college,10.013593,Married-civ-spouse,Craft-repair,Husband,White,Male,2.4876533,0.03907211,44.926098,United-States,>50K
+44.823765,Self-emp-inc,185926.02,Masters,14.170026,Married-civ-spouse,Prof-specialty,Husband,White,Male,-7.7326837,0.12121017,46.13397,United-States,>50K
+44.55628,Private,184397.94,HS-grad,8.693907,Married-civ-spouse,Craft-repair,Husband,White,Male,1.1608711,0.19109543,45.02575,United-States,>50K
+40.966995,Private,182103.22,Masters,11.458096,Married-civ-spouse,Prof-specialty,Wife,White,Female,-3.9118829,0.07463272,37.539017,United-States,>50K
+45.88665,Private,191292.1,Masters,13.160912,Married-civ-spouse,Exec-managerial,Husband,White,Male,11640.521,0.13043411,46.575966,United-States,>50K
+>>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_adult_Dlatent_G/vae/reconstructed_data/IPC_10/method_k-means_seed_8.csv

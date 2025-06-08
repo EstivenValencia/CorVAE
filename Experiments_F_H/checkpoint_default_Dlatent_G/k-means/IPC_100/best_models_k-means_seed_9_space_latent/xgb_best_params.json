@@ -1,7 +1,15 @@
 {
+<<<<<<< HEAD:Experiments_F_H/checkpoint_default_Dlatent_G/k-means/IPC_100/best_models_k-means_seed_9_space_latent/xgb_best_params.json
     "n_estimators": 100,
     "max_depth": 30,
     "gamma": 0.2607094796078516,
     "subsample": 0.6763176534363691,
     "colsample_bytree": 0.9085785955509359
+=======
+    "n_estimators": 40,
+    "max_depth": 20,
+    "gamma": 0.22905833176720564,
+    "subsample": 0.801298101889242,
+    "colsample_bytree": 0.71290769835694
+>>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_default_Dlatent_ft_H/k-means/IPC_100/best_models_k-means_seed_9_space_latent/xgb_best_params.json
 }
