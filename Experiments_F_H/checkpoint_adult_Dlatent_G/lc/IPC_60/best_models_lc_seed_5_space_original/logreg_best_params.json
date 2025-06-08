@@ -1,8 +1,0 @@
-{
-<<<<<<< HEAD:Experiments_F_H/checkpoint_adult_Dlatent_G/lc/IPC_60/best_models_lc_seed_5_space_original/logreg_best_params.json
-    "C": 22.576755560681583,
-=======
-    "C": 0.012881482725481003,
->>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_adult_Dlatent_G/lc/IPC_60/best_models_lc_seed_5_space_original/logreg_best_params.json
-    "penalty": "l2"
-}

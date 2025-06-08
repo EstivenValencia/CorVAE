@@ -1,8 +1,0 @@
-{
-<<<<<<< HEAD:Experiments_F_H/checkpoint_default_Doriginal_H/k-means/IPC_70/best_models_k-means_seed_8_space_original/logreg_best_params.json
-    "C": 69.61507800412923,
-=======
-    "C": 44.924057383858866,
->>>>>>> d5c2cc01f322b0c8c482fe77f26a5b2a72788bd4:checkpoint_default_Doriginal_H/k-means/IPC_70/best_models_k-means_seed_8_space_original/logreg_best_params.json
-    "penalty": "l2"
-}
