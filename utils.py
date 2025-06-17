@@ -38,10 +38,6 @@ from sklearn.base import BaseEstimator
 from tensorboardX import SummaryWriter
 import time
 
-# -----------------------------------------------------------------------------
-# Registry of models and their hyper‑parameter spaces (lists) ------------------
-# -----------------------------------------------------------------------------
-
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
 from xgboost import XGBClassifier
@@ -61,6 +57,8 @@ warnings.filterwarnings("ignore")
 def _weighted_f1(y_true, y_pred):
     return f1_score(y_true, y_pred, average="weighted")
 
+# Métricas a calcular sobre la evaluación de los modelos
+
 _METRIC_SCORERS = {
     "balanced": make_scorer(balanced_accuracy_score),
     "macro_f1": make_scorer(f1_score, average="macro"),
@@ -68,6 +66,7 @@ _METRIC_SCORERS = {
     "accuracy": make_scorer(accuracy_score),
 }
 
+# Modelos a evaluar con optuna
 
 MODELS = {
     "xgb": {
@@ -159,59 +158,6 @@ MODEL_XGB = {
     'objective': 'binary:logistic'
 }
 
-def compute_relative_regret(
-    test_metrics_all: dict,
-    metrics_random: list[dict],
-    metrics_method: list[dict],
-    method_name: str,
-    ipc: int,
-    metric_key: str = "balanced",
-) -> pd.DataFrame:
-    """
-    Parameters
-    ----------
-    test_metrics_all : dict
-        { model_name: {metric_key: float, ...}, ... }
-    metrics_random : list of dict
-        Lista (len 5) con la misma estructura que test_metrics_all
-        para cada semilla de random sampling.
-    metrics_method : list of dict
-        Igual, para el método (e.g. k-means).
-    method_name : str
-        Nombre del método (p.ej. "k-means").
-    ipc : int
-        Número de instancias por clase (para guardar la columna IPC).
-    metric_key : str
-        Qué métrica usar para el regret (por defecto "balanced").
-    """
-    records = []
-    n_seeds = len(metrics_random)
-    # para cada modelo (xgb, rf, …)
-    for model_name, all_metrics in test_metrics_all.items():
-        AF = all_metrics[metric_key]
-        regrets = []
-        for i in range(n_seeds):
-            AR = metrics_random[i][model_name][metric_key]
-            AM = metrics_method[i][model_name][metric_key]
-            # evita división por cero
-            denom = (AF - AR)
-            if denom == 0:
-                r = np.nan
-            else:
-                r = (AF - AM) / denom
-            regrets.append(r)
-        regrets = np.array(regrets, dtype=np.float64)
-        records.append({
-            "method":      method_name,
-            "ipc":         ipc,
-            "model":       model_name,
-            "regret_mean": np.nanmean(regrets),
-            "regret_std":  np.nanstd(regrets),
-        })
-
-    df = pd.DataFrame(records)
-    return df
-
 
 def read_json_config(json_config_path):
     
@@ -247,7 +193,6 @@ def split_train_test_custom(config, base_dir, test_size=0.1, random_state=0):
         random_state=random_state,
         stratify=y
     )
-
     np.save(f'{base_dir}/X_train.npy', X_train)
     np.save(f'{base_dir}/X_test.npy', X_test)
     np.save(f'{base_dir}/y_train.npy', y_train)
