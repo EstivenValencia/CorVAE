@@ -1,92 +1,168 @@
-# Este repositorio contiene el codigo fuente de la arquitectura CorVAE
-una metodología para la destilación de datos tabulares heterogeneos (columnas numéricas y categoricas) que aplica autoencoders variacionales VAEs 
-sobre cuyo espacio latente se aplican técnicas de coreset como K-Means, Agglomerative clustering, Least confidence y K-Center greedy para seleccionar un conjunto de muestras representativas (coreset) que permite entrenar modelos de clasificación basados en redes neuronales como aquellos que no y que alcancen 
-rendimientos comparables al entrenarse con todos los datos
+# CorVAE: Destilación de Datos Heterogéneos con Autoencoders Variacionales y selección de Coreset
 
-# Métricas utilizadas y modelos evaluadas
-El presente proyecto aunque calcula la mayoría de métricas como accuracy, recall, presicion,
-f1-score, roc auc y balanced accuracy los resultados que se reportan se analizaron principalmente con 
-balanced accuracy debido al desbalance de clases de los modelos
+Este repositorio contiene el código fuente de la arquitectura **CorVAE**, una metodología para la destilación de datos tabulares heterogéneos (con columnas numéricas y categóricas). CorVAE emplea Autoencoders Variacionales (VAEs) para aprender una representación latente de los datos, sobre la cual se aplican técnicas de selección de coreset para identificar un subconjunto de muestras representativas.
 
-# Resultados
-En la siguiente grafica se presentan las curvas de la métrica de balanced accurcy para el conjunto de 
-shopper destilado desde un IPC de 10 hasta 100, a nivel de fila se encuentra la técnica de coreset y a 
-nivel de columna el modelo, las graficas sombreadas en azul son la destilación en latente y reconstrucción con el decodificador del VAE para entrenar los modelos, el amarrillo es el entrenammiento 
-permaneciendo en el espacio latente. 
+El objetivo principal es reducir significativamente el tamaño del conjunto de datos de entrenamiento sin sacrificar el rendimiento de los modelos de aprendizaje automático. Esto se traduce en una disminución de los costos computacionales, el tiempo de entrenamiento y el consumo energético, alineándose con las necesidades del Edge Computing. 
 
-Los mejores resultados se evidenciaron en conjuntos de datos heterogeneos y en el espacio reconstruido
-<Poner aqui la imagen de shopper>
+La metodología permite entrenar modelos de clasificación (tanto basados en redes neuronales como tradicionales) sobre este coreset, logrando un rendimiento comparable al obtenido con el conjunto de datos completo.
 
-# Version de python
-La version de python utilizada es python 3.12
+## Metodología
 
-# Reconocimiento
-Este trabajo utiliza una version adaptada de la arquitectura de tabsyn utilizada para 
-la generación de datos con modelos de difusión.
+CorVAE se basa en un pipeline de dos etapas:
 
-# Baseline
-Para comparar CorVAE nos comparamos contra el entrenamiento de 
+1.  **Aprendizaje de Representación**: Se entrena un Autoencoder Variacional (VAE) con una arquitectura basada en Transformers para capturar las dependencias complejas entre las características de los datos tabulares. El VAE aprende a comprimir los datos en un espacio latente de menor dimensionalidad.
+2.  **Selección de Coreset**: Sobre el espacio latente generado por el VAE, se aplican diversas técnicas de coreset para seleccionar un subconjunto óptimo de muestras. Las técnicas implementadas incluyen:
+    * K-Means
+    * Agglomerative Clustering
+    * Least Confidence
+    * K-Center Greedy
 
-# Estructura 
-main.py script principal que ejecuta el pipeline completo con todos los métodos de destilación y el 
-entrenamiento con los datos completos. Para los métodos de destilación se pueden aplicar en el espacio original, en el espacio latente reconstruyendo al espacio original o permaneciendo al espacio latente
+Finalmente, el coreset seleccionado puede ser utilizado de dos maneras:
+* **Entrenamiento en el Espacio Latente**: Los modelos se entrenan directamente con las representaciones latentes del coreset.
+* **Entrenamiento en el Espacio Reconstruido**: Las muestras del coreset en el espacio latente se decodifican de vuelta al espacio original para entrenar los modelos.
 
-utils.py contiene todas las funciones para el preprocesado de lso datos, la división, la recontrucción de los datos y la evaluación de los modelos con optuna durante 3o trials con un cross validation de 5 folds
+## Estructura del Repositorio
 
-train_vae.py Este script contiene las funciones para el entrenamiento completo de la parte del VAE y almacena en un tesorboard las diferentes perdidas durante el entrenamiento
+```bash
+├── data/
+│   ├── adult/
+│   ├── default/
+│   └── shoppers/
+├── results/
+│   ├── checkpoint/
+│   ├── curve_figures/
+│   ├── effiency_figures/
+│   ├── explainability_analysis/
+│   └── exploratory_analysis/
+├── tune_vae/
+├── TDCOLER_data/
+├── Analisis_datasets.ipynb
+├── Analisis_results.ipynb
+├── distill.py
+├── environment.yml
+├── job.sh
+├── main.py
+├── models_vae.py
+├── train_vae.py
+└── utils.py
+```
 
-distill.py Este script contiene la definición de los métodos de selección de coreset utilizados para la 
-destilación de los datos
+* **`main.py`**: Script principal que ejecuta el pipeline completo de destilación y evaluación.
+* **`utils.py`**: Funciones para el preprocesamiento, división de datos, reconstrucción y evaluación de modelos con Optuna y validación cruzada.
+* **`train_vae.py`**: Script para el entrenamiento del Autoencoder Variacional (VAE).
+* **`distill.py`**: Implementación de los métodos de selección de coreset.
+* **`models_vae.py`**: Definición de la arquitectura del VAE basada en Transformers.
+* **`Analisis_datasets.ipynb`**: Notebook con el Análisis Exploratorio de Datos (EDA) de los datasets utilizados (Adult, Default y Shopper).
+* **`Analisis_results.ipynb`**: Notebook para el análisis de resultados, eficiencia computacional, explicabilidad (T-SNE, coeficiente de silueta) y comparación con baselines.
+* **`data/`**: Contiene los datasets y sus archivos de configuración `metadata.json`.
+* **`results/`**: Almacena los resultados de las ejecuciones, incluyendo checkpoints, figuras de métricas y análisis.
+* **`job.sh`**: Ejemplo de script de ejecución para el `main.py`.
 
-models_vae.py Contiene la definición de los modelos transformers de las redes del VAE del tokenizador y todas las funciones que necesita el script train_vae para funcionar
+## Instalación
 
-Analisis_datasets.ipynb este notebook contiene el análisis exploratorio de los tres conjuntos de datos que se trabajaron en este proyecto (Adult, Default y shopper)
+El entorno de desarrollo se gestiona con Conda. Para instalar las dependencias, clona el repositorio y ejecuta el siguiente comando:
 
-Analisis_results.ipynb este notebook contiene el análisis de todos los resultados que se obtuvieron con CorVAE para los diferentes conjuntos y modelos, así como también los analisis de eficiencia computacional, tamaño de los datos destilados y analisis de explicabilidad del funcionamiento del latente utilizando t-sne y coeficiente de silueta. Además presenta la comparación contra los baselines
+```bash
+conda env create -f environment.yml
+conda activate corvae
+```
 
-results En la carpeta contiene todas las figuras de los analisis de resultados así como tambien los checkpoints con las corridas para los diferentes conjuntos de datos
+La versión de Python utilizada es Python 3.12.
 
-tune_vae Esta carpeta contiene las primeras corridas que se utilizaron para tunear los hiperparametros de la red del VAE
+## Uso
 
-data Esta carpeta contiene los archivos de configuracion para los diferentes conjuntos asi como sus archivos de configuracion
+### 1. Archivo de Configuración del Dataset
 
-TDCOLER_data Esta carpeta contiene los resultados de la arquitectura TDColER para los conjutnos de Adult y default especificamente para el autoencoder con capas transformers sin capa clasificadora 
+Para utilizar un nuevo conjunto de datos, es necesario crear un archivo `metadata.json` en una carpeta dentro de `data/`. Este archivo debe seguir el siguiente formato:
 
-job.sh presenta un ejemplo de ejecución del archivo main.py
-
-# Instalación de dependencias
-El codigo se ejecuto utilizando un entorno de conda, para su instalación debe ejecutar
-conda create conda env create -f environment.yml
-
-# Ejecución de un nuevo conjunto
-Para la ejecución de un nuevo conjunto de datos, se requiere un archivo de configuración json con la 
-información necesaria para ejecutar el pipeline, en data se encuentra los ejemplos del conjunto de Adult, Default y Shopper, este debe tener el siguiente formato: 
-
-{ 
-    "name": "adult", # Nombre del conjunto de datos
-    "normalization": "z-score", # La normalización que se aplica a las columna numéricas puede ser
-    z-score, min-max y robust
-    "num_col_idx": [0, 2, 4, 10, 11, 12], # Indices de las columnas númericas en el dataset
-    "cat_col_idx": [1, 3, 5, 6, 7, 8, 9, 13], # Indices de las columnas categóricas en el dataset
-    "target_col_idx": [14], #Indice de la columna con la etiqueta
-    "type": "classification", # Tarea para la que se va utilizar el dataset (por ahora solo clasificación)
-    "num_imputation": "mean", # Método de imputación para las columnas númericas tiene las opciones de mean, median y most_frequent
-    "cat_imputation": "most_frequent", # Método de imputación para las columnas categóricas solo most_frequent
-    "file": "dataset.csv", # Nombre del archivo csv con los datos debe estar al mismo nivel que el archivo de configuración
-    "num_col_names": ["age","fnlwgt","education-num","capital-gain","capital-loss","hours-per-week"], # Nombres de las columnas numéricas
-    "cat_col_names": ["workclass","education","marital-status","occupation","relationship","race","sex","native-country"], # Nombres de las columnas categoricas
-    "target_col_name": "income" # Nombre de la columna objetivo
+```json
+{
+"name": "adult",
+"normalization": "z-score",
+"num_col_idx": [0, 2, 4, 10, 11, 12],
+"cat_col_idx": [1, 3, 5, 6, 7, 8, 9, 13],
+"target_col_idx": [14],
+"type": "classification",
+"num_imputation": "mean",
+"cat_imputation": "most_frequent",
+"file": "dataset.csv",
+"num_col_names": ["age", "fnlwgt", "education*num", "capital*gain", "capital*loss", "hours*per*week"],
+"cat_col_names": ["workclass", "education", "marital*status", "occupation", "relationship", "race", "sex", "native*country"],
+"target_col_name": "income"
 }
+```
 
-a partir de definir el archivo de hiperparametros se puede ejecutar el script main.py de la siguiente manera: 
+### 2. Archivo de Hiperparámetros del VAE
+Se requiere un archivo JSON con los mejores hiperparámetros para el VAE. Puedes usar los proporcionados en la carpeta `tune_vae/` como base.
 
-main.py
+```json
+{
+"best_params": {
+"max_beta": 0.0077,
+"min_beta": 0.00014,
+"lambda_": 0.9,
+"lr_pretrain": 0.0051,
+"wd_pretrain": 0,
+"d_token": 8,
+"n_head": 2,
+"factor": 16,
+"num_layers": 1
+}
+}
+```
 
-# Limitaciones
-Por ahora solo se ha probado la metodoloǵia en tareas de clasificación y en conjuntos con datos categoricos y numéricos y solo numéricos, aplicarlo a conjntos solo categóricos requiere cambios en la estructura. 
+### 3. Ejecución del Pipeline
+Ejecuta el script `main.py` con los siguientes argumentos:
 
-# Resultados
-La mejor combinación se obtuvo para la mezcla de K-means con CorVAE
+```bash
+python3.12 main.py
+--metadata_path data/shoppers/metadata.json
+--distillation_space latent
+--epochs_latent 3000
+--batch_size 4096
+--checkpoint_path checkpoint_shoppers_Doriginal_F
+--hyperparams_vae tune_vae/tune_shoppers/best_hyperparams.json
+--kmeans_type centroid
+```
 
- que aplica autoencoders variacionales VAEs para mejorar 
-las capacidades de los métodos de coreset como K-MEANS y agglomerative clustering para la
+`**distillation_space` Espacio donde se realiza la destilación. Opciones: `original` (no entrena el VAE) o `latent` (entrena el VAE y destila en el espacio latente).
+
+## Salida de la Ejecución
+La ejecución generará una carpeta de checkpoint (`checkpoint_shoppers_Doriginal_F` en el ejemplo) con la siguiente estructura:
+
+`metrics.csv`: Fichero con los resultados de las métricas para cada modelo y semilla.
+
+**Carpetas por técnica de destilación**: Contienen los mejores hiperparámetros encontrados para cada modelo.
+
+**Carpeta vae**:
+
+Espacios latentes (`Z_pred.pt`, `Y_label.pt`).
+
+Redes `encoder.pt` y `decoder.pt`.
+
+Carpeta `runs` con logs de TensorBoard para monitorizar la pérdida del VAE.
+
+Carpeta `reconstructed_data` con los datos destilados y reconstruidos para cada IPC (Images Per Class) y semilla.
+
+## Métricas y Evaluación
+El rendimiento se evalúa utilizando un amplio rango de métricas de clasificación: `accuracy`, `precision`, `recall`, `f1-score`, `roc_auc` y `balanced_accuracy`. Debido al desbalance de clases presente en los datasets industriales, los resultados se reportan y analizan principalmente con **Balanced Accuracy**.
+
+## Resultados
+Los mejores resultados se observaron en conjuntos de datos heterogéneos y utilizando el **espacio reconstruido** (destilación latente seguida de reconstrucción con el decodificador del VAE). La combinación de **CorVAE + K-Means** demostró ser la más efectiva.
+A continuación, se muestra un ejemplo de las curvas de rendimiento para el dataset Shopper, comparando el entrenamiento en el espacio latente (amarillo) y en el espacio reconstruido (azul).
+
+![Conjunto shopper](results/curve_figures/shopper_KM_AG_balanced_accuracy.png)
+
+## Baselines
+Para validar la efectividad de CorVAE, los resultados se comparan contra un baseline consistente en el entrenamiento de los mismos modelos de clasificación utilizando el **conjunto de datos completo**. los modelos de selección de coreset en el espacio original y la arquitectura del estado del arte TDColER.
+
+## Limitaciones
+Actualmente, la metodología ha sido validada en:
+
+Tareas de clasificación binaria.
+
+Conjuntos de datos numéricos y heterogéneos (numéricos y categóricos).
+La aplicación a conjuntos de datos puramente categóricos o a tareas de clasificación multiclase podría requerir adaptaciones en la arquitectura del VAE y en el pipeline de preprocesamiento.
+
+## Reconocimiento
+Este trabajo utiliza una versión adaptada de la arquitectura de **TabSyn**, originalmente diseñada para la generación de datos sintéticos con modelos de difusión.
