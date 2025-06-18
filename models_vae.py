@@ -475,3 +475,305 @@ class Transformer(nn.Module):
             x = self._end_residual(x, x_residual, layer, 1)
 
         return x
+
+class VAE(nn.Module):
+    """Implementación de un Autoencoder Variacional (VAE) para datos tabulares.
+
+    Esta clase define la arquitectura central del VAE, utilizando un Tokenizer para
+    convertir los datos de entrada en una secuencia de tokens y una arquitectura
+
+    basada en Transformers para el encoder y el decoder.
+
+    Args:
+        d_numerical (int): Número de características numéricas en los datos de entrada.
+        categories (list[int]): Lista con la cardinalidad (número de valores únicos) de cada
+                                característica categórica.
+        num_layers (int): Número de capas a utilizar en los módulos Transformer.
+        hid_dim (int): Dimensión de los tokens y del espacio latente (d_token).
+        n_head (int, optional): Número de cabezas de atención para el Transformer. Por defecto es 1.
+        factor (int, optional): Factor de expansión para las capas Feed-Forward del Transformer. Por defecto es 4.
+        bias (bool, optional): Indica si el Tokenizer debe usar un término de sesgo. Por defecto es True.
+    """
+    def __init__(self, d_numerical, categories, num_layers, hid_dim, n_head=1, factor=4, bias=True):
+        super(VAE, self).__init__()
+
+        self.d_numerical = d_numerical
+        self.categories = categories
+        self.hid_dim = hid_dim
+        d_token = hid_dim
+        self.n_head = n_head
+
+        # Módulo para convertir las características de entrada en una secuencia de embeddings.
+        self.Tokenizer = Tokenizer(d_numerical, categories, d_token, use_bias=bias)
+
+        # El encoder se divide en dos Transformers para predecir la media (mu) y la
+        # varianza logarítmica (logvar) de la distribución latente.
+        self.encoder_mu = Transformer(num_layers, hid_dim, n_head, hid_dim, factor)
+        self.encoder_logvar = Transformer(num_layers, hid_dim, n_head, hid_dim, factor)
+
+        # El decoder es un Transformer que reconstruye los tokens a partir de una muestra del espacio latente.
+        self.decoder = Transformer(num_layers, hid_dim, n_head, hid_dim, factor)
+
+    def get_embedding(self, x):
+        """Obtiene la media del espacio latente (mu) sin muestreo."""
+        return self.encoder_mu(x, x).detach()
+
+    def reparameterize(self, mu, logvar):
+        """Aplica el truco de reparametrización para el muestreo del espacio latente.
+
+        Este método permite que el gradiente fluya a través del proceso de muestreo
+        durante el entrenamiento. z = mu + epsilon * std.
+
+        Args:
+            mu (torch.Tensor): La media de la distribución latente.
+            logvar (torch.Tensor): La varianza logarítmica de la distribución latente.
+
+        Returns:
+            torch.Tensor: Una muestra del espacio latente.
+        """
+        std = torch.exp(0.5 * logvar)
+        eps = torch.randn_like(std)
+        return mu + eps * std
+
+    def forward(self, x_num, x_cat):
+        """Define el paso hacia adelante del VAE.
+
+        Args:
+            x_num (torch.Tensor): Tensor con las características numéricas de entrada.
+            x_cat (torch.Tensor): Tensor con las características categóricas de entrada.
+
+        Returns:
+            tuple: Una tupla que contiene:
+                - h (torch.Tensor): La salida del decoder (tokens reconstruidos).
+                - mu_z (torch.Tensor): La media de la distribución latente.
+                - std_z (torch.Tensor): La desviación estándar de la distribución latente.
+        """
+        # 1. Convertir los datos de entrada en una secuencia de tokens.
+        x = self.Tokenizer(x_num, x_cat)
+
+        # 2. Codificar los tokens para obtener los parámetros de la distribución latente.
+        mu_z = self.encoder_mu(x)
+        logvar_z = self.encoder_logvar(x) # Renombrado para claridad
+
+        # 3. Muestrear una variable latente 'z' usando el truco de reparametrización.
+        z = self.reparameterize(mu_z, logvar_z)
+
+        # 4. Decodificar 'z' para reconstruir los tokens de características.
+        #    Se omite el token [CLS] (en la posición 0) para la decodificación.
+        h = self.decoder(z[:, 1:])
+        
+        return h, mu_z, logvar_z
+
+
+class Reconstructor(nn.Module):
+    """Módulo para reconstruir los datos tabulares a partir de los tokens decodificados.
+
+    Este módulo actúa como un "de-tokenizer", convirtiendo la secuencia de embeddings
+    de salida del decoder de vuelta al formato de datos original (numérico y categórico).
+
+    Args:
+        d_numerical (int): Número de características numéricas originales.
+        categories (list[int]): Lista con la cardinalidad de cada característica categórica.
+        d_token (int): Dimensión de los tokens de entrada.
+    """
+    def __init__(self, d_numerical, categories, d_token):
+        super(Reconstructor, self).__init__()
+
+        self.d_numerical = d_numerical
+        self.categories = categories
+        self.d_token = d_token
+        
+        # Parámetro de peso para la reconstrucción de las variables numéricas.
+        self.weight = nn.Parameter(Tensor(d_numerical, d_token))
+        nn.init.xavier_uniform_(self.weight, gain=1 / math.sqrt(2))
+        
+        # Lista de capas lineales, una para cada característica categórica, para predecir los logits.
+        self.cat_recons = nn.ModuleList()
+        for num_classes in categories:
+            layer = nn.Linear(d_token, num_classes)
+            nn.init.xavier_uniform_(layer.weight, gain=1 / math.sqrt(2))
+            self.cat_recons.append(layer)
+
+    def forward(self, h):
+        """Define el paso hacia adelante del reconstructor.
+
+        Args:
+            h (torch.Tensor): Tensor de embeddings de salida del decoder.
+
+        Returns:
+            tuple: Una tupla que contiene:
+                - recon_x_num (torch.Tensor): Las características numéricas reconstruidas.
+                - recon_x_cat (list[torch.Tensor]): Una lista de tensores con los logits para cada
+                  característica categórica reconstruida.
+        """
+        # Separa los tokens que corresponden a las variables numéricas y categóricas.
+        h_num = h[:, :self.d_numerical]
+        h_cat = h[:, self.d_numerical:]
+
+        # Reconstruye las variables numéricas mediante una proyección.
+        recon_x_num = torch.mul(h_num, self.weight.unsqueeze(0)).sum(-1)
+        
+        # Reconstruye cada variable categórica aplicando su capa lineal correspondiente.
+        recon_x_cat = []
+        for i, recon_layer in enumerate(self.cat_recons):
+            recon_x_cat.append(recon_layer(h_cat[:, i]))
+
+        return recon_x_num, recon_x_cat
+
+
+class ClassifierHead(nn.Module):
+    """Cabezal de clasificación para predecir una clase a partir de un vector latente.
+
+    Implementa una arquitectura estándar para clasificación sobre embeddings:
+    LayerNorm -> Dropout -> Capa Lineal. Esto estabiliza el entrenamiento y
+    proporciona una regularización efectiva.
+
+    Args:
+        input_dim (int): Dimensión del vector de entrada (ej. la dimensión de un token).
+        num_classes (int): Número de clases de salida.
+        dropout (float, optional): Tasa de dropout a aplicar. Por defecto es 0.3.
+    """
+    def __init__(self, input_dim: int, num_classes: int, dropout: float = 0.3):
+        super().__init__()
+        # Normalización de capa para estabilizar la entrada del clasificador.
+        self.norm = nn.LayerNorm(input_dim)
+        # Dropout para regularizar y prevenir el sobreajuste.
+        self.dropout = nn.Dropout(dropout)
+        # Capa lineal final que proyecta a los logits de las clases.
+        self.fc = nn.Linear(input_dim, num_classes)
+
+        # Inicialización de pesos recomendada para la capa de clasificación.
+        nn.init.xavier_uniform_(self.fc.weight, gain=1.0)
+        nn.init.zeros_(self.fc.bias)
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """Paso hacia adelante del clasificador.
+
+        Args:
+            x (torch.Tensor): Tensor de entrada, típicamente el token [CLS] o
+                              la media del espacio latente (`mu_z[:, 0, :]`).
+                              Shape: [batch_size, input_dim].
+
+        Returns:
+            torch.Tensor: Logits de clasificación. Shape: [batch_size, num_classes].
+        """
+        # Aplica la secuencia de normalización, dropout y capa lineal.
+        x = self.norm(x)
+        x = self.dropout(x)
+        logits = self.fc(x)
+        return logits
+
+
+class ModelVAE(nn.Module):
+    """Modelo VAE completo que integra el VAE, el Reconstructor y un cabezal de clasificación.
+
+    Este es el modelo principal que se entrena de extremo a extremo, capaz de realizar
+    reconstrucción (auto-supervisada) y clasificación (supervisada) de forma conjunta,
+    lo que lo hace ideal para tareas de fine-tuning.
+
+    Args:
+        (Ver los argumentos de las clases VAE y ClassifierHead para una descripción completa).
+        num_classes (int, optional): Si se proporciona un valor > 0, se crea un cabezal de
+                                     clasificación para entrenamiento supervisado.
+    """
+    def __init__(self, num_layers, d_numerical, categories, d_token, n_head=1, factor=4, bias=True, num_classes=None, droput_class=0.3):
+        super(ModelVAE, self).__init__()
+
+        # Módulo VAE principal para codificación y decodificación.
+        self.VAE = VAE(d_numerical, categories, num_layers, d_token, n_head=n_head, factor=factor, bias=bias)
+        # Módulo para reconstruir los datos tabulares desde los tokens decodificados.
+        self.Reconstructor = Reconstructor(d_numerical, categories, d_token)
+
+        # Creación opcional del cabezal de clasificación para fine-tuning.
+        self.classifier = None
+        if num_classes is not None and num_classes > 0:
+            self.classifier = ClassifierHead(input_dim=d_token,
+                                             num_classes=num_classes,
+                                             dropout=droput_class)
+
+    def get_embedding(self, x_num, x_cat):
+        """Función de utilidad para obtener la representación latente de los datos."""
+        x = self.Tokenizer(x_num, x_cat)
+        return self.VAE.get_embedding(x)
+
+    def forward(self, x_num, x_cat):
+        """Paso hacia adelante del modelo completo.
+
+        Args:
+            x_num (torch.Tensor): Características numéricas de entrada.
+            x_cat (torch.Tensor): Características categóricas de entrada.
+
+        Returns:
+            tuple: Una tupla con 5 elementos:
+                - recon_x_num (torch.Tensor): Reconstrucción numérica.
+                - recon_x_cat (list[torch.Tensor]): Logits de reconstrucción categórica.
+                - mu_z (torch.Tensor): Media de la distribución latente.
+                - logvar_z (torch.Tensor): Varianza logarítmica de la distribución latente.
+                - class_logits (torch.Tensor or None): Logits de clasificación si el clasificador está activo.
+        """
+        # Obtiene la salida del VAE (tokens decodificados y parámetros latentes).
+        h, mu_z, logvar_z = self.VAE(x_num, x_cat)
+
+        # Reconstruye los datos tabulares a partir de los tokens decodificados.
+        recon_x_num, recon_x_cat = self.Reconstructor(h)
+
+        # Si el modelo incluye un clasificador, calcula los logits de clasificación.
+        class_logits = None
+        if self.classifier is not None:
+            # Se utiliza la representación del token [CLS] (en la posición 0) como entrada.
+            cls_token_representation = mu_z[:, 0, :]
+            class_logits = self.classifier(cls_token_representation)
+
+        return recon_x_num, recon_x_cat, mu_z, logvar_z, class_logits
+
+
+class EncoderModel(nn.Module):
+    """Modelo que encapsula únicamente la parte del Encoder de un VAE pre-entrenado.
+
+    Diseñado para la etapa de inferencia, permite obtener la representación latente (z)
+    de nuevos datos de manera eficiente, sin necesidad de ejecutar el decoder.
+    """
+    def __init__(self, num_layers, d_numerical, categories, d_token, n_head, factor, bias=True):
+        super(EncoderModel, self).__init__()
+        # El encoder requiere un Tokenizer para procesar la entrada.
+        self.Tokenizer = Tokenizer(d_numerical, categories, d_token, bias)
+        # El encoder en sí es un Transformer que predice la media (mu) del espacio latente.
+        self.VAE_Encoder = Transformer(num_layers, d_token, n_head, d_token, factor)
+
+    def load_weights(self, Pretrained_VAE: ModelVAE):
+        """Carga los pesos del tokenizer y del encoder desde un VAE completo y pre-entrenado."""
+        self.Tokenizer.load_state_dict(Pretrained_VAE.VAE.Tokenizer.state_dict())
+        self.VAE_Encoder.load_state_dict(Pretrained_VAE.VAE.encoder_mu.state_dict())
+
+    def forward(self, x_num, x_cat):
+        """Paso hacia adelante: tokeniza la entrada y la codifica en el espacio latente."""
+        x = self.Tokenizer(x_num, x_cat)
+        z = self.VAE_Encoder(x)
+        return z
+
+
+class DecoderModel(nn.Module):
+    """Modelo que encapsula únicamente la parte del Decoder de un VAE pre-entrenado.
+
+    Diseñado para la etapa de inferencia, permite generar nuevos datos a partir de un
+    vector latente (z) que puede ser muestreado o manipulado.
+    """
+    def __init__(self, num_layers, d_numerical, categories, d_token, n_head, factor, bias=True):
+        super(DecoderModel, self).__init__()
+        # El decoder es un Transformer que convierte un vector latente en una secuencia de tokens.
+        self.VAE_Decoder = Transformer(num_layers, d_token, n_head, d_token, factor)
+        # El Detokenizer (Reconstructor) convierte los tokens de salida a datos tabulares.
+        self.Detokenizer = Reconstructor(d_numerical, categories, d_token)
+        
+    def load_weights(self, Pretrained_VAE: ModelVAE):
+        """Carga los pesos del decoder y del reconstructor desde un VAE completo y pre-entrenado."""
+        self.VAE_Decoder.load_state_dict(Pretrained_VAE.VAE.decoder.state_dict())
+        self.Detokenizer.load_state_dict(Pretrained_VAE.Reconstructor.state_dict())
+
+    def forward(self, z):
+        """Paso hacia adelante: decodifica un vector latente 'z' y lo reconstruye a datos tabulares."""
+        # Pasa 'z' por el decoder para obtener la secuencia de tokens reconstruida.
+        h = self.VAE_Decoder(z)
+        # Convierte los tokens en los datos numéricos y categóricos finales.
+        x_hat_num, x_hat_cat = self.Detokenizer(h)
+        return x_hat_num, x_hat_cat

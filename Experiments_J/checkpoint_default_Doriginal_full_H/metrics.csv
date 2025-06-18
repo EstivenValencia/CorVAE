@@ -1,8 +1,0 @@
-model,method,cv_balanced,cv_macro_f1,cv_weighted_f1,cv_accuracy,cv_balanced_std,cv_macro_f1_std,cv_weighted_f1_std,cv_accuracy_std,optuna_time,train_time,test_balanced,test_macro_f1,test_weighted_f1,test_accuracy,test_roc_auc,inf_time_per_sample,space,IPC,seed,vae_pretrain_time,vae_fine_tunning_time,encoder_inference_time,decoder_inference_time
-xgb,Full-data,0.696,0.695,0.695,0.696,0.009,0.009,0.009,0.009,14.721,0.181,0.697,0.653,0.734,0.714,0.767,4e-06,original,,,,,,
-rf,Full-data,0.712,0.71,0.71,0.712,0.006,0.006,0.006,0.006,44.896,4.302,0.715,0.686,0.769,0.756,0.789,2.5e-05,original,,,,,,
-svc,Full-data,0.706,0.702,0.702,0.706,0.008,0.008,0.008,0.008,336.899,42.793,0.707,0.689,0.776,0.767,0.768,0.000704,original,,,,,,
-logreg,Full-data,0.706,0.702,0.702,0.706,0.009,0.009,0.009,0.009,5.423,3.151,0.705,0.69,0.779,0.771,0.77,0.0,original,,,,,,
-mlp,Full-data,0.706,0.704,0.704,0.706,0.011,0.011,0.011,0.011,25.489,2.172,0.706,0.672,0.754,0.739,0.777,1.1e-05,original,,,,,,
-naive_bayes,Full-data,0.549,0.445,0.445,0.549,0.008,0.011,0.011,0.008,2.606,0.017,0.538,0.52,0.719,0.785,0.734,1e-06,original,,,,,,
-knn,Full-data,0.681,0.678,0.678,0.681,0.009,0.009,0.009,0.009,9.702,0.002,0.684,0.659,0.749,0.735,0.741,0.000116,original,,,,,,
