@@ -24,7 +24,8 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 # Importaciones locales del proyecto
 from utils import preprocessing, read_json_config
-from models_vae import ModelVAE, compute_loss, EncoderModel, DecoderModel, LossTracker
+from models_vae import (ModelVAE, compute_loss, EncoderModel, DecoderModel, LossTracker,
+                        MLP_ModelVAE, MLP_EncoderModel, MLP_DecoderModel)
 
 warnings.filterwarnings('ignore')
 
@@ -207,7 +208,7 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
 
 # --- 3. Orquestador Principal del Entrenamiento ---
 
-def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_size=64, pretrain_epochs=50, finetune_epochs=30, concat_label=False,ckpt_dir='ckpt', hyperparams = {}):
+def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_size=64, pretrain_epochs=50, finetune_epochs=30, concat_label=False,ckpt_dir='ckpt', hyperparams = {}, architecture='transformer'):
     
     # --- 1. Configuración de Hiperparámetros ---
     # Parámetros para el pre-entrenamiento del VAE.
@@ -222,6 +223,11 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     factor = hyperparams.get('factor', 32)
     num_layers = hyperparams.get('num_layers', 2)
     early_stop_counter_pretrain = hyperparams.get('early_stop_counter_pretrain', 30)
+
+    # Parámetros específicos del MLP (solo usados si architecture == 'mlp').
+    n_hidden_layers = hyperparams.get('n_hidden_layers', 2)
+    hidden_dim = hyperparams.get('hidden_dim', 128)
+    mlp_dropout = hyperparams.get('mlp_dropout', 0.3)
     
     # Parámetros para el fine-tuning supervisado.
     dropout_ft = hyperparams.get('dropout_ft', 0.3)
@@ -260,15 +266,32 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     num_cols, cat_cols = X_num_train.shape[1], X_cat_train.shape[1]
 
     # --- 3. Inicialización de Modelos y Optimizador ---
-    # Instancia el modelo VAE principal (sin cabezal de clasificación para el pre-entrenamiento).
-    model = ModelVAE(num_layers, num_cols, categories, d_token, num_classes=None, n_head=n_head, factor=factor, bias=token_bias).to(device)
+    if architecture == 'mlp':
+        # Instancia el modelo MLP-VAE (sin Transformers).
+        model = MLP_ModelVAE(
+            d_numerical=num_cols, categories=categories, d_token=d_token,
+            n_hidden_layers=n_hidden_layers, hidden_dim=hidden_dim,
+            mlp_dropout=mlp_dropout, bias=token_bias, num_classes=None
+        ).to(device)
+        pre_encoder = MLP_EncoderModel(
+            d_numerical=num_cols, categories=categories, d_token=d_token,
+            n_hidden_layers=n_hidden_layers, hidden_dim=hidden_dim,
+            mlp_dropout=mlp_dropout
+        ).to(device).eval()
+        pre_decoder = MLP_DecoderModel(
+            d_numerical=num_cols, categories=categories, d_token=d_token,
+            n_hidden_layers=n_hidden_layers, hidden_dim=hidden_dim,
+            mlp_dropout=mlp_dropout
+        ).to(device).eval()
+    else:
+        # Instancia el modelo VAE con Transformer (comportamiento original).
+        model = ModelVAE(num_layers, num_cols, categories, d_token, num_classes=None, n_head=n_head, factor=factor, bias=token_bias).to(device)
+        pre_encoder = EncoderModel(num_layers, num_cols, categories, d_token, n_head=n_head, factor=factor).to(device).eval()
+        pre_decoder = DecoderModel(num_layers, num_cols, categories, d_token, n_head=n_head, factor=factor).to(device).eval()
+
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr_pretrain, weight_decay=wd_pretrain)
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.95, patience=10, verbose=True)
     tracker = LossTracker(log_dir=os.path.join(ckpt_dir, 'runs', f"seed_{random_state}"))
-
-    # Instancia los modelos de Encoder y Decoder para guardarlos al final.
-    pre_encoder = EncoderModel(num_layers, num_cols, categories, d_token, n_head=n_head, factor=factor).to(device).eval()
-    pre_decoder = DecoderModel(num_layers, num_cols, categories, d_token, n_head=n_head, factor=factor).to(device).eval()
     
     # --- 4. Fase 1: Pre-entrenamiento del VAE (sin supervisión) ---
     print("\n--- Iniciando Fase 1: Pre-entrenamiento No Supervisado ---")
@@ -311,10 +334,18 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         print("\n--- Iniciando Fase 2: Fine-Tuning Supervisado ---")
 
         # Carga el mejor modelo pre-entrenado y le añade el cabezal de clasificación.
-        ft_model = ModelVAE(
-            num_layers=num_layers, d_numerical=num_cols, categories=categories, d_token=d_token,
-            num_classes=num_classes, n_head=n_head, factor=factor, bias=token_bias, droput_class=dropout_ft
-        ).to(device)
+        if architecture == 'mlp':
+            ft_model = MLP_ModelVAE(
+                d_numerical=num_cols, categories=categories, d_token=d_token,
+                n_hidden_layers=n_hidden_layers, hidden_dim=hidden_dim,
+                mlp_dropout=mlp_dropout, bias=token_bias,
+                num_classes=num_classes, dropout_class=dropout_ft
+            ).to(device)
+        else:
+            ft_model = ModelVAE(
+                num_layers=num_layers, d_numerical=num_cols, categories=categories, d_token=d_token,
+                num_classes=num_classes, n_head=n_head, factor=factor, bias=token_bias, droput_class=dropout_ft
+            ).to(device)
         ft_model.load_state_dict(torch.load(model_save_path), strict=False)
 
         # Define un nuevo optimizador para el fine-tuning, usualmente con un learning rate más bajo.

@@ -14,7 +14,7 @@ from sklearn.preprocessing import (
 
 import torch
 import numpy as np
-from models_vae import DecoderModel
+from models_vae import DecoderModel, MLP_DecoderModel
 import pickle
 
 import numpy as np
@@ -428,6 +428,7 @@ def reconstruct_data(
     ipc=0,
     seed=0,
     concat_label=False,
+    architecture="transformer",
 ) -> tuple[np.ndarray, np.ndarray] | pd.DataFrame:
     """
     Reconstruye los datos originales a partir del espacio latente guardado utilizando
@@ -502,9 +503,21 @@ def reconstruct_data(
         # Carga la arquitectura del Decoder y sus pesos entrenados.
         decoder_weights_path = os.path.join(models_paths, f"decoder_seed_{seed}.pt")
         latent_z_tensor = torch.tensor(x, dtype=torch.float32).to(device)
-        decoder_model = DecoderModel(
-            num_layers, num_cols, categories, d_token, n_head=n_head, factor=factor
-        ).to(device)
+
+        # Selecciona la arquitectura del decoder según el parámetro.
+        if architecture == "mlp":
+            n_hidden_layers = hyperparams.get("n_hidden_layers", 2)
+            hidden_dim_mlp = hyperparams.get("hidden_dim", 128)
+            mlp_dropout = hyperparams.get("mlp_dropout", 0.3)
+            decoder_model = MLP_DecoderModel(
+                d_numerical=num_cols, categories=categories, d_token=d_token,
+                n_hidden_layers=n_hidden_layers, hidden_dim=hidden_dim_mlp,
+                mlp_dropout=mlp_dropout
+            ).to(device)
+        else:
+            decoder_model = DecoderModel(
+                num_layers, num_cols, categories, d_token, n_head=n_head, factor=factor
+            ).to(device)
         try:
             decoder_model.load_state_dict(
                 torch.load(decoder_weights_path, map_location=device)
