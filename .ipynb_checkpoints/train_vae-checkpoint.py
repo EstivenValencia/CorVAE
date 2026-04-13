@@ -1,38 +1,56 @@
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from torch.utils.data import TensorDataset, DataLoader
-from utils import preprocessing, read_json_config
-from models import ModelVAE, compute_loss, EncoderModel, DecoderModel
+"""
+Lógica de entrenamiento y evaluación para un Autoencoder Variacional (VAE) 
+con arquitectura Transformer, adaptado para datos tabulares mixtos.
+Incluye un ciclo de pre-entrenamiento no supervisado y un ciclo opcional de 
+fine-tuning supervisado.
+"""
+
+# --- 1. Importaciones ---
+import os
+import time
+import json
+import pickle
+import argparse
+import warnings
+from tqdm import tqdm
 
 import numpy as np
 import torch
 import torch.nn as nn
-
-from torch.utils.data import DataLoader
-from torch.optim.lr_scheduler import ReduceLROnPlateau
-import argparse
-import warnings
-
-import os
-from tqdm import tqdm
-import json
-import time
-
+import torch.optim as optim
 import torch.nn.functional as F
-import pickle
-from models import LossTracker
+from torch.utils.data import TensorDataset, DataLoader
+from torch.optim.lr_scheduler import ReduceLROnPlateau
+
+# Importaciones locales del proyecto
+from utils import preprocessing, read_json_config
+from models_vae import ModelVAE, compute_loss, EncoderModel, DecoderModel, LossTracker
 
 warnings.filterwarnings('ignore')
-import time
+
+# --- 2. Lógica de Entrenamiento y Validación ---
 
 def train_vae(model, loader, optimizer, device, beta=1.0, alpha=0.0):
-    """Entrena una epoch de un VAE y devuelve las pérdidas medias: mse, ce, kld y total."""
+    """
+    Ejecuta una época de entrenamiento para el modelo VAE.
+
+    Args:
+        model (nn.Module): El modelo VAE a entrenar.
+        loader (DataLoader): DataLoader con los datos de entrenamiento.
+        optimizer (torch.optim.Optimizer): Optimizador para actualizar los pesos.
+        device (torch.device): Dispositivo (CPU o CUDA) donde se ejecuta el entrenamiento.
+        beta (float): Factor de ponderación para la pérdida de divergencia KL.
+        alpha (float): Factor de ponderación para la pérdida de clasificación (usado en fine-tuning).
+
+    Returns:
+        Tuple[float, ...]: Tupla con las pérdidas promedio de la época (MSE, CE, KLD, Total, Clasificación).
+    """
     model.train()
     total_mse = total_ce = total_kld = total_loss = total_class_loss = 0.0
     n_samples = 0
-    loader = tqdm(loader, total=len(loader))
-    for X_num_batch, X_cat_batch, y_batch in loader:
+    
+    loader_tqdm = tqdm(loader, total=len(loader), desc="Training")
+    for X_num_batch, X_cat_batch, y_batch in loader_tqdm:
         batch_size = X_num_batch.size(0)
         n_samples += batch_size
 
@@ -40,52 +58,53 @@ def train_vae(model, loader, optimizer, device, beta=1.0, alpha=0.0):
         X_cat_batch = X_cat_batch.to(device)
         y_batch = y_batch.to(device)
 
-        # Forward pass del modelo
+        # 1. Realiza el forward pass para obtener reconstrucciones y parámetros latentes.
         recon_num, recon_cat, mu_z, logvar_z, class_logits = model(X_num_batch, X_cat_batch)
 
-        # Cálculo de pérdidas parciales
+        # 2. Calcula las pérdidas de reconstrucción (MSE, CE) y regularización (KLD).
         loss_mse, loss_ce, loss_kld, _ = compute_loss(
-            X_num_batch, X_cat_batch,
-            recon_num, recon_cat,
-            mu_z, logvar_z
+            X_num_batch, X_cat_batch, recon_num, recon_cat, mu_z, logvar_z
         )
-
-        # Pérdida total con KL ponderado
         loss = loss_mse + loss_ce + beta * loss_kld
 
-        loss_class = torch.tensor(0.0).to(device) 
-        # Cálculo de la pérdida de clasificación si alpha > 0 y hay clasificador
+        # 3. (Opcional) Añade la pérdida de clasificación si el modelo está en modo fine-tuning.
+        loss_class = torch.tensor(0.0, device=device) 
         if alpha > 0 and class_logits is not None:
-            # Asegúrate que y_batch tenga el tipo correcto (LongTensor para CrossEntropy)
-            y_batch = y_batch.long()
-            loss_class = F.cross_entropy(class_logits, y_batch)
-            loss = loss + alpha * loss_class
-        elif alpha > 0 and class_logits is None:
-             print("Advertencia: alpha > 0 pero el modelo no tiene cabeza clasificadora o no devolvió logits.")
+            loss_class = F.cross_entropy(class_logits, y_batch.long())
+            loss += alpha * loss_class
 
-        # Backpropagation
+        # 4. Realiza el paso de optimización (backpropagation).
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
 
-        # Acumulación de pérdidas totales
+        # 5. Acumula las pérdidas para el cálculo del promedio de la época.
         total_mse  += loss_mse.item() * batch_size
-        total_ce   += loss_ce.item()  * batch_size
+        total_ce   += loss_ce.item() * batch_size
         total_kld  += loss_kld.item() * batch_size
         total_class_loss += loss_class.item() * batch_size
-        total_loss += loss.item()     * batch_size
+        total_loss += loss.item() * batch_size
 
-    # Cálculo de promedios por muestra
-    avg_mse   = total_mse  / n_samples
-    avg_ce    = total_ce   / n_samples
-    avg_kld   = total_kld  / n_samples
+    # Calcula las pérdidas promedio por muestra para toda la época.
+    avg_mse = total_mse / n_samples
+    avg_ce = total_ce / n_samples
+    avg_kld = total_kld / n_samples
     avg_total = total_loss / n_samples
     avg_class_loss = total_class_loss / n_samples
 
     return avg_mse, avg_ce, avg_kld, avg_total, avg_class_loss
 
+
 def validate_vae(model, loader, device, beta=1.0, alpha=0.0):
-    """Evalúa el modelo VAE y devuelve las pérdidas medias: mse, ce, kld y total."""
+    """
+    Ejecuta una época de validación para el modelo VAE.
+
+    Args:
+        (Ver función train_vae para la descripción de los argumentos).
+
+    Returns:
+        Tuple[float, ...]: Tupla con las pérdidas promedio de la época de validación.
+    """
     model.eval()
     total_mse = total_ce = total_kld = total_loss = total_class_loss = 0.0
     n_samples = 0
@@ -99,328 +118,253 @@ def validate_vae(model, loader, device, beta=1.0, alpha=0.0):
             X_cat_batch = X_cat_batch.to(device)
             y_batch = y_batch.to(device)
 
-            # Forward pass sin gradientes
+            # 1. Realiza el forward pass en modo de evaluación (sin cálculo de gradientes).
             recon_num, recon_cat, mu_z, logvar_z, class_logits = model(X_num_batch, X_cat_batch)
-            #print("Recon num: ", recon_num)
-            #print("Recon cat: ", recon_cat)
-            # Cálculo de pérdidas parciales
-            loss_mse, loss_ce, loss_kld, _ = compute_loss(
-                X_num_batch, X_cat_batch,
-                recon_num, recon_cat,
-                mu_z, logvar_z
-            )
             
-            # Pérdida total con KL ponderado
+            # 2. Calcula las pérdidas de la misma forma que en el entrenamiento.
+            loss_mse, loss_ce, loss_kld, _ = compute_loss(
+                X_num_batch, X_cat_batch, recon_num, recon_cat, mu_z, logvar_z
+            )
             loss = loss_mse + loss_ce + beta * loss_kld
 
-            loss_class = torch.tensor(0.0).to(device) 
-            # Cálculo de la pérdida de clasificación si alpha > 0 y hay clasificador
+            loss_class = torch.tensor(0.0, device=device) 
             if alpha > 0 and class_logits is not None:
-                # Asegúrate que y_batch tenga el tipo correcto (LongTensor para CrossEntropy)
-                y_batch = y_batch.long()
-                loss_class = F.cross_entropy(class_logits, y_batch)
-                loss = loss + alpha * loss_class
-            elif alpha > 0 and class_logits is None:
-                print("Advertencia: alpha > 0 pero el modelo no tiene cabeza clasificadora o no devolvió logits.")
-
-
-            # Acumulación de pérdidas totales
+                loss_class = F.cross_entropy(class_logits, y_batch.long())
+                loss += alpha * loss_class
+            
+            # 3. Acumula las pérdidas para el promedio final.
             total_mse  += loss_mse.item() * batch_size
-            total_ce   += loss_ce.item()  * batch_size
+            total_ce   += loss_ce.item() * batch_size
             total_kld  += loss_kld.item() * batch_size
             total_class_loss += loss_class.item() * batch_size
-            total_loss += loss.item()     * batch_size
+            total_loss += loss.item() * batch_size
             
-
-    # Cálculo de promedios por muestra
-    avg_mse   = total_mse  / n_samples
-    avg_ce    = total_ce   / n_samples
-    avg_kld   = total_kld  / n_samples
+    # Calcula las pérdidas promedio por muestra.
+    avg_mse = total_mse / n_samples
+    avg_ce = total_ce / n_samples
+    avg_kld = total_kld / n_samples
     avg_total = total_loss / n_samples
     avg_class_loss = total_class_loss / n_samples
-    #print("avg_mse: ", avg_mse)
+
     return avg_mse, avg_ce, avg_kld, avg_total, avg_class_loss
+
 
 def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_encoder, pre_decoder, num_scaler, cat_encoder, label_encoder,
                                X_train_num, X_train_cat, y_train_enc, X_test_num, X_test_cat, y_test_enc, ckpt_dir, device, random_state=None):
     """
-    Recarga el mejor modelo guardado, extrae pesos para pre_encoder y pre_decoder,
-    guarda sus pesos, y guarda las embeddings latentes (train_z.npy).
-    
-    Guarda encoder.pt y decoder.pt dentro de ckpt_dir.
-    """
+    Guarda los componentes del mejor modelo VAE y las representaciones latentes.
 
-    # Definir paths de guardado
+    Esta función carga el mejor modelo guardado, extrae los pesos del encoder y
+    decoder, los guarda como modelos independientes y genera las representaciones
+    latentes (embeddings) para los datos de entrenamiento y prueba.
+    """
     encoder_save_path = os.path.join(ckpt_dir, f'encoder_seed_{random_state}.pt')
     decoder_save_path = os.path.join(ckpt_dir, f'decoder_seed_{random_state}.pt')
 
-    # 1. Recargar el mejor modelo
+    # Carga los pesos del mejor modelo VAE que fue guardado durante el entrenamiento.
     model.load_state_dict(torch.load(model_save_path, map_location=device))
     model.eval()
 
+    # Guarda los objetos de preprocesamiento necesarios para la reconstrucción futura.
     with open(os.path.join(ckpt_dir, f'pre_encoders_seed_{random_state}.pkl'), 'wb') as f:
         pickle.dump({
-            "num_cols": num_cols,
-            "categories": categories,
-            'num_scaler': num_scaler,
-            'cat_ordinal_encoder': cat_encoder,
-            'label_encoder': label_encoder
+            "num_cols": num_cols, "categories": categories, 'num_scaler': num_scaler,
+            'cat_ordinal_encoder': cat_encoder, 'label_encoder': label_encoder
         }, f)
 
     with torch.no_grad():
-        # 2. Cargar pesos del modelo al pre_encoder y pre_decoder
+        # Transfiere los pesos desde el VAE completo a los modelos de Encoder y Decoder.
         pre_encoder.load_weights(model)
         pre_decoder.load_weights(model)
 
-        # 3. Guardar los pesos del pre_encoder y pre_decoder
+        # Guarda los estados de los modelos Encoder y Decoder de forma independiente.
         torch.save(pre_encoder.state_dict(), encoder_save_path)
         torch.save(pre_decoder.state_dict(), decoder_save_path)
 
-        # 5. Obtener representaciones latentes
-        start = time.time()
-        train_z = pre_encoder(X_train_num, X_train_cat).detach().cpu().numpy()
-        end = time.time()
-        encoder_inference_time = (end - start) / X_train_num.shape[0]
+        # Genera y guarda las representaciones latentes para los conjuntos de datos por lotes (batches).
+        start_time = time.time()
+        
+        def extract_z_in_batches(encoder, x_num, x_cat, batch_size=1024):
+            z_list = []
+            for i in range(0, x_num.size(0), batch_size):
+                z_batch = encoder(x_num[i:i+batch_size], x_cat[i:i+batch_size])
+                z_list.append(z_batch.detach().cpu().numpy())
+            return np.concatenate(z_list, axis=0)
 
-        test_z = pre_encoder(X_test_num, X_test_cat).detach().cpu().numpy()
+        train_z = extract_z_in_batches(pre_encoder, X_train_num, X_train_cat)
+        encoder_inference_time = (time.time() - start_time) / X_train_num.size(0)
+        test_z = extract_z_in_batches(pre_encoder, X_test_num, X_test_cat)
 
-        # 6. Guardar las representaciones latentes
-        if random_state == None:
-            np.save(os.path.join(ckpt_dir, f'train_z.npy'), train_z)
-            np.save(os.path.join(ckpt_dir, f'train_y.npy'), y_train_enc)
-        else:
-            np.save(os.path.join(ckpt_dir, f'train_z_seed_{random_state}.npy'), train_z)
-            np.save(os.path.join(ckpt_dir, f'train_y_seed_{random_state}.npy'), y_train_enc)
-            np.save(os.path.join(ckpt_dir, f'test_z_seed_{random_state}.npy'), test_z)
-            np.save(os.path.join(ckpt_dir, f'test_y_seed_{random_state}.npy'), y_test_enc)
+        # Guarda los embeddings y las etiquetas correspondientes.
+        np.save(os.path.join(ckpt_dir, f'train_z_seed_{random_state}.npy'), train_z)
+        np.save(os.path.join(ckpt_dir, f'train_y_seed_{random_state}.npy'), y_train_enc)
+        np.save(os.path.join(ckpt_dir, f'test_z_seed_{random_state}.npy'), test_z)
+        np.save(os.path.join(ckpt_dir, f'test_y_seed_{random_state}.npy'), y_test_enc)
 
-        print('Successfully saved best encoder, decoder, and latent embeddings!')
-
+        print('Encoder, Decoder y representaciones latentes guardados correctamente.')
         return train_z, encoder_inference_time
+
+
+# --- 3. Orquestador Principal del Entrenamiento ---
 
 def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_size=64, pretrain_epochs=50, finetune_epochs=30, concat_label=False,ckpt_dir='ckpt', hyperparams = {}):
     
-    # Hiperparametros de VAE
-    max_beta = hyperparams.get('max_beta',1e-2)
-    min_beta = hyperparams.get('min_beta',1e-5)
-    lambda_ = hyperparams.get('lambda_',0.7)
-    lr_pretrain = hyperparams.get('lr_pretrain',1e-3)
-    wd_pretrain =hyperparams.get('wd_pretrain',0)
-    d_token =hyperparams.get('d_token',4)
-    token_bias =hyperparams.get('token_bias',True)
-    n_head = hyperparams.get('n_head',1)
-    factor = hyperparams.get('factor',32)
-    num_layers =hyperparams.get('num_layers',2)
-    early_stop_counter_pretrain = hyperparams.get('early_stop_counter_pretrain',30)
-
-    # Hiperparametros de la cabeza clasificadora
-    dropout_ft = hyperparams.get('dropout_ft',0.3)
-    alpha_ft = hyperparams.get("alpha_ft",1e-5)
-    lr_ft = hyperparams.get("lr_ft",1e-4)
-    wd_ft = hyperparams.get('wd_ft',0)
-    early_stop_counter_ft = hyperparams.get("early_stop_counter_ft",30)
+    # --- 1. Configuración de Hiperparámetros ---
+    # Parámetros para el pre-entrenamiento del VAE.
+    max_beta = hyperparams.get('max_beta', 1e-2)
+    min_beta = hyperparams.get('min_beta', 1e-5)
+    lambda_ = hyperparams.get('lambda_', 0.7)
+    lr_pretrain = hyperparams.get('lr_pretrain', 1e-3)
+    wd_pretrain = hyperparams.get('wd_pretrain', 0)
+    d_token = hyperparams.get('d_token', 4)
+    token_bias = hyperparams.get('token_bias', True)
+    n_head = hyperparams.get('n_head', 1)
+    factor = hyperparams.get('factor', 32)
+    num_layers = hyperparams.get('num_layers', 2)
+    early_stop_counter_pretrain = hyperparams.get('early_stop_counter_pretrain', 30)
+    
+    # Parámetros para el fine-tuning supervisado.
+    dropout_ft = hyperparams.get('dropout_ft', 0.3)
+    alpha_ft = hyperparams.get("alpha_ft", 1e-5)
+    lr_ft = hyperparams.get("lr_ft", 1e-4)
+    wd_ft = hyperparams.get('wd_ft', 0)
+    early_stop_counter_ft = hyperparams.get("early_stop_counter_ft", 30)
 
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
     model_save_path = os.path.join(ckpt_dir, f'best_vae_seed_{random_state}.pt')
     ft_model_save_path = os.path.join(ckpt_dir, f'ft_best_vae_seed_{random_state}.pt')
 
+    # --- 2. Preparación y Carga de Datos ---
     X_train, y_train, X_test, y_test = set_data
-    (
-        X_num_train, X_cat_train,
-        X_num_test,  X_cat_test,
-        y_train_enc, y_test_enc,
-        num_scaler,  cat_encoder,
-        label_encoder
-                        ) = preprocessing(config, X_train, y_train, X_test, y_test, encoding=encoding, concat_label=concat_label, random_state=random_state)
+    # Realiza el preprocesamiento de los datos (escalado, codificación).
+    (X_num_train, X_cat_train, X_num_test, X_cat_test, y_train_enc, y_test_enc,
+     num_scaler, cat_encoder, label_encoder) = preprocessing(
+        config, X_train, y_train, X_test, y_test, encoding=encoding, 
+        concat_label=concat_label, random_state=random_state
+    )
 
     categories = [len(set(X_cat_train[:, i])) for i in range(X_cat_train.shape[1])]
     num_classes = len(set(y_train_enc))
 
-    # Tensores de entrenamiento
-    X_num_train = torch.tensor(X_num_train, dtype=torch.float32)
-    X_cat_train = torch.tensor(X_cat_train, dtype=torch.long)
-    y_train_enc = torch.tensor(y_train_enc, dtype=torch.long)
-    train_ds = TensorDataset(X_num_train, X_cat_train, y_train_enc)
+    # Convierte los datos de numpy a tensores de PyTorch y crea los DataLoaders.
+    train_ds = TensorDataset(torch.tensor(X_num_train, dtype=torch.float32), 
+                             torch.tensor(X_cat_train, dtype=torch.long), 
+                             torch.tensor(y_train_enc, dtype=torch.long))
     train_loader = DataLoader(train_ds, batch_size=batch_size, shuffle=True, num_workers=4)
 
-    # Tensores de validación/test
-    X_num_test = torch.tensor(X_num_test, dtype=torch.float32)
-    X_cat_test = torch.tensor(X_cat_test, dtype=torch.long)
-    y_test_enc = torch.tensor(y_test_enc, dtype=torch.long)
-    test_ds = TensorDataset(X_num_test, X_cat_test, y_test_enc)
+    test_ds = TensorDataset(torch.tensor(X_num_test, dtype=torch.float32), 
+                            torch.tensor(X_cat_test, dtype=torch.long), 
+                            torch.tensor(y_test_enc, dtype=torch.long))
     test_loader = DataLoader(test_ds, batch_size=batch_size, shuffle=False, num_workers=4)
+    
+    num_cols, cat_cols = X_num_train.shape[1], X_cat_train.shape[1]
 
-    num_cols, cat_cols = X_num_train.shape[1], X_cat_train.shape[1]   
-
-    model = ModelVAE(num_layers, num_cols, categories, d_token, num_classes=None, n_head = n_head, factor = factor, bias = True)
-    model = model.to(device)
-    print(model)
-    pre_encoder = EncoderModel(num_layers, num_cols, categories, d_token, n_head = n_head, factor = factor).to(device)
-    pre_decoder = DecoderModel(num_layers, num_cols, categories, d_token, n_head = n_head, factor = factor).to(device)
-
-    pre_encoder.eval()
-    pre_decoder.eval()
-
+    # --- 3. Inicialización de Modelos y Optimizador ---
+    # Instancia el modelo VAE principal (sin cabezal de clasificación para el pre-entrenamiento).
+    model = ModelVAE(num_layers, num_cols, categories, d_token, num_classes=None, n_head=n_head, factor=factor, bias=token_bias).to(device)
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr_pretrain, weight_decay=wd_pretrain)
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.95, patience=10, verbose=True)
+    tracker = LossTracker(log_dir=os.path.join(ckpt_dir, 'runs', f"seed_{random_state}"))
 
-    tracker = LossTracker(log_dir=os.path.join(ckpt_dir, 'runs',f"seed_{random_state}"))
-
+    # Instancia los modelos de Encoder y Decoder para guardarlos al final.
+    pre_encoder = EncoderModel(num_layers, num_cols, categories, d_token, n_head=n_head, factor=factor).to(device).eval()
+    pre_decoder = DecoderModel(num_layers, num_cols, categories, d_token, n_head=n_head, factor=factor).to(device).eval()
+    
+    # --- 4. Fase 1: Pre-entrenamiento del VAE (sin supervisión) ---
+    print("\n--- Iniciando Fase 1: Pre-entrenamiento No Supervisado ---")
     beta = max_beta
-    patience = 0
-
     best_val_loss = float('inf')
     early_stop_counter = 0
-
-    # =======================================
-    # --- STAGE 1: Pretrain ---
-    # =======================================
-
-    # 5. Bucle de entrenamiento
-    start = time.time()
-    for epoch in range(1, pretrain_epochs+1):
-        # Training
-        train_mse, train_ce, train_kld, train_loss, _ = \
-            train_vae(model, train_loader, optimizer, device, beta)
-
-        # Validación
-        val_mse, val_ce, val_kld, val_loss, _ = \
-            validate_vae(model, test_loader, device, beta)
-
-        tracker.log(train_mse, train_ce, train_kld, 0, train_loss,
-                            val_mse,   val_ce,   val_kld,   0,   val_loss)
-
-        # Ajuste de learning rate
+    start_time = time.time()
+    
+    for epoch in range(1, pretrain_epochs + 1):
+        # Ejecuta un ciclo de entrenamiento y validación.
+        train_mse, train_ce, train_kld, train_loss, _ = train_vae(model, train_loader, optimizer, device, beta)
+        val_mse, val_ce, val_kld, val_loss, _ = validate_vae(model, test_loader, device, beta)
+        tracker.log(train_mse, train_ce, train_kld, 0, train_loss, val_mse, val_ce, val_kld, 0, val_loss)
+        
+        # Actualiza el scheduler con la pérdida de validación.
         scheduler.step(val_loss)
 
-        # Guardar mejor modelo
+        # Lógica para guardar el mejor modelo basado en la pérdida de validación.
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             early_stop_counter = 0
-            patience = 0
-            torch.save(model.state_dict(),model_save_path)
-
+            torch.save(model.state_dict(), model_save_path)
         else:
             early_stop_counter += 1
-            patience += 1
-            if patience == 15:
-                if beta > min_beta:
-                    beta = beta * lambda_
 
+        # Implementa el early stopping para evitar sobreajuste.
         if early_stop_counter >= early_stop_counter_pretrain:
             print(f"No hubo mejora en {early_stop_counter_pretrain} épocas. Early stopping en epoch {epoch}.")
             break
 
-        # Impresión de métricas
-        print(
-            f"Epoch {epoch:03d}/{pretrain_epochs} "
-            f"Train Loss: {train_loss:.6f} (MSE:{train_mse:.6f}, CE:{train_ce:.6f}, KLD:{train_kld:.6f})  "
-            f"Val Loss: {val_loss:.6f} (MSE:{val_mse:.6f}, CE:{val_ce:.6f}, KLD:{val_kld:.6f})"
-        )
-    end = time.time()
-    pretrain_time = end - start
-    print(f"Training time: {end - start:.2f} seconds")
+        print(f"Epoch {epoch:03d}/{pretrain_epochs} | Train Loss: {train_loss:.6f} | Val Loss: {val_loss:.6f}")
+    
+    pretrain_time = time.time() - start_time
+    print(f"--- Fase 1 Finalizada. Tiempo: {pretrain_time:.2f} segundos ---")
 
 
-    # =======================================
-    # --- STAGE 2: Supervised Fine-tuning ---
-    # =======================================
+    # --- 5. Fase 2: Fine-Tuning Supervisado (Opcional) ---
     finetune_time = 0
     if finetune_epochs > 0:
-        print("\n--- Starting Stage 2: Supervised Fine-tuning ---")
+        print("\n--- Iniciando Fase 2: Fine-Tuning Supervisado ---")
 
-        # Crear modelo CON cabeza clasificadora
+        # Carga el mejor modelo pre-entrenado y le añade el cabezal de clasificación.
         ft_model = ModelVAE(
             num_layers=num_layers, d_numerical=num_cols, categories=categories, d_token=d_token,
-            num_classes=num_classes, # AHORA con cabeza clasificadora
-            n_head=n_head, factor=factor, bias=token_bias, droput_class=dropout_ft
-        )
-        ft_model = ft_model.to(device)
+            num_classes=num_classes, n_head=n_head, factor=factor, bias=token_bias, droput_class=dropout_ft
+        ).to(device)
         ft_model.load_state_dict(torch.load(model_save_path), strict=False)
 
-        print("Fine-tuning model architecture:")
-        #print(ft_model)
-
-        # Nuevo optimizador para fine-tuning (todos los parámetros, LR más bajo)
+        # Define un nuevo optimizador para el fine-tuning, usualmente con un learning rate más bajo.
         optimizer_ft = torch.optim.AdamW(ft_model.parameters(), lr=lr_ft, weight_decay=wd_ft)
-        scheduler_ft = ReduceLROnPlateau(optimizer_ft, mode='min', factor=0.9, patience=5, verbose=True) # Menor paciencia para FT
+        scheduler_ft = ReduceLROnPlateau(optimizer_ft, mode='min', factor=0.9, patience=5, verbose=True)
 
-        beta = min_beta # Empezar con beta bajo o mantener el final del pre-entrenamiento? Aquí usamos MIN_BETA
-        patience = 0
+        beta = min_beta
         best_val_loss_ft = float('inf')
         early_stop_counter = 0
+        start_time = time.time()
 
-        start = time.time()
         for epoch in range(1, finetune_epochs + 1):
-            # Entrenar con alpha > 0
-            train_mse, train_ce, train_kld, train_loss, train_class_loss = \
-                train_vae(ft_model, train_loader, optimizer_ft, device, beta, alpha=alpha_ft)
-
-            # Validar con alpha > 0
-            val_mse, val_ce, val_kld, val_loss, val_class_loss = \
-                validate_vae(ft_model, test_loader, device, beta, alpha=alpha_ft)
-
-            tracker.log(train_mse, train_ce, train_kld, train_class_loss, train_loss,
-                                val_mse,   val_ce,   val_kld,   val_class_loss,   val_loss)
-
-            scheduler_ft.step(val_loss) # Usar scheduler de fine-tuning
+            train_mse, train_ce, train_kld, train_loss, train_class_loss = train_vae(ft_model, train_loader, optimizer_ft, device, beta, alpha=alpha_ft)
+            val_mse, val_ce, val_kld, val_loss, val_class_loss = validate_vae(ft_model, test_loader, device, beta, alpha=alpha_ft)
+            tracker.log(train_mse, train_ce, train_kld, train_class_loss, train_loss, val_mse, val_ce, val_kld, val_class_loss, val_loss)
+            scheduler_ft.step(val_loss)
 
             if val_loss < best_val_loss_ft:
-                print(f"Stage 2 - Epoch {epoch}: Val loss improved to {val_loss:.6f}. Saving fine-tuned model...")
                 best_val_loss_ft = val_loss
                 torch.save(ft_model.state_dict(), ft_model_save_path)
                 early_stop_counter = 0
-                patience = 0
-
             else:
                 early_stop_counter += 1
-                patience += 1
-                if patience == 15:
-                    if beta > min_beta:
-                        beta = beta * lambda_
 
             if early_stop_counter >= early_stop_counter_ft:
                 print(f"No hubo mejora en {early_stop_counter_ft} épocas. Early stopping en epoch {epoch}.")
                 break
-
-            print(f"Stage 2 - Epoch {epoch:03d}/{finetune_epochs} | Beta: {beta:.2e} | Alpha: {alpha_ft:.2f} | Loss: {train_loss:.4f} (MSE:{train_mse:.4f}, CE:{train_ce:.4f}, KLD:{train_kld:.4f}, ClassL:{train_class_loss:.4f}) | Val Loss: {val_loss:.4f} (MSE:{val_mse:.4f}, CE:{val_ce:.4f}, KLD:{val_kld:.4f}, ClassL:{val_class_loss:.4f})")
-
-        print(f"--- Stage 2 Finished. Best fine-tuning validation loss: {best_val_loss_ft:.6f} ---")
-        end = time.time()
-        finetune_time = end - start
+            
+            print(f"FT Epoch {epoch:03d}/{finetune_epochs} | Val Loss: {val_loss:.4f} (Recon: {val_mse+val_ce:.4f}, Class: {val_class_loss:.4f})")
+        
+        finetune_time = time.time() - start_time
+        print(f"--- Fase 2 Finalizada. Tiempo: {finetune_time:.2f} segundos ---")
         model_save_path = ft_model_save_path
         model = ft_model
     else:
-        print("\n--- Skipping Stage 2: Supervised Fine-tuning (perform_fine_tune=False) ---")
+        print("\n--- Omitiendo Fase 2: Fine-Tuning Supervisado ---")
 
-    # Guardando información de encoder decoder
+    # --- 6. Guardado Final de Artefactos ---
+    # Guarda los modelos Encoder y Decoder por separado y las representaciones latentes.
     train_z, encoder_inference_time = save_best_encoder_decoder(
-        model=model,
-        model_save_path=model_save_path,
-        num_cols=num_cols, 
-        categories=categories,
-        pre_encoder=pre_encoder,
-        pre_decoder=pre_decoder,
-        num_scaler=num_scaler, 
-        cat_encoder=cat_encoder, 
-        label_encoder=label_encoder,
-        X_train_num=X_num_train.to(device),
-        X_train_cat=X_cat_train.to(device),
-        y_train_enc=y_train_enc,
-        X_test_num=X_num_test.to(device),
-        X_test_cat=X_cat_test.to(device),
-        y_test_enc=y_test_enc,
-        ckpt_dir=ckpt_dir,
-        device=device,
-        random_state=random_state
+        model=model, model_save_path=model_save_path, num_cols=num_cols, categories=categories,
+        pre_encoder=pre_encoder, pre_decoder=pre_decoder, num_scaler=num_scaler, cat_encoder=cat_encoder, 
+        label_encoder=label_encoder, 
+        X_train_num=torch.tensor(X_num_train, dtype=torch.float32).to(device), 
+        X_train_cat=torch.tensor(X_cat_train, dtype=torch.long).to(device),
+        y_train_enc=y_train_enc, 
+        X_test_num=torch.tensor(X_num_test, dtype=torch.float32).to(device), 
+        X_test_cat=torch.tensor(X_cat_test, dtype=torch.long).to(device),
+        y_test_enc=y_test_enc, 
+        ckpt_dir=ckpt_dir, device=device, random_state=random_state
     )
 
     return train_z, y_train_enc, pretrain_time, finetune_time, encoder_inference_time
-    
-if __name__ == "__main__":
-    dataset_path = '/mnt/d/home-2/Documentos/master/practica-deusto-tech/TFM/MyTabsyn/CorVAE/data/shoppers/metadata.json'
-    encoding = 'ordinal'
-    random_state = 0
-    ckpt_dir = 'ckpt_custom_model'
-    main(dataset_path, encoding, random_state, ckpt_dir=ckpt_dir)

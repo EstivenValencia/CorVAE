@@ -223,31 +223,51 @@ def distill_with_agglomerative(
     selected_indices = [] if get_closest else None
     all_idxs = np.arange(n)
 
+    from sklearn.metrics import pairwise_distances_argmin_min
+
     # Iterar por cada clase para aplicar Agglomerative Clustering.
     for class_id in np.unique(labels):
         mask = labels == class_id
         class_data = data_flat[mask]
         orig_idxs = all_idxs[mask]
+        n_c = class_data.shape[0]
+
+        if n_c <= num_clusters:
+            # Si hay menos o igual cantidad de puntos que los requeridos, conservarlos todos
+            selected_points.append(reconstruct(class_data))
+            new_labels.extend([class_id] * n_c)
+            if get_closest:
+                selected_indices.extend(orig_idxs.tolist())
+            continue
+
+        # Muestrear aleatoriamente si es excesivamente grande
+        max_samples = 100000
+        if n_c > max_samples:
+            rng = np.random.RandomState(seed)
+            sub_idx = rng.choice(n_c, max_samples, replace=False)
+            class_data_fit = class_data[sub_idx]
+        else:
+            class_data_fit = class_data
 
         # Entrenar Agglomerative Clustering para la clase actual.
-        clustering = AgglomerativeClustering(n_clusters=num_clusters).fit(class_data)
+        clustering = AgglomerativeClustering(n_clusters=num_clusters).fit(class_data_fit)
 
         if get_closest:
-            # Calcular centroides temporales y encontrar las muestras más cercanas.
+            # Calcular centroides temporales a partir de la muestra de entrenamiento
             centers = []
             for k in range(num_clusters):
-                pts_in_k = class_data[clustering.labels_ == k]
+                pts_in_k = class_data_fit[clustering.labels_ == k]
                 centers.append(pts_in_k.mean(axis=0))
             centers = np.stack(centers, axis=0)
 
-            dists = np.linalg.norm(class_data[:, None, :] - centers[None, :, :], axis=2)
-            nearest = dists.argmin(axis=0)
+            # Buscar los más cercanos al centro en TODOS los datos de la clase de manera eficiente en memoria
+            nearest, _ = pairwise_distances_argmin_min(centers, class_data)
             sel_idx = orig_idxs[nearest]
             selected_indices.extend(sel_idx.tolist())
             selected_points.append(data[sel_idx])
         else:
             # Calcular centroides "oficiales" con NearestCentroid y reconstruirlos.
-            nc = NearestCentroid().fit(class_data, clustering.labels_)
+            nc = NearestCentroid().fit(class_data_fit, clustering.labels_)
             centers_flat = nc.centroids_
             selected_points.append(reconstruct(centers_flat))
 
@@ -395,7 +415,7 @@ def distill_least_confidence(
     # Entrenar un modelo LogisticRegression si no se proporciona uno.
     if model is None:
         clf = LogisticRegression(
-            random_state=seed, max_iter=500, multi_class="auto", solver="lbfgs"
+            random_state=seed, max_iter=500, solver="lbfgs"
         )
         clf.fit(data_flat, labels)
         model = clf

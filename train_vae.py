@@ -181,11 +181,19 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
         torch.save(pre_encoder.state_dict(), encoder_save_path)
         torch.save(pre_decoder.state_dict(), decoder_save_path)
 
-        # Genera y guarda las representaciones latentes para los conjuntos de datos.
+        # Genera y guarda las representaciones latentes para los conjuntos de datos por lotes (batches).
         start_time = time.time()
-        train_z = pre_encoder(X_train_num, X_train_cat).detach().cpu().numpy()
-        encoder_inference_time = (time.time() - start_time) / X_train_num.shape[0]
-        test_z = pre_encoder(X_test_num, X_test_cat).detach().cpu().numpy()
+        
+        def extract_z_in_batches(encoder, x_num, x_cat, batch_size=1024):
+            z_list = []
+            for i in range(0, x_num.size(0), batch_size):
+                z_batch = encoder(x_num[i:i+batch_size], x_cat[i:i+batch_size])
+                z_list.append(z_batch.detach().cpu().numpy())
+            return np.concatenate(z_list, axis=0)
+
+        train_z = extract_z_in_batches(pre_encoder, X_train_num, X_train_cat)
+        encoder_inference_time = (time.time() - start_time) / X_train_num.size(0)
+        test_z = extract_z_in_batches(pre_encoder, X_test_num, X_test_cat)
 
         # Guarda los embeddings y las etiquetas correspondientes.
         np.save(os.path.join(ckpt_dir, f'train_z_seed_{random_state}.npy'), train_z)
@@ -349,9 +357,14 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     train_z, encoder_inference_time = save_best_encoder_decoder(
         model=model, model_save_path=model_save_path, num_cols=num_cols, categories=categories,
         pre_encoder=pre_encoder, pre_decoder=pre_decoder, num_scaler=num_scaler, cat_encoder=cat_encoder, 
-        label_encoder=label_encoder, X_train_num=X_num_train.to(device), X_train_cat=X_cat_train.to(device),
-        y_train_enc=y_train_enc.cpu().numpy(), X_test_num=X_num_test.to(device), X_test_cat=X_cat_test.to(device),
-        y_test_enc=y_test_enc.cpu().numpy(), ckpt_dir=ckpt_dir, device=device, random_state=random_state
+        label_encoder=label_encoder, 
+        X_train_num=torch.tensor(X_num_train, dtype=torch.float32).to(device), 
+        X_train_cat=torch.tensor(X_cat_train, dtype=torch.long).to(device),
+        y_train_enc=y_train_enc, 
+        X_test_num=torch.tensor(X_num_test, dtype=torch.float32).to(device), 
+        X_test_cat=torch.tensor(X_cat_test, dtype=torch.long).to(device),
+        y_test_enc=y_test_enc, 
+        ckpt_dir=ckpt_dir, device=device, random_state=random_state
     )
 
     return train_z, y_train_enc, pretrain_time, finetune_time, encoder_inference_time

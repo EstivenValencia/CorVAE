@@ -16,7 +16,6 @@ colorama==0.4.6
 colorlog==6.9.0
 comm==0.2.2
 confection==0.1.5
-contourpy==1.3.2
 cycler==0.12.1
 cymem==2.0.11
 debugpy==1.8.14
@@ -32,8 +31,6 @@ h11==0.14.0
 html5lib==0.9999999
 idna==3.10
 ipykernel==6.29.5
-ipython==9.2.0
-ipython_pygments_lexers==1.1.1
 jedi==0.19.2
 Jinja2==3.1.6
 joblib==1.4.2
@@ -41,7 +38,6 @@ jsonschema==4.23.0
 jsonschema-specifications==2025.4.1
 jupyter_client==8.6.3
 jupyter_core==5.7.2
-kiwisolver==1.4.8
 langcodes==3.5.0
 language_data==1.3.0
 Mako==1.3.10
@@ -49,22 +45,20 @@ marisa-trie==1.2.1
 Markdown==3.8
 markdown-it-py==3.0.0
 MarkupSafe==3.0.2
-matplotlib==3.10.1
-matplotlib-inline==0.1.7
+matplotlib
+matplotlib-inline
 mdurl==0.1.2
 mpmath==1.3.0
 msgpack==1.1.0
 murmurhash==1.0.12
 nest-asyncio==1.6.0
-networkx==3.4.2
-numpy==2.2.4
+numpy
 optuna==4.3.0
 outcome==1.3.0.post0
 packaging==24.2
 pandas==2.2.3
 parso==0.8.4
 pexpect==4.9.0
-pillow==11.2.1
 platformdirs==4.3.7
 preshed==3.0.9
 prompt_toolkit==3.0.51
@@ -73,7 +67,6 @@ psutil==7.0.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
 pyarrow==20.0.0
-pycparser==3.0
 pydantic==2.10.6
 pydantic_core==2.27.2
 Pygments==2.19.1
@@ -82,7 +75,6 @@ PySocks==1.7.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2025.1
-pywin32==311
 PyYAML==6.0.2
 pyzmq==26.4.0
 ray==2.44.1
@@ -91,7 +83,7 @@ requests==2.32.3
 rich==13.9.4
 rpds-py==0.24.0
 scikit-learn==1.6.1
-scipy==1.15.2
+scipy
 selenium==4.29.0
 setuptools==77.0.1
 shellingham==1.5.4
@@ -99,9 +91,6 @@ six==1.17.0
 smart-open==7.1.0
 sniffio==1.3.1
 sortedcontainers==2.4.0
-spacy==3.8.4
-spacy-legacy==3.0.12
-spacy-loggers==1.0.5
 SQLAlchemy==2.0.40
 srsly==2.5.1
 stack-data==0.6.3
@@ -111,9 +100,6 @@ tensorboard-data-server==0.7.2
 tensorboardX==2.6.2.2
 thinc==8.3.4
 threadpoolctl==3.6.0
-torch==2.11.0+cu130
-torchaudio==2.6.0
-torchvision==0.26.0+cu130
 tornado==6.4.2
 tqdm==4.67.1
 traitlets==5.14.3
@@ -133,4 +119,3 @@ Werkzeug==3.1.3
 wheel==0.46.3
 wrapt==1.17.2
 wsproto==1.2.0
-xgboost==3.0.0

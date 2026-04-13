@@ -1,0 +1,13 @@
+{
+"best_params": {
+"max_beta": 0.0077,
+"min_beta": 0.00014,
+"lambda_": 0.9,
+"lr_pretrain": 0.0051,
+"wd_pretrain": 0,
+"d_token": 8,
+"n_head": 2,
+"factor": 16,
+"num_layers": 1
+}
+}

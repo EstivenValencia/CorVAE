@@ -1,16 +1,15 @@
-from utils import reconstruct_data
 import pandas as pd
+import numpy as np
 
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 import torch.optim as optim
 from torch.utils.data import TensorDataset, DataLoader
-from utils import preprocessing
-from models import ModelVAE, compute_loss, EncoderModel, DecoderModel
 
-import numpy as np
-import torch
-import torch.nn as nn
+# Módulos internos para preprocesamiento, reconstrucción de datos y modelos VAE.
+from utils import reconstruct_data, preprocessing
+from models_vae import ModelVAE, compute_loss, EncoderModel, DecoderModel
 
 from torch.utils.data import DataLoader
 from torch.optim.lr_scheduler import ReduceLROnPlateau
@@ -18,52 +17,55 @@ import argparse
 import warnings
 
 import os
-from tqdm import tqdm
+from tqdm import tqdm  # Para visualización del progreso en bucles.
 import json
 import time
 
-import torch.nn.functional as F
-import pickle
+import pickle  # Para serialización de objetos Python.
 
-
-import numpy as np
+# Librerías para técnicas de clustering y modelos de Machine Learning.
 from sklearn.cluster import KMeans
-import numpy as np
 from sklearn.cluster import AgglomerativeClustering
 from sklearn.neighbors import NearestCentroid
 from sklearn.metrics import pairwise_distances
 from sklearn.linear_model import LogisticRegression
-
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
-from torch.utils.data import DataLoader, TensorDataset
-from sklearn.metrics import pairwise_distances
 from xgboost import XGBClassifier
+
 
 def distill_random(X, y, n_per_class=10, random_state=None):
     """
-    Toma X (array-like de forma [n_samples, ...]) y y (vector de etiquetas de longitud n_samples),
-    y devuelve un sub-conjunto con n_per_class muestras por cada clase de y.
+    Realiza un muestreo aleatorio estratificado de datos, seleccionando
+    un número fijo de muestras por cada clase presente en el conjunto de etiquetas.
+    Esta función es útil para crear subconjuntos de datos equilibrados.
 
     Parámetros
     ----------
     X : array-like, shape (n_samples, n_features)
-        Matriz de características.
+        La matriz de características del conjunto de datos original.
+        Puede ser 2D (muestras x características) o 3D (muestras x tiempo x características).
     y : array-like, shape (n_samples,)
-        Etiquetas correspondientes.
+        El vector de etiquetas correspondiente a las muestras en `X`.
     n_per_class : int, opcional (default=10)
-        Número de muestras que queremos tomar de cada clase.
-    seed : int o None, opcional
-        Semilla para la generación de números aleatorios. Si es None, no fija semilla.
+        El número de muestras aleatorias que se desea seleccionar de cada clase.
+    random_state : int o None, opcional
+        Semilla para el generador de números aleatorios.
+        Si se proporciona, asegura la reproducibilidad de la selección.
+        Si es `None`, la selección será diferente en cada ejecución.
 
     Devuelve
     -------
     X_sample : np.ndarray, shape (n_classes * n_per_class, n_features)
-        Subconjunto de X con n_per_class muestras por clase.
+        Un subconjunto de `X` que contiene `n_per_class` muestras por cada clase.
+        La forma de salida se adapta a la dimensionalidad de `X`.
     y_sample : np.ndarray, shape (n_classes * n_per_class,)
-        Etiquetas correspondientes a X_sample.
+        Las etiquetas correspondientes a `X_sample`.
+
+    Excepciones
+    -----------
+    ValueError
+        Si alguna clase tiene menos muestras de las especificadas por `n_per_class`.
     """
+
     X = np.asarray(X)
     y = np.asarray(y)
     rng = np.random.RandomState(random_state)
@@ -72,96 +74,101 @@ def distill_random(X, y, n_per_class=10, random_state=None):
     sampled_indices = []
 
     for cls in classes:
-        # índices de la clase cls
+        # Obtener índices de muestras de la clase actual.
         idx = np.where(y == cls)[0]
         if len(idx) < n_per_class:
-            raise ValueError(f"Clase {cls!r} sólo tiene {len(idx)} muestras, < n_per_class={n_per_class}")
-        # barajar y tomar las primeras n_per_class
+            raise ValueError(
+                f"Clase {cls!r} sólo tiene {len(idx)} muestras, < n_per_class={n_per_class}"
+            )
+        # Barajar y seleccionar `n_per_class` índices.
         rng.shuffle(idx)
         sampled_indices.extend(idx[:n_per_class])
 
-    # opcional: barajar las filas resultantes
+    # Barajar los índices resultantes para mezclar clases.
     sampled_indices = np.array(sampled_indices)
     rng.shuffle(sampled_indices)
 
     X_sample = X[sampled_indices]
     y_sample = y[sampled_indices]
+
     return X_sample, y_sample
+
 
 def distill_with_kmeans(
     data: np.ndarray,
     labels: np.ndarray,
     num_centroids: int,
     seed: int = 0,
-    get_closest: bool = False
+    get_closest: bool = False,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray | None]:
     """
     Aplica KMeans por clase. Acepta `data` de forma [n, f] ó [n, t, d].
     Si return_indices=True, también devuelve índices de muestras originales.
     """
-    # --- Detectar y preparar flatten & reconstruct ---
+    # Manejo de dimensionalidad: aplanar 3D a 2D y definir función de reconstrucción.
     if data.ndim == 3:
         n, t, d = data.shape
         data_flat = data.reshape(n, t * d)
+
         def reconstruct(arr: np.ndarray) -> np.ndarray:
-            # arr: [num_centroids, t*d] -> [num_centroids, t, d]
-            return arr.reshape(num_centroids, t, d)
+            return arr.reshape(-1, t, d)
+
     elif data.ndim == 2:
         n, f = data.shape
         data_flat = data
+
         def reconstruct(arr: np.ndarray) -> np.ndarray:
-            # arr: [num_centroids, f] -> [num_centroids, f] (sin cambio)
             return arr
+
     else:
-        raise ValueError(f"distill_with_kmeans: data debe ser 2D o 3D, no {data.ndim}D.")
+        raise ValueError(
+            f"distill_with_kmeans: data debe ser 2D o 3D, no {data.ndim}D."
+        )
 
     selected_points = []
-    new_labels      = []
+    new_labels = []
     selected_indices = [] if get_closest else None
 
-    # --- Agrupar y clusterizar por etiqueta ---
+    # Iterar por cada clase para aplicar KMeans de forma independiente.
     for class_id in np.unique(labels):
-        mask = (labels == class_id)
+        mask = labels == class_id
         class_data_flat = data_flat[mask]
-        original_idxs   = np.nonzero(mask)[0]
+        original_idxs = np.nonzero(mask)[0]
 
-        kmeans = KMeans(
-            n_clusters=num_centroids,
-            random_state=seed,
-            n_init="auto"
-        )
+        # Entrenar KMeans para la clase actual.
+        kmeans = KMeans(n_clusters=num_centroids, random_state=seed, n_init="auto")
         kmeans.fit(class_data_flat)
 
         centers_flat = kmeans.cluster_centers_
 
         if get_closest:
-            # Distancia L2 de cada muestra a cada centroide
+            # Calcular distancias y encontrar las muestras originales más cercanas a los centroides.
             dist = np.linalg.norm(
-                class_data_flat[:, None, :] - centers_flat[None, :, :],
-                axis=2
-            )  # shape [n_c, num_centroids]
-            nearest_pos = dist.argmin(axis=0)     # para cada centroide, índice en class_data_flat
-            sel_idx = original_idxs[nearest_pos]  # índice en data original
+                class_data_flat[:, None, :] - centers_flat[None, :, :], axis=2
+            )
+            nearest_pos = dist.argmin(axis=0)
+            sel_idx = original_idxs[nearest_pos]
             selected_indices.extend(sel_idx.tolist())
             selected_points.append(data[sel_idx])
         else:
-            # Reconstruir forma final de los centroides
+            # Reconstruir los centroides (si `data` era 3D).
             selected_points.append(reconstruct(centers_flat))
 
+        # Asignar la etiqueta de la clase a los centroides/muestras seleccionadas.
         new_labels.extend([class_id] * num_centroids)
 
-    # --- Output final ---
-    final_data   = np.vstack(selected_points)
+    final_data = np.vstack(selected_points)
     final_labels = np.array(new_labels)
 
     return final_data, final_labels
+
 
 def distill_with_agglomerative(
     data: np.ndarray,
     labels: np.ndarray,
     num_clusters: int,
     seed: int = 0,
-    get_closest: bool = False
+    get_closest: bool = False,
 ) -> tuple[np.ndarray, np.ndarray, np.ndarray | None]:
     """
     Aplica AgglomerativeClustering por clase.
@@ -191,71 +198,90 @@ def distill_with_agglomerative(
         Índices en el array original de las muestras seleccionadas (si return_indices=True),
         o None.
     """
-    # — Detectar y preparar flatten & reconstruct —
+    # Manejo de dimensionalidad: aplanar 3D a 2D y definir función de reconstrucción.
     if data.ndim == 3:
         n, t, d = data.shape
         data_flat = data.reshape(n, t * d)
+
         def reconstruct(arr: np.ndarray) -> np.ndarray:
             return arr.reshape(-1, t, d)
+
     elif data.ndim == 2:
         n, f = data.shape
         data_flat = data
+
         def reconstruct(arr: np.ndarray) -> np.ndarray:
             return arr
+
     else:
-        raise ValueError(f"distill_with_agglomerative: data debe ser 2D o 3D, no {data.ndim}D.")
+        raise ValueError(
+            f"distill_with_agglomerative: data debe ser 2D o 3D, no {data.ndim}D."
+        )
 
     selected_points = []
-    new_labels      = []
+    new_labels = []
     selected_indices = [] if get_closest else None
     all_idxs = np.arange(n)
 
-    # — Agrupar y clusterizar por etiqueta —
-    for class_id in np.unique(labels):
-        mask = (labels == class_id)
-        class_data = data_flat[mask]
-        orig_idxs  = all_idxs[mask]
+    from sklearn.metrics import pairwise_distances_argmin_min
 
-        # Clustering jerárquico
-        clustering = AgglomerativeClustering(
-            n_clusters=num_clusters
-        ).fit(class_data)
+    # Iterar por cada clase para aplicar Agglomerative Clustering.
+    for class_id in np.unique(labels):
+        mask = labels == class_id
+        class_data = data_flat[mask]
+        orig_idxs = all_idxs[mask]
+        n_c = class_data.shape[0]
+
+        if n_c <= num_clusters:
+            # Si hay menos o igual cantidad de puntos que los requeridos, conservarlos todos
+            selected_points.append(reconstruct(class_data))
+            new_labels.extend([class_id] * n_c)
+            if get_closest:
+                selected_indices.extend(orig_idxs.tolist())
+            continue
+
+        # Muestrear aleatoriamente si es excesivamente grande
+        max_samples = 100000
+        if n_c > max_samples:
+            rng = np.random.RandomState(seed)
+            sub_idx = rng.choice(n_c, max_samples, replace=False)
+            class_data_fit = class_data[sub_idx]
+        else:
+            class_data_fit = class_data
+
+        # Entrenar Agglomerative Clustering para la clase actual.
+        clustering = AgglomerativeClustering(n_clusters=num_clusters).fit(class_data_fit)
 
         if get_closest:
-            # Distancia L2 de cada muestra a cada cluster
+            # Calcular centroides temporales a partir de la muestra de entrenamiento
             centers = []
             for k in range(num_clusters):
-                pts_in_k = class_data[clustering.labels_ == k]
-                # centroide temporal
+                pts_in_k = class_data_fit[clustering.labels_ == k]
                 centers.append(pts_in_k.mean(axis=0))
-            centers = np.stack(centers, axis=0)  # [num_clusters, dim]
+            centers = np.stack(centers, axis=0)
 
-            # Para cada centroide, elegimos la muestra más cercana
-            dists = np.linalg.norm(class_data[:, None, :] - centers[None, :, :], axis=2)
-            nearest = dists.argmin(axis=0)               # posición en class_data
-            sel_idx = orig_idxs[nearest]                # índice en data original
+            # Buscar los más cercanos al centro en TODOS los datos de la clase de manera eficiente en memoria
+            nearest, _ = pairwise_distances_argmin_min(centers, class_data)
+            sel_idx = orig_idxs[nearest]
             selected_indices.extend(sel_idx.tolist())
             selected_points.append(data[sel_idx])
         else:
-            # Calculamos centroides “oficiales” con NearestCentroid
-            nc = NearestCentroid().fit(class_data, clustering.labels_)
-            centers_flat = nc.centroids_              # [num_clusters, dim]
+            # Calcular centroides "oficiales" con NearestCentroid y reconstruirlos.
+            nc = NearestCentroid().fit(class_data_fit, clustering.labels_)
+            centers_flat = nc.centroids_
             selected_points.append(reconstruct(centers_flat))
 
+        # Asignar la etiqueta de la clase a las nuevas muestras.
         new_labels.extend([class_id] * num_clusters)
 
-    # — Preparar salida —
-    final_data   = np.vstack(selected_points)
+    final_data = np.vstack(selected_points)
     final_labels = np.array(new_labels)
 
     return final_data, final_labels
 
 
 def k_center_greedy(
-    X: np.ndarray,
-    k: int,
-    metric: str = 'euclidean',
-    random_state: int = None
+    X: np.ndarray, k: int, metric: str = "euclidean", random_state: int = None
 ) -> list[int]:
     """
     Greedy K-Center: selecciona k índices de X como centros.
@@ -263,27 +289,27 @@ def k_center_greedy(
     n_samples = X.shape[0]
     rng = np.random.RandomState(random_state)
 
-    # 1) Primer centro al azar
+    # Seleccionar el primer centro aleatoriamente.
     first = rng.randint(0, n_samples)
     centers = [int(first)]
 
-    # 2) Distancias iniciales al primer centro
+    # Calcular distancias iniciales al primer centro.
     dist = pairwise_distances(X, X[[first]], metric=metric).reshape(-1)
 
-    # 3) Añadir los k-1 siguientes centros
+    # Iterar para seleccionar los k-1 centros restantes.
     for _ in range(1, k):
+        # Encontrar el punto más alejado del conjunto de centros actuales.
         nxt = int(np.argmax(dist))
         centers.append(nxt)
+        # Actualizar las distancias considerando el nuevo centro.
         new_dist = pairwise_distances(X, X[[nxt]], metric=metric).reshape(-1)
         dist = np.minimum(dist, new_dist)
 
     return centers
 
+
 def distill_with_kcenters(
-    data: np.ndarray,
-    labels: np.ndarray,
-    num_centroids: int,
-    seed: int = 0
+    data: np.ndarray, labels: np.ndarray, num_centroids: int, seed: int = 0
 ) -> tuple[np.ndarray, np.ndarray]:
     """
     Aplica K-Centers por clase. Devuelve (new_data, new_labels).
@@ -292,68 +318,64 @@ def distill_with_kcenters(
     - Si tiene > num_centroids, clampa k y aplica el greedy.
     """
 
-    # 1) Aplanar y preparar reconstrucción
+    # Manejo de dimensionalidad: aplanar 3D a 2D y definir función de reconstrucción.
     if data.ndim == 3:
         n, t, d = data.shape
         data_flat = data.reshape(n, t * d)
+
         def reconstruct(arr_flat):
             return arr_flat.reshape(-1, t, d)
+
     elif data.ndim == 2:
         data_flat = data
+
         def reconstruct(arr_flat):
             return arr_flat
+
     else:
         raise ValueError(f"data.ndim debe ser 2 o 3, no {data.ndim}")
 
     all_centers = []
-    all_labels  = []
+    all_labels = []
 
+    # Iterar por cada clase para aplicar K-Centers.
     for cls in np.unique(labels):
-        # índices de la clase y sus muestras planas
+        # Obtener muestras de la clase actual.
         idxs = np.where(labels == cls)[0]
-        Xc   = data_flat[idxs]
-        n_c  = Xc.shape[0]
+        Xc = data_flat[idxs]
+        n_c = Xc.shape[0]
         if n_c == 0:
             continue
 
-        # número real de centros a seleccionar
+        # Determinar el número real de centros a seleccionar.
         k = min(num_centroids, n_c)
 
         if n_c <= num_centroids:
-            # tomo todas las muestras
+            # Si hay pocas muestras, tomar todas.
             sel_abs = idxs
         else:
-            # greedy k-center: asegúrate de importar tu función
-            centers_rel = k_center_greedy(
-                Xc,
-                k,
-                metric='euclidean',
-                random_state=seed
-            )
+            # Aplicar Greedy K-Center para seleccionar las muestras.
+            centers_rel = k_center_greedy(Xc, k, metric="euclidean", random_state=seed)
             sel_abs = idxs[centers_rel]
 
-        # extraer y reconstruir
+        # Extraer y reconstruir las muestras seleccionadas.
         C_flat = data_flat[sel_abs]
         C = reconstruct(C_flat)
 
         all_centers.append(C)
         all_labels.extend([cls] * C.shape[0])
 
-    # 3) concatenar y devolver
+    # Concatenar los resultados finales.
     if not all_centers:
-        # caso borde: no hay datos
         return np.empty((0,) + data.shape[1:]), np.empty((0,))
 
-    new_data   = np.vstack(all_centers)
+    new_data = np.vstack(all_centers)
     new_labels = np.array(all_labels)
     return new_data, new_labels
 
+
 def distill_least_confidence(
-    data: np.ndarray,
-    labels: np.ndarray,
-    num_samples: int,
-    model=None,
-    seed: int = None
+    data: np.ndarray, labels: np.ndarray, num_samples: int, model=None, seed: int = None
 ) -> tuple[np.ndarray, np.ndarray]:
     """
     Para cada clase en `labels`, selecciona los `num_samples` ejemplos
@@ -367,62 +389,60 @@ def distill_least_confidence(
     num_samples : int
     model : objeto con .predict_proba(X) y .classes_, o None
     seed : int, opcional
-    
+
     Retorna
     -------
     selected_data : np.ndarray, shape (k·num_samples, f) o (k·num_samples, t, d)
     selected_labels : np.ndarray, shape (k·num_samples,)
     """
-    # 1) Flatten si es 3D, y preparar reconstrucción
+    # Manejo de dimensionalidad: aplanar 3D a 2D y definir función de reconstrucción.
     if data.ndim == 3:
         n, t, d = data.shape
         data_flat = data.reshape(n, t * d)
+
         def reconstruct(arr_flat: np.ndarray) -> np.ndarray:
             return arr_flat.reshape(-1, t, d)
+
     elif data.ndim == 2:
         data_flat = data
+
         def reconstruct(arr_flat: np.ndarray) -> np.ndarray:
             return arr_flat
+
     else:
         raise ValueError(f"data.ndim debe ser 2 o 3, no {data.ndim}")
 
-    # 2) Si no hay modelo, entrenar uno automáticamente
+    # Entrenar un modelo LogisticRegression si no se proporciona uno.
     if model is None:
         clf = LogisticRegression(
-            random_state=seed,
-            max_iter=500,
-            multi_class='auto',
-            solver='lbfgs'
+            random_state=seed, max_iter=500, solver="lbfgs"
         )
         clf.fit(data_flat, labels)
         model = clf
 
-    # 3) Preparar mapeo de clase → posición en predict_proba
+    # Mapear clases a índices de columnas en `predict_proba`.
     class_indices = {
-        cls: int(np.where(model.classes_ == cls)[0][0])
-        for cls in model.classes_
+        cls: int(np.where(model.classes_ == cls)[0][0]) for cls in model.classes_
     }
 
     selected_list = []
-    labels_list   = []
+    labels_list = []
 
-    # 4) Para cada clase, seleccionar los menos confiados
+    # Iterar por cada clase para seleccionar las muestras menos confiadas.
     for cls in np.unique(labels):
-        mask = (labels == cls)
-        Xc   = data_flat[mask]
+        mask = labels == cls
+        Xc = data_flat[mask]
 
-        print("Clases: ",mask)
         idxs = np.nonzero(mask)
 
         proba = model.predict_proba(Xc)
         pos_idx = class_indices[cls]
         confidences = proba[:, pos_idx]
 
-        order = np.argsort(confidences, kind='stable')
-        chosen = order[:min(num_samples, Xc.shape[0])]
+        # Ordenar por confianza y seleccionar las `num_samples` menos confiadas.
+        order = np.argsort(confidences, kind="stable")
+        chosen = order[: min(num_samples, Xc.shape[0])]
 
-        print("Forma de chosen: ",chosen,type(chosen))
-        print("Forma de idxs:", idxs, type(idxs))
         try:
             abs_idx = idxs[chosen]
         except:
@@ -432,11 +452,12 @@ def distill_least_confidence(
         selected_list.append(reconstruct(sel_flat))
         labels_list.extend([cls] * sel_flat.shape[0])
 
-    # 5) Concatenar resultados
-    selected_data   = np.vstack(selected_list)
+    # Concatenar y devolver los resultados finales.
+    selected_data = np.vstack(selected_list)
     selected_labels = np.array(labels_list)
 
     return selected_data, selected_labels
+
 
 def distill_with_craig(
     data: np.ndarray,
@@ -444,10 +465,10 @@ def distill_with_craig(
     num_samples: int,
     batch_size: int = 32,
     device: str = None,
-    metric: str = 'euclidean',
+    metric: str = "euclidean",
     seed: int = None,
     train_epochs: int = 5,
-    lr: float = 1e-3
+    lr: float = 1e-3,
 ) -> tuple[np.ndarray, np.ndarray]:
     """
     Aplica CRAIG Sampling: entrena un modelo lineal interno y selecciona "num_samples" muestras
@@ -481,37 +502,50 @@ def distill_with_craig(
     selected_labels : np.ndarray
         Etiquetas de las muestras seleccionadas.
     """
-    # Preparar dispositivo
+    # Configurar el dispositivo (GPU/CPU).
     if device is None:
-        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        device = "cuda" if torch.cuda.is_available() else "cpu"
 
-    # Flatten y reconstrucción
+    # Configurar semilla para reproducibilidad si se proporciona.
+    if seed is not None:
+        torch.manual_seed(seed)
+        np.random.seed(seed)
+        if device == "cuda":
+            torch.cuda.manual_seed(seed)
+            torch.backends.cudnn.deterministic = True
+            torch.backends.cudnn.benchmark = False
+
+    # Manejo de dimensionalidad: aplanar 3D a 2D y definir función de reconstrucción.
     if data.ndim == 3:
-        #labels = labels.cpu().numpy()
         n, t, d = data.shape
         data_flat = data.reshape(n, t * d)
+
         def reconstruct(arr: np.ndarray) -> np.ndarray:
             return arr.reshape(-1, t, d)
+
     elif data.ndim == 2:
         n, f = data.shape
         data_flat = data
+
         def reconstruct(arr: np.ndarray) -> np.ndarray:
             return arr
+
     else:
         raise ValueError(f"data.ndim debe ser 2 o 3, no {data.ndim}")
 
-    # Mapear etiquetas a índices consecutivos 0..C-1
+    # Mapear etiquetas a índices enteros consecutivos (0 a C-1).
     classes = np.unique(labels)
     class_to_idx = {cls: i for i, cls in enumerate(classes)}
     y_idx = np.array([class_to_idx[lab] for lab in labels])
 
-    # Crear y entrenar modelo lineal interno
+    # Crear y entrenar un modelo lineal auxiliar.
     input_dim = data_flat.shape[1]
     num_classes = len(classes)
     model = nn.Linear(input_dim, num_classes).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=lr)
     criterion = nn.CrossEntropyLoss()
 
+    # Preparar DataLoader para el entrenamiento del modelo auxiliar.
     X_tensor = torch.from_numpy(data_flat).float()
     y_tensor = torch.from_numpy(y_idx).long()
     train_ds = TensorDataset(X_tensor, y_tensor)
@@ -528,76 +562,37 @@ def distill_with_craig(
             loss.backward()
             optimizer.step()
 
-    # Calcular gradientes por muestra
+    # Calcular gradientes por muestra individual.
     model.eval()
     X_ds = TensorDataset(X_tensor)
-    loader = DataLoader(X_ds, batch_size=batch_size, shuffle=False)
+    loader = DataLoader(
+        X_ds, batch_size=1, shuffle=False
+    )  # Batch_size 1 para gradientes por muestra.
     grads = []
     with torch.enable_grad():
-        for (xb,) in loader:
+        for (xb,) in tqdm(loader, desc="Calculando gradientes para CRAIG"):
             xb = xb.to(device)
-            for x in xb:
-                x = x.unsqueeze(0)
-                model.zero_grad()
-                logits = model(x)
-                pred = logits.argmax(dim=1)
-                loss = F.cross_entropy(logits, pred)
-                loss.backward()
-                grad_list = [p.grad.detach().cpu().flatten() for p in model.parameters() if p.grad is not None]
-                grads.append(torch.cat(grad_list).numpy())
+            x = xb.squeeze(0)
+            model.zero_grad()
+            logits = model(x.unsqueeze(0))
+            pred = logits.argmax(dim=1)
+            loss = F.cross_entropy(logits, pred)
+            loss.backward()
+            grad_list = [
+                p.grad.detach().cpu().flatten()
+                for p in model.parameters()
+                if p.grad is not None
+            ]
+            grads.append(torch.cat(grad_list).numpy())
 
     grads = np.stack(grads, axis=0)
 
-    # Seleccionar índices por k-center en el espacio de gradientes
+    # Seleccionar índices utilizando k-center en el espacio de gradientes.
     centers_idx = k_center_greedy(grads, num_samples, metric=metric, random_state=seed)
 
-    # Extraer datos y etiquetas seleccionados
+    # Extraer las muestras y etiquetas seleccionadas y reconstruir su forma original.
     sel_flat = data_flat[centers_idx]
     sel_labels = labels[centers_idx]
     selected_data = reconstruct(sel_flat)
 
     return selected_data, sel_labels
-
-
-
-
-
-
-
-
-################ Sirve para plotaer las categorias del dataset
-
-# df = pd.read_csv('/mnt/d/home-2/Documentos/master/practica-deusto-tech/TFM/MyTabsyn/CorVAE/data/shoppers/dataset.csv')
-# columns = list(df.columns)
-
-# def changeN(list):
-#     print("[", end='', sep='')
-#     for i in list:
-#         print('"',i,'",', end='', sep='')
-#     print("]", end='', sep='')
-#     print("")
-
-# names1 = [columns[i] for i in [0,1,2,3,4,5,6,7,8,9]]
-# names2 = [columns[i] for i in [10,11,12,13,14,15,16]]
-
-# changeN(names1)
-# changeN(names2)
-# print(columns[17])
-
-# def load_original_space():
-#     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-
-#     os.makedirs(ckpt_dir, exist_ok=True)
-#     model_save_path = os.path.join(ckpt_dir, 'best_vae.pt')
-
-#     (
-#         X_num_train, X_cat_train,
-#         X_num_test,  X_cat_test,
-#         y_train_enc, y_test_enc,
-#         num_scaler,  cat_encoder,
-#         label_encoder
-#                         ) = preprocessing(dataset_path, encoding='ordinal', random_state=random_state)
-
-# if __name__ == '__main__':
-#     encoder = 
-
