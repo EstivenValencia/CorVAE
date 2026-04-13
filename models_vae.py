@@ -777,3 +777,268 @@ class DecoderModel(nn.Module):
         # Convierte los tokens en los datos numéricos y categóricos finales.
         x_hat_num, x_hat_cat = self.Detokenizer(h)
         return x_hat_num, x_hat_cat
+
+
+# ======================================================================================
+# Estudio de Ablación: Arquitectura MLP-VAE (sin Transformers)
+#
+# Las siguientes clases implementan un VAE estándar basado únicamente en capas densas
+# (MLP), reutilizando el mismo Tokenizer y Reconstructor del CorVAE original para
+# garantizar una comparación justa en el estudio de ablación Transformer vs. MLP.
+# ======================================================================================
+
+
+class MLP_VAE_Core(nn.Module):
+    """VAE basado en capas densas (MLP) para datos tabulares.
+
+    Reemplaza los bloques Transformer del encoder y decoder por perceptrones multicapa,
+    manteniendo el mismo Tokenizer para tokenizar la entrada y la misma interfaz de salida
+    que la clase VAE (Transformer), para que sea intercambiable en el pipeline.
+
+    Args:
+        d_numerical (int): Número de características numéricas.
+        categories (list[int]): Cardinalidades de las características categóricas.
+        d_token (int): Dimensión de cada token/embedding.
+        n_hidden_layers (int): Número de capas ocultas en el MLP del encoder y decoder.
+        hidden_dim (int): Dimensión de las capas ocultas del MLP.
+        mlp_dropout (float): Tasa de dropout para las capas del MLP.
+        bias (bool): Si el Tokenizer usa sesgo.
+    """
+    def __init__(self, d_numerical, categories, d_token, n_hidden_layers=2,
+                 hidden_dim=128, mlp_dropout=0.3, bias=True):
+        super(MLP_VAE_Core, self).__init__()
+
+        self.d_numerical = d_numerical
+        self.categories = categories
+        self.d_token = d_token
+
+        # Número total de tokens = 1 (CLS) + n_num + n_cat
+        n_tokens = 1 + d_numerical + len(categories)
+        self.n_tokens = n_tokens
+        flat_dim = n_tokens * d_token  # Dimensión del vector aplanado
+
+        # Módulo para convertir las características de entrada en una secuencia de embeddings.
+        self.Tokenizer = Tokenizer(d_numerical, categories, d_token, use_bias=bias)
+
+        # --- Encoder MLP: produce mu y logvar ---
+        encoder_layers = []
+        in_dim = flat_dim
+        for _ in range(n_hidden_layers):
+            encoder_layers.extend([
+                nn.Linear(in_dim, hidden_dim),
+                nn.ReLU(),
+                nn.Dropout(mlp_dropout),
+            ])
+            in_dim = hidden_dim
+        self.encoder_body = nn.Sequential(*encoder_layers)
+        # Cabezas separadas para mu y logvar
+        self.fc_mu = nn.Linear(hidden_dim, flat_dim)
+        self.fc_logvar = nn.Linear(hidden_dim, flat_dim)
+
+        # --- Decoder MLP ---
+        # El decoder recibe z sin el token CLS, es decir (n_tokens - 1) * d_token
+        decoder_input_dim = (n_tokens - 1) * d_token
+        decoder_layers = []
+        in_dim = decoder_input_dim
+        for _ in range(n_hidden_layers):
+            decoder_layers.extend([
+                nn.Linear(in_dim, hidden_dim),
+                nn.ReLU(),
+                nn.Dropout(mlp_dropout),
+            ])
+            in_dim = hidden_dim
+        decoder_layers.append(nn.Linear(hidden_dim, decoder_input_dim))
+        self.decoder = nn.Sequential(*decoder_layers)
+
+    def reparameterize(self, mu, logvar):
+        """Truco de reparametrización: z = mu + eps * std."""
+        std = torch.exp(0.5 * logvar)
+        eps = torch.randn_like(std)
+        return mu + eps * std
+
+    def forward(self, x_num, x_cat):
+        """Paso hacia adelante del MLP-VAE.
+
+        Args:
+            x_num (torch.Tensor): Características numéricas [batch, d_numerical].
+            x_cat (torch.Tensor): Características categóricas [batch, n_cat].
+
+        Returns:
+            tuple: (h, mu_z, logvar_z) con las mismas formas que el VAE Transformer.
+        """
+        batch_size = x_num.size(0)
+
+        # 1. Tokenizar
+        x = self.Tokenizer(x_num, x_cat)  # (batch, n_tokens, d_token)
+
+        # 2. Aplanar la secuencia de tokens
+        x_flat = x.reshape(batch_size, -1)  # (batch, n_tokens * d_token)
+
+        # 3. Encoder: obtener mu y logvar
+        h_enc = self.encoder_body(x_flat)  # (batch, hidden_dim)
+        mu_flat = self.fc_mu(h_enc)        # (batch, n_tokens * d_token)
+        logvar_flat = self.fc_logvar(h_enc)  # (batch, n_tokens * d_token)
+
+        # Reshapear a forma de tokens para compatibilidad
+        mu_z = mu_flat.reshape(batch_size, self.n_tokens, self.d_token)
+        logvar_z = logvar_flat.reshape(batch_size, self.n_tokens, self.d_token)
+
+        # 4. Reparametrización
+        z = self.reparameterize(mu_z, logvar_z)  # (batch, n_tokens, d_token)
+
+        # 5. Decoder: toma z sin CLS token (igual que VAE Transformer)
+        z_no_cls = z[:, 1:]  # (batch, n_tokens - 1, d_token)
+        z_flat = z_no_cls.reshape(batch_size, -1)  # (batch, (n_tokens-1) * d_token)
+        h_flat = self.decoder(z_flat)  # (batch, (n_tokens-1) * d_token)
+        h = h_flat.reshape(batch_size, self.n_tokens - 1, self.d_token)
+
+        return h, mu_z, logvar_z
+
+
+class MLP_ModelVAE(nn.Module):
+    """Modelo MLP-VAE completo: MLP_VAE_Core + Reconstructor + ClassifierHead opcional.
+
+    Interfaz idéntica a ModelVAE para ser intercambiable en el pipeline de entrenamiento.
+
+    Args:
+        d_numerical (int): Número de características numéricas.
+        categories (list[int]): Cardinalidades de cada variable categórica.
+        d_token (int): Dimensión de token/embedding.
+        n_hidden_layers (int): Capas ocultas del MLP.
+        hidden_dim (int): Dimensión de las capas ocultas.
+        mlp_dropout (float): Dropout del MLP.
+        bias (bool): Sesgo del Tokenizer.
+        num_classes (int, optional): Clases para el cabezal de clasificación.
+        dropout_class (float): Dropout del clasificador.
+    """
+    def __init__(self, d_numerical, categories, d_token, n_hidden_layers=2,
+                 hidden_dim=128, mlp_dropout=0.3, bias=True, num_classes=None,
+                 dropout_class=0.3):
+        super(MLP_ModelVAE, self).__init__()
+
+        self.VAE = MLP_VAE_Core(
+            d_numerical, categories, d_token,
+            n_hidden_layers=n_hidden_layers,
+            hidden_dim=hidden_dim,
+            mlp_dropout=mlp_dropout,
+            bias=bias,
+        )
+        self.Reconstructor = Reconstructor(d_numerical, categories, d_token)
+
+        self.classifier = None
+        if num_classes is not None and num_classes > 0:
+            self.classifier = ClassifierHead(
+                input_dim=d_token, num_classes=num_classes, dropout=dropout_class
+            )
+
+    def forward(self, x_num, x_cat):
+        """Paso hacia adelante del modelo MLP-VAE completo.
+
+        Returns:
+            tuple: (recon_x_num, recon_x_cat, mu_z, logvar_z, class_logits)
+        """
+        h, mu_z, logvar_z = self.VAE(x_num, x_cat)
+        recon_x_num, recon_x_cat = self.Reconstructor(h)
+
+        class_logits = None
+        if self.classifier is not None:
+            cls_token_representation = mu_z[:, 0, :]
+            class_logits = self.classifier(cls_token_representation)
+
+        return recon_x_num, recon_x_cat, mu_z, logvar_z, class_logits
+
+
+class MLP_EncoderModel(nn.Module):
+    """Encoder MLP para inferencia: Tokenizer + encoder denso (solo mu).
+
+    Diseñado para extraer representaciones latentes de datos nuevos,
+    análogo a EncoderModel pero usando capas densas.
+    """
+    def __init__(self, d_numerical, categories, d_token, n_hidden_layers=2,
+                 hidden_dim=128, mlp_dropout=0.3, bias=True):
+        super(MLP_EncoderModel, self).__init__()
+
+        n_tokens = 1 + d_numerical + len(categories)
+        self.n_tokens = n_tokens
+        self.d_token = d_token
+        flat_dim = n_tokens * d_token
+
+        self.Tokenizer = Tokenizer(d_numerical, categories, d_token, use_bias=bias)
+
+        encoder_layers = []
+        in_dim = flat_dim
+        for _ in range(n_hidden_layers):
+            encoder_layers.extend([
+                nn.Linear(in_dim, hidden_dim),
+                nn.ReLU(),
+                nn.Dropout(mlp_dropout),
+            ])
+            in_dim = hidden_dim
+        self.encoder_body = nn.Sequential(*encoder_layers)
+        self.fc_mu = nn.Linear(hidden_dim, flat_dim)
+
+    def load_weights(self, Pretrained_MLP_VAE: 'MLP_ModelVAE'):
+        """Carga los pesos del tokenizer y encoder desde un MLP-VAE pre-entrenado."""
+        self.Tokenizer.load_state_dict(Pretrained_MLP_VAE.VAE.Tokenizer.state_dict())
+        self.encoder_body.load_state_dict(Pretrained_MLP_VAE.VAE.encoder_body.state_dict())
+        self.fc_mu.load_state_dict(Pretrained_MLP_VAE.VAE.fc_mu.state_dict())
+
+    def forward(self, x_num, x_cat):
+        """Tokeniza y codifica la entrada, retornando mu con forma (batch, n_tokens, d_token)."""
+        batch_size = x_num.size(0)
+        x = self.Tokenizer(x_num, x_cat)
+        x_flat = x.reshape(batch_size, -1)
+        h_enc = self.encoder_body(x_flat)
+        mu_flat = self.fc_mu(h_enc)
+        mu_z = mu_flat.reshape(batch_size, self.n_tokens, self.d_token)
+        return mu_z
+
+
+class MLP_DecoderModel(nn.Module):
+    """Decoder MLP para inferencia: capas densas + Reconstructor.
+
+    Análogo a DecoderModel pero usando capas densas en lugar de Transformer.
+    """
+    def __init__(self, d_numerical, categories, d_token, n_hidden_layers=2,
+                 hidden_dim=128, mlp_dropout=0.3, bias=True):
+        super(MLP_DecoderModel, self).__init__()
+
+        n_tokens = 1 + d_numerical + len(categories)
+        decoder_input_dim = (n_tokens - 1) * d_token
+        self.n_tokens_no_cls = n_tokens - 1
+        self.d_token = d_token
+
+        decoder_layers = []
+        in_dim = decoder_input_dim
+        for _ in range(n_hidden_layers):
+            decoder_layers.extend([
+                nn.Linear(in_dim, hidden_dim),
+                nn.ReLU(),
+                nn.Dropout(mlp_dropout),
+            ])
+            in_dim = hidden_dim
+        decoder_layers.append(nn.Linear(hidden_dim, decoder_input_dim))
+        self.VAE_Decoder = nn.Sequential(*decoder_layers)
+
+        self.Detokenizer = Reconstructor(d_numerical, categories, d_token)
+
+    def load_weights(self, Pretrained_MLP_VAE: 'MLP_ModelVAE'):
+        """Carga los pesos del decoder y reconstructor desde un MLP-VAE pre-entrenado."""
+        self.VAE_Decoder.load_state_dict(Pretrained_MLP_VAE.VAE.decoder.state_dict())
+        self.Detokenizer.load_state_dict(Pretrained_MLP_VAE.Reconstructor.state_dict())
+
+    def forward(self, z):
+        """Decodifica un vector latente 'z' (sin CLS) y reconstruye datos tabulares.
+
+        Args:
+            z (torch.Tensor): Representación latente de forma (batch, n_tokens-1, d_token).
+
+        Returns:
+            tuple: (recon_x_num, recon_x_cat)
+        """
+        batch_size = z.size(0)
+        z_flat = z.reshape(batch_size, -1)
+        h_flat = self.VAE_Decoder(z_flat)
+        h = h_flat.reshape(batch_size, self.n_tokens_no_cls, self.d_token)
+        x_hat_num, x_hat_cat = self.Detokenizer(h)
+        return x_hat_num, x_hat_cat

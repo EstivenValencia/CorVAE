@@ -24,7 +24,8 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 
 # Importaciones locales del proyecto
 from utils import preprocessing, read_json_config
-from models_vae import ModelVAE, compute_loss, EncoderModel, DecoderModel, LossTracker
+from models_vae import (ModelVAE, compute_loss, EncoderModel, DecoderModel, LossTracker,
+                        MLP_ModelVAE, MLP_EncoderModel, MLP_DecoderModel)
 
 warnings.filterwarnings('ignore')
 
@@ -181,11 +182,19 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
         torch.save(pre_encoder.state_dict(), encoder_save_path)
         torch.save(pre_decoder.state_dict(), decoder_save_path)
 
-        # Genera y guarda las representaciones latentes para los conjuntos de datos.
+        # Genera y guarda las representaciones latentes para los conjuntos de datos por lotes (batches).
         start_time = time.time()
-        train_z = pre_encoder(X_train_num, X_train_cat).detach().cpu().numpy()
-        encoder_inference_time = (time.time() - start_time) / X_train_num.shape[0]
-        test_z = pre_encoder(X_test_num, X_test_cat).detach().cpu().numpy()
+        
+        def extract_z_in_batches(encoder, x_num, x_cat, batch_size=1024):
+            z_list = []
+            for i in range(0, x_num.size(0), batch_size):
+                z_batch = encoder(x_num[i:i+batch_size], x_cat[i:i+batch_size])
+                z_list.append(z_batch.detach().cpu().numpy())
+            return np.concatenate(z_list, axis=0)
+
+        train_z = extract_z_in_batches(pre_encoder, X_train_num, X_train_cat)
+        encoder_inference_time = (time.time() - start_time) / X_train_num.size(0)
+        test_z = extract_z_in_batches(pre_encoder, X_test_num, X_test_cat)
 
         # Guarda los embeddings y las etiquetas correspondientes.
         np.save(os.path.join(ckpt_dir, f'train_z_seed_{random_state}.npy'), train_z)
@@ -199,7 +208,7 @@ def save_best_encoder_decoder(model, model_save_path, num_cols, categories, pre_
 
 # --- 3. Orquestador Principal del Entrenamiento ---
 
-def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_size=64, pretrain_epochs=50, finetune_epochs=30, concat_label=False,ckpt_dir='ckpt', hyperparams = {}):
+def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_size=64, pretrain_epochs=50, finetune_epochs=30, concat_label=False,ckpt_dir='ckpt', hyperparams = {}, architecture='transformer'):
     
     # --- 1. Configuración de Hiperparámetros ---
     # Parámetros para el pre-entrenamiento del VAE.
@@ -214,6 +223,11 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     factor = hyperparams.get('factor', 32)
     num_layers = hyperparams.get('num_layers', 2)
     early_stop_counter_pretrain = hyperparams.get('early_stop_counter_pretrain', 30)
+
+    # Parámetros específicos del MLP (solo usados si architecture == 'mlp').
+    n_hidden_layers = hyperparams.get('n_hidden_layers', 2)
+    hidden_dim = hyperparams.get('hidden_dim', 128)
+    mlp_dropout = hyperparams.get('mlp_dropout', 0.3)
     
     # Parámetros para el fine-tuning supervisado.
     dropout_ft = hyperparams.get('dropout_ft', 0.3)
@@ -252,15 +266,32 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     num_cols, cat_cols = X_num_train.shape[1], X_cat_train.shape[1]
 
     # --- 3. Inicialización de Modelos y Optimizador ---
-    # Instancia el modelo VAE principal (sin cabezal de clasificación para el pre-entrenamiento).
-    model = ModelVAE(num_layers, num_cols, categories, d_token, num_classes=None, n_head=n_head, factor=factor, bias=token_bias).to(device)
+    if architecture == 'mlp':
+        # Instancia el modelo MLP-VAE (sin Transformers).
+        model = MLP_ModelVAE(
+            d_numerical=num_cols, categories=categories, d_token=d_token,
+            n_hidden_layers=n_hidden_layers, hidden_dim=hidden_dim,
+            mlp_dropout=mlp_dropout, bias=token_bias, num_classes=None
+        ).to(device)
+        pre_encoder = MLP_EncoderModel(
+            d_numerical=num_cols, categories=categories, d_token=d_token,
+            n_hidden_layers=n_hidden_layers, hidden_dim=hidden_dim,
+            mlp_dropout=mlp_dropout
+        ).to(device).eval()
+        pre_decoder = MLP_DecoderModel(
+            d_numerical=num_cols, categories=categories, d_token=d_token,
+            n_hidden_layers=n_hidden_layers, hidden_dim=hidden_dim,
+            mlp_dropout=mlp_dropout
+        ).to(device).eval()
+    else:
+        # Instancia el modelo VAE con Transformer (comportamiento original).
+        model = ModelVAE(num_layers, num_cols, categories, d_token, num_classes=None, n_head=n_head, factor=factor, bias=token_bias).to(device)
+        pre_encoder = EncoderModel(num_layers, num_cols, categories, d_token, n_head=n_head, factor=factor).to(device).eval()
+        pre_decoder = DecoderModel(num_layers, num_cols, categories, d_token, n_head=n_head, factor=factor).to(device).eval()
+
     optimizer = torch.optim.AdamW(model.parameters(), lr=lr_pretrain, weight_decay=wd_pretrain)
     scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.95, patience=10, verbose=True)
     tracker = LossTracker(log_dir=os.path.join(ckpt_dir, 'runs', f"seed_{random_state}"))
-
-    # Instancia los modelos de Encoder y Decoder para guardarlos al final.
-    pre_encoder = EncoderModel(num_layers, num_cols, categories, d_token, n_head=n_head, factor=factor).to(device).eval()
-    pre_decoder = DecoderModel(num_layers, num_cols, categories, d_token, n_head=n_head, factor=factor).to(device).eval()
     
     # --- 4. Fase 1: Pre-entrenamiento del VAE (sin supervisión) ---
     print("\n--- Iniciando Fase 1: Pre-entrenamiento No Supervisado ---")
@@ -303,10 +334,18 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
         print("\n--- Iniciando Fase 2: Fine-Tuning Supervisado ---")
 
         # Carga el mejor modelo pre-entrenado y le añade el cabezal de clasificación.
-        ft_model = ModelVAE(
-            num_layers=num_layers, d_numerical=num_cols, categories=categories, d_token=d_token,
-            num_classes=num_classes, n_head=n_head, factor=factor, bias=token_bias, droput_class=dropout_ft
-        ).to(device)
+        if architecture == 'mlp':
+            ft_model = MLP_ModelVAE(
+                d_numerical=num_cols, categories=categories, d_token=d_token,
+                n_hidden_layers=n_hidden_layers, hidden_dim=hidden_dim,
+                mlp_dropout=mlp_dropout, bias=token_bias,
+                num_classes=num_classes, dropout_class=dropout_ft
+            ).to(device)
+        else:
+            ft_model = ModelVAE(
+                num_layers=num_layers, d_numerical=num_cols, categories=categories, d_token=d_token,
+                num_classes=num_classes, n_head=n_head, factor=factor, bias=token_bias, droput_class=dropout_ft
+            ).to(device)
         ft_model.load_state_dict(torch.load(model_save_path), strict=False)
 
         # Define un nuevo optimizador para el fine-tuning, usualmente con un learning rate más bajo.
@@ -349,9 +388,14 @@ def main(config, base_dir, set_data, encoding='ordinal', random_state=0, batch_s
     train_z, encoder_inference_time = save_best_encoder_decoder(
         model=model, model_save_path=model_save_path, num_cols=num_cols, categories=categories,
         pre_encoder=pre_encoder, pre_decoder=pre_decoder, num_scaler=num_scaler, cat_encoder=cat_encoder, 
-        label_encoder=label_encoder, X_train_num=X_num_train.to(device), X_train_cat=X_cat_train.to(device),
-        y_train_enc=y_train_enc.cpu().numpy(), X_test_num=X_num_test.to(device), X_test_cat=X_cat_test.to(device),
-        y_test_enc=y_test_enc.cpu().numpy(), ckpt_dir=ckpt_dir, device=device, random_state=random_state
+        label_encoder=label_encoder, 
+        X_train_num=torch.tensor(X_num_train, dtype=torch.float32).to(device), 
+        X_train_cat=torch.tensor(X_cat_train, dtype=torch.long).to(device),
+        y_train_enc=y_train_enc, 
+        X_test_num=torch.tensor(X_num_test, dtype=torch.float32).to(device), 
+        X_test_cat=torch.tensor(X_cat_test, dtype=torch.long).to(device),
+        y_test_enc=y_test_enc, 
+        ckpt_dir=ckpt_dir, device=device, random_state=random_state
     )
 
     return train_z, y_train_enc, pretrain_time, finetune_time, encoder_inference_time

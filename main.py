@@ -16,7 +16,6 @@ from utils import (
     reconstruct_data,
     load_reconstructed_data,
     split_train_test_custom,
-    compute_relative_regret,
 )
 import torch
 from utils import read_json_config
@@ -84,6 +83,14 @@ def parse_args():
     parser.add_argument("--kmeans_type", type=str, required=True, help="")
 
     parser.add_argument("--hyperparams_vae", type=str, required=False, help="")
+
+    parser.add_argument(
+        "--architecture",
+        type=str,
+        choices=["transformer", "mlp"],
+        default="transformer",
+        help="VAE backbone architecture: 'transformer' (CorVAE) or 'mlp' (ablation).",
+    )
 
     args = parser.parse_args()
 
@@ -174,6 +181,7 @@ def recontructed_distillation(
     concat_label,
     seed,
     destillation_time,
+    architecture="transformer",
 ):
 
     # Reconstrucción de los datos destilados al espacio original
@@ -189,6 +197,7 @@ def recontructed_distillation(
         ipc=ipc,
         concat_label=concat_label,
         seed=seed,
+        architecture=architecture,
     )
 
     # Se cargan los datos reconstruidos para evaluacion de los modelos
@@ -268,6 +277,7 @@ def main(args):
     epochs_fine_tuning_latent = args.epochs_fine_tuning_latent
     hyperparams_vae_path = args.hyperparams_vae
     concat_label = args.concat_label_vae
+    architecture = args.architecture
 
     # Se crea la carpeta donde se guardarán los checkpoints
     os.makedirs(checkpoint_path, exist_ok=True)
@@ -308,20 +318,20 @@ def main(args):
 
     # Entrenamiento de los modelos de evaluación con todos los datos
     full_df, _, _ = evaluate_models(
-        X_train_pre,
-        y_train_pre,
-        X_test_pre,
-        y_test_pre,
-        ckpt_dir=checkpoint_path,
-        method="Full-data",
-        random_state=SEED,
-    )
+         X_train_pre,
+         y_train_pre,
+         X_test_pre,
+         y_test_pre,
+         ckpt_dir=checkpoint_path,
+         method="Full-data",
+         random_state=SEED,
+     )
 
-    # Se agrega información para la generación de los resultados
+    # # Se agrega información para la generación de los resultados
     full_df = add_meta(full_df)
-
+    #full_df = pd.DataFrame()
     # Se realiza entrenamiento del VAE sobre las diferentes semillas
-
+    print("\n\n\n----------------FINALIZO-------------\n\n\n")
     # Medición de tiempos en el entrenamiento del VAE en las diferentes semillas
     times = {}
 
@@ -351,6 +361,7 @@ def main(args):
                 ckpt_dir=vae_dir,
                 hyperparams=hyperparams_vae,
                 concat_label=concat_label,
+                architecture=architecture,
             )
             times[seed] = (pretrain_time, finetune_time, encoder_inference_time)
 
@@ -436,6 +447,7 @@ def main(args):
                         concat_label,
                         seed,
                         destillation_time,
+                        architecture=architecture,
                     )
                 # ------------------------------------------
                 # Destilación con K-center y recontruyendo
@@ -469,6 +481,7 @@ def main(args):
                     concat_label,
                     seed,
                     destillation_time,
+                    architecture=architecture,
                 )
                 # ------------------------------------------
                 # Destilacion con AG y reconstruyendo
@@ -502,6 +515,7 @@ def main(args):
                     concat_label,
                     seed,
                     destillation_time,
+                    architecture=architecture,
                 )
                 # --------------------------------------------------
                 # Destilación con Least Confidence y recontruyendo
@@ -535,6 +549,7 @@ def main(args):
                     concat_label,
                     seed,
                     destillation_time,
+                    architecture=architecture,
                 )
                 full_df = pd.concat(
                     [

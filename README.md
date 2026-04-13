@@ -156,6 +156,56 @@ A continuación, se muestra un ejemplo de las curvas de rendimiento para el data
 ## Baselines
 Para validar la efectividad de CorVAE, los resultados se comparan contra un baseline consistente en el entrenamiento de los mismos modelos de clasificación utilizando el **conjunto de datos completo**. los modelos de selección de coreset en el espacio original y la arquitectura del estado del arte TDColER.
 
+## Estudio de Ablación: Transformer vs. MLP
+
+Para demostrar empíricamente que la arquitectura basada en Transformers es la que otorga la ventaja en datos heterogéneos, se implementó un estudio de ablación comparando **CorVAE (VAE + Transformer)** contra un **VAE estándar (solo capas densas/MLP)**.
+
+### Arquitectura MLP-VAE
+
+La variante MLP reutiliza el mismo `Tokenizer` y `Reconstructor` del CorVAE original, reemplazando únicamente los bloques Transformer del encoder y decoder por perceptrones multicapa. Esto garantiza una comparación justa donde la única variable es el backbone (Transformer vs. MLP).
+
+Las clases relevantes son:
+- `MLP_VAE_Core`: VAE con encoder/decoder MLP.
+- `MLP_ModelVAE`: Modelo completo (MLP_VAE_Core + Reconstructor + ClassifierHead).
+- `MLP_EncoderModel` / `MLP_DecoderModel`: Para inferencia standalone.
+
+### Ejecución
+
+**1. Seleccionar la arquitectura via CLI:**
+
+```bash
+python main.py \
+    --metadata_path data/adult/metadata.json \
+    --distillation_space latent \
+    --epochs_latent 3000 \
+    --batch_size 4096 \
+    --checkpoint_path checkpoint_adult_MLP_Dlatent \
+    --kmeans_type centroid \
+    --epochs_fine_tuning_latent 0 \
+    --hyperparams_vae tune_vae/tune_mlp_adult/best_hyperparams_mlp.json \
+    --architecture mlp
+```
+
+**2. Buscar hiperparámetros del MLP-VAE con Optuna:**
+
+```bash
+cd tune_vae
+python tune_mlp_vae.py --dataset adult --n_trials 30 --epochs 700
+```
+
+**3. Ejecutar el estudio completo para los 5 datasets:**
+
+```bash
+chmod +x run_ablation.sh
+nohup bash run_ablation.sh > ablation_full_log.txt 2>&1 &
+```
+
+El script `run_ablation.sh` ejecuta secuencialmente para cada dataset:
+1. Búsqueda de hiperparámetros MLP con Optuna (si no existen).
+2. Entrenamiento + destilación con `--architecture mlp`.
+
+Los resultados se guardan en `checkpoint_{dataset}_MLP_Dlatent/metrics.csv`.
+
 ## Limitaciones
 Actualmente, la metodología ha sido validada en:
 
