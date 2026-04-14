@@ -27,6 +27,7 @@ from utils import (
     reconstruct_data,
     load_reconstructed_data,
     evaluate_one_model,
+    preprocessing,
 )
 from distill import distill_with_kmeans
 
@@ -58,10 +59,10 @@ def objective(trial, args):
         'd_token':      trial.suggest_categorical('d_token', [4, 8]),
         'token_bias':   True,
 
-        # Parámetros fijos
-        'n_head': 1,       # No se usa en MLP pero necesario para el Tokenizer
-        'factor': 32,      # No se usa en MLP
-        'num_layers': 1,   # No se usa en MLP
+        # Parámetros fijos (no usados por MLP pero requeridos por el pipeline)
+        'n_head': 1,
+        'factor': 32,
+        'num_layers': 1,
         'early_stop_counter_pretrain': 15,
         'early_stop_counter_ft': 15,
     }
@@ -86,7 +87,7 @@ def objective(trial, args):
         train_z, train_y, num_centroids=args.ipc, get_closest=False, seed=args.seed
     )
 
-    # Reconstruir datos destilados
+    # Reconstruir datos destilados al espacio original
     df_recon, _ = reconstruct_data(
         distill_z, distill_y,
         models_paths=args.checkpoint_path,
@@ -97,39 +98,19 @@ def objective(trial, args):
         architecture='mlp',
     )
 
-    # Evaluar con XGBoost
-    from utils import preprocessing, split_train_test_custom
-    config = read_json_config(args.metadata_path)
-
-    # Cargar preprocesamiento para test
-    import pickle
-    pre_path = os.path.join(args.checkpoint_path, f'pre_encoders_seed_{args.seed}.pkl')
-    with open(pre_path, 'rb') as f:
-        encoders = pickle.load(f)
-
+    # Cargar datos reconstruidos, usando los encoders one-hot pre-ajustados
+    # (igual que hace main.py antes de llamar a evaluate_models)
     x_train_disti, y_train_disti = load_reconstructed_data(
         df_recon, args.metadata_path,
-        num_scaler=encoders['num_scaler'],
-        cat_encoder=encoders['cat_ordinal_encoder'],
-        label_encoder=encoders['label_encoder'],
+        num_scaler=args.num_scaler,
+        cat_encoder=args.cat_encoder,
+        label_encoder=args.label_encoder,
     )
 
-    # Preparar datos de test
-    from utils import preprocessing as prep_fn
-    (X_test_pre, _, y_test_pre, _, _, _, _) = prep_fn(
-        config,
-        args.set_data[2],  # X_test
-        args.set_data[3],  # y_test
-        args.set_data[2],  # X_test (como dummy para train)
-        args.set_data[3],  # y_test (como dummy)
-        encoding='one-hot',
-        concat=True,
-        random_state=args.seed,
-    )
-
+    # Evaluar con XGBoost sobre el test set pre-procesado
     _, _, test_metrics, _ = evaluate_one_model(
         x_train_disti, y_train_disti,
-        X_test_pre, y_test_pre,
+        args.X_test_pre, args.y_test_pre,
         random_state=args.seed,
     )
 
@@ -167,6 +148,14 @@ def main():
     )
     set_data = (X_train, y_train, X_test, y_test)
 
+    # Pre-procesar datos con one-hot encoding para evaluación downstream
+    # (igual que hace main.py). Los encoders ajustados se pasan al objetivo.
+    (X_train_pre, X_test_pre, y_train_pre, y_test_pre,
+     num_scaler, cat_encoder, label_encoder) = preprocessing(
+        config, X_train, y_train, X_test, y_test,
+        encoding='one-hot', concat=True, random_state=0,
+    )
+
     # Carpeta de checkpoints del tuning
     ckpt_dir = os.path.join(script_dir, f'tune_mlp_{args_cli.dataset}')
     os.makedirs(ckpt_dir, exist_ok=True)
@@ -184,6 +173,12 @@ def main():
     args.batch_size = args_cli.batch_size
     args.ipc = args_cli.ipc
     args.seed = args_cli.seed
+    # Encoders y datos de test pre-procesados (one-hot)
+    args.num_scaler = num_scaler
+    args.cat_encoder = cat_encoder
+    args.label_encoder = label_encoder
+    args.X_test_pre = X_test_pre
+    args.y_test_pre = y_test_pre
 
     # Ejecutar Optuna
     study = optuna.create_study(direction='maximize')

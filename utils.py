@@ -822,17 +822,23 @@ def evaluate_one_model(X_train, y_train, X_test, y_test, cv_folds=5, random_stat
     # Calcula las métricas finales sobre el conjunto de prueba.
     y_pred = model.predict(X_test)
     y_proba = model.predict_proba(X_test) if hasattr(model, "predict_proba") else None
-    pos_idx = int(np.where(model.classes_ == True)[0]) if True in model.classes_ else 1
+    try:
+        # Para clasificación binaria: usar la columna de la clase positiva (última)
+        if y_proba is not None and y_proba.shape[1] == 2:
+            auc = roc_auc_score(y_test, y_proba[:, 1], average="weighted")
+        elif y_proba is not None:
+            auc = roc_auc_score(y_test, y_proba, multi_class="ovr", average="weighted")
+        else:
+            auc = np.nan
+    except Exception:
+        auc = np.nan
+
     test_metrics = {
         "balanced": balanced_accuracy_score(y_test, y_pred),
         "macro_f1": f1_score(y_test, y_pred, average="macro"),
         "weighted_f1": f1_score(y_test, y_pred, average="weighted"),
         "accuracy": accuracy_score(y_test, y_pred),
-        "roc_auc": (
-            roc_auc_score(y_test, y_proba[:, pos_idx], average="weighted")
-            if y_proba is not None
-            else np.nan
-        ),
+        "roc_auc": auc,
     }
 
     return cv_means, cv_stds, test_metrics, model
