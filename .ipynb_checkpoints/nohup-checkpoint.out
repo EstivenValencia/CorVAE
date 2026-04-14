@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/data/home/rtabares/estiven/CorVAE/main.py", line 2, in <module>
+    from train_vae import main as main_vae
+  File "/data/home/rtabares/estiven/CorVAE/train_vae.py", line 26, in <module>
+    from utils import preprocessing, read_json_config
+  File "/data/home/rtabares/estiven/CorVAE/utils.py", line 32, in <module>
+    from xgboost import XGBClassifier
+ModuleNotFoundError: No module named 'xgboost'

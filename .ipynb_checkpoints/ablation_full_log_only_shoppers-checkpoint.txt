@@ -1,0 +1,61 @@
+nohup: ignoring input
+PID del proceso principal (Bash): 40168
+------------------------------------------------------------
+============================================================
+ ESTUDIO DE ABLACIÓN: CorVAE (Transformer) vs. MLP-VAE
+ Fecha: Tue Apr 14 15:53:11 -04 2026
+ PID: 40168
+ GPU: CUDA_VISIBLE_DEVICES=1
+============================================================
+
+============================================================
+ SMOKE TEST: Validación rápida con dataset 'adult'
+ (2 epochs de entrenamiento, 1 trial de Optuna)
+============================================================
+
+[15:53:11] Smoke Test Fase 1: Optuna (1 trial, 2 epochs)...
+[I 2026-04-14 15:53:14,088] A new study created in memory with name: no-name-64b94ccc-0c24-4974-a0f4-42d789ffaf53
+No se encontraron caracteres extranos en la columna target
+Datos de train y test guardados en /data/home/rtabares/estiven/CorVAE/data/shoppers
+
+--- Iniciando Fase 1: Pre-entrenamiento No Supervisado ---
+Training:   0%|                                                                                                                                      | 0/22 [00:00<?, ?it/s]Training:   5%|█████▋                                                                                                                        | 1/22 [00:00<00:18,  1.12it/s]Training:  18%|██████████████████████▉                                                                                                       | 4/22 [00:01<00:04,  4.25it/s]Training:  36%|█████████████████████████████████████████████▊                                                                                | 8/22 [00:01<00:01,  7.23it/s]Training:  82%|██████████████████████████████████████████████████████████████████████████████████████████████████████▎                      | 18/22 [00:01<00:00, 19.65it/s]Training: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 22/22 [00:01<00:00, 13.26it/s]
+Epoch 001/2 | Train Loss: 3.047105 | Val Loss: 3.182606
+Training:   0%|                                                                                                                                      | 0/22 [00:00<?, ?it/s]Training:   5%|█████▋                                                                                                                        | 1/22 [00:00<00:12,  1.69it/s]Training:  50%|██████████████████████████████████████████████████████████████▌                                                              | 11/22 [00:00<00:00, 20.48it/s]Training: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 22/22 [00:00<00:00, 39.00it/s]Training: 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 22/22 [00:00<00:00, 24.63it/s]
+Epoch 002/2 | Train Loss: 3.029506 | Val Loss: 3.167378
+--- Fase 1 Finalizada. Tiempo: 3.24 segundos ---
+
+--- Omitiendo Fase 2: Fine-Tuning Supervisado ---
+Encoder, Decoder y representaciones latentes guardados correctamente.
+[I 2026-04-14 15:53:24,532] Trial 0 finished with value: 0.47782657193677086 and parameters: {'n_hidden_layers': 3, 'hidden_dim': 64, 'mlp_dropout': 0.24104540610409533, 'max_beta': 0.0033288726664480205, 'min_beta': 7.212328283365212e-05, 'lr_pretrain': 0.00016097125079553596, 'wd_pretrain': 0, 'd_token': 4}. Best is trial 0 with value: 0.47782657193677086.
+
+============================================================
+Dataset: shoppers
+Mejores hiperparámetros MLP-VAE guardados en: /data/home/rtabares/estiven/CorVAE/tune_vae/tune_mlp_shoppers/best_hyperparams_mlp.json
+Mejor ROC-AUC: 0.4778
+Parámetros: {'n_hidden_layers': 3, 'hidden_dim': 64, 'mlp_dropout': 0.24104540610409533, 'max_beta': 0.0033288726664480205, 'min_beta': 7.212328283365212e-05, 'lr_pretrain': 0.00016097125079553596, 'wd_pretrain': 0, 'd_token': 4}
+============================================================
+
+[15:53:26] ✅ Smoke Test Fase 1 completada.
+[15:53:26] Smoke Test Fase 2: Entrenamiento MLP-VAE (2 epochs)...
+[I 2026-04-14 15:53:30,899] A new study created in memory with name: naive_bayes
+Corriendo el pipeline de destilación con la siguiente configuración:
+No se encontraron caracteres extranos en la columna target
+Datos de train y test guardados en /data/home/rtabares/estiven/CorVAE/data/shoppers
+
+
+>>> Optuna tuning naive_bayes metodo Full-data IPC 0 seed 0
+
+
+[I 2026-04-14 15:53:34,467] Trial 0 finished with value: 0.562019484245327 and parameters: {'var_smoothing': 1.2520653814999457e-09}. Best is trial 0 with value: 0.562019484245327.
+[I 2026-04-14 15:53:37,249] Trial 1 finished with value: 0.5641516804073741 and parameters: {'var_smoothing': 2.693883019285408e-09}. Best is trial 1 with value: 0.5641516804073741.
+[I 2026-04-14 15:53:40,108] Trial 2 finished with value: 0.5626058381898899 and parameters: {'var_smoothing': 1.6051911333587584e-09}. Best is trial 1 with value: 0.5641516804073741.
+[I 2026-04-14 15:53:43,215] Trial 3 finished with value: 0.5619661793412758 and parameters: {'var_smoothing': 1.2296071107325683e-09}. Best is trial 1 with value: 0.5641516804073741.
+[I 2026-04-14 15:53:46,165] Trial 4 finished with value: 0.5605802518359454 and parameters: {'var_smoothing': 7.035737028722139e-10}. Best is trial 1 with value: 0.5641516804073741.
+[I 2026-04-14 15:53:49,192] Trial 5 finished with value: 0.5630855823263504 and parameters: {'var_smoothing': 1.957889720121294e-09}. Best is trial 1 with value: 0.5641516804073741.
+[I 2026-04-14 15:53:52,043] Trial 6 finished with value: 0.56079347145215 and parameters: {'var_smoothing': 7.501954443620119e-10}. Best is trial 1 with value: 0.5641516804073741.
+[I 2026-04-14 15:53:55,160] Trial 7 finished with value: 0.5664437912815744 and parameters: {'var_smoothing': 6.074996073425682e-09}. Best is trial 7 with value: 0.5664437912815744.
+[I 2026-04-14 15:53:58,124] Trial 8 finished with value: 0.5673249539811958 and parameters: {'var_smoothing': 8.459126528049351e-09}. Best is trial 8 with value: 0.5673249539811958.
+[I 2026-04-14 15:54:01,253] Trial 9 finished with value: 0.5602604224116383 and parameters: {'var_smoothing': 5.846326121643404e-10}. Best is trial 8 with value: 0.5673249539811958.
+[I 2026-04-14 15:54:04,263] Trial 10 finished with value: 0.5567673194135094 and parameters: {'var_smoothing': 1.345853577688474e-10}. Best is trial 8 with value: 0.5673249539811958.
+[I 2026-04-14 15:54:07,051] Trial 11 finished with value: 0.5676447834055027 and parameters: {'var_smoothing': 9.371449384156418e-09}. Best is trial 11 with value: 0.5676447834055027.

@@ -1,0 +1,14 @@
+nohup: ignoring input
+============================================================
+ ESTUDIO DE ABLACIÓN: CorVAE (Transformer) vs. MLP-VAE
+ Fecha: Mon Apr 13 00:27:02 -04 2026
+ GPU: CUDA_VISIBLE_DEVICES=1
+============================================================
+
+
+************************************************************
+ DATASET: adult
+************************************************************
+
+[00:27:02] Fase 1: Buscando hiperparámetros MLP para adult...
+  Trials: 30, Epochs/trial: 700

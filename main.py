@@ -325,6 +325,7 @@ def main(args):
          ckpt_dir=checkpoint_path,
          method="Full-data",
          random_state=SEED,
+         n_trials=30,
      )
 
     # # Se agrega información para la generación de los resultados

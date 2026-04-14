@@ -11,3 +11,12 @@ nohup python main.py \
     --kmeans_type centroid \
     --epochs_fine_tuning_latent 0 \
     --hyperparams_vae tune_vae/best_hyperparams.json > checkpoint_paysim_Dlatent_I_SVC.txt 2>&1 &
+
+# Capturar el PID inmediatamente
+PID_PROCESO=$!
+
+# Forzar la escritura al archivo
+echo "PID del proceso: $PID_PROCESO" >> checkpoint_paysim_Dlatent_I_SVC.txt
+
+# Opcional: Imprimir en pantalla para confirmar
+echo "Proceso lanzado con PID: $PID_PROCESO"

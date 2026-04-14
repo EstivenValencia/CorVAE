@@ -71,75 +71,87 @@ _METRIC_SCORERS = {
 }
 
 MODELS = {
-    # "naive_bayes": {
-    #     "constructor": GaussianNB,
-    #     "static_args": {},
-    #     "search_space": {
-    #         "var_smoothing": lambda t: t.suggest_float(
-    #             "var_smoothing", 1e-10, 1e-8, log=True
-    #         ),
-    #     },
-    # },
-    # "logreg": {
-    #     "constructor": LogisticRegression,
-    #     "static_args": {"max_iter": 200, "solver": "lbfgs"},
-    #     "search_space": {
-    #         "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
-    #         "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
-    #     },
-    # },
-    # "knn": {
-    #     "constructor": KNeighborsClassifier,
-    #     "static_args": {},
-    #     "search_space": {
-    #         "n_neighbors": lambda t: t.suggest_int("n_neighbors", 3, 10),
-    #         "leaf_size": lambda t: t.suggest_int("leaf_size", 20, 40),
-    #         "p": lambda t: t.suggest_categorical("p", [1, 2]),
-    #     },
-    # },
-
-    # "xgb": {
-    #     "constructor": XGBClassifier,
-    #     "static_args": {"objective": "binary:logistic", "tree_method": "hist"},
-    #     "search_space": {
-    #         "n_estimators": lambda t: t.suggest_categorical(
-    #             "n_estimators", [10, 40, 100]
-    #         ),
-    #         "max_depth": lambda t: t.suggest_categorical("max_depth", [5, 20, 30]),
-    #         "gamma": lambda t: t.suggest_float("gamma", 0.1, 1.0),
-    #         "subsample": lambda t: t.suggest_float("subsample", 0.5, 1.0),
-    #         "colsample_bytree": lambda t: t.suggest_float("colsample_bytree", 0.5, 1.0),
-    #     },
-    # },
-    # "rf": {
-    #     "constructor": RandomForestClassifier,
-    #     "static_args": {"class_weight": "balanced"},
-    #     "search_space": {
-    #         "n_estimators": lambda t: t.suggest_int("n_estimators", 100, 500),
-    #         "max_depth": lambda t: t.suggest_int("max_depth", 3, 20),
-    #         "min_samples_split": lambda t: t.suggest_int("min_samples_split", 2, 10),
-    #         "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
-    #     },
-    # },
-    # "mlp": {
-    #     "constructor": MLPClassifier,
-    #     "static_args": {},
-    #     "search_space": {
-    #         "hidden_layer_sizes": lambda t: t.suggest_categorical(
-    #             "hidden_layer_sizes", [(100,), (200,), (100, 100)]
-    #         ),
-    #         "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
-    #         "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
-    #     },
-    # },
-    "svc": {
-         "constructor": SVC,
-         "static_args": {"probability": True},
+     "naive_bayes": {
+         "constructor": GaussianNB,
+         "static_args": {},
          "search_space": {
-             "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
-             "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
+             "var_smoothing": lambda t: t.suggest_float(
+                 "var_smoothing", 1e-10, 1e-8, log=True
+             ),
          },
-    },
+     },
+     "logreg": {
+         "constructor": LogisticRegression,
+         "static_args": {"max_iter": 200, "solver": "lbfgs"},
+         "search_space": {
+             "C": lambda t: t.suggest_float("C", 1e-3, 1e2, log=True),
+             "penalty": lambda t: t.suggest_categorical("penalty", ["l2"]),
+         },
+     },
+     "knn": {
+         "constructor": KNeighborsClassifier,
+         "static_args": {},
+         "search_space": {
+             "n_neighbors": lambda t: t.suggest_int("n_neighbors", 3, 10),
+             "leaf_size": lambda t: t.suggest_int("leaf_size", 20, 40),
+             "p": lambda t: t.suggest_categorical("p", [1, 2]),
+         },
+     },
+     "xgb": {
+         "constructor": XGBClassifier,
+         "static_args": {"objective": "binary:logistic", "tree_method": "hist"},
+         "search_space": {
+             "n_estimators": lambda t: t.suggest_categorical(
+                 "n_estimators", [10, 40, 100]
+             ),
+             "max_depth": lambda t: t.suggest_categorical("max_depth", [5, 20, 30]),
+             "gamma": lambda t: t.suggest_float("gamma", 0.1, 1.0),
+             "subsample": lambda t: t.suggest_float("subsample", 0.5, 1.0),
+             "colsample_bytree": lambda t: t.suggest_float("colsample_bytree", 0.5, 1.0),
+         },
+     },
+     "rf": {
+         "constructor": RandomForestClassifier,
+         "static_args": {"class_weight": "balanced"},
+         "search_space": {
+             "n_estimators": lambda t: t.suggest_int("n_estimators", 100, 500),
+             "max_depth": lambda t: t.suggest_int("max_depth", 3, 20),
+             "min_samples_split": lambda t: t.suggest_int("min_samples_split", 2, 10),
+             "min_samples_leaf": lambda t: t.suggest_int("min_samples_leaf", 1, 10),
+         },
+     },
+     "mlp": {
+         "constructor": MLPClassifier,
+         "static_args": {},
+         "search_space": {
+             "hidden_layer_sizes": lambda t: t.suggest_categorical(
+                 "hidden_layer_sizes", [(100,), (200,), (100, 100)]
+             ),
+             "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
+             "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
+         },
+     }
+   # "svc": { 
+   #         "constructor": SVC,
+   #         "static_args": {"probability": True},
+   #          "search_space": {
+   #              "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
+   #              "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
+   #          },
+   #     },
+    #"svc": {
+    #     "constructor": SVC,
+    #    "static_args": {
+    #    "cache_size": 1000, # Ayuda un poco asignando más RAM (1GB)
+    #    "max_iter": 10000 
+    #    },
+    #     "search_space": {
+    #         "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
+    #         "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
+    #     },
+    #}
+
+    # Execution only with paysim
 }
 
 MODEL_XGB = {
@@ -822,17 +834,23 @@ def evaluate_one_model(X_train, y_train, X_test, y_test, cv_folds=5, random_stat
     # Calcula las métricas finales sobre el conjunto de prueba.
     y_pred = model.predict(X_test)
     y_proba = model.predict_proba(X_test) if hasattr(model, "predict_proba") else None
-    pos_idx = int(np.where(model.classes_ == True)[0]) if True in model.classes_ else 1
+    try:
+        # Para clasificación binaria: usar la columna de la clase positiva (última)
+        if y_proba is not None and y_proba.shape[1] == 2:
+            auc = roc_auc_score(y_test, y_proba[:, 1], average="weighted")
+        elif y_proba is not None:
+            auc = roc_auc_score(y_test, y_proba, multi_class="ovr", average="weighted")
+        else:
+            auc = np.nan
+    except Exception:
+        auc = np.nan
+
     test_metrics = {
         "balanced": balanced_accuracy_score(y_test, y_pred),
         "macro_f1": f1_score(y_test, y_pred, average="macro"),
         "weighted_f1": f1_score(y_test, y_pred, average="weighted"),
         "accuracy": accuracy_score(y_test, y_pred),
-        "roc_auc": (
-            roc_auc_score(y_test, y_proba[:, pos_idx], average="weighted")
-            if y_proba is not None
-            else np.nan
-        ),
+        "roc_auc": auc,
     }
 
     return cv_means, cv_stds, test_metrics, model

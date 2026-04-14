@@ -1,0 +1,16 @@
+nohup: ignoring input
+PID del proceso principal (Bash): 53682
+------------------------------------------------------------
+============================================================
+ ESTUDIO DE ABLACIÓN: CorVAE (Transformer) vs. MLP-VAE
+ Fecha: Tue Apr 14 16:12:48 -04 2026
+ PID: 53682
+ GPU: CUDA_VISIBLE_DEVICES=1
+============================================================
+
+************************************************************
+ DATASET: shoppers
+************************************************************
+
+[16:12:48] Fase 1: Buscando hiperparámetros MLP para shoppers...
+  Trials: 30, Epochs/trial: 700
