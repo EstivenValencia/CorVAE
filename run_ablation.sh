@@ -46,6 +46,7 @@ echo " PID: $$"
 echo " GPU: CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES}"
 echo "============================================================"
 
+<<<<<<< HEAD
 # # =============================================================================
 # # SMOKE TEST: Validación rápida con 'adult' (2 epochs, 1 trial Optuna)
 # # =============================================================================
@@ -115,6 +116,13 @@ echo "============================================================"
 # echo "    Continuando con los datasets completos..."
 # echo "============================================================"
 # echo ""
+
+# Limpiar checkpoint del smoke test
+rm -rf "${SMOKE_CKPT}"
+
+# =============================================================================
+# EJECUCIÓN PRINCIPAL: Todos los datasets con parámetros completos
+# =============================================================================
 
 # Limpiar checkpoint del smoke test
 rm -rf "${SMOKE_CKPT}"
