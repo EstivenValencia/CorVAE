@@ -1,0 +1,33 @@
+nohup: ignoring input
+PID del proceso principal (Bash): 5716
+------------------------------------------------------------
+============================================================
+ ESTUDIO DE SENSIBILIDAD DE HIPERPARÁMETROS — CorVAE
+ Fecha: Tue Apr 14 16:26:17 -04 2026
+ PID: 5716
+ GPU: CUDA_VISIBLE_DEVICES=1
+============================================================
+
+Dataset: shoppers
+Epochs: 700
+Batch size: 4096
+IPC: 50
+Baseline JSON: /data/home/rtabares/estiven/CorVAE/tune_vae/tune_vae_AAC/tune_shoppers/best_hyperparams.json
+
+Traceback (most recent call last):
+  File "/data/home/rtabares/estiven/CorVAE/tune_vae/sensitivity_study.py", line 22, in <module>
+    import pandas as pd
+  File "/data/home/rtabares/anaconda3/lib/python3.9/site-packages/pandas/__init__.py", line 22, in <module>
+    from pandas.compat import is_numpy_dev as _is_numpy_dev  # pyright: ignore # noqa:F401
+  File "/data/home/rtabares/anaconda3/lib/python3.9/site-packages/pandas/compat/__init__.py", line 22, in <module>
+    from pandas.compat.pyarrow import (
+  File "/data/home/rtabares/anaconda3/lib/python3.9/site-packages/pandas/compat/pyarrow.py", line 10, in <module>
+    _pa_version = pa.__version__
+AttributeError: module 'pyarrow' has no attribute '__version__'
+
+============================================================
+ ✅ ESTUDIO DE SENSIBILIDAD COMPLETADO — Tue Apr 14 16:26:17 -04 2026
+ Resultados: /data/home/rtabares/estiven/CorVAE/tune_vae/sensitivity_shoppers/
+   - sensitivity_results.csv
+   - sensitivity_plots.png
+============================================================

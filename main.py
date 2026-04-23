@@ -317,20 +317,21 @@ def main(args):
     )
 
     # Entrenamiento de los modelos de evaluación con todos los datos
-    full_df, _, _ = evaluate_models(
-         X_train_pre,
-         y_train_pre,
-         X_test_pre,
-         y_test_pre,
-         ckpt_dir=checkpoint_path,
-         method="Full-data",
-         random_state=SEED,
-         n_trials=30,
-     )
+    # full_df, _, _ = evaluate_models(
+    #      X_train_pre,
+    #      y_train_pre,
+    #      X_test_pre,
+    #      y_test_pre,
+    #      ckpt_dir=checkpoint_path,
+    #      method="Full-data",
+    #      random_state=SEED,
+    #      n_trials=30,
+    #  )
 
     # # Se agrega información para la generación de los resultados
-    full_df = add_meta(full_df)
-    #full_df = pd.DataFrame()
+    
+    #full_df = add_meta(full_df)
+    full_df = pd.DataFrame()
     # Se realiza entrenamiento del VAE sobre las diferentes semillas
     print("\n\n\n----------------FINALIZO-------------\n\n\n")
     # Medición de tiempos en el entrenamiento del VAE en las diferentes semillas

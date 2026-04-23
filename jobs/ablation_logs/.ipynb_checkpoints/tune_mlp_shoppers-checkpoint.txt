@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/data/home/rtabares/estiven/CorVAE/tune_vae/tune_mlp_vae.py", line 23, in <module>
+    from train_vae import main as main_vae
+  File "/data/home/rtabares/estiven/CorVAE/train_vae.py", line 26, in <module>
+    from utils import preprocessing, read_json_config
+  File "/data/home/rtabares/estiven/CorVAE/utils.py", line 123
+    "mlp": {
+           ^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?

@@ -1,0 +1,18 @@
+{
+    "best_params": {
+        "n_hidden_layers": 1,
+        "hidden_dim": 64,
+        "mlp_dropout": 0.4137981544534489,
+        "max_beta": 0.08300997864329197,
+        "min_beta": 0.0005886790598709417,
+        "lr_pretrain": 0.004410640510498969,
+        "wd_pretrain": 0.001,
+        "d_token": 8
+    },
+    "best_roc_auc": 0.9146451146104451,
+    "dataset": "shoppers",
+    "epochs": 700,
+    "batch_size": 4096,
+    "n_trials": 30,
+    "seed": 0
+}

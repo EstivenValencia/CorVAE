@@ -1,0 +1,18 @@
+{
+    "best_params": {
+        "n_hidden_layers": 2,
+        "hidden_dim": 256,
+        "mlp_dropout": 0.23580735400592365,
+        "max_beta": 0.005350569379048402,
+        "min_beta": 0.0003454195659983002,
+        "lr_pretrain": 0.0018134029674262404,
+        "wd_pretrain": 0.001,
+        "d_token": 8
+    },
+    "best_roc_auc": 0.7345661541714805,
+    "dataset": "default",
+    "epochs": 700,
+    "batch_size": 4096,
+    "n_trials": 30,
+    "seed": 0
+}

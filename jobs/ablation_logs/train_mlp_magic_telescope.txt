@@ -1,0 +1,16 @@
+Corriendo el pipeline de destilación con la siguiente configuración:
+Datos de train y test guardados en /data/home/rtabares/estiven/CorVAE/data/magic_telescope
+
+
+
+----------------FINALIZO-------------
+
+
+
+Traceback (most recent call last):
+  File "/data/home/rtabares/estiven/CorVAE/main.py", line 692, in <module>
+    main(args)
+  File "/data/home/rtabares/estiven/CorVAE/main.py", line 345, in main
+    with open(hyperparams_vae_path, "r", encoding="utf-8") as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/data/home/rtabares/estiven/CorVAE/tune_vae/tune_mlp_magic_telescope/best_hyperparams_mlp.json'

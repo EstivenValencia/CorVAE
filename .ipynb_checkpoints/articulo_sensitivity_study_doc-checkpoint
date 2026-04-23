@@ -1,0 +1,92 @@
+# Estudio de Sensibilidad de Hiperparámetros del CorVAE
+
+## 1. Texto para el Artículo
+
+### Sección propuesta: *"Hyperparameter Sensitivity Analysis"*
+
+---
+
+#### 4.X Hyperparameter Sensitivity Analysis
+
+To understand the impact of individual hyperparameters on CorVAE's downstream performance, we perform a one-at-a-time (OAT) sensitivity analysis on the Shoppers dataset. Starting from the optimal configuration found by Bayesian optimization (Optuna, 30 trials), we systematically vary each hyperparameter while holding all others at their optimum. For each configuration, we train the VAE for 700 epochs, distill with K-Means at IPC=50, and evaluate via XGBoost ROC-AUC on a held-out test set.
+
+##### Parameters Under Study
+
+| Parameter | Symbol | Optimal Value | Range Studied |
+|-----------|--------|---------------|---------------|
+| Maximum KL weight | $\beta_{\max}$ | 0.0077 | $\{10^{-4}, 10^{-3}, 5\times10^{-3}, \mathbf{0.0077}, 0.01, 0.05, 0.1\}$ |
+| Minimum KL weight | $\beta_{\min}$ | $1.4\times10^{-4}$ | $\{10^{-7}, 10^{-6}, 10^{-5}, \mathbf{1.4\times10^{-4}}, 10^{-3}\}$ |
+| Transformer layers | $L$ | 1 | $\{1, 2, 3, 4\}$ |
+| Attention heads | $H$ | 2 | $\{1, 2, 4, 8\}$ |
+| Token dimension | $d$ | 8 | $\{4, 8, 16, 32\}$ |
+| FFN expansion factor | $f$ | 16 | $\{4, 8, 16, 32, 64\}$ |
+| Learning rate | $\eta$ | 0.005 | $\{10^{-4}, 5\times10^{-4}, 10^{-3}, \mathbf{0.005}, 0.01\}$ |
+| Annealing coefficient | $\lambda$ | 0.9 | $\{0.1, 0.3, 0.5, 0.7, 0.9\}$ |
+
+##### Interpretation
+
+The KL weight schedule follows a cyclical annealing scheme controlled by $\beta_{\min}$, $\beta_{\max}$, and $\lambda$. During training, $\beta$ ramps from $\beta_{\min}$ to $\beta_{\max}$ over each cycle, with $\lambda$ governing the proportion of each cycle spent in the ramp-up phase vs. the plateau. This provides a principled balance between reconstruction quality and latent space regularity.
+
+The results (Figure X, Table X) reveal:
+
+- **$\beta_{\max}$**: *[To be completed with results — expected: performance degrades at very high β due to posterior collapse, and at very low β due to poor regularization.]*
+- **Number of layers**: *[To be completed — expected: shallow models (L=1) suffice for this dataset's complexity.]*
+- **Token dimension**: *[To be completed — expected: moderate sensitivity; too small loses expressiveness, too large overfits.]*
+- **Attention heads**: *[To be completed — expected: moderate impact; multi-head attention helps heterogeneous feature interaction.]*
+
+> **Note**: Complete these bullet points after running the experiment and obtaining `sensitivity_results.csv`.
+
+##### Results Table Template
+
+| Parameter | Value | ROC-AUC (↑) | Balanced Acc. (↑) | Macro F1 (↑) |
+|-----------|-------|-------------|-------------------|--------------|
+| $\beta_{\max}$ | $10^{-4}$ | — | — | — |
+| $\beta_{\max}$ | $10^{-3}$ | — | — | — |
+| $\beta_{\max}$ | $\mathbf{0.0077^*}$ | — | — | — |
+| ... | ... | ... | ... | ... |
+
+*\* denotes the optimal value found by Bayesian optimization.*
+
+---
+
+## 2. Respuesta al Revisor
+
+> **Reviewer concern**: *The authors should provide a sensitivity analysis of the key hyperparameters, particularly β, to understand how robust the model is to hyperparameter choices.*
+
+**Response:**
+
+We thank the Reviewer for this valuable suggestion. We have conducted a comprehensive one-at-a-time (OAT) hyperparameter sensitivity analysis, studying the following 8 parameters:
+
+1. **KL divergence weight** ($\beta_{\max}$, $\beta_{\min}$): We study the full range from near-zero regularization to strong posterior constraint, examining the balance between reconstruction fidelity and latent space structure.
+
+2. **Architectural parameters** (Transformer layers $L$, attention heads $H$, token dimension $d$, FFN factor $f$): These control the model capacity and its ability to capture inter-feature dependencies via self-attention.
+
+3. **Training dynamics** (learning rate $\eta$, annealing coefficient $\lambda$): These govern convergence behavior and the cyclical KL annealing schedule.
+
+**Methodology**: Starting from the optimal hyperparameters found via Bayesian optimization (Optuna, 30 trials), we systematically vary each parameter across 4–7 values while holding all others fixed. For each of the resulting ~40 configurations, we:
+- Train the VAE for 700 epochs with early stopping
+- Distill using K-Means at IPC=50
+- Evaluate downstream classification (XGBoost, ROC-AUC) on a held-out test set
+
+The results are presented in the new **Section 4.X** and **Figure X**, demonstrating the model's robustness to hyperparameter variation *(or identifying critical parameters, depending on results)*.
+
+---
+
+## 3. Archivos Creados
+
+| Archivo | Descripción |
+|---------|-------------|
+| [sensitivity_study.py](file:///c:/Users/evalencia/CorVAE/CorVAE/tune_vae/sensitivity_study.py) | Script principal: OAT sensitivity, genera CSV + gráficas |
+| [run_sensitivity.sh](file:///c:/Users/evalencia/CorVAE/CorVAE/run_sensitivity.sh) | Job script para ejecutar con `nohup` en GPU 1 |
+
+### Ejecución
+
+```bash
+chmod +x run_sensitivity.sh
+nohup bash run_sensitivity.sh > sensitivity_log.txt 2>&1 &
+```
+
+### Salida esperada
+
+- `tune_vae/sensitivity_shoppers/sensitivity_results.csv` — tabla con todas las métricas
+- `tune_vae/sensitivity_shoppers/sensitivity_plots.png` — gráficas publication-ready

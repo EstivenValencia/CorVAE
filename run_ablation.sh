@@ -21,7 +21,8 @@ echo "------------------------------------------------------------"
 export CUDA_VISIBLE_DEVICES=1
 
 #DATASETS=("adult" "default" "magic_telescope" "shoppers" "paysim")
-DATASETS=("shoppers")
+#DATASETS=("default" "magic_telescope" "shoppers" "paysim")
+DATASETS=("paysim")
 
 # Parámetros de entrenamiento
 EPOCHS_LATENT=3000
@@ -46,7 +47,6 @@ echo " PID: $$"
 echo " GPU: CUDA_VISIBLE_DEVICES=${CUDA_VISIBLE_DEVICES}"
 echo "============================================================"
 
-<<<<<<< HEAD
 # # =============================================================================
 # # SMOKE TEST: Validación rápida con 'adult' (2 epochs, 1 trial Optuna)
 # # =============================================================================
@@ -118,14 +118,7 @@ echo "============================================================"
 # echo ""
 
 # Limpiar checkpoint del smoke test
-rm -rf "${SMOKE_CKPT}"
-
-# =============================================================================
-# EJECUCIÓN PRINCIPAL: Todos los datasets con parámetros completos
-# =============================================================================
-
-# Limpiar checkpoint del smoke test
-rm -rf "${SMOKE_CKPT}"
+#rm -rf "${SMOKE_CKPT}"
 
 # =============================================================================
 # EJECUCIÓN PRINCIPAL: Todos los datasets con parámetros completos

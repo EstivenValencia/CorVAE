@@ -130,15 +130,15 @@ MODELS = {
              "max_iter": lambda t: t.suggest_categorical("max_iter", [50, 100]),
              "alpha": lambda t: t.suggest_categorical("alpha", [0.0001, 0.001]),
          },
-     }
-   # "svc": { 
-   #         "constructor": SVC,
-   #         "static_args": {"probability": True},
-   #          "search_space": {
-   #              "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
-   #              "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
-   #          },
-   #     },
+     },
+    "svc": { 
+            "constructor": SVC,
+            "static_args": {"probability": True},
+             "search_space": {
+                 "C": lambda t: t.suggest_float("C", 1e-2, 1e2, log=True),
+                 "gamma": lambda t: t.suggest_float("gamma", 1e-4, 1e0, log=True),
+             },
+        },
     #"svc": {
     #     "constructor": SVC,
     #    "static_args": {

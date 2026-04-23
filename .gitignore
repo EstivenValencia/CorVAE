@@ -1,3 +1,5 @@
 data/gas-sensor
 data/paysim
 data
+*_paysim_*
+tune_vae/tune_mlp_paysim/*

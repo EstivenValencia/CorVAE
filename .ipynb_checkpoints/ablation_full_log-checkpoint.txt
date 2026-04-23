@@ -1,14 +1,46 @@
 nohup: ignoring input
+PID del proceso principal (Bash): 5419
+------------------------------------------------------------
 ============================================================
  ESTUDIO DE ABLACIÓN: CorVAE (Transformer) vs. MLP-VAE
- Fecha: Mon Apr 13 00:27:02 -04 2026
+ Fecha: Tue Apr 14 23:17:26 -04 2026
+ PID: 5419
  GPU: CUDA_VISIBLE_DEVICES=1
 ============================================================
-
 
 ************************************************************
  DATASET: adult
 ************************************************************
 
-[00:27:02] Fase 1: Buscando hiperparámetros MLP para adult...
+[23:17:26] Fase 1: Buscando hiperparámetros MLP para adult...
+  Trials: 30, Epochs/trial: 700
+[23:17:28] Fase 1 completada para adult.
+  Hiperparámetros guardados en: /data/home/rtabares/estiven/CorVAE/tune_vae/tune_mlp_adult/best_hyperparams_mlp.json
+[23:17:28] Fase 2: Entrenando MLP-VAE y destilando para adult...
+  Epochs: 3000, Batch size: 4096
+  Checkpoint: /data/home/rtabares/estiven/CorVAE/checkpoint_adult_MLP_Dlatent
+[23:17:29] Fase 2 completada para adult.
+  Resultados en: /data/home/rtabares/estiven/CorVAE/checkpoint_adult_MLP_Dlatent/metrics.csv
+
+
+************************************************************
+ DATASET: default
+************************************************************
+
+[23:17:29] Fase 1: Buscando hiperparámetros MLP para default...
+  Trials: 30, Epochs/trial: 700
+[23:17:31] Fase 1 completada para default.
+  Hiperparámetros guardados en: /data/home/rtabares/estiven/CorVAE/tune_vae/tune_mlp_default/best_hyperparams_mlp.json
+[23:17:31] Fase 2: Entrenando MLP-VAE y destilando para default...
+  Epochs: 3000, Batch size: 4096
+  Checkpoint: /data/home/rtabares/estiven/CorVAE/checkpoint_default_MLP_Dlatent
+[23:17:33] Fase 2 completada para default.
+  Resultados en: /data/home/rtabares/estiven/CorVAE/checkpoint_default_MLP_Dlatent/metrics.csv
+
+
+************************************************************
+ DATASET: magic_telescope
+************************************************************
+
+[23:17:33] Fase 1: Buscando hiperparámetros MLP para magic_telescope...
   Trials: 30, Epochs/trial: 700
