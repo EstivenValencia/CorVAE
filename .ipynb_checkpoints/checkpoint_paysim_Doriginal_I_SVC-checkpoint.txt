@@ -1,0 +1,9 @@
+[I 2026-04-12 21:18:09,842] A new study created in memory with name: svc
+Corriendo el pipeline de destilación con la siguiente configuración:
+No se encontraron caracteres extranos en la columna target
+Datos de train y test guardados en data/paysim
+
+
+>>> Optuna tuning svc metodo Full-data IPC 0 seed 0
+
+

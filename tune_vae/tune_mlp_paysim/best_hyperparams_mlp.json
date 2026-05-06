@@ -1,0 +1,18 @@
+{
+    "best_params": {
+        "n_hidden_layers": 3,
+        "hidden_dim": 256,
+        "mlp_dropout": 0.28885102165379617,
+        "max_beta": 0.022453485635002438,
+        "min_beta": 1.899404542652818e-05,
+        "lr_pretrain": 0.0002750156826124087,
+        "wd_pretrain": 0.001,
+        "d_token": 4
+    },
+    "best_roc_auc": 0.8997359158977513,
+    "dataset": "paysim",
+    "epochs": 700,
+    "batch_size": 4096,
+    "n_trials": 30,
+    "seed": 0
+}
