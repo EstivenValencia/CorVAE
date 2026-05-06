@@ -1,9 +1,13 @@
 data/gas-sensor
 data/paysim
 data
-*_paysim_*/vae/test_z_*
-*_paysim_*/vae/train_y_*
-*_paysim_*/vae/train_z_*
+checkpoint_paysim_Dlatent_I/vae/test_z_*
+checkpoint_paysim_Dlatent_I/vae/train_y_*
+checkpoint_paysim_Dlatent_I/vae/train_z_*
+
+checkpoint_paysim_MLP_Dlatent/vae/test_z_*
+checkpoint_paysim_MLP_Dlatent/vae/train_y_*
+checkpoint_paysim_MLP_Dlatent/vae/train_z_*
 
 tune_vae/tune_mlp_paysim/test_z_*
 tune_vae/tune_mlp_paysim/train_z_*
