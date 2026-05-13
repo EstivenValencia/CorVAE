@@ -1,0 +1,7 @@
+usage: main.py [-h] --metadata_path METADATA_PATH --distillation_space
+               {latent,original} --epochs_latent EPOCHS_LATENT
+               [--epochs_fine_tuning_latent EPOCHS_FINE_TUNING_LATENT]
+               --batch_size BATCH_SIZE [--concat_label_vae CONCAT_LABEL_VAE]
+               --checkpoint_path CHECKPOINT_PATH --kmeans_type KMEANS_TYPE
+               [--hyperparams_vae HYPERPARAMS_VAE]
+main.py: error: unrecognized arguments: --finetune_epochs 0

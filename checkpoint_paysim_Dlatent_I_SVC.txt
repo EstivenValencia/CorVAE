@@ -1,0 +1,19 @@
+[I 2026-04-14 16:08:39,175] A new study created in memory with name: svc
+Corriendo el pipeline de destilación con la siguiente configuración:
+No se encontraron caracteres extranos en la columna target
+Datos de train y test guardados en data/paysim
+
+
+>>> Optuna tuning svc metodo Full-data IPC 0 seed 0
+
+
+[I 2026-04-14 17:40:04,737] Trial 0 finished with value: 0.71076938715255 and parameters: {'C': 1.5676677195506077, 'gamma': 0.07257005721594278}. Best is trial 0 with value: 0.71076938715255.
+[I 2/data/home/rtabares/anaconda3/envs/corvae/lib/python3.12/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 12 leaked file objects to clean up at shutdown
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/corvae/lib/python3.12/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 11 leaked semlock objects to clean up at shutdown
+  warnings.warn(
+/data/home/rtabares/anaconda3/envs/corvae/lib/python3.12/site-packages/joblib/externals/loky/backend/resource_tracker.py:359: UserWarning: resource_tracker: There appear to be 3 leaked folder objects to clean up at shutdown
+  warnings.warn(
+0124}. Best is trial 3 with value: 0.7304521670383964.
+[I 2026-04-15 01:44:53,906] Trial 5 finished with value: 0.7070481035726213 and parameters: {'C': 14.68588598920087, 'gamma': 0.013049073550362394}. Best is trial 3 with value: 0.7304521670383964.
+[I 2026-04-15 03:04:12,809] Trial 6 finished with value: 0.7704929545229284 and parameters: {'C': 1.871450068624068, 'gamma': 0.503948959867121}. Best is trial 6 with value: 0.7704929545229284.
