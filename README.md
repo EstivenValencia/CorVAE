@@ -36,11 +36,12 @@ Finalmente, el coreset seleccionado puede ser utilizado de dos maneras:
 │   └── exploratory_analysis/
 ├── tune_vae/
 ├── TDCOLER_data/
-├── Analisis_datasets.ipynb
-├── Analisis_results.ipynb
+├── jobs/
+├── Analysis_Datasets.ipynb
+├── analisis_results.ipynb
+├── Analysis_Results.ipynb
 ├── distill.py
 ├── environment.yml
-├── job.sh
 ├── main.py
 ├── models_vae.py
 ├── train_vae.py
@@ -52,11 +53,11 @@ Finalmente, el coreset seleccionado puede ser utilizado de dos maneras:
 * **`train_vae.py`**: Script para el entrenamiento del Autoencoder Variacional (VAE).
 * **`distill.py`**: Implementación de los métodos de selección de coreset.
 * **`models_vae.py`**: Definición de la arquitectura del VAE basada en Transformers.
-* **`Analisis_datasets.ipynb`**: Notebook con el Análisis Exploratorio de Datos (EDA) de los datasets utilizados (Adult, Default y Shopper).
-* **`Analisis_results.ipynb`**: Notebook para el análisis de resultados, eficiencia computacional, explicabilidad (T-SNE, coeficiente de silueta) y comparación con baselines.
+* **`Analysis_Datasets.ipynb`**: Notebook con el Análisis Exploratorio de Datos (EDA) de los datasets utilizados (Adult, Default y Shopper).
+* **`Analysis_Results.ipynb`**: Notebook para el análisis de resultados, eficiencia computacional, explicabilidad (T-SNE, coeficiente de silueta) y comparación con baselines.
 * **`data/`**: Contiene los datasets y sus archivos de configuración `metadata.json`.
 * **`results/`**: Almacena los resultados de las ejecuciones, incluyendo checkpoints, figuras de métricas y análisis.
-* **`job.sh`**: Ejemplo de script de ejecución para el `main.py`.
+* **`jobs/`**: Contiene scripts de ejecución (ej. `job_latent.sh`) y sus respectivos logs.
 
 ## Instalación
 
@@ -115,20 +116,20 @@ Se requiere un archivo JSON con los mejores hiperparámetros para el VAE. Puedes
 Ejecuta el script `main.py` con los siguientes argumentos:
 
 ```bash
-python3.12 main.py
---metadata_path data/shoppers/metadata.json
---distillation_space latent
---epochs_latent 3000
---batch_size 4096
---checkpoint_path checkpoint_shoppers_Doriginal_F
---hyperparams_vae tune_vae/tune_shoppers/best_hyperparams.json
+python3.12 main.py \
+--metadata_path data/shoppers/metadata.json \
+--distillation_space latent \
+--epochs_latent 3000 \
+--batch_size 4096 \
+--checkpoint_path results/checkpoint/checkpoint_shoppers_Doriginal_F \
+--hyperparams_vae tune_vae/tune_shoppers/best_hyperparams.json \
 --kmeans_type centroid
 ```
 
 `**distillation_space` Espacio donde se realiza la destilación. Opciones: `original` (no entrena el VAE) o `latent` (entrena el VAE y destila en el espacio latente).
 
 ## Salida de la Ejecución
-La ejecución generará una carpeta de checkpoint (`checkpoint_shoppers_Doriginal_F` en el ejemplo) con la siguiente estructura:
+La ejecución generará una carpeta de checkpoint (`results/checkpoint/checkpoint_shoppers_Doriginal_F` en el ejemplo) con la siguiente estructura:
 
 `metrics.csv`: Fichero con los resultados de las métricas para cada modelo y semilla.
 
@@ -179,7 +180,7 @@ python main.py \
     --distillation_space latent \
     --epochs_latent 3000 \
     --batch_size 4096 \
-    --checkpoint_path checkpoint_adult_MLP_Dlatent \
+    --checkpoint_path results/checkpoint/checkpoint_adult_MLP_Dlatent \
     --kmeans_type centroid \
     --epochs_fine_tuning_latent 0 \
     --hyperparams_vae tune_vae/tune_mlp_adult/best_hyperparams_mlp.json \
@@ -197,14 +198,14 @@ python tune_mlp_vae.py --dataset adult --n_trials 30 --epochs 700
 
 ```bash
 chmod +x run_ablation.sh
-nohup bash run_ablation.sh > ablation_full_log.txt 2>&1 &
+nohup bash run_ablation.sh > jobs/ablation_logs/ablation_full_log.txt 2>&1 &
 ```
 
 El script `run_ablation.sh` ejecuta secuencialmente para cada dataset:
 1. Búsqueda de hiperparámetros MLP con Optuna (si no existen).
 2. Entrenamiento + destilación con `--architecture mlp`.
 
-Los resultados se guardan en `checkpoint_{dataset}_MLP_Dlatent/metrics.csv`.
+Los resultados se guardan en `results/checkpoint/checkpoint_{dataset}_MLP_Dlatent/metrics.csv`.
 
 ## Limitaciones
 Actualmente, la metodología ha sido validada en:

@@ -1,4 +1,0 @@
-## Renombrado de clases importadas
-
-- `OriginalVAE` → `MyVAE` (en `vae_module.py`)
-- `BaseEncoder` → `CustomEncoder` (en `encoder.py`)

@@ -11,7 +11,7 @@
 #
 # Uso:
 #   chmod +x run_ablation.sh
-#   nohup bash run_ablation.sh > ablation_full_log.txt 2>&1 &
+#   nohup bash run_ablation.sh > jobs/ablation_logs/ablation_full_log.txt 2>&1 &
 # =============================================================================
 
 echo "PID del proceso principal (Bash): $$"
@@ -133,7 +133,7 @@ for DATASET in "${DATASETS[@]}"; do
     echo ""
 
     METADATA_PATH="${PROJECT_DIR}/data/${DATASET}/metadata.json"
-    CHECKPOINT_PATH="${PROJECT_DIR}/checkpoint_${DATASET}_MLP_Dlatent"
+    CHECKPOINT_PATH="${PROJECT_DIR}/results/checkpoint/checkpoint_${DATASET}_MLP_Dlatent"
     HYPERPARAMS_FILE="${TUNE_DIR}/tune_mlp_${DATASET}/best_hyperparams_mlp.json"
 
     # ── Fase 1: Búsqueda de hiperparámetros con Optuna ───────────────────
@@ -176,7 +176,7 @@ for DATASET in "${DATASETS[@]}"; do
         > "${LOGS_DIR}/train_mlp_${DATASET}.txt" 2>&1
 
     echo "[$(date +%H:%M:%S)] Fase 2 completada para ${DATASET}."
-    echo "  Resultados en: ${CHECKPOINT_PATH}/metrics.csv"
+    echo "  Resultados en: results/checkpoint/checkpoint_${DATASET}_MLP_Dlatent/metrics.csv"
     echo ""
 
 done
@@ -184,5 +184,5 @@ done
 echo ""
 echo "============================================================"
 echo " ABLACIÓN COMPLETA — $(date)"
-echo " Resultados disponibles en los directorios checkpoint_*_MLP_Dlatent"
+echo " Resultados disponibles en results/checkpoint/checkpoint_*_MLP_Dlatent/"
 echo "============================================================"

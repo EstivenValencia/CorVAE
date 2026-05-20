@@ -1,13 +1,75 @@
-data/gas-sensor
-data/paysim
-data
-checkpoint_paysim_Dlatent_I/vae/test_z_*
-checkpoint_paysim_Dlatent_I/vae/train_y_*
-checkpoint_paysim_Dlatent_I/vae/train_z_*
+# ============================================================
+# CorVAE — .gitignore
+# ============================================================
 
-checkpoint_paysim_MLP_Dlatent/vae/test_z_*
-checkpoint_paysim_MLP_Dlatent/vae/train_y_*
-checkpoint_paysim_MLP_Dlatent/vae/train_z_*
+# ----- Python -----
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
 
-tune_vae/tune_mlp_paysim/test_z_*
-tune_vae/tune_mlp_paysim/train_z_*
+# ----- Jupyter -----
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# ----- Entornos virtuales -----
+.env/
+.venv/
+env/
+venv/
+
+# ----- Datos (datasets crudos, no se suben al repo) -----
+data/
+
+# ----- Logs de ejecución (generados por los scripts .sh) -----
+nohup.out
+*.log
+jobs/ablation_logs/*.txt
+jobs/sensitivity_logs/*.txt
+
+# ----- Artefactos binarios de modelos entrenados -----
+# Modelos PyTorch y arrays NumPy dentro de cualquier checkpoint o directorio de tuning
+results/checkpoint/**/encoder_*.pt
+results/checkpoint/**/decoder_*.pt
+results/checkpoint/**/best_vae_seed_*.pt
+results/checkpoint/**/pre_encoders_seed_*.pkl
+results/checkpoint/**/train_z_*.npy
+results/checkpoint/**/train_y_*.npy
+results/checkpoint/**/test_z_*.npy
+results/checkpoint/**/test_y_*.npy
+results/checkpoint/**/Z_pred.pt
+results/checkpoint/**/Y_label.pt
+
+# Artefactos de tuning de hiperparámetros (se conserva solo best_hyperparams*.json)
+tune_vae/**/encoder_*.pt
+tune_vae/**/decoder_*.pt
+tune_vae/**/best_vae_seed_*.pt
+tune_vae/**/pre_encoders_seed_*.pkl
+tune_vae/**/train_z_*.npy
+tune_vae/**/train_y_*.npy
+tune_vae/**/test_z_*.npy
+tune_vae/**/test_y_*.npy
+
+# Bases de datos de Optuna
+tune_vae/**/*.db
+
+# ----- TensorBoard runs -----
+results/checkpoint/**/runs/
+tune_vae/**/runs/
+
+# ----- Datos reconstruidos (pesados, reproducibles con el pipeline) -----
+results/checkpoint/**/reconstructed_data/
+tune_vae/**/reconstructed_data/
+
+# ----- Estudios de sensibilidad: checkpoint interno -----
+tune_vae/sensitivity_shoppers/ckpt_sensitivity/
+
+# ----- macOS / Windows -----
+.DS_Store
+Thumbs.db
+desktop.ini

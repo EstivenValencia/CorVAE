@@ -1,7 +1,0 @@
-[I 2026-04-14 23:18:52,345] A new study created in memory with name: no-name-7b6b4efa-e0da-47dc-827e-3fcd29aa46be
-Datos de train y test guardados en /data/home/rtabares/estiven/CorVAE/data/adult
-
---- Iniciando Fase 1: Pre-entrenamiento No Supervisado ---
-Training:   0%|                                                                                                            | 0/11 [00:00<?, ?it/s]Training:   9%|█████████                                                                                           | 1/11 [00:01<00:16,  1.60s/it]Training:  82%|█████████████████████████████████████████████████████████████████████████████████▊                  | 9/11 [00:01<00:00,  7.09it/s]Training: 100%|███████████████████████████████████████████████████████████████████████████████████████████████████| 11/11 [00:01<00:00,  5.98it/s]
-Epoch 001/700 | Train Loss: 3.114505 | Val Loss: 2.955065
-Training:   0%|                                                                                                            | 0/11 [00:00<?, ?it/s]Training:   9%|█████████                                                                                           | 1/11 [00:00<00:07,  1.43it/s]
